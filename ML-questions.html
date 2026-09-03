@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML — Question Bank</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.card.q{border-left-color:#a78bfa}
+.card.q h3{color:#a78bfa}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.1rem .5rem;border-radius:999px;margin-bottom:.35rem}
+.badge.easy{background:#064e3b;color:#6ee7b7}
+.badge.medium{background:#78350f;color:#fcd34d}
+.badge.hard{background:#7f1d1d;color:#fca5a5}
+.badge.mixed{background:#3730a3;color:#c7d2fe}
+details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans>summary::before{content:"▸ show answer";}
+details.ans[open]>summary::before{content:"▾ answer";}
+details.ans[open]>summary{color:var(--muted)}
+details.ans .sol{margin-top:.4rem;color:var(--ink)}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>ML</span> · Question Bank<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="ML-concepts.html">Concepts</a>
+    <a class="tab" href="ML-formulas.html">Formulas</a>
+    <a class="tab" href="ML-definitions.html">Definitions</a>
+    <a class="tab active" href="ML-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Practice problems for ML (AIMLZG565) — every formula in the Formulas tab gets Easy / Medium / Hard problems and every concept in the Concepts tab is exercised, organised by module (M1 Introduction → M2 Preprocessing → M3 Linear Regression → M4 Logistic Regression &amp; Metrics → M5 Exam-Referenced Prerequisites → Combined / Exam-style). Difficulty: <b>Easy</b> = direct plug-in · <b>Medium</b> = multi-step / pick the right tool · <b>Hard</b> = multi-part / derivation. Format mirrors the EC2/EC3 past papers. Click <i>show answer</i> for a full worked solution.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Introduction &amp; ML Fundamentals <small>· conceptual · source: ML_CS 1</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: What is ML / T,P,E · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. Define the learning problem</h3>
+        <p>A spam filter improves as it processes more flagged emails. Using Mitchell's &lt;T, P, E&gt; framework, identify the Task (T), Performance measure (P) and Experience (E) for this system. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          A program learns from experience E w.r.t. task T and performance measure P if its performance at T, measured by P, improves with E.
+          <ul>
+            <li><b>T (Task):</b> classify incoming emails as spam or not-spam (ham).</li>
+            <li><b>P (Performance):</b> the fraction of emails correctly classified (classification accuracy), or precision/recall on the spam class.</li>
+            <li><b>E (Experience):</b> the corpus of emails already labelled spam/ham (e.g. user flags) that the filter trains on.</li>
+          </ul>
+          A well-defined learning problem is the tuple &lt;P, T, E&gt;.
+        </div></details>
+        <p class="src">tests: What is ML / T,P,E · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Traditional programming vs ML · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q2. Traditional programming vs machine learning</h3>
+        <p>Contrast the input/output flow of traditional programming with that of machine learning, and give one reason hand-coded rules fail for a task like digit recognition. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Traditional programming:</b> data + a hand-written program (explicit rules) → output.<br>
+          <b>Machine learning:</b> data + desired output → the computer produces the program (model), which then maps new data to output.<br>
+          For digit recognition the number of pixel patterns that map to "7" is enormous and full of variation; a hand-coded rule list becomes long, brittle and unmaintainable, whereas ML learns the predictive pattern directly from labelled examples.
+        </div></details>
+        <p class="src">tests: Traditional programming vs ML · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Types of ML by supervision · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q3. Classify the learning paradigm</h3>
+        <p>For each scenario state whether it is Supervised (classification or regression), Unsupervised, Reinforcement, or Semi-supervised learning: (a) predicting a used-car's price from its mileage/age; (b) grouping customers with no labels; (c) a robot learning to walk via reward/penalty; (d) labelling faces after a few tagged photos among thousands untagged; (e) flagging an email as spam/ham. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Supervised — <b>Regression</b> (real-valued target = price).<br>
+          (b) <b>Unsupervised</b> — clustering (no labels; find hidden structure).<br>
+          (c) <b>Reinforcement learning</b> — agent learns by trial and error from reward/penalty feedback.<br>
+          (d) <b>Semi-supervised</b> — a little labelled + a lot of unlabelled data.<br>
+          (e) Supervised — <b>Classification</b> (categorical target = spam/ham).
+        </div></details>
+        <p class="src">tests: Types of ML by supervision · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: When to use ML · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q4. When should ML be used?</h3>
+        <p>State three situations in which machine learning is the right approach, and give one situation where you should NOT "learn" the task. Justify the exclusion. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Use ML when: (1) human expertise does not exist (e.g. navigating Mars); (2) humans cannot explain their expertise (biometrics/speech); (3) the solution must be customised per user (personalised medicine/recommendations); (4) the task is definable only by examples; (5) hidden correlations exist in large data.<br>
+          <b>Do NOT use ML</b> for tasks that are trivially/exactly computed by a formula — e.g. payroll. There is a known analytic solution, no pattern to learn, and ML would only add error and complexity.
+        </div></details>
+        <p class="src">tests: When to use ML · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Instance- vs model-based; batch/online · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q5. Learning styles</h3>
+        <p>(a) Distinguish instance-based from model-based learning and give one algorithm example of each. (b) Distinguish batch, mini-batch and online learning by how training data is fed, and say which suits a continuously streaming data source. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Instance-based (lazy):</b> stores training examples and classifies a new point by comparing it to stored points — e.g. <b>kNN</b>. <b>Model-based:</b> detects patterns and fits an explicit predictive model whose parameters generalise — e.g. <b>linear/logistic regression</b>.<br>
+          (b) <b>Batch:</b> uses all data per training step. <b>Mini-batch:</b> uses a subset per step. <b>Online (incremental):</b> uses a single instance at a time. <b>Online learning</b> suits streaming/continually-updating data.
+        </div></details>
+        <p class="src">tests: Instance- vs model-based; batch/online · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: ML workflow + three components · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q6. The end-to-end ML workflow</h3>
+        <p>List the main stages of the end-to-end ML workflow in order, and separately name the three components that every ML algorithm can be decomposed into. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Workflow:</b> (1) Should I use ML? (is there a pattern, can it be solved analytically, is there data). (2) Gather/organise data. (3) Preprocess, clean, visualise. (4) Choose model + loss + regularization. (5) Optimize (train). (6) Hyperparameter search. (7) Analyse performance/mistakes and iterate.<br>
+          <b>Three components of any ML algorithm:</b> Data Representation + Parameter Optimization + Model Evaluation/Selection.
+        </div></details>
+        <p class="src">tests: ML workflow + three components · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: AI vs DS vs ML nesting · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q7. AI, Data Science and Machine Learning</h3>
+        <p>State the nesting relationship between Data Science, Artificial Intelligence and Machine Learning, and give a one-line description of each. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Nesting: <b>ML ⊂ AI ⊂ Data Science.</b><br>
+          <b>Data Science</b> = broad umbrella: collecting, preparing and analysing data (using AI/ML, statistics, research) for business decisions. <b>Artificial Intelligence</b> = technology enabling machines to interpret, learn and make "intelligent" decisions. <b>Machine Learning</b> = subset of AI: algorithms that improve from data via supervised, unsupervised and reinforcement learning.
+        </div></details>
+        <p class="src">tests: AI vs DS vs ML nesting · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Interpretability vs accuracy trade-off · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q8. Interpretability–accuracy trade-off</h3>
+        <p>A bank must justify to a regulator exactly why each loan is approved or denied; a separate fraud-detection team only cares about catching the most fraud. (a) Explain the interpretability–accuracy trade-off among ML algorithms. (b) Recommend an algorithm family for each team and justify. (c) Name the ML issues (from CS1) that this choice touches. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Algorithms trade <b>interpretability</b> against <b>accuracy</b>. Highly interpretable / typically lower raw accuracy: Linear/Logistic Regression, Lasso, Decision Trees, Naive Bayes. High accuracy / lower interpretability ("black box"): Random Forests, Boosting, SVMs, Neural Nets / Deep Learning.<br>
+          (b) <b>Loan team</b> → an interpretable model (Logistic Regression or a shallow Decision Tree) so each decision can be explained to the regulator via coefficients/odds ratios or split rules. <b>Fraud team</b> → a high-accuracy ensemble/black-box model (Random Forest, Boosting) since predictive performance matters more than explanation.<br>
+          (c) Touches the CS1 "Issues in ML": choice of algorithm/representation, performance-metric choice, and generalisation — plus the practical need for explainability vs raw performance.
+        </div></details>
+        <p class="src">tests: Interpretability vs accuracy trade-off · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Features, clustering, RL, core challenges · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q9. Vocabulary check</h3>
+        <p>Define briefly: (a) a feature/attribute/predictor; (b) the goal of clustering (in terms of intra- and inter-cluster distance); (c) how a reinforcement-learning agent learns; (d) the three "core challenges" of ML from CS2. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Feature/attribute/predictor:</b> an input column/variable describing an object, used to predict the target (e.g. CGPA to predict "Job Offered?").<br>
+          (b) <b>Clustering goal:</b> minimise intra-cluster distance (points within a cluster close together) and maximise inter-cluster distance (clusters well separated).<br>
+          (c) <b>RL agent:</b> acts in an environment and learns from delayed reward (reinforces behaviour) / penalty (discourages it) — trial-and-error, no labelled data.<br>
+          (d) <b>Core challenges:</b> (1) training-data problems (insufficient / non-representative data), (2) model-selection problems (overfitting / underfitting), (3) validation-and-testing problems.
+        </div></details>
+        <p class="src">tests: Features, clustering, RL, core challenges · Medium</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — Data Preprocessing &amp; Scaling <small>· IQR · 3-Sigma · Min-Max · Z-Score · Decimal · Binning · source: ML_CS 2</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: IQR outlier bounds · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. IQR bounds (plug-in)</h3>
+        <p>For an attribute, \(Q_1=10\) and \(Q_3=20\). Compute the IQR outlier bounds and state whether the value \(40\) is a univariate outlier. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{IQR}=Q_3-Q_1=20-10=10.\)<br>
+          Lower \(=Q_1-1.5\,\text{IQR}=10-15=-5\); Upper \(=Q_3+1.5\,\text{IQR}=20+15=35.\)<br>
+          \(40 \gt 35\) ⇒ <b>40 is an outlier.</b>
+        </div></details>
+        <p class="src">tests: IQR outlier bounds · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: IQR outlier bounds · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q2. IQR — screen a list</h3>
+        <p>Given \(Q_1=25\) and \(Q_3=45\), determine which of the values \(\{5,\ 60,\ 105\}\) are outliers by the 1.5·IQR rule. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{IQR}=45-25=20\). Lower \(=25-1.5(20)=25-30=-5\); Upper \(=45+30=75\).<br>
+          Accepted range \([-5,\ 75]\): \(5\) is inside (not outlier); \(60\) is inside (not outlier); \(105 \gt 75\) ⇒ <b>105 is the only outlier.</b>
+        </div></details>
+        <p class="src">tests: IQR outlier bounds · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: IQR outlier bounds · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q3. IQR from raw data</h3>
+        <p>Consider the sorted attribute values \(7,\ 15,\ 36,\ 39,\ 40,\ 41,\ 100\). Using the "median of each half" method, find \(Q_1,\ Q_3\), the IQR bounds, and list any outliers. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(n=7\), median = 4th value = \(39\).<br>
+          Lower half (values below the median): \(\{7,15,36\}\) ⇒ \(Q_1=15\).<br>
+          Upper half (values above the median): \(\{40,41,100\}\) ⇒ \(Q_3=41\).<br>
+          \(\text{IQR}=41-15=26\). Lower \(=15-1.5(26)=15-39=-24\); Upper \(=41+39=80\).<br>
+          Only \(100 \gt 80\) ⇒ <b>outlier = 100.</b>
+        </div></details>
+        <p class="src">tests: IQR outlier bounds · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: 3-sigma bounds · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q4. 3-Sigma bounds (plug-in)</h3>
+        <p>An approximately normal attribute has \(\mu=50,\ \sigma=5\). Compute the 3-sigma outlier bounds and classify the value \(68\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Lower \(=\mu-3\sigma=50-15=35\); Upper \(=\mu+3\sigma=50+15=65\).<br>
+          \(68 \gt 65\) ⇒ <b>68 is an outlier</b> (only ~0.3% of normal data lies beyond μ ± 3σ).
+        </div></details>
+        <p class="src">tests: 3-sigma bounds · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: 3-sigma bounds · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q5. 3-Sigma from raw data</h3>
+        <p>Given the sample \(2,4,4,4,5,5,7,9\): compute the mean and (population) standard deviation, form the 3-sigma bounds, and decide whether a new reading of \(12\) is an outlier. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\mu=\frac{2+4+4+4+5+5+7+9}{8}=\frac{40}{8}=5.\)<br>
+          Squared deviations: \(9,1,1,1,0,0,4,16\) sum \(=32\); variance \(=32/8=4\) ⇒ \(\sigma=2.\)<br>
+          Bounds: \(5\pm3(2)=[-1,\ 11]\).<br>
+          \(12 \gt 11\) ⇒ <b>12 is an outlier.</b>
+        </div></details>
+        <p class="src">tests: 3-sigma bounds · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: 3-sigma vs IQR · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q6. 3-Sigma vs IQR under an extreme value</h3>
+        <p>A dataset is \(10,11,12,13,14,15,16,17,18,19\) plus one erroneous reading \(200\). (a) Compute the 3-sigma upper bound including the \(200\). (b) Explain the "masking" effect this reveals and why the IQR rule is more robust here. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) With 11 values: sum \(=10+11+\dots+19+200 = 145+200 = 345\); \(\mu=345/11\approx31.4\).<br>
+          The 200 inflates the variance hugely: deviations of the ten small values are all ≈ −13 to −21, and 200 contributes \((200-31.4)^2\approx28430\). Variance \(\approx \frac{\sim2860+28430}{11}\approx2845\) ⇒ \(\sigma\approx53.3\). Upper bound \(\approx31.4+3(53.3)\approx191\).<br>
+          (b) The outlier itself pulls up μ and σ so much that its own bound (191) barely excludes it and would <b>hide (mask)</b> further outliers — a single extreme value corrupts both statistics. The <b>IQR rule uses quartiles (rank-based), which are unaffected by the magnitude of extreme values</b>, so it flags 200 reliably. IQR/median are robust; mean/σ are not.
+        </div></details>
+        <p class="src">tests: 3-sigma vs IQR · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Min-Max normalization · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q7. Min-Max to [0,1]</h3>
+        <p>An attribute ranges \(\min_A=10,\ \max_A=60\). Normalize the value \(v=25\) to the range \([0,1]\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(v'=\dfrac{v-\min_A}{\max_A-\min_A}=\dfrac{25-10}{60-10}=\dfrac{15}{50}=\mathbf{0.30}.\)
+        </div></details>
+        <p class="src">tests: Min-Max normalization · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Min-Max normalization · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q8. Min-Max to a custom range</h3>
+        <p>Using \(\min_A=10,\ \max_A=60\), map \(v=25\) to the new range \([-1,\ 1]\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(v'=\dfrac{v-\min_A}{\max_A-\min_A}(\text{new\_max}-\text{new\_min})+\text{new\_min}\).<br>
+          \(=\dfrac{25-10}{60-10}(1-(-1))+(-1)=0.30\times2-1=0.60-1=\mathbf{-0.40}.\)
+        </div></details>
+        <p class="src">tests: Min-Max normalization · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Min-Max normalization · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q9. Scaler fit on train only</h3>
+        <p>A min-max scaler is fit on the <b>training</b> set with \(\min=20,\ \max=80\) (target range [0,1]). At test time a new value \(92\) appears. (a) Compute its scaled value. (b) Explain why it falls outside [0,1] and why the scaler must still be fit on the training set only. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(v'=\dfrac{92-20}{80-20}=\dfrac{72}{60}=\mathbf{1.2}.\)<br>
+          (b) \(92\) exceeds the training max (80), so its scaled value exceeds 1 — min-max only guarantees [0,1] for values within the fitted range. The scaler is fit on training data <b>only</b> (then applied to test) to avoid <b>data leakage</b>: using test statistics to scale would let information about the test set influence training and give optimistically biased evaluation. Values outside the range are expected and are simply left as-is (or clipped).
+        </div></details>
+        <p class="src">tests: Min-Max normalization · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Z-score standardization · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q10. Z-score (plug-in)</h3>
+        <p>An income attribute has \(\mu=54000,\ \sigma=16000\). Standardize the value \(v=73600\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(v'=\dfrac{v-\mu}{\sigma}=\dfrac{73600-54000}{16000}=\dfrac{19600}{16000}=\mathbf{1.225}.\)
+        </div></details>
+        <p class="src">tests: Z-score standardization · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Z-score standardization · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q11. Z-score from raw data</h3>
+        <p>For the sample \(2,4,4,4,5,5,7,9\) (\(\mu=5,\ \sigma=2\)), compute the z-scores of the values \(4\) and \(9\), and state which is more "typical". [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z(4)=\dfrac{4-5}{2}=-0.5\); \(z(9)=\dfrac{9-5}{2}=+2.0\).<br>
+          \(4\) is only half a standard deviation below the mean, whereas \(9\) is two SDs above — so <b>4 is the more typical value</b> and 9 is comparatively extreme.
+        </div></details>
+        <p class="src">tests: Z-score standardization · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Standardization + scaling rationale · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q12. Why standardize before GD / kNN?</h3>
+        <p>Feature "Age" ranges 20–70 and feature "Income" ranges 10,000–200,000. (a) After z-score standardization, what are the mean and variance of each transformed feature? (b) Give two distinct reasons (one for gradient descent, one for kNN) why this standardization matters, referencing the effect of unequal scales. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) By construction z-score gives every feature <b>mean 0 and variance 1</b> (standard deviation 1), regardless of its original units/range.<br>
+          (b) <b>Gradient descent:</b> with unscaled features the cost contours are elongated ellipses, so GD zig-zags and converges slowly; after scaling the contours become near-circular and GD steps straight to the minimum, converging faster. <b>kNN (distance-based):</b> Euclidean distance would be dominated by Income (range ~190,000) so Age (range 50) is effectively ignored; standardizing puts both features on a comparable scale so each contributes fairly to the distance.
+        </div></details>
+        <p class="src">tests: Standardization + scaling rationale · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decimal scaling · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q13. Decimal scaling (plug-in)</h3>
+        <p>An attribute's maximum absolute value is \(985\). Apply decimal scaling to the value \(v=985\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Need smallest \(j\) with \(\max(|v'|)\lt1\). Since \(\max|v|=985\), we need \(985/10^{j}\lt1\) ⇒ \(j=3\).<br>
+          \(v'=\dfrac{985}{10^{3}}=\dfrac{985}{1000}=\mathbf{0.985}.\)
+        </div></details>
+        <p class="src">tests: Decimal scaling · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decimal scaling · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q14. Decimal scaling a whole column</h3>
+        <p>Apply decimal scaling to the column \(\{-998,\ 250,\ 47\}\). Give \(j\) and all scaled values. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\max|v|=998\) ⇒ smallest \(j\) with \(998/10^{j}\lt1\) is \(j=3\).<br>
+          \(-998/1000=-0.998,\quad 250/1000=0.250,\quad 47/1000=0.047.\)<br>
+          Scaled column: \(\{-0.998,\ 0.250,\ 0.047\}\).
+        </div></details>
+        <p class="src">tests: Decimal scaling · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decimal scaling vs min-max · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q15. Decimal scaling — choose j and compare</h3>
+        <p>A column has values in \([-1450,\ 3200]\). (a) Determine \(j\) and the resulting range after decimal scaling. (b) Contrast with min-max normalization: which guarantees the exact range [0,1] and which merely bounds \(|v'|\lt1\)? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\max|v|=3200\); need \(3200/10^{j}\lt1\) ⇒ \(j=4\) (since \(3200/10^3=3.2\not\lt1\), \(3200/10^4=0.32\lt1\)). Scaled range: \([-1450/10^4,\ 3200/10^4]=[-0.145,\ 0.320]\).<br>
+          (b) <b>Min-max</b> maps to an <b>exact</b> [0,1] (endpoints hit 0 and 1). <b>Decimal scaling</b> only ensures \(|v'|\lt1\); it does not fill the range and preserves the sign/relative spacing — the data may occupy only a small sub-interval (here roughly [−0.15, 0.32]).
+        </div></details>
+        <p class="src">tests: Decimal scaling vs min-max · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Equal-width binning · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q16. Equal-width bin size (plug-in)</h3>
+        <p>Discretize an attribute spanning \(A=0\) to \(B=100\) into \(N=5\) equal-width bins. Compute the bin width \(W\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(W=\dfrac{B-A}{N}=\dfrac{100-0}{5}=\mathbf{20}\). Bins: [0,20), [20,40), [40,60), [60,80), [80,100].
+        </div></details>
+        <p class="src">tests: Equal-width binning · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Equal-width binning · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q17. Equal-width — assign a value to a bin</h3>
+        <p>Attribute Age spans \(A=5\) to \(B=85\), discretized into \(N=4\) equal-width bins. Compute \(W\), list the bin intervals, and state which bin the value \(50\) falls in. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(W=\dfrac{85-5}{4}=\dfrac{80}{4}=20.\)<br>
+          Bins: [5,25), [25,45), [45,65), [65,85].<br>
+          \(50\) lies in \([45,65)\) ⇒ <b>bin 3.</b>
+        </div></details>
+        <p class="src">tests: Equal-width binning · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Equal-width vs equal-depth binning · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q18. Equal-width distortion by an outlier</h3>
+        <p>Incomes are mostly in \([10,\ 90]\) but one value is \(1000\). (a) Compute the equal-width \(W\) for \(N=5\) using \(B=1000\). (b) Explain what goes wrong with the bin occupancy and why equal-depth (equal-frequency) binning is preferred for skewed data. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(W=\dfrac{1000-10}{5}=\dfrac{990}{5}=198.\) Bins: [10,208), [208,406), [406,604), [604,802), [802,1000].<br>
+          (b) Almost every ordinary income (10–90) falls in the <b>first bin</b>; bins 2–4 are empty and only the outlier occupies the last bin. The outlier <b>dominates the width</b>, so equal-width fails to spread values. <b>Equal-depth binning</b> puts roughly equal counts per bin (using data-driven boundaries), giving a more balanced, robust discretization for skewed/outlier-heavy data.
+        </div></details>
+        <p class="src">tests: Equal-width vs equal-depth binning · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Attribute types (Nominal/Ordinal/Interval/Ratio) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q19. Classify attribute types (EC2-style)</h3>
+        <p>A dataset has: Temperature (°C), Salary (₹), Customer Satisfaction (Low/Medium/High), Product Category (Electronics/Grocery). Classify each as Nominal, Ordinal, Interval or Ratio and justify. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Temperature (°C):</b> Interval — differences are meaningful but there is no true zero (0 °C is not "no temperature"), so ratios are meaningless.<br>
+          <b>Salary (₹):</b> Ratio — has a true zero, so "twice the salary" is meaningful; all arithmetic valid.<br>
+          <b>Customer Satisfaction (Low/Med/High):</b> Ordinal — ordered categories, but the gaps are not quantified.<br>
+          <b>Product Category:</b> Nominal — unordered labels; only = / ≠ apply.
+        </div></details>
+        <p class="src">tests: Attribute types · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ordinal data + meaningful operations · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q20. Ordinal data and valid operations (EC2-style)</h3>
+        <p>Education level is recorded as High School → Bachelor's → Master's → PhD. Characterize this attribute's type and explain which operations (e.g. computing the mean) are meaningful and which are not. Also explain the ratio-vs-interval distinction using temperature. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Education level is <b>ordinal</b>: the categories have a clear order but the "distance" between consecutive levels is not numerically defined.<br>
+          <b>Meaningful:</b> ordering comparisons (&lt;, &gt;), median, mode, min/max, percentiles.<br>
+          <b>Not meaningful:</b> the <b>mean</b> and standard deviation — they require equal, quantified spacing (interval/ratio). Averaging integer codes (HS=1…PhD=4) falsely assumes PhD−Master = Master−Bachelor.<br>
+          <b>Ratio vs interval:</b> 10 °C is NOT twice 5 °C (Celsius is interval, no true zero), but 10 K IS twice 5 K (Kelvin is ratio, true zero) — only ratio scales support "twice as much".
+        </div></details>
+        <p class="src">tests: Ratio vs interval / ordinal · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Missing-value imputation (mean/median) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q21. Mean vs median imputation (EC2-style)</h3>
+        <p>An attribute has values \(10, 12, 13, \text{NaN}, 15, 18, \text{NaN}, 20\) where NaN = missing. Impute the missing values using (a) mean imputation and (b) median imputation. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Known values: \(10,12,13,15,18,20\) (6 values).<br>
+          (a) <b>Mean</b> \(=\dfrac{10+12+13+15+18+20}{6}=\dfrac{88}{6}\approx\mathbf{14.67}\) — both NaNs → 14.67.<br>
+          (b) <b>Median</b>: sorted middle two are 13 and 15 ⇒ \(\dfrac{13+15}{2}=\mathbf{14}\) — both NaNs → 14.<br>
+          (Median is preferred when the attribute is skewed or has outliers.)
+        </div></details>
+        <p class="src">tests: Missing-value imputation · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Missing values / imputation methods / cleaning · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q22. Handling missing &amp; dirty data</h3>
+        <p>(a) List three broad options for handling a missing value. (b) Name four concrete imputation methods for a missing cell. (c) Define data cleansing. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Eliminate the object/variable; estimate/impute the value; or ignore it during analysis.<br>
+          (b) Replace with a constant (e.g. 0); forward-fill with the last known value; replace with the column mean (or median); interpolate (e.g. spline) between neighbouring known values.<br>
+          (c) <b>Data cleansing</b> = removing/correcting noisy, inconsistent, intentional-error, missing and duplicate records so downstream models are not corrupted by poor data quality.
+        </div></details>
+        <p class="src">tests: Missing values / imputation / cleaning · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Noise vs outliers / data quality / characteristics · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q23. Noise, outliers &amp; data quality</h3>
+        <p>(a) Distinguish noise from outliers, and give one case where an outlier is the goal of analysis rather than something to remove. (b) List four data-quality dimensions. (c) Name the four "characteristics of data" from CS2. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Noise</b> = extraneous objects or distortion/modification of original values. <b>Outliers</b> = objects considerably different from most others. Outliers can be the very target of analysis — e.g. <b>fraud or intrusion detection</b>, where the anomaly is what we want to catch.<br>
+          (b) Correct, Complete, Consistent, Trustable (also Interpretable, Usable-on-demand).<br>
+          (c) Dimensionality, Sparsity, Resolution, Size.
+        </div></details>
+        <p class="src">tests: Noise vs outliers / quality · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Sampling, partitioning, stratified, imbalance · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q24. Sampling &amp; class balance</h3>
+        <p>(a) Distinguish sampling noise from sampling bias. (b) Why use stratified sampling when splitting into train/validation/test? (c) A fraud dataset is 99% legitimate, 1% fraud. Name two ways to handle the imbalance for training. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Sampling noise</b> = random error from a small sample (shrinks as size grows). <b>Sampling bias</b> = systematic error from a flawed sampling process (persists even at large size).<br>
+          (b) <b>Stratified sampling</b> preserves the class proportions in each split, so the rare class is represented in train/val/test and evaluation is not distorted (e.g. keep IRIS species balanced).<br>
+          (c) Under-sample the majority (legitimate) class; or over-sample the rare (fraud) class, e.g. with <b>SMOTE</b> (synthetic minority samples).
+        </div></details>
+        <p class="src">tests: Sampling / stratified / imbalance · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Normalization vs standardization choice · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q25. Choose normalization vs standardization</h3>
+        <p>For each, say whether min-max normalization or z-score standardization is more appropriate and why: (a) a kNN model on features with known fixed bounds; (b) an algorithm that assumes Gaussian-distributed inputs; (c) a feature with strong outliers. Also: should the target y be scaled? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Min-max normalization</b> — bounds are known and kNN makes no distribution assumption; scales to [0,1].<br>
+          (b) <b>Z-score standardization</b> — matches the Gaussian assumption (zero mean, unit variance).<br>
+          (c) <b>Z-score</b> — standardization is less sensitive to outliers than min-max (min-max squeezes all inliers toward one end if an outlier stretches the range).<br>
+          <b>Target y:</b> scaling the target is generally NOT required. Always fit the scaler on the training set only, then transform train and test.
+        </div></details>
+        <p class="src">tests: Normalization vs standardization · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Feature engineering / curse of dimensionality / encoding · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q26. Feature engineering &amp; encoding</h3>
+        <p>(a) Name the four activities of feature engineering. (b) State the curse of dimensionality and its usual remedy. (c) When encoding a categorical feature, when does label encoding introduce a spurious relationship, and what should be used instead? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Extraction</b> (dimensionality reduction), <b>Selection</b> (pick useful existing features, drop redundant/irrelevant/mostly-missing), <b>Construction</b> (polynomial expansion, feature crossing, domain logic), <b>Transformation</b> (rescale/encode/discretize).<br>
+          (b) <b>Curse of dimensionality:</b> as feature count grows, data becomes increasingly sparse in the occupied space, degrading learning. Remedy: <b>dimensionality reduction</b> (e.g. PCA) to fewer features.<br>
+          (c) <b>Label encoding</b> (integers) implies an order/magnitude among categories — spurious for nominal data (e.g. Red=1, Blue=2, Green=3 falsely says Green &gt; Red). Use <b>one-hot / dummy encoding</b> for nominal categories.
+        </div></details>
+        <p class="src">tests: Feature engineering / dimensionality / encoding · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Inductive learning hypothesis / hypothesis space · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q27. Inductive learning &amp; hypothesis space</h3>
+        <p>(a) State the inductive learning hypothesis and why it justifies generalization. (b) In concept learning, describe the most-general and most-specific hypotheses. (c) Explain how aggregation and discretization each serve preprocessing goals. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Inductive learning hypothesis:</b> any hypothesis that approximates the target function well over a sufficiently large training set will also approximate it well over unseen examples. This assumption is exactly what lets us <b>generalize</b> from finite data.<br>
+          (b) The <b>most general</b> hypothesis (?, ?, …, ?) labels every instance positive; the <b>most specific</b> (∅, …, ∅) labels none positive. Learning searches this space for a hypothesis consistent with the training data.<br>
+          (c) <b>Aggregation</b> combines attributes/objects (cities→regions, days→months) for data reduction, change of scale, and more stable/lower-variance data. <b>Discretization/binning</b> converts a continuous attribute into discrete labels — helps Naive Bayes/decision-trees/kNN, tames outliers, and improves value spread.
+        </div></details>
+        <p class="src">tests: Inductive learning / hypothesis space · Hard</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Regression, Gradient Descent &amp; Regularization <small>· source: ML_CS 34</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: Linear regression hypothesis · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. Evaluate the hypothesis</h3>
+        <p>A fitted model is \(h_\theta(x)=2+3x_1-x_2\). Predict the output for \(x_1=4,\ x_2=5\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(h_\theta(x)=2+3(4)-1(5)=2+12-5=\mathbf{9}.\)
+        </div></details>
+        <p class="src">tests: Linear regression hypothesis · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Linear regression hypothesis (vector form) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q2. Vector form of the hypothesis</h3>
+        <p>Write \(h_\theta(x)=\theta^{\top}x\) with the bias absorbed via \(x_0=1\), and evaluate for \(\theta=(1,\,2,\,-0.5)\) and feature vector \((x_1,x_2)=(3,8)\). Distinguish simple vs multiple linear regression. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Augment \(x=(x_0,x_1,x_2)=(1,3,8)\). Then \(h_\theta(x)=\theta^{\top}x=1(1)+2(3)+(-0.5)(8)=1+6-4=\mathbf{3}.\)<br>
+          <b>Simple</b> linear regression has one predictor (e.g. Income vs Education); <b>multiple</b> has several (Income from Education, skills, experience, age). Both are linear <b>in the parameters θ</b>.
+        </div></details>
+        <p class="src">tests: Linear regression hypothesis · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Hypothesis + parameter meaning · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q3. Interpreting parameters</h3>
+        <p>For \(h_\theta(x)=\theta_0+\theta_1 x\) modelling salary (₹ '000) vs years of experience, a fit gives \(\theta_0=25,\ \theta_1=4\). (a) Interpret each parameter. (b) Predict salary at 6 years. (c) Explain what "the model is linear in its parameters" allows even when we use \(x^2\) as a feature. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\theta_0=25\): predicted salary (₹25k) at 0 years experience (the intercept/bias). \(\theta_1=4\): each extra year of experience adds ₹4k to predicted salary (the slope).<br>
+          (b) \(h=25+4(6)=25+24=\mathbf{49}\) ⇒ ₹49,000.<br>
+          (c) "Linear in parameters" means the prediction is a linear combination of the θ's — even if the <b>feature</b> is non-linear (e.g. \(x^2\)), the model \(\theta_0+\theta_1 x+\theta_2 x^2\) is still linear in θ, so all linear-model machinery (normal equation, GD, convex cost) still applies (polynomial / basis-function regression).
+        </div></details>
+        <p class="src">tests: Hypothesis / parameters · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: MSE cost function · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q4. Compute the MSE cost</h3>
+        <p>For 3 examples the predictions are \(h=(2,4,6)\) and actuals \(y=(3,3,7)\). Compute \(J(\theta)=\frac{1}{2n}\sum(h-y)^2\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Errors: \(2-3=-1,\ 4-3=1,\ 6-7=-1\). Squares: \(1,1,1\), sum \(=3\).<br>
+          \(J=\dfrac{1}{2(3)}(3)=\dfrac{3}{6}=\mathbf{0.5}.\)
+        </div></details>
+        <p class="src">tests: MSE cost function · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: MSE cost from a line · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q5. Cost of a candidate line</h3>
+        <p>Line \(h_\theta(x)=1+2x\) is evaluated on \((x,y)=(1,4),(2,4),(3,8)\). Compute the least-squares cost \(J(\theta)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Predictions: \(h(1)=3,\ h(2)=5,\ h(3)=7\). Errors \((h-y)\): \(3-4=-1,\ 5-4=1,\ 7-8=-1\).<br>
+          Squares: \(1,1,1\), sum \(=3\). \(J=\dfrac{1}{2(3)}(3)=\mathbf{0.5}.\)
+        </div></details>
+        <p class="src">tests: MSE cost function · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: MSE convexity + maxima/minima condition · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q6. Why the cost is convex &amp; the stationary condition</h3>
+        <p>(a) What property of the MSE cost surface guarantees gradient descent reaches the global optimum? (b) State the stationary-point condition used by both the normal equation and gradient descent. (c) Why is the factor \(\tfrac12\) placed in front of the MSE? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) The MSE cost is <b>convex</b> (bowl-shaped) — the line segment between any two points on its graph lies on/above the graph — so it has a single global minimum and no local minima to trap GD.<br>
+          (b) At a minimum the gradient is zero: \(\partial J/\partial\theta_j=0\) for all \(j\) (the tangent/slope is 0, \(\tan 0^\circ=0\)). The normal equation solves this analytically; GD approaches it iteratively.<br>
+          (c) The \(\tfrac12\) cancels the 2 produced when differentiating the square, giving a cleaner gradient — it does not change the location of the minimum.
+        </div></details>
+        <p class="src">tests: Convex cost / stationary condition · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: OLS slope &amp; intercept · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q7. OLS slope &amp; intercept (plug-in)</h3>
+        <p>Given \(\sum(x_i-\bar x)(y_i-\bar y)=615\), \(\sum(x_i-\bar x)^2=4206\), \(\bar x=74\), \(\bar y=10\), compute the OLS slope \(\theta_1\) and intercept \(\theta_0\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\theta_1=\dfrac{615}{4206}\approx\mathbf{0.1462}.\)<br>
+          \(\theta_0=\bar y-\theta_1\bar x=10-0.1462(74)=10-10.82\approx\mathbf{-0.82}.\)<br>
+          Line: \(\hat y\approx-0.82+0.146x.\)
+        </div></details>
+        <p class="src">tests: OLS slope &amp; intercept · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: OLS from raw data · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q8. OLS fit from scratch</h3>
+        <p>Fit a least-squares line to \((x,y)=(1,2),(2,4),(3,5),(4,4),(5,5)\). Give \(\theta_1\) and \(\theta_0\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\bar x=3,\ \bar y=4.\)<br>
+          \(\sum(x-\bar x)(y-\bar y)=(-2)(-2)+(-1)(0)+(0)(1)+(1)(0)+(2)(1)=4+0+0+0+2=6.\)<br>
+          \(\sum(x-\bar x)^2=4+1+0+1+4=10.\)<br>
+          \(\theta_1=6/10=\mathbf{0.6}\); \(\theta_0=4-0.6(3)=4-1.8=\mathbf{2.2}\). Line: \(\hat y=2.2+0.6x.\)
+        </div></details>
+        <p class="src">tests: OLS slope &amp; intercept · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: OLS derivation · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q9. Derive the OLS slope</h3>
+        <p>Starting from \(J(\theta_0,\theta_1)=\frac{1}{2n}\sum(\theta_0+\theta_1 x_i-y_i)^2\), derive the least-squares estimates by setting \(\partial J/\partial\theta_0=0\) and \(\partial J/\partial\theta_1=0\). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{\partial J}{\partial\theta_0}=\dfrac1n\sum(\theta_0+\theta_1 x_i-y_i)=0\Rightarrow \theta_0+\theta_1\bar x=\bar y\Rightarrow \theta_0=\bar y-\theta_1\bar x.\)<br>
+          \(\dfrac{\partial J}{\partial\theta_1}=\dfrac1n\sum(\theta_0+\theta_1 x_i-y_i)x_i=0.\) Substitute \(\theta_0=\bar y-\theta_1\bar x\):<br>
+          \(\sum(y_i-\bar y)x_i=\theta_1\sum(x_i-\bar x)x_i\). Using \(\sum(x_i-\bar x)\bar x=0\), this reduces to<br>
+          \(\theta_1=\dfrac{\sum(x_i-\bar x)(y_i-\bar y)}{\sum(x_i-\bar x)^2}.\) Hence the two closed-form estimates. The zero-gradient conditions are exactly the "normal equations".
+        </div></details>
+        <p class="src">tests: OLS derivation · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Normal equation · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q10. Normal equation (matrix multiply)</h3>
+        <p>Given \((X^{\top}X)^{-1}=\begin{bmatrix}2&amp;0\\0&amp;0.5\end{bmatrix}\) and \(X^{\top}y=\begin{bmatrix}3\\8\end{bmatrix}\), compute \(\theta=(X^{\top}X)^{-1}X^{\top}y\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\theta=\begin{bmatrix}2&amp;0\\0&amp;0.5\end{bmatrix}\begin{bmatrix}3\\8\end{bmatrix}=\begin{bmatrix}2(3)+0(8)\\0(3)+0.5(8)\end{bmatrix}=\begin{bmatrix}\mathbf6\\\mathbf4\end{bmatrix}.\)
+        </div></details>
+        <p class="src">tests: Normal equation · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Normal equation full solve · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q11. Solve via the normal equation</h3>
+        <p>Fit \(\hat y=\theta_0+\theta_1 x\) to \((x,y)=(1,1),(2,2),(3,3)\) using \(\theta=(X^{\top}X)^{-1}X^{\top}y\) with \(X=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;3\end{bmatrix}\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(X^{\top}X=\begin{bmatrix}3&amp;6\\6&amp;14\end{bmatrix}\), \(X^{\top}y=\begin{bmatrix}6\\14\end{bmatrix}\) (since \(\sum y=6,\ \sum x_iy_i=1+4+9=14\)).<br>
+          \(\det=3(14)-6(6)=42-36=6\); \((X^{\top}X)^{-1}=\frac16\begin{bmatrix}14&amp;-6\\-6&amp;3\end{bmatrix}.\)<br>
+          \(\theta=\frac16\begin{bmatrix}14(6)-6(14)\\-6(6)+3(14)\end{bmatrix}=\frac16\begin{bmatrix}0\\6\end{bmatrix}=\begin{bmatrix}0\\1\end{bmatrix}.\)<br>
+          So \(\theta_0=0,\ \theta_1=1\) ⇒ \(\hat y=x\) (a perfect fit).
+        </div></details>
+        <p class="src">tests: Normal equation · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Non-invertible XtX / pseudo-inverse / closed-form vs GD · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q12. When the normal equation breaks</h3>
+        <p>(a) When is \(X^{\top}X\) non-invertible, and what two fixes exist? (b) State two situations favouring gradient descent over the closed-form solution and vice-versa. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(X^{\top}X\) is singular when features are <b>redundant / linearly dependent</b>, or when there are <b>more features than examples (d &gt; n)</b>. Fixes: use the <b>pseudo-inverse</b> (<code>numpy.linalg.pinv</code>), or remove redundant / drop extra features so \(d\le n\).<br>
+          (b) <b>Prefer gradient descent</b> when \(n\) (and \(d\)) is very large — computing \((X^{\top}X)^{-1}\) is ~\(O(d^3)\) — and for incremental/online/streaming data. <b>Prefer closed-form</b> when features are few: it is exact, non-iterative, and needs no learning rate α.
+        </div></details>
+        <p class="src">tests: Non-invertible XtX / pseudo-inverse / closed-form vs GD · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gradient descent general update · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q13. One GD step on a 1-D cost</h3>
+        <p>Minimize \(J(\theta)=(\theta-6)^2\) by gradient descent from \(\theta=10\) with \(\alpha=0.1\). Perform ONE update. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{dJ}{d\theta}=2(\theta-6)=2(10-6)=8.\)<br>
+          \(\theta:=10-0.1(8)=10-0.8=\mathbf{9.2}.\)
+        </div></details>
+        <p class="src">tests: GD general update · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gradient descent two iterations · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q14. Two GD iterations (EC2-style)</h3>
+        <p>For \(J(\theta)=(\theta-6)^2\), \(\theta_0=10\), \(\alpha=0.1\), perform TWO iterations of gradient descent. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Gradient: \(2(\theta-6)\).<br>
+          <b>Iter 1:</b> \(g=2(10-6)=8\); \(\theta_1=10-0.1(8)=9.2.\)<br>
+          <b>Iter 2:</b> \(g=2(9.2-6)=6.4\); \(\theta_2=9.2-0.1(6.4)=9.2-0.64=\mathbf{8.56}.\)<br>
+          (θ is steadily moving toward the minimum at θ = 6.)
+        </div></details>
+        <p class="src">tests: GD general update · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Learning rate / divergence · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q15. Effect of the learning rate</h3>
+        <p>For \(J(\theta)=(\theta-6)^2\) (gradient \(2(\theta-6)\)) starting at \(\theta=10\): (a) take one step with \(\alpha=1.0\). (b) What happens for large α, and what does "simultaneous update" mean for multi-parameter GD? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(g=2(10-6)=8\); \(\theta:=10-1.0(8)=2\). The step overshot the minimum (6) to the other side (2), now 4 units away — same distance, opposite side.<br>
+          (b) If α is <b>too large</b> the iterate oscillates and can <b>diverge</b> (cost increases each step); too small → very slow convergence. α is tuned by checking the cost decreases each iteration. <b>Simultaneous update</b>: all \(\theta_j\) must be updated using the <b>same old</b> parameter values (compute every gradient first, then apply), not sequentially — otherwise the updates use partially-changed parameters.
+        </div></details>
+        <p class="src">tests: Learning rate / GD divergence · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD for linear regression (per-parameter) · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q16. One GD step for a regression line (single point)</h3>
+        <p>With \(h_\theta(x)=\theta_0+\theta_1 x\), \(\theta_0=0,\ \theta_1=1\), \(\alpha=0.1\), and one training point \((x,y)=(2,5)\), perform one batch-GD update of \(\theta_0\) and \(\theta_1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Prediction \(h=0+1(2)=2\); error \(h-y=2-5=-3\); \(n=1\).<br>
+          \(\theta_0:=0-0.1(-3)=\mathbf{0.3}.\)<br>
+          \(\theta_1:=1-0.1\big((-3)(2)\big)=1-0.1(-6)=1+0.6=\mathbf{1.6}.\)
+        </div></details>
+        <p class="src">tests: GD for linear regression · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD for linear regression (per-parameter) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q17. One full batch-GD iteration</h3>
+        <p>With \(h_\theta(x)=\theta_0+\theta_1 x\), start \(\theta_0=0,\ \theta_1=0\), \(\alpha=0.1\), on data \((1,1),(2,2),(3,3)\). Compute the updated parameters after one iteration. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          All predictions are 0, so errors \((h-y)=-1,-2,-3\); \(n=3\).<br>
+          \(\theta_0:=0-0.1\cdot\frac13(-1-2-3)=0-0.1\cdot\frac{-6}{3}=0-0.1(-2)=\mathbf{0.2}.\)<br>
+          \(\theta_1:=0-0.1\cdot\frac13\big((-1)(1)+(-2)(2)+(-3)(3)\big)=0-0.1\cdot\frac{-14}{3}=0.1(4.667)=\mathbf{0.467}.\)
+        </div></details>
+        <p class="src">tests: GD for linear regression · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD linear + feature scaling + batch/SGD/mini · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q18. GD variants &amp; scaling</h3>
+        <p>(a) Distinguish batch, stochastic (SGD) and mini-batch gradient descent by update granularity, speed and stability. (b) Why does feature scaling accelerate GD convergence (describe the cost-contour picture)? [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Batch GD:</b> gradient from ALL data before one update — stable but slow; good for small data. <b>SGD:</b> update per single instance — fast and supports online learning, but noisy/low-stability. <b>Mini-batch:</b> update per small batch — medium speed/stability; the default for deep learning.<br>
+          (b) With scaling, the cost contours are near-<b>circular</b>, so the negative-gradient direction points nearly at the minimum and GD goes almost straight there — fast convergence. Without scaling, contours are <b>elongated ellipses</b>, so GD <b>zig-zags</b> across the narrow valley and converges slowly. Hence scale features before running GD.
+        </div></details>
+        <p class="src">tests: Feature scaling &amp; GD / batch-SGD-mini · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD convergence criterion (L2 norm) · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q19. Convergence check (L2 norm)</h3>
+        <p>After a step the parameters move from \(\theta_{old}=(1,\,2)\) to \(\theta_{new}=(1.1,\,2.1)\). With tolerance \(\epsilon=0.001\), has GD converged? [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\lVert\theta_{new}-\theta_{old}\rVert_2=\sqrt{0.1^2+0.1^2}=\sqrt{0.02}\approx0.141.\)<br>
+          \(0.141 \gt 0.001\) ⇒ <b>not converged</b> — keep iterating.
+        </div></details>
+        <p class="src">tests: GD convergence criterion · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD convergence criterion (L2 norm) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q20. Deciding when to stop</h3>
+        <p>Successive parameter changes have L2 norms \(0.5,\ 0.2,\ 0.05,\ 0.0008\) over four iterations. With \(\epsilon=0.001\), at which iteration does GD stop, and name two other valid stopping rules. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Compare each to \(\epsilon=0.001\): \(0.5,0.2,0.05\) all \(\gt\epsilon\); \(0.0008\lt0.001\) ⇒ <b>stop at iteration 4.</b><br>
+          Other stopping rules: stop when the <b>gradient norm</b> \(\lVert\nabla J(\theta)\rVert\lt\epsilon\); or when a <b>maximum number of iterations</b> is reached (or when validation error stops improving).
+        </div></details>
+        <p class="src">tests: GD convergence criterion · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Convergence via gradient norm · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q21. Convergence and the gradient</h3>
+        <p>Explain why \(\lVert\theta_{new}-\theta_{old}\rVert_2\lt\epsilon\) and \(\lVert\nabla J(\theta)\rVert\lt\epsilon\) are essentially equivalent stopping tests near the optimum, referencing the GD update rule. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The update is \(\theta_{new}=\theta_{old}-\alpha\nabla J(\theta_{old})\), so \(\theta_{new}-\theta_{old}=-\alpha\nabla J(\theta_{old})\) and thus \(\lVert\theta_{new}-\theta_{old}\rVert=\alpha\lVert\nabla J\rVert\).<br>
+          Because they differ only by the constant factor α, the parameter-change norm is small exactly when the gradient norm is small. Near the optimum the gradient → 0 (stationary point), so both tests fire together — the tolerance ε just sets how close to the flat bottom we require before stopping.
+        </div></details>
+        <p class="src">tests: GD convergence criterion · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: R-squared · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q22. R² (plug-in)</h3>
+        <p>A regression gives \(SS_{res}=8\) and \(SS_{tot}=40\). Compute \(R^2\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(R^2=1-\dfrac{SS_{res}}{SS_{tot}}=1-\dfrac{8}{40}=1-0.2=\mathbf{0.8}\) ⇒ the model explains 80% of the variance in \(y\).
+        </div></details>
+        <p class="src">tests: R-squared · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: R-squared from data · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q23. R² from predictions</h3>
+        <p>Actuals \(y=(3,5,7,9)\), predictions \(\hat y=(2.8,5.2,6.9,9.1)\), \(\bar y=6\). Compute \(R^2\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Residuals \((y-\hat y)\): \(0.2,-0.2,0.1,-0.1\) ⇒ \(SS_{res}=0.04+0.04+0.01+0.01=0.10.\)<br>
+          \(SS_{tot}=(3-6)^2+(5-6)^2+(7-6)^2+(9-6)^2=9+1+1+9=20.\)<br>
+          \(R^2=1-\dfrac{0.10}{20}=1-0.005=\mathbf{0.995}.\)
+        </div></details>
+        <p class="src">tests: R-squared · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Negative R² · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q24. Can R² be negative?</h3>
+        <p>A constant model predicts \(\hat y=8\) for every point while \(y=(3,5,7,9)\), \(\bar y=6\). Compute \(R^2\) and interpret its sign. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(SS_{res}=(3-8)^2+(5-8)^2+(7-8)^2+(9-8)^2=25+9+1+1=36.\)<br>
+          \(SS_{tot}=20\) (as above). \(R^2=1-\dfrac{36}{20}=1-1.8=\mathbf{-0.8}.\)<br>
+          A <b>negative \(R^2\)</b> means the model fits <b>worse than simply predicting the mean</b> \(\bar y\) (which would give \(R^2=0\)). So \(R^2\in(-\infty,1]\); it is only bounded above by 1, not below by 0.
+        </div></details>
+        <p class="src">tests: R-squared · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: RMSE · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q25. RMSE (plug-in)</h3>
+        <p>Actuals \(y=(10,20,30)\), predictions \(\hat y=(12,18,33)\). Compute RMSE. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Errors: \(10-12=-2,\ 20-18=2,\ 30-33=-3\). Squares: \(4,4,9\), sum \(=17\).<br>
+          \(\text{RMSE}=\sqrt{\dfrac{17}{3}}=\sqrt{5.667}\approx\mathbf{2.38}.\)
+        </div></details>
+        <p class="src">tests: RMSE · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: RMSE from dataset · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q26. RMSE over four points</h3>
+        <p>Actuals \(y=(100,150,200,250)\), predictions \(\hat y=(110,140,210,230)\). Compute RMSE. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Errors: \(-10,10,-10,20\). Squares: \(100,100,100,400\), sum \(=700\).<br>
+          \(\text{RMSE}=\sqrt{700/4}=\sqrt{175}\approx\mathbf{13.23}.\)
+        </div></details>
+        <p class="src">tests: RMSE · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: RMSE vs MAE outlier sensitivity · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q27. RMSE vs MAE under an outlier</h3>
+        <p>A model's prediction errors are \(1,1,1,1,10\). Compute both RMSE and MAE, and explain which metric an outlier affects more and why. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{MAE}=\dfrac{1+1+1+1+10}{5}=\dfrac{14}{5}=\mathbf{2.8}.\)<br>
+          Squares: \(1,1,1,1,100\), sum \(=104\); \(\text{RMSE}=\sqrt{104/5}=\sqrt{20.8}\approx\mathbf{4.56}.\)<br>
+          <b>RMSE ≫ MAE</b> here because squaring amplifies the single large error (10²=100 dominates the sum). RMSE is therefore <b>far more sensitive to outliers / large errors</b>; MAE weights every error linearly and is more robust.
+        </div></details>
+        <p class="src">tests: RMSE / MAE · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: MAE · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q28. MAE (plug-in)</h3>
+        <p>Prediction errors \((y-\hat y)\) are \(2,-2,4\). Compute the Mean Absolute Error. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{MAE}=\dfrac{|2|+|-2|+|4|}{3}=\dfrac{2+2+4}{3}=\dfrac{8}{3}\approx\mathbf{2.67}.\)
+        </div></details>
+        <p class="src">tests: MAE · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: MAE vs RMSE relationship · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q29. MAE and its relation to RMSE</h3>
+        <p>For \(y=(100,150,200,250)\), \(\hat y=(110,140,210,230)\), compute MAE and state its relationship to the RMSE (13.23) found earlier. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Absolute errors: \(10,10,10,20\). \(\text{MAE}=\dfrac{50}{4}=\mathbf{12.5}.\)<br>
+          Always \(\text{MAE}\le\text{RMSE}\) (here \(12.5\le13.23\)); they are equal only when all errors have equal magnitude. The gap grows as error variability grows.
+        </div></details>
+        <p class="src">tests: MAE · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: MAE interpretation / metric choice · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q30. Choosing MAE vs RMSE</h3>
+        <p>A delivery-time model reports predictions in minutes. (a) In what units are MAE and RMSE, and how do you read "MAE = 6 minutes"? (b) The business says a 30-minute error is more than 3× as bad as a 10-minute error. Which metric should be optimized, and why? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Both are in the target's units (<b>minutes</b>). "MAE = 6 min" means the model is off by 6 minutes on average (equal weight to each error).<br>
+          (b) If large errors are disproportionately costly (a 30-min error &gt; 3× a 10-min error), optimize <b>RMSE</b>: squaring makes it penalize large errors super-linearly, matching the stated cost structure. If all errors scale linearly with cost, MAE is the better fit.
+        </div></details>
+        <p class="src">tests: MAE / RMSE metric choice · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Vectorized MSE gradient · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q31. Vectorized gradient (plug-in)</h3>
+        <p>With design matrix transpose \(X^{\top}=\begin{bmatrix}1&amp;1&amp;1\\1&amp;2&amp;3\end{bmatrix}\), residual vector \(\mathbf e=(-1,-2,-3)^{\top}\), and \(N=3\), compute \(\nabla J=\frac1N X^{\top}\mathbf e\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(X^{\top}\mathbf e=\begin{bmatrix}(-1)+(-2)+(-3)\\(-1)(1)+(-2)(2)+(-3)(3)\end{bmatrix}=\begin{bmatrix}-6\\-14\end{bmatrix}.\)<br>
+          \(\nabla J=\frac13\begin{bmatrix}-6\\-14\end{bmatrix}=\begin{bmatrix}\mathbf{-2}\\\mathbf{-4.667}\end{bmatrix}.\) (Matches the per-parameter gradients used in a batch-GD step.)
+        </div></details>
+        <p class="src">tests: Vectorized MSE gradient · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Vectorized gradient (compute residual) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q32. Residual then gradient</h3>
+        <p>Given \(X=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;3\end{bmatrix}\), \(\mathbf w=(0,0)^{\top}\), \(\mathbf y=(1,2,3)^{\top}\): compute \(\mathbf e=X\mathbf w-\mathbf y\) then \(\nabla J=\frac1N X^{\top}\mathbf e\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(X\mathbf w=(0,0,0)^{\top}\) ⇒ \(\mathbf e=(0-1,\,0-2,\,0-3)^{\top}=(-1,-2,-3)^{\top}.\)<br>
+          \(X^{\top}\mathbf e=(-6,\,-14)^{\top}\) (as above) ⇒ \(\nabla J=\frac13(-6,-14)^{\top}=(-2,\,-4.667)^{\top}.\)
+        </div></details>
+        <p class="src">tests: Vectorized MSE gradient · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Vectorized GD step + loss reduction · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q33. One vectorized GD step</h3>
+        <p>Continuing Q32 (\(\nabla J=(-2,-4.667)^{\top}\), \(\mathbf w=(0,0)^{\top}\)), apply the update \(\mathbf w\leftarrow\mathbf w-\eta\,\nabla J\) with \(\eta=0.1\). Then state qualitatively why the loss decreases. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\mathbf w\leftarrow(0,0)-0.1(-2,-4.667)=(0.2,\ 0.467)^{\top}.\)<br>
+          The step moves \(\mathbf w\) opposite the gradient, i.e. <b>downhill</b> on the convex MSE surface, so the loss strictly decreases for a suitably small η (the deck's worked example drops the loss 7.5 → 1.51, an ~80% reduction, in one step). The vectorized form \(\frac1N X^{\top}\mathbf e\) computes the whole-batch gradient in one matrix product.
+        </div></details>
+        <p class="src">tests: Vectorized MSE gradient · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Polynomial / basis function model · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q34. Evaluate a polynomial model</h3>
+        <p>For the quadratic model \(y=3-4x+2x^2\), predict \(y\) at \(x=5\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(y=3-4(5)+2(5^2)=3-20+50=\mathbf{33}.\)
+        </div></details>
+        <p class="src">tests: Polynomial / basis model · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Basis functions / design matrix · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q35. Basis functions &amp; the design matrix</h3>
+        <p>To fit a degree-2 polynomial \(h_w(x)=w_0+w_1x+w_2x^2\) using basis functions \(\phi_j(x)=x^j\), write the row of the design matrix for \(x=4\), and explain why this is still a "linear" model. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Basis features \((\phi_0,\phi_1,\phi_2)=(1,\ x,\ x^2)\). For \(x=4\): row \(=(1,\ 4,\ 16).\)<br>
+          It is "linear" because \(h_w=\sum_j w_j\phi_j(x)\) is a <b>linear combination of the weights \(w_j\)</b> — the non-linearity is in the fixed features \(\phi_j\), not the parameters. So the normal equation / GD / convex-cost machinery still applies.
+        </div></details>
+        <p class="src">tests: Polynomial / basis model · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Polynomial order &amp; bias-variance · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q36. Model complexity &amp; test error (EC2-style)</h3>
+        <p>The true function is \(y=x^3+\epsilon,\ \epsilon\sim N(0,\sigma^2)\). Three models are fit: (1) linear, (2) cubic, (3) 15th-degree polynomial. (i) Rank by bias (highest→lowest). (ii) Rank by variance (highest→lowest). (iii) Which has the lowest test error? Justify via bias–variance. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (i) <b>Bias:</b> Linear &gt; 15th-degree ≈ Cubic (linear is too simple to capture a cubic ⇒ high bias; cubic matches the true form ⇒ low bias; degree-15 can also represent a cubic ⇒ low bias). Practically: <b>Linear (highest) → Cubic → 15th-degree (lowest).</b><br>
+          (ii) <b>Variance:</b> <b>15th-degree (highest) → Cubic → Linear (lowest)</b> — more flexible models fit training noise and vary a lot with the sample.<br>
+          (iii) <b>Cubic</b> has the lowest expected test error: it matches the true model form (low bias) without the excess flexibility that inflates variance. Test error \(\approx\) bias² + variance + irreducible \(\sigma^2\); the cubic minimizes bias²+variance. Linear underfits (bias), degree-15 overfits (variance).
+        </div></details>
+        <p class="src">tests: Polynomial order / bias-variance · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gaussian basis function · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q37. Gaussian basis (at its centre)</h3>
+        <p>Evaluate the Gaussian basis \(\phi_j(x)=\exp\!\big(-\frac{(x-\mu_j)^2}{2s^2}\big)\) at \(x=2\) with centre \(\mu_j=2\) (any \(s\gt0\)). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          At the centre, \(x-\mu_j=0\) ⇒ exponent \(=0\) ⇒ \(\phi_j(2)=e^{0}=\mathbf{1}\) — a Gaussian basis peaks at its centre.
+        </div></details>
+        <p class="src">tests: Gaussian basis function · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gaussian basis function · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q38. Gaussian basis (off-centre)</h3>
+        <p>Evaluate \(\phi_j(x)=\exp\!\big(-\frac{(x-\mu_j)^2}{2s^2}\big)\) at \(x=3\), \(\mu_j=2\), \(s=1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Exponent \(=-\dfrac{(3-2)^2}{2(1)^2}=-\dfrac{1}{2}=-0.5.\)<br>
+          \(\phi_j(3)=e^{-0.5}\approx\mathbf{0.607}.\)
+        </div></details>
+        <p class="src">tests: Gaussian basis function · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Local vs global basis functions · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q39. Local vs global basis functions</h3>
+        <p>Contrast polynomial basis \(\phi_j(x)=x^j\) with Gaussian basis \(\exp(-(x-\mu_j)^2/2s^2)\) and sigmoidal basis \(\sigma((x-\mu_j)/s)\). What do \(\mu_j\) and \(s\) control, and why is "local" support useful? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Polynomial bases are <b>global</b>: changing one weight affects the fit everywhere, and high powers explode for large \(|x|\).<br>
+          Gaussian and sigmoidal bases are <b>local</b>: \(\mu_j\) sets the <b>location</b> (centre) and \(s\) sets the <b>width/scale</b> (spread of the bump, or slope of the sigmoid). A Gaussian responds only near \(\mu_j\); a sigmoid switches around \(\mu_j\).<br>
+          Local support means each basis influences only a region of input space, so the model fits complex/localized structure flexibly without one region's fit corrupting distant regions — often more stable than high-order global polynomials.
+        </div></details>
+        <p class="src">tests: Gaussian / sigmoidal basis · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge (L2) cost · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q40. Ridge cost (plug-in)</h3>
+        <p>The MSE term is \(0.5\), \(\lambda=0.1\), and the weights are \(\theta_0=2\) (bias, not penalized), \(\theta_1=3\), \(\theta_2=-1\). Compute the ridge cost. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Penalty \(=\lambda\sum_{j\ge1}\theta_j^2=0.1\,(3^2+(-1)^2)=0.1(9+1)=1.0.\)<br>
+          \(J=\text{MSE}+\text{penalty}=0.5+1.0=\mathbf{1.5}.\) (θ₀ is excluded from the penalty.)
+        </div></details>
+        <p class="src">tests: Ridge (L2) cost · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge cost comparison · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q41. Compare two ridge solutions</h3>
+        <p>Both models give the same MSE = 0.40. Model A has weights \((\theta_1,\theta_2)=(4,3)\); Model B has \((1,1)\). With \(\lambda=0.1\), which has the lower ridge cost? [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          A: \(J=0.40+0.1(16+9)=0.40+2.5=2.90.\)<br>
+          B: \(J=0.40+0.1(1+1)=0.40+0.2=0.60.\)<br>
+          <b>Model B</b> (smaller weights) has the far lower ridge cost — ridge rewards shrinking the weights toward zero, reducing variance/overfitting.
+        </div></details>
+        <p class="src">tests: Ridge (L2) cost · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge lambda limits + L1/L2 bias-variance · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q42. Regularization strength &amp; bias–variance (EC2-style)</h3>
+        <p>(a) Describe the ridge solution as \(\lambda\to0\) and as \(\lambda\to\infty\). (b) How do L1 and L2 regularization affect bias and variance? [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\lambda\to0\): the penalty vanishes ⇒ ridge → ordinary least squares (low bias, higher variance). \(\lambda\to\infty\): weights are forced toward 0 ⇒ the model collapses toward a constant (very high bias, near-zero variance).<br>
+          (b) Both L1 and L2 add a weight penalty that <b>increases bias but decreases variance</b> (they shrink the fit, trading a little accuracy on training for better generalization). Increasing λ moves further in that direction. Additionally <b>L1 (Lasso)</b> drives some weights exactly to 0 (sparse, automatic feature selection) while <b>L2 (Ridge)</b> shrinks weights smoothly toward but not exactly 0.
+        </div></details>
+        <p class="src">tests: Ridge λ / L1-L2 bias-variance · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso (L1) cost · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q43. Lasso cost (plug-in)</h3>
+        <p>MSE term \(=0.5\), \(\lambda=0.2\), weights \(\theta_1=3,\ \theta_2=-1\). Compute the lasso cost. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Penalty \(=\lambda\sum|\theta_j|=0.2(|3|+|-1|)=0.2(4)=0.8.\)<br>
+          \(J=0.5+0.8=\mathbf{1.3}.\)
+        </div></details>
+        <p class="src">tests: Lasso (L1) cost · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso vs ridge penalty · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q44. Lasso vs ridge penalty on the same weights</h3>
+        <p>For weights \((\theta_1,\theta_2,\theta_3)=(2,0,-0.5)\) with \(\lambda=1\), compute the L1 and L2 penalty terms, and say which regularizer would more readily set \(\theta_3\) to exactly 0. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          L1: \(\lambda\sum|\theta_j|=1(2+0+0.5)=\mathbf{2.5}.\)<br>
+          L2: \(\lambda\sum\theta_j^2=1(4+0+0.25)=\mathbf{4.25}.\)<br>
+          <b>L1 (Lasso)</b> more readily forces small weights (like \(\theta_3=-0.5\)) to exactly 0, producing a sparse model / feature selection; L2 only shrinks them toward 0.
+        </div></details>
+        <p class="src">tests: Lasso (L1) cost · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso sparsity geometry / L1 vs L2 · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q45. Why L1 yields sparsity</h3>
+        <p>Explain geometrically why Lasso (L1) produces exactly-zero coefficients while Ridge (L2) does not, and state one practical downside of L1 for gradient methods. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The L1 constraint region is a <b>diamond</b> (\(\sum|\theta_j|\le t\)) with sharp <b>corners on the axes</b>; the elliptical MSE contours most often first touch the diamond at a corner, where one coordinate is exactly 0 ⇒ sparse solution. The L2 region is a <b>circle/sphere</b> with no corners, so the contact point rarely lands on an axis ⇒ small-but-nonzero weights.<br>
+          <b>Downside of L1:</b> \(|\theta_j|\) is <b>non-differentiable at 0</b>, so plain gradient descent needs a sub-gradient (\(\operatorname{sign}\)) or special solvers, making optimization less smooth than L2.
+        </div></details>
+        <p class="src">tests: L1 vs L2 sparsity · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Elastic Net cost · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q46. Elastic Net cost (plug-in)</h3>
+        <p>MSE \(=0.5\), mix ratio \(r=0.5\), \(\lambda=0.2\), weights \(\theta_1=3,\ \theta_2=-1\). Compute the Elastic Net cost \(J=\text{MSE}+r\lambda\sum|\theta_j|+\frac{(1-r)}{2}\lambda\sum\theta_j^2\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          L1 part: \(r\lambda\sum|\theta_j|=0.5(0.2)(3+1)=0.5(0.2)(4)=0.4.\)<br>
+          L2 part: \(\frac{1-r}{2}\lambda\sum\theta_j^2=\frac{0.5}{2}(0.2)(9+1)=0.25(0.2)(10)=0.5.\)<br>
+          \(J=0.5+0.4+0.5=\mathbf{1.4}.\)
+        </div></details>
+        <p class="src">tests: Elastic Net cost · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Elastic Net limits · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q47. Elastic Net endpoints</h3>
+        <p>Show what the Elastic Net penalty reduces to when (a) \(r=0\) and (b) \(r=1\), and name each. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Penalty \(=r\lambda\sum|\theta_j|+\frac{(1-r)}{2}\lambda\sum\theta_j^2\).<br>
+          (a) \(r=0\): L1 term vanishes ⇒ penalty \(=\frac12\lambda\sum\theta_j^2\) — pure <b>Ridge (L2)</b>.<br>
+          (b) \(r=1\): L2 term vanishes ⇒ penalty \(=\lambda\sum|\theta_j|\) — pure <b>Lasso (L1)</b>.<br>
+          (In sklearn, ElasticNet(alpha, l1_ratio) with l1_ratio = r.)
+        </div></details>
+        <p class="src">tests: Elastic Net cost · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Elastic Net use case · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q48. When to prefer Elastic Net</h3>
+        <p>You have many <b>highly correlated</b> predictors and want some feature selection but stable coefficients. (a) Why does pure Lasso struggle with correlated features? (b) Why does Elastic Net help? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) With a group of highly correlated features, <b>Lasso tends to arbitrarily pick one and zero out the rest</b>, and the choice is unstable across samples (small data changes flip which feature survives).<br>
+          (b) <b>Elastic Net</b> combines L1 (sparsity/selection) with L2 (which shares weight smoothly among correlated features and stabilizes the solution — a "grouping effect"). So it keeps groups of correlated predictors together while still zeroing truly irrelevant ones — the recommended choice for correlated, high-dimensional data.
+        </div></details>
+        <p class="src">tests: Elastic Net cost · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge GD update · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q49. Ridge GD step (plug-in)</h3>
+        <p>Ridge weight-decay update \(w_j:=w_j(1-\alpha\lambda)-\alpha\cdot g\), where \(g=\frac1n\sum(h-y)x_j=4\). Given \(w_j=2,\ \alpha=0.1,\ \lambda=0.5\), compute the new \(w_j\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Shrink factor \(1-\alpha\lambda=1-0.1(0.5)=0.95.\)<br>
+          \(w_j:=2(0.95)-0.1(4)=1.9-0.4=\mathbf{1.5}.\)
+        </div></details>
+        <p class="src">tests: Ridge GD update · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge GD update (bias) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q50. Ridge GD — bias term</h3>
+        <p>In the same step (\(\alpha=0.1,\lambda=0.5\)) the bias has \(w_0=2\) and gradient \(g_0=\frac1n\sum(h-y)=4\). Update \(w_0\) and explain why it differs from the weight update in Q49. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The bias \(w_0\) is <b>not regularized</b>, so it uses the plain GD update (no \((1-\alpha\lambda)\) shrink):<br>
+          \(w_0:=w_0-\alpha g_0=2-0.1(4)=\mathbf{1.6}.\)<br>
+          It differs from Q49 (which gave 1.5) because the weight \(w_j\) was additionally shrunk by the factor 0.95, whereas the bias is left unshrunk (penalizing the intercept would just shift predictions arbitrarily).
+        </div></details>
+        <p class="src">tests: Ridge GD update · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge GD shrink factor · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q51. Meaning of the (1−αλ) factor</h3>
+        <p>Explain why the ridge GD update multiplies each weight by \((1-\alpha\lambda)\) every iteration ("weight decay"), what constraint on \(\alpha\lambda\) keeps it stable, and how it derives from the ridge gradient. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The ridge cost adds \(\lambda\sum\theta_j^2\); its gradient contributes \(2\lambda\theta_j\) (folded into \(\lambda\theta_j\) with the ½/scaling conventions). The GD step \(w_j:=w_j-\alpha(g+\lambda w_j)=w_j(1-\alpha\lambda)-\alpha g\) — so <b>before</b> the data-driven step each weight is multiplied by \((1-\alpha\lambda)\lt1\), i.e. it <b>decays toward 0</b> a little each iteration ("weight decay").<br>
+          Stability needs \(0\lt1-\alpha\lambda\lt1\), i.e. \(0\lt\alpha\lambda\lt1\); if \(\alpha\lambda\ge1\) the factor is \(\le0\) and weights flip sign/blow up. This continual shrink is what controls variance/overfitting.
+        </div></details>
+        <p class="src">tests: Ridge GD update · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso GD update · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q52. Lasso GD step (plug-in)</h3>
+        <p>Lasso update \(w_j:=w_j-\alpha g-\alpha\lambda\operatorname{sign}(w_j)\), with \(w_j=2,\ \alpha=0.1,\ g=4,\ \lambda=0.5\). Compute the new \(w_j\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\operatorname{sign}(2)=+1.\)<br>
+          \(w_j:=2-0.1(4)-0.1(0.5)(+1)=2-0.4-0.05=\mathbf{1.55}.\)
+        </div></details>
+        <p class="src">tests: Lasso GD update · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso GD update (negative weight) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q53. Lasso GD with a negative weight</h3>
+        <p>Update \(w_j=-3\) with \(\alpha=0.1,\ g=\frac1n\sum(h-y)x_j=2,\ \lambda=0.5\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\operatorname{sign}(-3)=-1.\)<br>
+          \(w_j:=-3-0.1(2)-0.1(0.5)(-1)=-3-0.2+0.05=\mathbf{-3.15}.\)<br>
+          Note the \(-\alpha\lambda\operatorname{sign}(w_j)=+0.05\) term nudges the negative weight toward 0 (i.e. upward), the L1 "push toward zero".
+        </div></details>
+        <p class="src">tests: Lasso GD update · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Lasso GD constant penalty vs ridge · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q54. L1 sub-gradient behaviour</h3>
+        <p>Contrast the L1 penalty term \(-\alpha\lambda\operatorname{sign}(w_j)\) in the Lasso update with ridge's \(-\alpha\lambda w_j\): why does L1 drive weights to exactly 0 while ridge only shrinks them, and what happens to the sub-gradient at \(w_j=0\)? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Ridge subtracts \(\alpha\lambda w_j\), which is <b>proportional to \(w_j\)</b> — as \(w_j\to0\) the shrink shrinks too, so it never quite reaches 0.<br>
+          Lasso subtracts a <b>constant magnitude</b> \(\alpha\lambda\) (times the sign) regardless of how small \(w_j\) is, so a small weight is pushed all the way to 0 and held there — producing exact zeros / sparsity.<br>
+          At \(w_j=0\), \(|w_j|\) is non-differentiable; the <b>sub-gradient</b> is any value in \([-1,1]\), so the update uses \(\operatorname{sign}(0)\in[-1,1]\) (often taken as 0), letting the weight remain exactly at 0.
+        </div></details>
+        <p class="src">tests: Lasso GD update · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Bias-variance / under- vs overfitting · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q55. Underfitting vs overfitting</h3>
+        <p>Model P has training error 25% and test error 27%; Model Q has training error 1% and test error 22%. Diagnose each as underfitting or overfitting (with bias/variance), and give one remedy for each. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Model P:</b> both errors high and close ⇒ <b>underfitting</b> (high bias, low variance) — model too simple. Remedy: add features / increase complexity (higher-order terms), reduce regularization.<br>
+          <b>Model Q:</b> very low training error but much higher test error (big gap) ⇒ <b>overfitting</b> (low bias, high variance) — fits training noise. Remedy: more training data, reduce complexity, or add regularization / early stopping.
+        </div></details>
+        <p class="src">tests: Under/overfitting bias-variance · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Handling overfitting / regularization / early stopping · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q56. Ways to control overfitting</h3>
+        <p>(a) List three general ways to reduce overfitting. (b) What is regularization, and what is the role of λ? (c) Describe early stopping and how you pick the stopping point. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Increase the training-set size; reduce model complexity; apply regularization.<br>
+          (b) <b>Regularization</b> adds a penalty on weight magnitude to the cost, discouraging overly complex models. <b>λ</b> is a tuned hyperparameter setting the penalty strength — larger λ ⇒ stronger shrink (more bias, less variance).<br>
+          (c) <b>Early stopping:</b> track validation error each epoch and keep the model at the epoch of <b>minimum validation error</b> — stop before validation error rises again while training error keeps falling.
+        </div></details>
+        <p class="src">tests: Handle overfitting / regularization / early stopping · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ridge/Lasso/Elastic comparison · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q57. Choose the regularizer</h3>
+        <p>For each goal choose Ridge, Lasso, or Elastic Net and justify: (a) shrink all coefficients smoothly to reduce variance, keeping every feature; (b) automatic feature selection producing a sparse model; (c) sparse selection when predictors are highly correlated. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Ridge (L2)</b> — shrinks all weights toward (not to) zero, keeps every feature.<br>
+          (b) <b>Lasso (L1)</b> — drives some weights exactly to 0 ⇒ sparse model / feature selection.<br>
+          (c) <b>Elastic Net</b> — mixes L1 + L2, giving sparsity plus the grouping/stability that handles correlated predictors.
+        </div></details>
+        <p class="src">tests: Ridge/Lasso/Elastic Net · Hard</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Logistic Regression &amp; Classification Metrics <small>· source: ML_CS 5 6</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: Sigmoid function · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. Sigmoid at 0</h3>
+        <p>Compute \(\sigma(z)=\frac{1}{1+e^{-z}}\) at \(z=0\), and state the class it predicts with a 0.5 threshold. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(0)=\dfrac{1}{1+e^{0}}=\dfrac{1}{2}=\mathbf{0.5}.\)<br>
+          At exactly 0.5 the model is on the boundary (\(z=0\)); by the rule \(\sigma\ge0.5\Rightarrow\) class 1, so it predicts class 1.
+        </div></details>
+        <p class="src">tests: Sigmoid function · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Sigmoid function · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q2. Evaluate the sigmoid</h3>
+        <p>Compute \(\sigma(2)\) and \(\sigma(-2)\), and comment on their symmetry. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(2)=\dfrac{1}{1+e^{-2}}=\dfrac{1}{1+0.1353}=\dfrac{1}{1.1353}\approx\mathbf{0.881}.\)<br>
+          \(\sigma(-2)=\dfrac{1}{1+e^{2}}=\dfrac{1}{1+7.389}=\dfrac{1}{8.389}\approx\mathbf{0.119}.\)<br>
+          Symmetry: \(\sigma(-z)=1-\sigma(z)\) (0.119 = 1 − 0.881).
+        </div></details>
+        <p class="src">tests: Sigmoid function · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Sigmoid threshold ↔ linear score · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q3. Threshold and the linear score</h3>
+        <p>Show that classifying by \(\sigma(z)\ge0.5\) is equivalent to \(z\ge0\). Then for \(z=w_0+w_1x\) with \(w_0=-3,\ w_1=1\), find the value of \(x\) at the decision boundary. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(z)\ge0.5\iff\dfrac{1}{1+e^{-z}}\ge\dfrac12\iff 1+e^{-z}\le2\iff e^{-z}\le1\iff -z\le0\iff z\ge0.\) So the threshold on probability at 0.5 is exactly the threshold on the linear score at 0.<br>
+          Boundary: \(z=0\Rightarrow w_0+w_1x=0\Rightarrow -3+x=0\Rightarrow \mathbf{x=3}.\) For \(x\gt3\) predict class 1, else class 0.
+        </div></details>
+        <p class="src">tests: Sigmoid / decision threshold · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Logistic regression hypothesis · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q4. Predict a probability</h3>
+        <p>A logistic model has \(z=w_0+w_1x\) with \(w_0=-3,\ w_1=1\). For \(x=4\), compute \(h_w(x)=\sigma(z)\) and give the predicted class. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z=-3+1(4)=1.\) \(h=\sigma(1)=\dfrac{1}{1+e^{-1}}=\dfrac{1}{1.3679}\approx\mathbf{0.731}.\)<br>
+          \(0.731\ge0.5\Rightarrow\) predict <b>class 1</b>.
+        </div></details>
+        <p class="src">tests: Logistic regression hypothesis · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Logistic hypothesis (two features) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q5. Two-feature logistic prediction</h3>
+        <p>With \(z=w_0+w_1x_1+w_2x_2\), weights \((w_0,w_1,w_2)=(-4,\,0.05,\,1)\), predict \(P(y=1)\) for \(x_1=60,\ x_2=1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z=-4+0.05(60)+1(1)=-4+3+1=0.\)<br>
+          \(h=\sigma(0)=\mathbf{0.5}\) — the point lies exactly on the decision boundary.
+        </div></details>
+        <p class="src">tests: Logistic regression hypothesis · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Generative vs discriminative / why not linear reg · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q6. Why logistic (not linear) for classification (EC2-style)</h3>
+        <p>(a) Give two reasons linear regression + a 0.5 threshold is a poor classifier. (b) Distinguish generative from discriminative classifiers with one example each, and say which logistic regression is. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) (i) Linear-regression output \(h_\theta(x)\) can exceed 1 or fall below 0, so it is not a valid probability. (ii) Least squares is <b>highly sensitive to outliers</b> — a single far-away point can swing the fitted line and move the 0.5 boundary badly. Logistic regression bounds output to (0,1) via the sigmoid and is robust to this.<br>
+          (b) <b>Generative</b> classifiers model the joint \(P(X,Y)\) (e.g. <b>Naive Bayes</b>); <b>discriminative</b> classifiers learn the decision boundary / \(P(Y|X)\) directly (e.g. <b>logistic regression</b>). Logistic regression is <b>discriminative</b>.
+        </div></details>
+        <p class="src">tests: Generative vs discriminative / why not linear reg · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Linear discriminant decision rule · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q7. Linear discriminant sign rule</h3>
+        <p>A linear classifier is \(y=\operatorname{sign}(w_0+w^{\top}x)\) with \(w_0=-1,\ w=(1,1)\). Classify the point \(x=(2,-3)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(w_0+w^{\top}x=-1+1(2)+1(-3)=-1+2-3=-2.\)<br>
+          \(\operatorname{sign}(-2)=-1\) ⇒ <b>negative class.</b>
+        </div></details>
+        <p class="src">tests: Linear discriminant decision rule · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decision boundary equation · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q8. Write the decision boundary</h3>
+        <p>For a logistic model with \(z=w_0+w_1x_1+w_2x_2\), \((w_0,w_1,w_2)=(-6,2,3)\), write the equation of the decision boundary in the \((x_1,x_2)\) plane and its slope-intercept form. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Boundary is where \(z=0\): \(-6+2x_1+3x_2=0.\)<br>
+          Solve for \(x_2\): \(x_2=\dfrac{6-2x_1}{3}=2-\tfrac{2}{3}x_1.\)<br>
+          A straight line (intercept 2, slope \(-\tfrac23\)); points on the "\(z\gt0\)" side are class 1.
+        </div></details>
+        <p class="src">tests: Decision boundary · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Linear separability / XOR / non-linear boundary · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q9. Perfect separation? (EC2-style)</h3>
+        <p>Dataset: \((-1,-1)\to +\), \((1,-1)\to -\), \((-1,1)\to -\), \((1,1)\to +\). (a) Can plain logistic regression separate these two classes perfectly? Justify. (b) How can logistic regression still solve it? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>No.</b> This is the XOR pattern: positives are the two diagonal corners \((-1,-1),(1,1)\); negatives are \((1,-1),(-1,1)\). No single straight line can put both positives on one side and both negatives on the other — the data is <b>not linearly separable</b>, and plain logistic regression has a linear boundary.<br>
+          (b) Add a <b>non-linear feature</b> such as \(x_1x_2\) (feature crossing) / polynomial features. Note \(x_1x_2=+1\) for the positives and \(-1\) for the negatives, so a boundary on \(x_1x_2\) separates them — logistic regression with engineered features gives a non-linear (curved) boundary.
+        </div></details>
+        <p class="src">tests: Decision boundary / linear separability · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Cross-entropy / log loss · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q10. Log loss of one example</h3>
+        <p>For a single example with true label \(y=1\) and predicted probability \(h=0.9\), compute the cross-entropy (log) loss. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          For \(y=1\), cost \(=-\log h=-\log(0.9)\approx\mathbf{0.105}\) (natural log). A confident, correct prediction gives a small loss.
+        </div></details>
+        <p class="src">tests: Cross-entropy / log loss · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Cross-entropy over a set · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q11. Average log loss</h3>
+        <p>Compute the mean cross-entropy over three examples: \((y=1,h=0.8),\ (y=0,h=0.2),\ (y=1,h=0.6)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Per-example: \(y=1\Rightarrow-\log h\); \(y=0\Rightarrow-\log(1-h)\).<br>
+          Ex1: \(-\log0.8=0.223.\) Ex2: \(-\log(1-0.2)=-\log0.8=0.223.\) Ex3: \(-\log0.6=0.511.\)<br>
+          Mean \(=\dfrac{0.223+0.223+0.511}{3}=\dfrac{0.957}{3}\approx\mathbf{0.319}.\)
+        </div></details>
+        <p class="src">tests: Cross-entropy / log loss · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Why MSE non-convex for logistic · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q12. Why cross-entropy, not MSE (EC2-style)</h3>
+        <p>Explain why the mean-squared-error cost used in linear regression is unsuitable for logistic regression, and what property of cross-entropy makes it the right choice. What is the per-example cost as \(h\to0\) when \(y=1\)? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Plugging the sigmoid into MSE gives a <b>non-convex</b> cost with many local minima, so gradient descent can get stuck and is not guaranteed to find the global optimum.<br>
+          <b>Cross-entropy (log loss)</b> is <b>convex</b> in the parameters, so GD reaches the global minimum. It also penalizes confident wrong predictions heavily: for \(y=1\), cost \(=-\log h\to+\infty\) as \(h\to0\) (a confident wrong prediction is punished without bound), and cost \(=0\) when the prediction matches the label.
+        </div></details>
+        <p class="src">tests: Cross-entropy convexity · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD for logistic regression · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q13. One logistic GD step (single example)</h3>
+        <p>Logistic GD update \(\theta_j:=\theta_j-\alpha\frac1m\sum(h-y)x_j\). For one example \(x=(x_0,x_1)=(1,2)\), \(h=0.8\), \(y=1\), \(\alpha=0.1\), update \(\theta_1\) (currently 0.5). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(m=1\); error \(h-y=0.8-1=-0.2.\)<br>
+          \(\theta_1:=0.5-0.1\big((-0.2)(2)\big)=0.5-0.1(-0.4)=0.5+0.04=\mathbf{0.54}.\)
+        </div></details>
+        <p class="src">tests: GD for logistic regression · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD logistic (two examples) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q14. Logistic GD over two examples</h3>
+        <p>Update \(\theta_0\) (currently 0) with \(\alpha=0.1\) using two examples with \((h,y)\): \((0.6,1)\) and \((0.7,0)\), both with \(x_0=1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Errors: \(0.6-1=-0.4\); \(0.7-0=0.7\). \(\frac1m\sum(h-y)x_0=\frac12(-0.4+0.7)=\frac12(0.3)=0.15.\)<br>
+          \(\theta_0:=0-0.1(0.15)=\mathbf{-0.015}.\)
+        </div></details>
+        <p class="src">tests: GD for logistic regression · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD logistic form vs linear + regularization C · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q15. Logistic GD form &amp; regularization parameter C</h3>
+        <p>(a) The logistic-regression GD update has the same algebraic form as linear regression — what is the one difference? (b) In scikit-learn's LogisticRegression, how does the parameter \(C\) relate to regularization strength, and what does a very large \(C\) risk? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) The update \(\theta_j:=\theta_j-\alpha\frac1m\sum(h_\theta(x)-y)x_j\) is identical in form, except \(h_\theta(x)\) is the <b>sigmoid</b> hypothesis \(\sigma(\theta^{\top}x)\) rather than the linear \(\theta^{\top}x\).<br>
+          (b) \(C\) is the <b>inverse</b> of regularization strength (\(C=1/\lambda\)): <b>large \(C\) ⇒ weak regularization</b> (risk of overfitting), small \(C\) ⇒ strong regularization (more bias, less variance). A very large \(C\) can overfit, especially with many features.
+        </div></details>
+        <p class="src">tests: GD logistic / regularization C · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Logit / odds ratio · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q16. Odds ratio from a coefficient</h3>
+        <p>A logistic-regression coefficient for CGPA is \(w=0.3\). Compute the odds ratio for a one-unit increase in CGPA and interpret it. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Odds ratio \(=e^{w}=e^{0.3}\approx\mathbf{1.35}.\)<br>
+          Each one-point increase in CGPA multiplies the odds of the positive outcome (e.g. job offer) by ~1.35 (a 35% increase in odds).
+        </div></details>
+        <p class="src">tests: Logit / odds ratio · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Logit ↔ probability · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q17. Probability ↔ logit</h3>
+        <p>(a) A model outputs \(p=0.75\). Compute the odds and the logit \(\log\frac{p}{1-p}\). (b) If the linear score \(z=\operatorname{logit}(p)=1.099\), verify \(p\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Odds \(=\dfrac{0.75}{0.25}=3.\) Logit \(=\log 3\approx\mathbf{1.099}\) (natural log).<br>
+          (b) \(p=\sigma(z)=\dfrac{1}{1+e^{-1.099}}=\dfrac{1}{1+0.333}=\dfrac{1}{1.333}=\mathbf{0.75}\) ✓ — logit is the inverse of the sigmoid.
+        </div></details>
+        <p class="src">tests: Logit / odds ratio · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Coefficient interpretation in odds · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q18. Interpreting multiple coefficients</h3>
+        <p>A logistic model of loan default has coefficients: income \(w=-0.4\), prior-defaults \(w=0.9\). (a) Give the odds ratio and direction of effect for each. (b) A one-unit rise in which feature changes the odds most, and by how much? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Income: \(e^{-0.4}\approx0.67\) — each unit of income <b>multiplies the odds of default by 0.67</b> (≈33% lower odds; protective). Prior-defaults: \(e^{0.9}\approx2.46\) — each prior default <b>multiplies the odds by 2.46</b> (raises risk).<br>
+          (b) <b>Prior-defaults</b> has the larger magnitude effect: |0.9| &gt; |−0.4|, and \(e^{0.9}=2.46\) is a bigger multiplicative change than \(e^{-0.4}=0.67\). So a one-unit rise in prior-defaults changes the odds most (×2.46).
+        </div></details>
+        <p class="src">tests: Odds ratio interpretation · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Accuracy · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q19. Accuracy (plug-in)</h3>
+        <p>A binary classifier has TP=40, TN=50, FP=5, FN=5. Compute accuracy. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{Accuracy}=\dfrac{TP+TN}{TP+TN+FP+FN}=\dfrac{40+50}{100}=\dfrac{90}{100}=\mathbf{0.90}.\)
+        </div></details>
+        <p class="src">tests: Accuracy · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Accuracy (3-class matrix) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q20. Accuracy from a 3-class matrix (EC2-style)</h3>
+        <p>A 3-class confusion matrix (rows = actual A/B/C, columns = predicted A/B/C) is: A: (40, 5, 5); B: (8, 30, 12); C: (3, 7, 35). Compute the overall accuracy. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Correct = diagonal = \(40+30+35=105.\)<br>
+          Total \(=40+5+5+8+30+12+3+7+35=145.\)<br>
+          \(\text{Accuracy}=\dfrac{105}{145}\approx\mathbf{0.724}\) (72.4%).
+        </div></details>
+        <p class="src">tests: Accuracy · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Accuracy limitation under imbalance · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q21. The accuracy trap (imbalance)</h3>
+        <p>A dataset has 990 negatives and 10 positives (fraud). A lazy model predicts "negative" for everything. (a) Compute its accuracy, recall on the positive class, and precision. (b) What metrics should be used instead and why? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The model gives TN=990, FN=10, TP=0, FP=0.<br>
+          (a) Accuracy \(=\dfrac{0+990}{1000}=\mathbf{0.99}\). Recall \(=\dfrac{TP}{TP+FN}=\dfrac{0}{10}=\mathbf{0}\). Precision \(=\dfrac{0}{0+0}\) — undefined (no positive predictions).<br>
+          (b) Accuracy is <b>misleading under class imbalance</b>: 99% while catching zero fraud. Use <b>precision, recall, F1 and ROC/AUC</b>, which focus on performance on the rare class of interest.
+        </div></details>
+        <p class="src">tests: Accuracy limitation / imbalance · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Precision, Recall, F1 · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q22. Precision, Recall, F1 (plug-in)</h3>
+        <p>A classifier has TP=40, FP=10, FN=5. Compute precision, recall and F1. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Precision \(=\dfrac{40}{40+10}=\dfrac{40}{50}=0.80.\) Recall \(=\dfrac{40}{40+5}=\dfrac{40}{45}\approx0.889.\)<br>
+          \(F_1=\dfrac{2(0.80)(0.889)}{0.80+0.889}=\dfrac{1.4222}{1.689}\approx\mathbf{0.842}.\)
+        </div></details>
+        <p class="src">tests: Precision/Recall/F1 · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Per-class precision/recall/F1 · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q23. Per-class metrics from a 3-class matrix (EC2-style)</h3>
+        <p>Using the matrix of Q20 (A: 40,5,5 / B: 8,30,12 / C: 3,7,35), compute precision, recall and F1 for each class. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Column sums (predicted): A=51, B=42, C=52. Row sums (actual): A=50, B=50, C=45.<br>
+          <b>Class A:</b> TP=40, FP=51−40=11, FN=50−40=10. P=40/51≈0.784, R=40/50=0.800, F1=2(0.784)(0.800)/(1.584)≈<b>0.792</b>.<br>
+          <b>Class B:</b> TP=30, FP=42−30=12, FN=50−30=20. P=30/42≈0.714, R=30/50=0.600, F1=2(0.714)(0.600)/(1.314)≈<b>0.652</b>.<br>
+          <b>Class C:</b> TP=35, FP=52−35=17, FN=45−35=10. P=35/52≈0.673, R=35/45≈0.778, F1=2(0.673)(0.778)/(1.451)≈<b>0.722</b>.
+        </div></details>
+        <p class="src">tests: Precision/Recall/F1 · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Precision-recall trade-off / cost of FP vs FN · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q24. Precision–recall trade-off &amp; error costs</h3>
+        <p>(a) Why is F1 (harmonic mean) preferred over the arithmetic mean of precision and recall? (b) For (i) cancer screening and (ii) a spam filter, state whether you would tune for high recall or high precision, and justify via the cost of FN vs FP. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) The <b>harmonic mean</b> is dominated by the smaller of the two values, so F1 is only high when <b>both</b> precision and recall are high — it punishes a model that maximizes one while sacrificing the other (which an arithmetic mean would reward).<br>
+          (b) (i) <b>Cancer screening → high recall</b>: a false negative (missing a sick patient) is far costlier than a false positive (extra test), so minimize FN. (ii) <b>Spam filter → high precision</b>: a false positive (deleting real mail) is costlier than a false negative (a spam that slips through), so minimize FP.
+        </div></details>
+        <p class="src">tests: Precision-recall trade-off / cost FP vs FN · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: TPR &amp; FPR · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q25. TPR and FPR (plug-in)</h3>
+        <p>A classifier has TP=40, FN=10, FP=5, TN=45. Compute TPR and FPR. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{TPR}=\dfrac{TP}{TP+FN}=\dfrac{40}{50}=\mathbf{0.80}.\)<br>
+          \(\text{FPR}=\dfrac{FP}{FP+TN}=\dfrac{5}{50}=\mathbf{0.10}.\) (TNR=0.90, FNR=0.20.)
+        </div></details>
+        <p class="src">tests: TPR &amp; FPR · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: TPR/FPR under threshold change · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q26. Effect of lowering the threshold</h3>
+        <p>At threshold 0.5 a model gives TP=40, FN=10, FP=5, TN=45. Lowering the threshold reclassifies 5 actual-positives (previously missed) and 15 actual-negatives as positive. Recompute TPR and FPR and describe the ROC movement. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          New counts: TP=40+5=45, FN=10−5=5; FP=5+15=20, TN=45−15=30.<br>
+          \(\text{TPR}=45/50=\mathbf{0.90}\) (up from 0.80); \(\text{FPR}=20/50=\mathbf{0.40}\) (up from 0.10).<br>
+          Lowering the threshold moves the operating point <b>up and to the right</b> on the ROC curve — more detections (higher TPR) at the cost of more false alarms (higher FPR).
+        </div></details>
+        <p class="src">tests: TPR &amp; FPR · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: ROC corners / construction · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q27. Reading the ROC space</h3>
+        <p>(a) Describe the ROC points for "classify everything positive" and "classify everything negative", the ideal point, and the diagonal. (b) Outline how an ROC curve is constructed from a scoring classifier. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) On axes (FPR, TPR): "all positive" → \((1,1)\); "all negative" → \((0,0)\); the <b>ideal</b> point is TPR=1, FPR=0 (top-left corner). The <b>diagonal</b> (TPR=FPR) is random guessing; a curve <b>below</b> the diagonal is worse than random.<br>
+          (b) Use a classifier that outputs a continuous <b>score</b>; sort instances by decreasing score; sweep a threshold through each unique score; at each threshold count TP/FP/TN/FN and plot \((\text{FPR},\text{TPR})\). Connecting the points traces the ROC curve.
+        </div></details>
+        <p class="src">tests: ROC curve / construction · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: AUC via trapezoidal rule · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q28. AUC of a single trapezoid</h3>
+        <p>An ROC curve passes through \((\text{FPR},\text{TPR})=(0,\,0.5)\) and \((1,\,1)\). Compute the AUC by the trapezoidal rule. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          One trapezoid of width \(1-0=1\) and average height \(\frac{0.5+1}{2}=0.75\):<br>
+          \(\text{AUC}=1\times0.75=\mathbf{0.75}.\)
+        </div></details>
+        <p class="src">tests: AUC trapezoidal · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: AUC via trapezoidal rule · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q29. AUC over three ROC points</h3>
+        <p>Compute AUC for the ROC points (taken in decreasing FPR order) \((1,1),\ (0.5,0.8),\ (0,0)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Sum trapezoids \(\big(\text{FPR}_i-\text{FPR}_{i+1}\big)\cdot\frac{\text{TPR}_i+\text{TPR}_{i+1}}{2}\):<br>
+          \((1-0.5)\cdot\frac{1+0.8}{2}=0.5(0.9)=0.45.\)<br>
+          \((0.5-0)\cdot\frac{0.8+0}{2}=0.5(0.4)=0.20.\)<br>
+          \(\text{AUC}=0.45+0.20=\mathbf{0.65}.\)
+        </div></details>
+        <p class="src">tests: AUC trapezoidal · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: AUC interpretation / model comparison · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q30. Interpreting and comparing AUC</h3>
+        <p>(a) What do AUC = 1, 0.5 and 0.65 mean? (b) Two models have equal AUC but their ROC curves cross — one is better at low FPR, the other at high FPR. How do you choose between them? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>AUC = 1</b>: perfect separation of the classes. <b>AUC = 0.5</b>: no better than random guessing (diagonal). <b>AUC = 0.65</b>: modest ability to rank a random positive above a random negative 65% of the time.<br>
+          (b) When neither dominates everywhere, pick by the <b>operating region that matters</b>: if false alarms are very costly (need low FPR — e.g. spam), choose the model better at <b>low FPR</b>; if missing positives is costly (need high recall — e.g. disease screening), choose the one better at <b>high FPR/high TPR</b>. Select the threshold to match the application's FP/FN costs.
+        </div></details>
+        <p class="src">tests: AUC interpretation · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Error rate · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q31. Error rate (plug-in)</h3>
+        <p>A model has TP=40, TN=50, FP=5, FN=5. Compute the misclassification (error) rate. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{Error rate}=\dfrac{FP+FN}{\text{total}}=\dfrac{5+5}{100}=\mathbf{0.10}=1-\text{Accuracy}\ (1-0.90).\)
+        </div></details>
+        <p class="src">tests: Error rate · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Error rate from 3-class · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q32. Error rate as 1 − accuracy</h3>
+        <p>For the 3-class matrix of Q20 (accuracy 0.724), compute the overall error rate. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Misclassified = total − correct = \(145-105=40.\)<br>
+          \(\text{Error rate}=\dfrac{40}{145}\approx\mathbf{0.276}=1-0.724.\)
+        </div></details>
+        <p class="src">tests: Error rate · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Cancer confusion matrix — full metrics · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q33. Cancer confusion matrix — full metric set</h3>
+        <p>A cancer test on 1000 people gives (positive = malignant): TP=90, FN=10, FP=30, TN=870. Compute accuracy, error rate, precision, recall and F1. Comment on which metric matters most here. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Total = 1000. Accuracy \(=\dfrac{90+870}{1000}=\mathbf{0.96}\); Error rate \(=\dfrac{30+10}{1000}=\mathbf{0.04}.\)<br>
+          Precision \(=\dfrac{90}{90+30}=\dfrac{90}{120}=\mathbf{0.75}\); Recall \(=\dfrac{90}{90+10}=\dfrac{90}{100}=\mathbf{0.90}.\)<br>
+          \(F_1=\dfrac{2(0.75)(0.90)}{0.75+0.90}=\dfrac{1.35}{1.65}\approx\mathbf{0.818}.\)<br>
+          <b>Recall</b> matters most: missing a malignant case (FN) is the costliest error, so we want recall high (0.90) even at some precision cost.
+        </div></details>
+        <p class="src">tests: Error rate / confusion-matrix metrics · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Confusion matrix concept · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q34. Build the confusion matrix</h3>
+        <p>Define TP, FP, FN, TN and explain why a confusion matrix is more informative than a single accuracy number. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>TP</b> = predicted positive and actually positive; <b>FP</b> = predicted positive but actually negative (false alarm); <b>FN</b> = predicted negative but actually positive (miss); <b>TN</b> = predicted negative and actually negative.<br>
+          The matrix shows <b>which class the errors fall on</b> (FP vs FN), which a single accuracy hides — critical under imbalance where the same accuracy can mean very different recall/precision.
+        </div></details>
+        <p class="src">tests: Confusion matrix · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Class imbalance solutions / SMOTE · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q35. Handling class imbalance</h3>
+        <p>State three approaches to a badly imbalanced classification problem, and briefly explain what SMOTE does. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (1) <b>Resample:</b> under-sample the majority or over-sample the minority — <b>SMOTE</b> (Synthetic Minority Oversampling) generates new minority points along the lines to their nearest neighbours (not exact copies). (2) <b>Change the metric</b> to recall/precision/F1/ROC-AUC rather than accuracy. (3) <b>Use algorithms that handle imbalance better</b> (SVM, tree-based / cost-sensitive learning).
+        </div></details>
+        <p class="src">tests: Class imbalance / SMOTE · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: OvA vs OvO / multiclass · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q36. Multiclass strategies (EC2-style)</h3>
+        <p>(a) Can logistic regression classify more than two classes? (b) How many binary classifiers does One-vs-One need for 4 classes, and how is an instance classified? (c) How many does One-vs-All need? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Yes — via decomposition into binary problems (One-vs-All or One-vs-One).<br>
+          (b) OvO trains one classifier per class pair: \(\dfrac{N(N-1)}{2}=\dfrac{4(3)}{2}=\mathbf{6}\) classifiers. Each instance is run through all 6; each classifier <b>votes</b> for one of its two classes, and the class with the most votes wins.<br>
+          (c) OvA trains \(N=\mathbf{4}\) classifiers (each class vs the rest); pick the class whose classifier gives the highest score. (sklearn defaults to OvA, OvO for SVMs.)
+        </div></details>
+        <p class="src">tests: OvA vs OvO / multiclass · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Binary vs multiclass · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q37. Binary vs multiclass</h3>
+        <p>Define binary and multiclass classification with one example each, and name the two ways multiclass is commonly reduced to binary problems. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Binary:</b> exactly two output classes (e.g. spam vs ham). <b>Multiclass:</b> three or more mutually-exclusive classes (e.g. EnjoySport = Yes/No/Maybe).<br>
+          Reduced to binary via <b>One-vs-All (One-vs-Rest)</b> and <b>One-vs-One</b>.
+        </div></details>
+        <p class="src">tests: Binary vs multiclass · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decision boundary linear vs non-linear · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q38. Linear vs non-linear decision boundaries</h3>
+        <p>At what logistic-regression output does the decision boundary sit? When is that boundary a straight line, and how do you make it curved? [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          The boundary is where the output equals <b>0.5</b> (equivalently \(z=\theta^{\top}x=0\)).<br>
+          With <b>linear features</b> the boundary is a line/hyperplane. Adding <b>polynomial / engineered features</b> (e.g. \(x_1^2,\ x_1x_2\)) makes \(z=0\) a curved surface, giving a <b>non-linear</b> boundary that can separate more complex class regions.
+        </div></details>
+        <p class="src">tests: Decision boundary linear/non-linear · Medium</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Exam-Referenced Prerequisites <small>· kNN · Bayes · Trees · SVM · Clustering · Ensembles · source: EC2 &amp; EC3</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: Distance metrics · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. Euclidean &amp; Manhattan distance</h3>
+        <p>Compute the Euclidean and Manhattan distances between \(p=(0,0)\) and \(q=(3,4)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Euclidean \(=\sqrt{(3-0)^2+(4-0)^2}=\sqrt{9+16}=\sqrt{25}=\mathbf5.\)<br>
+          Manhattan \(=|3-0|+|4-0|=3+4=\mathbf7.\)
+        </div></details>
+        <p class="src">tests: Distance metrics · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: kNN classification (Manhattan) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q2. k-NN classification (EC3-style)</h3>
+        <p>Classify \(P=(2,2)\) with \(k=3\) using Manhattan distance. Training points: A(1,2)=Red, B(2,3)=Red, C(3,3)=Blue, D(6,5)=Blue. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Manhattan distances to P:<br>
+          A: \(|2-1|+|2-2|=1\); B: \(|2-2|+|2-3|=1\); C: \(|2-3|+|2-3|=2\); D: \(|2-6|+|2-5|=4+3=7.\)<br>
+          Three nearest: A(1)=Red, B(1)=Red, C(2)=Blue ⇒ votes Red 2, Blue 1.<br>
+          Majority ⇒ <b>P is classified Red.</b>
+        </div></details>
+        <p class="src">tests: Distance metrics / kNN · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: kNN k effect / distance choice · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q3. Choosing k (EC3-style)</h3>
+        <p>(a) Explain how a kNN prediction is computed for a new instance. (b) Contrast the effect of small \(k\) (1–2) vs large \(k\) (10–20) on sensitivity to noise and on the bias–variance trade-off. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Compute the distance from the new point to every training point, take the \(k\) nearest, and predict the <b>majority class</b> among them (for regression, the average).<br>
+          (b) <b>Small k</b> → very <b>sensitive to noise</b>, low bias but <b>high variance</b> (the boundary follows individual points, can overfit). <b>Large k</b> → <b>low sensitivity to noise</b> (smoother boundary), <b>higher bias but lower variance</b> (can underfit if too large). k is chosen to balance the two.
+        </div></details>
+        <p class="src">tests: kNN k effect · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes' theorem — total probability · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q4. Total probability of a positive test (EC3-style)</h3>
+        <p>2% of a population has a disease. If diseased, the test is positive 90% of the time; if not diseased, positive 5% of the time. Compute \(P(T+)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(P(T+)=P(T+|D+)P(D+)+P(T+|D-)P(D-)\)<br>
+          \(=0.90(0.02)+0.05(0.98)=0.018+0.049=\mathbf{0.067}.\)
+        </div></details>
+        <p class="src">tests: Bayes' theorem · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes' theorem posterior · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q5. Posterior probability (EC3-style)</h3>
+        <p>Using the data of Q4, a patient tests positive. Use Bayes' theorem to find \(P(D+\mid T+)\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(P(D+\mid T+)=\dfrac{P(T+|D+)P(D+)}{P(T+)}=\dfrac{0.90(0.02)}{0.067}=\dfrac{0.018}{0.067}\approx\mathbf{0.269}\) (about 27%).
+        </div></details>
+        <p class="src">tests: Bayes' theorem · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Base-rate effect · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q6. Base-rate effect</h3>
+        <p>With the same test (\(P(T+|D+)=0.90,\ P(T+|D-)=0.05\)), suppose prevalence rises to \(P(D+)=0.30\). Recompute \(P(D+\mid T+)\) and explain why the posterior jumped compared with the 2% case (≈0.27). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(P(T+)=0.90(0.30)+0.05(0.70)=0.27+0.035=0.305.\)<br>
+          \(P(D+\mid T+)=\dfrac{0.27}{0.305}\approx\mathbf{0.885}\) (about 89%).<br>
+          The posterior depends heavily on the <b>prior/base rate</b>. At 2% prevalence, the many true negatives produce enough false positives to swamp the true positives, so a positive test is often wrong (27%). At 30% prevalence there are far more real cases relative to false alarms, so a positive test is usually right (89%). This is the <b>base-rate fallacy</b>.
+        </div></details>
+        <p class="src">tests: Bayes' theorem · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Naive Bayes · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q7. Naive Bayes (one feature)</h3>
+        <p>\(P(\text{spam})=0.4,\ P(\text{ham})=0.6\). For an email containing the word "free": \(P(\text{free}|\text{spam})=0.8,\ P(\text{free}|\text{ham})=0.1\). Classify it. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          spam score \(=P(\text{spam})P(\text{free}|\text{spam})=0.4(0.8)=0.32.\)<br>
+          ham score \(=0.6(0.1)=0.06.\)<br>
+          \(0.32\gt0.06\) ⇒ classify as <b>spam</b> (posterior \(=0.32/0.38\approx0.84\)).
+        </div></details>
+        <p class="src">tests: Naive Bayes · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Naive Bayes (two features) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q8. Naive Bayes with two features</h3>
+        <p>\(P(Yes)=0.6,\ P(No)=0.4\). Features give \(P(x_1|Yes)=0.5,\ P(x_2|Yes)=0.4\) and \(P(x_1|No)=0.2,\ P(x_2|No)=0.7\). Predict the class for \((x_1,x_2)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Yes score \(=0.6(0.5)(0.4)=0.12.\)<br>
+          No score \(=0.4(0.2)(0.7)=0.056.\)<br>
+          \(0.12\gt0.056\) ⇒ predict <b>Yes</b> (normalized \(0.12/0.176\approx0.68\)). Uses conditional independence: multiply per-feature likelihoods.
+        </div></details>
+        <p class="src">tests: Naive Bayes · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Naive Bayes play-cricket · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q9. Naive Bayes "play cricket?" (EC3-style)</h3>
+        <p>From 14 days (9 Yes, 5 No) with the standard weather table, predict Play for {Outlook=Sunny, Temp=Cool, Humidity=High, Wind=Strong}. Relevant counts — Yes: Sunny 2/9, Cool 3/9, High 3/9, Strong 3/9; No: Sunny 3/5, Cool 1/5, High 4/5, Strong 3/5. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(P(Yes)=9/14,\ P(No)=5/14.\)<br>
+          Yes score \(=\frac{9}{14}\cdot\frac29\cdot\frac39\cdot\frac39\cdot\frac39=0.643\times0.2222\times0.3333^3\approx0.00529.\)<br>
+          No score \(=\frac{5}{14}\cdot\frac35\cdot\frac15\cdot\frac45\cdot\frac35=0.357\times0.6\times0.2\times0.8\times0.6\approx0.02057.\)<br>
+          \(0.02057\gt0.00529\) ⇒ predict <b>No (cricket is NOT played)</b>; normalized \(P(No)\approx0.02057/0.02586\approx\mathbf{0.80}.\)
+        </div></details>
+        <p class="src">tests: Naive Bayes · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: MLE (binomial) · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q10. MLE of a coin bias (EC3-style)</h3>
+        <p>A coin gives H,H,T,H,T,H,H,T in 8 tosses. State the MLE of \(p=P(\text{Head})\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Heads \(h=5\), tosses \(n=8\). \(\hat p_{\text{MLE}}=\dfrac{h}{n}=\dfrac{5}{8}=\mathbf{0.625}.\)
+        </div></details>
+        <p class="src">tests: MLE · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Likelihood function · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q11. Write the likelihood (EC3-style)</h3>
+        <p>For 5 heads in 8 i.i.d. tosses, write the binomial likelihood \(L(p)\) and the log-likelihood \(\ell(p)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(L(p)=\dbinom{8}{5}p^{5}(1-p)^{3}.\)<br>
+          \(\ell(p)=\log L(p)=\log\dbinom{8}{5}+5\log p+3\log(1-p).\)<br>
+          (The constant \(\log\binom{8}{5}\) does not affect the maximizing \(p\).)
+        </div></details>
+        <p class="src">tests: MLE / likelihood · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: MLE derivation · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q12. Derive the MLE (EC3-style)</h3>
+        <p>Starting from \(\ell(p)=h\log p+(n-h)\log(1-p)\), maximize over \(p\) to derive \(\hat p=h/n\), and evaluate for \(h=5,\ n=8\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{d\ell}{dp}=\dfrac{h}{p}-\dfrac{n-h}{1-p}=0.\)<br>
+          \(\Rightarrow h(1-p)=(n-h)p\Rightarrow h-hp=np-hp\Rightarrow h=np\Rightarrow \hat p=\dfrac{h}{n}.\)<br>
+          (Second derivative &lt; 0 confirms a maximum.) For \(h=5,n=8\): \(\hat p=5/8=\mathbf{0.625}.\)
+        </div></details>
+        <p class="src">tests: MLE derivation · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Entropy · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q13. Entropy of a 50/50 node</h3>
+        <p>Compute the entropy of a node with equal numbers of two classes. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(H=-\tfrac12\log_2\tfrac12-\tfrac12\log_2\tfrac12=-\tfrac12(-1)-\tfrac12(-1)=\mathbf{1}\) bit — maximum impurity for two classes.
+        </div></details>
+        <p class="src">tests: Entropy · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Entropy of a collection · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q14. Entropy of the dataset (EC2-style)</h3>
+        <p>A 9-instance dataset has 4 Positive and 5 Negative. Compute its entropy with respect to the class. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(p_+=\tfrac49=0.444,\ p_-=\tfrac59=0.556.\)<br>
+          \(H=-0.444\log_2 0.444-0.556\log_2 0.556=-0.444(-1.170)-0.556(-0.848)\)<br>
+          \(=0.520+0.471=\mathbf{0.991}\) bits.
+        </div></details>
+        <p class="src">tests: Entropy · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Entropy multi-class / max · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q15. Entropy extremes</h3>
+        <p>(a) What is the entropy of a pure node (all one class)? (b) What is the maximum entropy for 4 equally-likely classes, and in general for K classes? [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Pure node: one \(p_i=1\), rest 0 ⇒ \(H=-1\log_2 1=\mathbf{0}\) (no disorder).<br>
+          (b) 4 equal classes: \(H=-4\big(\tfrac14\log_2\tfrac14\big)=-4(\tfrac14)(-2)=\mathbf{2}\) bits. In general max entropy for K equal classes \(=\log_2 K\) (maximum when all classes equally likely).
+        </div></details>
+        <p class="src">tests: Entropy · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Information gain · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q16. Information gain (plug-in)</h3>
+        <p>A node has entropy \(H(S)=0.991\). A split produces two children with weighted average entropy \(0.761\). Compute the information gain. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(IG=H(S)-\text{(weighted child entropy)}=0.991-0.761=\mathbf{0.230}.\)
+        </div></details>
+        <p class="src">tests: Information gain · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Information gain of an attribute · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q17. IG of attribute a1 (EC2-style)</h3>
+        <p>With \(H(S)=0.991\) (4+, 5−), splitting on a1 gives: a1=T → {3+, 1−} (4 instances), a1=F → {1+, 4−} (5 instances). Compute \(IG(a1)\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(H(a1{=}T)=-\tfrac34\log_2\tfrac34-\tfrac14\log_2\tfrac14=0.311+0.5=0.811.\)<br>
+          \(H(a1{=}F)=-\tfrac15\log_2\tfrac15-\tfrac45\log_2\tfrac45=0.464+0.258=0.722.\)<br>
+          Weighted \(=\tfrac49(0.811)+\tfrac59(0.722)=0.360+0.401=0.761.\)<br>
+          \(IG(a1)=0.991-0.761=\mathbf{0.230}.\)
+        </div></details>
+        <p class="src">tests: Information gain · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: IG best split comparison · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q18. Which attribute splits best? (EC2-style)</h3>
+        <p>Continuing Q17, splitting on a2 gives a2=T → {2+, 3−} (5 instances) and a2=F → {2+, 2−} (4 instances). Compute \(IG(a2)\) and decide whether a1 or a2 is the better root split. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(H(a2{=}T)=-\tfrac25\log_2\tfrac25-\tfrac35\log_2\tfrac35=0.529+0.442=0.971.\)<br>
+          \(H(a2{=}F)=1.0\) (2+,2− is 50/50).<br>
+          Weighted \(=\tfrac59(0.971)+\tfrac49(1.0)=0.539+0.444=0.984.\)<br>
+          \(IG(a2)=0.991-0.984=\mathbf{0.007}.\)<br>
+          Since \(IG(a1)=0.230 \gg IG(a2)=0.007\), <b>a1 is the far better split</b> at the root (it reduces impurity much more).
+        </div></details>
+        <p class="src">tests: Information gain · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini index · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q19. Gini index (plug-in)</h3>
+        <p>Compute the Gini index of a node with class proportions 0.8 and 0.2. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{Gini}=1-\sum p_i^2=1-(0.8^2+0.2^2)=1-(0.64+0.04)=1-0.68=\mathbf{0.32}.\)
+        </div></details>
+        <p class="src">tests: Gini index · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini of a split (categorical) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q20. Weighted Gini of a split (EC2-style)</h3>
+        <p>Splitting on a2 gives a2=T → {2+, 3−} (5 instances) and a2=F → {2+, 2−} (4 instances). Compute the weighted Gini of this split. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{Gini}(a2{=}T)=1-(\tfrac25)^2-(\tfrac35)^2=1-0.16-0.36=0.48.\)<br>
+          \(\text{Gini}(a2{=}F)=1-(\tfrac12)^2-(\tfrac12)^2=0.50.\)<br>
+          Weighted \(=\tfrac59(0.48)+\tfrac49(0.50)=0.2667+0.2222=\mathbf{0.489}.\)
+        </div></details>
+        <p class="src">tests: Gini index · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini threshold split &amp; comparison · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q21. Categorical vs threshold split by Gini (EC2-style)</h3>
+        <p>Attribute a3 (values 1,6,5,4,7,3,8,7,5; mean ≈ 5.11) is split at threshold = mean. The group a3 ≤ 5.11 = {2+, 3−} (5 instances) and a3 &gt; 5.11 = {2+, 2−} (4 instances). Compute the weighted Gini for the a3 split and compare with the a2 split (0.489 from Q20). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Mean of a3 \(=\frac{1+6+5+4+7+3+8+7+5}{9}=\frac{46}{9}\approx5.11.\)<br>
+          \(\text{Gini}(\le5.11)=1-(\tfrac25)^2-(\tfrac35)^2=0.48\); \(\text{Gini}(\gt5.11)=1-(\tfrac12)^2-(\tfrac12)^2=0.50.\)<br>
+          Weighted \(=\tfrac59(0.48)+\tfrac49(0.50)=\mathbf{0.489}.\)<br>
+          This <b>equals the a2 weighted Gini (0.489)</b> — the two candidate splits are <b>tied</b> on Gini impurity, so neither is preferable on this measure alone (a tie-break rule or another criterion would be needed). Lower weighted Gini = better split.
+        </div></details>
+        <p class="src">tests: Gini index · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Decision tree splitting concept · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q22. Decision-tree split criteria</h3>
+        <p>Explain how a decision tree chooses its split attribute, how continuous attributes are handled, and the difference between entropy/information-gain and the Gini index. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          A tree evaluates each candidate attribute by how much it <b>reduces impurity</b> and picks the best. Using entropy, it picks the attribute with the highest <b>information gain</b> (largest entropy drop). Using <b>Gini</b>, it picks the split with the lowest weighted Gini. <b>Continuous attributes</b> are split at a threshold (e.g. the mean/midpoints) into ≤ / &gt; branches. Entropy uses logs (measures disorder in bits); Gini \(=1-\sum p_i^2\) is a computationally cheaper impurity measure — both usually pick similar splits.
+        </div></details>
+        <p class="src">tests: Decision trees · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: SVM decision rule · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q23. SVM decision (plug-in)</h3>
+        <p>An SVM has weight vector \(w=(2,-1)\) and bias \(b=-1\). Classify the point \(x=(2,1)\) using \(\operatorname{sign}(w\cdot x+b)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(w\cdot x+b=2(2)+(-1)(1)+(-1)=4-1-1=2.\)<br>
+          \(\operatorname{sign}(2)=+1\) ⇒ <b>positive class.</b>
+        </div></details>
+        <p class="src">tests: SVM decision rule · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: SVM weight vector &amp; bias · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q24. Find w and b from support vectors (EC3-style)</h3>
+        <p>Support vectors: \(x_1=(0,-1,1)\), \(\alpha_1=0.25\), \(y_1=+1\); \(x_2=(0,1,-1)\), \(\alpha_2=0.25\), \(y_2=-1\). Compute \(w=\sum\alpha_i y_i x_i\) and the bias \(b\) (average of the per-SV solutions of \(y_i(w\cdot x_i+b)=1\)). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(w=0.25(+1)(0,-1,1)+0.25(-1)(0,1,-1)=(0,-0.25,0.25)+(0,-0.25,0.25)=(0,\,-0.5,\,0.5).\)<br>
+          SV1: \(w\cdot x_1=(-0.5)(-1)+(0.5)(1)=1\); \(y_1(w\cdot x_1+b)=+1(1+b)=1\Rightarrow b=0.\)<br>
+          SV2: \(w\cdot x_2=(-0.5)(1)+(0.5)(-1)=-1\); \(-1(-1+b)=1\Rightarrow 1-b=1\Rightarrow b=0.\)<br>
+          Average \(b=0\). Boundary: \(-0.5x_2+0.5x_3=0\Rightarrow x_3=x_2.\)
+        </div></details>
+        <p class="src">tests: SVM hyperplane / weight &amp; bias · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: SVM linear separability · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q25. Linearly separable? (EC3-style)</h3>
+        <p>Positive class (+1): \((2,2),(2,-2),(-2,-2),(-2,2)\). Negative class (−1): \((1,1),(1,-1),(-1,-1),(-1,1)\). (a) Is this linearly separable in the original 2-D space? Justify. (b) How does the kernel trick help? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>No.</b> The negatives form a small square around the origin (radius ≈ √2) and the positives form a larger square around it (radius ≈ 2√2). One class <b>surrounds</b> the other, so no single straight line can separate them — not linearly separable.<br>
+          (b) A kernel (e.g. polynomial or an RBF, or explicitly the feature \(x_1^2+x_2^2\) = squared radius) maps points to a higher-dimensional space where the inner vs outer square differ in the new coordinate and become <b>linearly separable</b> by a hyperplane — computed implicitly via \(K(u,v)\) without forming the mapping.
+        </div></details>
+        <p class="src">tests: SVM / kernel trick · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Polynomial kernel · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q26. Polynomial kernel (plug-in)</h3>
+        <p>With \(K(u,v)=(u\cdot v+1)^2\), compute \(K(u,v)\) for \(u=(1,2),\ v=(3,1)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(u\cdot v=1(3)+2(1)=5.\)<br>
+          \(K=(5+1)^2=6^2=\mathbf{36}.\)
+        </div></details>
+        <p class="src">tests: Polynomial kernel · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Kernel entry D_ij · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q27. One dual-matrix entry (EC3-style)</h3>
+        <p>Using \(D_{ij}=y_i y_j K(x_i,x_j)\) with \(K(u,v)=(u\cdot v+1)^2\), compute \(D_{12}\) for \(x_1=(1,0),\ y_1=+1\) and \(x_2=(0,1),\ y_2=-1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(x_1\cdot x_2=0\Rightarrow K(x_1,x_2)=(0+1)^2=1.\)<br>
+          \(D_{12}=y_1y_2K=(+1)(-1)(1)=\mathbf{-1}.\)
+        </div></details>
+        <p class="src">tests: Polynomial kernel / D matrix · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Full kernel matrix D · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q28. Compute the kernel matrix D (EC3-style)</h3>
+        <p>For \(x_1=(1,0),\ y_1=+1\) and \(x_2=(0,1),\ y_2=-1\), and \(K(u,v)=(u\cdot v+1)^2\), compute the full \(2\times2\) matrix \(D\) where \(D_{ij}=y_iy_jK(x_i,x_j)\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Kernels: \(K(x_1,x_1)=(1+1)^2=4\); \(K(x_2,x_2)=(1+1)^2=4\); \(K(x_1,x_2)=(0+1)^2=1.\)<br>
+          \(D_{11}=(+1)(+1)(4)=4\); \(D_{22}=(-1)(-1)(4)=4\); \(D_{12}=D_{21}=(+1)(-1)(1)=-1.\)<br>
+          \(D=\begin{bmatrix}4&amp;-1\\-1&amp;4\end{bmatrix}.\)
+        </div></details>
+        <p class="src">tests: Polynomial kernel / D matrix · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: K-Means assignment · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q29. Nearest-centroid assignment</h3>
+        <p>Centroids are \(\mu_1=(1,2)\) and \(\mu_2=(8,5)\). Assign the point \((6,5)\) to a cluster (Euclidean distance). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          To \(\mu_1\): \(\sqrt{(6-1)^2+(5-2)^2}=\sqrt{25+9}=\sqrt{34}\approx5.83.\)<br>
+          To \(\mu_2\): \(\sqrt{(6-8)^2+(5-5)^2}=\sqrt{4}=2.\)<br>
+          \(2\lt5.83\) ⇒ assign to <b>cluster 2</b> (\(\mu_2\)).
+        </div></details>
+        <p class="src">tests: K-Means · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: K-Means one iteration · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q30. One K-Means update cycle (EC3-style)</h3>
+        <p>Points A(1,2), B(2,1), C(2,3), D(6,5), E(7,6), F(8,5). Initial centres A(1,2) and F(8,5). Do one full assignment + centroid-update cycle. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Assign</b> each to nearer centre (Euclidean): A→c1(0), B→c1(1.41 vs 7.21), C→c1(1.41 vs 6.32), D→c2(5.83 vs 2), E→c2(7.21 vs 1.41), F→c2(0).<br>
+          Clusters: <b>C1 = {A,B,C}</b>, <b>C2 = {D,E,F}</b>.<br>
+          <b>Update centroids</b> (mean of members):<br>
+          \(\mu_1=\big(\tfrac{1+2+2}{3},\tfrac{2+1+3}{3}\big)=(1.667,\ 2).\)<br>
+          \(\mu_2=\big(\tfrac{6+7+8}{3},\tfrac{5+6+5}{3}\big)=(7,\ 5.333).\)
+        </div></details>
+        <p class="src">tests: K-Means centroid update · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: K-Means objective / convergence · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q31. K-Means objective &amp; why it converges</h3>
+        <p>(a) State the K-Means objective \(J\). (b) Explain why alternating "assign to nearest centroid" then "recompute centroid as mean" never increases \(J\). (c) Compute the within-cluster SSE contribution of cluster C1 = {A(1,2), B(2,1), C(2,3)} with centroid \((1.667,2)\). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(J=\sum_{k}\sum_{x\in C_k}\lVert x-\mu_k\rVert^2\) — total within-cluster squared distance.<br>
+          (b) The <b>assignment</b> step moves each point to its nearest centroid, which cannot increase its squared distance; the <b>update</b> step sets \(\mu_k\) to the cluster mean, which is exactly the point minimizing \(\sum\lVert x-\mu_k\rVert^2\). Each step lowers or holds \(J\), so it monotonically decreases to a (local) minimum.<br>
+          (c) \(\lVert A-\mu\rVert^2=(1-1.667)^2+(2-2)^2=0.444.\) \(\lVert B-\mu\rVert^2=(2-1.667)^2+(1-2)^2=0.111+1=1.111.\) \(\lVert C-\mu\rVert^2=(0.333)^2+(3-2)^2=0.111+1=1.111.\) Sum \(\approx\mathbf{2.667}.\)
+        </div></details>
+        <p class="src">tests: K-Means objective · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: K-Means vs GMM · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q32. K-Means vs GMM (EC3-style)</h3>
+        <p>(a) State one key difference between K-Means hard assignments and GMM responsibilities. (b) What do "mixing weights" mean in a GMM? (c) Give one data characteristic under which GMM clusters better than K-Means. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) K-Means gives each point a <b>hard</b> assignment (belongs 100% to one cluster); GMM gives <b>soft responsibilities</b> — a probability of membership in each component (e.g. a border point might be 0.6 / 0.4 between two clusters).<br>
+          (b) <b>Mixing weights</b> \(\pi_k\) are the prior proportions of each Gaussian component (how much of the data each component accounts for), summing to 1.<br>
+          (c) When clusters are <b>elliptical / different sizes / overlapping</b> (non-spherical), GMM (with full covariances) fits them, whereas K-Means assumes roughly spherical, equal-size clusters and would misassign points.
+        </div></details>
+        <p class="src">tests: K-Means vs GMM · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: AdaBoost final prediction · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q33. AdaBoost weighted vote (plug-in)</h3>
+        <p>Three weak learners predict \(+1, -1, +1\) with weights \(\alpha=0.5, 0.2, 0.7\). Compute the AdaBoost prediction \(H(x)=\operatorname{sign}(\sum\alpha_t h_t)\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sum\alpha_t h_t=0.5(+1)+0.2(-1)+0.7(+1)=0.5-0.2+0.7=1.0.\)<br>
+          \(\operatorname{sign}(1.0)=+1\) ⇒ predict <b>+1</b>.
+        </div></details>
+        <p class="src">tests: AdaBoost final prediction · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: AdaBoost prediction (4 rounds) · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q34. AdaBoost over 4 rounds (EC3-style)</h3>
+        <p>Learner predictions and weights: (+1, 0.3), (−1, 0.7), (+1, 0.15), (+1, 0.3). Compute the final predicted label. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sum\alpha_t h_t=0.3(+1)+0.7(-1)+0.15(+1)+0.3(+1)=0.3-0.7+0.15+0.3=0.05.\)<br>
+          \(\operatorname{sign}(0.05)=+1\) ⇒ predict <b>+1</b> (the strong "−1" learner is outvoted by the three "+1" learners combined).
+        </div></details>
+        <p class="src">tests: AdaBoost final prediction · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: AdaBoost weight update · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q35. AdaBoost round-1 reweighting (EC3-style)</h3>
+        <p>10 instances start with equal weight 0.1. Round-1 misclassifies 3 of them (error \(\varepsilon=0.3\)). Compute \(\alpha=\tfrac12\ln\frac{1-\varepsilon}{\varepsilon}\), then the updated (normalized) weights of a correct and a misclassified instance. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\alpha=\tfrac12\ln\frac{0.7}{0.3}=\tfrac12\ln(2.333)=\tfrac12(0.847)=0.4236.\)<br>
+          Multipliers: misclassified \(\times e^{\alpha}=1.527\); correct \(\times e^{-\alpha}=0.655.\)<br>
+          Unnormalized: wrong \(=0.1(1.527)=0.1527\) (×3); correct \(=0.1(0.655)=0.0655\) (×7).<br>
+          Sum \(=3(0.1527)+7(0.0655)=0.4581+0.4585=0.9166.\)<br>
+          Normalized: <b>misclassified ≈ 0.1527/0.9166 = 0.167</b>; <b>correct ≈ 0.0655/0.9166 = 0.0715</b> (weights sum to 1). Misclassified instances are up-weighted so the next learner focuses on them.
+        </div></details>
+        <p class="src">tests: AdaBoost weight update · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: OOB error · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q36. OOB error (plug-in)</h3>
+        <p>A bagged model is validated on 12 out-of-bag samples and misclassifies 3 of them. Compute the OOB error. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{OOB error}=\dfrac{\#\text{misclassified OOB}}{\#\text{OOB}}=\dfrac{3}{12}=\mathbf{0.25}.\)
+        </div></details>
+        <p class="src">tests: OOB error · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: OOB samples identification · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q37. Identify OOB samples (EC3-style)</h3>
+        <p>Dataset \(D=\{1,2,\dots,10\}\); a bootstrap sample is \(\{1,1,2,4,6,6,7,8,9,9\}\). (i) List the Out-Of-Bag samples. (ii) Can the OOB error be computed here? [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (i) OOB = items of \(D\) <b>not</b> in the bootstrap sample. Drawn = \(\{1,2,4,6,7,8,9\}\); missing = <b>{3, 5, 10}</b>.<br>
+          (ii) <b>No</b> — computing the OOB error needs the model's predictions on samples 3, 5, 10 and their true labels; those are <b>not given</b>, so the information is missing.
+        </div></details>
+        <p class="src">tests: OOB error · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: OOB rationale · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q38. Why OOB works / bagging vs Random Forest</h3>
+        <p>(a) Roughly what fraction of the training set is left out of each bootstrap sample, and why can OOB samples act as a built-in validation set? (b) State one key difference between a bagged tree ensemble and a Random Forest. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Each bootstrap draws \(n\) items with replacement from \(n\); the probability a given row is never drawn is \((1-1/n)^n\to e^{-1}\approx0.368\), so about <b>⅓ of the data is left out</b> per tree. Since those OOB rows were not used to train that tree, they are effectively unseen and give an <b>unbiased validation estimate</b> without a separate hold-out set.<br>
+          (b) <b>Bagging</b> trains each tree on a bootstrap sample using <b>all features</b> at each split; a <b>Random Forest</b> additionally <b>randomly subsamples the features</b> considered at each split, decorrelating the trees for lower variance.
+        </div></details>
+        <p class="src">tests: OOB / bagging vs RF · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Ensemble methods concept · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q39. Bagging vs Boosting</h3>
+        <p>Contrast bagging and boosting in terms of how base learners are trained (parallel vs sequential) and what each primarily reduces (bias vs variance). Where does AdaBoost fit? [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Bagging:</b> trains many learners <b>independently/in parallel</b> on bootstrap samples and averages/votes — primarily <b>reduces variance</b> (e.g. Random Forest).<br>
+          <b>Boosting:</b> trains learners <b>sequentially</b>, each focusing on the errors of the previous ones (reweighting) — primarily <b>reduces bias</b> (and can reduce variance).<br>
+          <b>AdaBoost</b> is a boosting method: it up-weights misclassified instances each round and combines weak learners by weight \(\alpha_t\), with final label \(\operatorname{sign}(\sum\alpha_t h_t)\).
+        </div></details>
+        <p class="src">tests: Ensemble learning · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: SVM margin / kernel trick concept · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q40. SVM margin &amp; kernels</h3>
+        <p>(a) What does an SVM maximize, and what are support vectors? (b) In one sentence, what does the kernel trick achieve without explicitly transforming the data? [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) An SVM finds the <b>maximum-margin</b> separating hyperplane — the boundary with the largest gap to the nearest points of each class. The <b>support vectors</b> are those closest points that lie on the margin and define \(w\) and \(b\) (via the Lagrange multipliers \(\alpha_i\gt0\)).<br>
+          (b) The <b>kernel trick</b> computes inner products \(K(u,v)\) in a higher-dimensional feature space directly, so the SVM can find a non-linear boundary <b>without ever forming the high-dimensional mapping</b>.
+        </div></details>
+        <p class="src">tests: SVM / kernel trick · Medium</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Combined / Exam-style — multi-part questions weaving several topics</summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: OLS fit → predict → RMSE/MAE · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C1. End-to-end regression: fit, predict, evaluate (EC2-style)</h3>
+        <p>Car registrations \(X\) (000s) vs sales-tax \(Y\): \((10,1),(12,1.4),(15,1.9),(16,2),(14,1.8),(17,2.1),(20,2.3)\).<br>
+        (A) [4] Using OLS (normal-equation logic), find the regression line.<br>
+        (B) [2] Predict \(Y\) at \(X=22\).<br>
+        (C) [4] For a separate quadratic model \(Y=3-4X+2X^2\) on \((5,30),(8,90),(12,250),(15,498),(20,900)\), compute RMSE and MAE.</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\bar x=104/7\approx14.857,\ \bar y=12.5/7\approx1.786.\)<br>
+          \(\sum(x-\bar x)(y-\bar y)\approx8.486,\quad \sum(x-\bar x)^2\approx64.86.\)<br>
+          \(\theta_1=8.486/64.86\approx\mathbf{0.131}\); \(\theta_0=1.786-0.131(14.857)\approx\mathbf{-0.158}.\)<br>
+          Line: \(\hat Y=-0.158+0.131X.\)<br>
+          <b>(B)</b> \(\hat Y(22)=-0.158+0.131(22)=-0.158+2.878\approx\mathbf{2.72}.\)<br>
+          <b>(C)</b> Predictions: \(X{=}5\to33,\ 8\to99,\ 12\to243,\ 15\to393,\ 20\to723.\)<br>
+          Errors (pred−actual): \(3,\ 9,\ -7,\ -105,\ -177.\)<br>
+          Squares: \(9,81,49,11025,31329\) → sum \(42493\), mean \(8498.6\), \(\text{RMSE}=\sqrt{8498.6}\approx\mathbf{92.2}.\)<br>
+          \(|\text{errors}|=3,9,7,105,177\) → sum \(301\), \(\text{MAE}=301/5=\mathbf{60.2}.\) (RMSE ≫ MAE — the large errors at X=15,20 dominate.)
+        </div></details>
+        <p class="src">tests: OLS + RMSE + MAE · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: classification pipeline → confusion → metrics → threshold · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C2. Classification pipeline: threshold → confusion matrix → metrics → tuning</h3>
+        <p>A logistic model outputs scores for 8 test instances (score, true label): (0.95,1), (0.85,1), (0.70,0), (0.60,1), (0.55,0), (0.40,1), (0.30,0), (0.10,0).<br>
+        (A) [3] At threshold 0.5 build the confusion matrix (TP/FP/FN/TN).<br>
+        (B) [3] Compute accuracy, precision, recall, F1, and the ROC point (FPR, TPR).<br>
+        (C) [3] Raise the threshold to 0.65; recompute precision and recall and explain the trade-off.</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Predict 1 if score ≥ 0.5: 0.95✓(TP), 0.85✓(TP), 0.70→1 but label 0 (FP), 0.60✓(TP), 0.55→1 label 0 (FP), 0.40→0 label 1 (FN), 0.30(TN), 0.10(TN).<br>
+          <b>TP=3, FP=2, FN=1, TN=2.</b><br>
+          <b>(B)</b> Accuracy \(=\frac{3+2}{8}=0.625\); Precision \(=\frac{3}{3+2}=0.60\); Recall \(=\frac{3}{3+1}=0.75\); \(F_1=\frac{2(0.6)(0.75)}{1.35}\approx0.667\). ROC point: FPR \(=\frac{2}{4}=0.50\), TPR \(=0.75\) ⇒ \((0.50,\,0.75)\).<br>
+          <b>(C)</b> At 0.65, predict 1 for 0.95, 0.85, 0.70: TP=2 (0.95,0.85), FP=1 (0.70), FN=2 (0.60,0.40), TN=3. Precision \(=\frac{2}{3}\approx0.667\) (↑), Recall \(=\frac{2}{4}=0.50\) (↓). <b>Raising the threshold trades recall for precision</b> — fewer positives predicted, so fewer false alarms but more misses.
+        </div></details>
+        <p class="src">tests: confusion matrix + metrics + threshold · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: preprocessing → standardize → logistic → odds · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C3. Preprocessing to prediction pipeline</h3>
+        <p>A logistic model uses standardized "hours studied". Training hours have \(\mu=5,\ \sigma=2\). The fitted model on the standardized feature is \(z=0.2+1.5\,x'\).<br>
+        (A) [2] Standardize a student who studied 8 hours.<br>
+        (B) [3] Compute \(P(\text{pass})\) and classify at 0.5.<br>
+        (C) [3] Interpret the coefficient 1.5 as an odds ratio (per standardized unit), and state why the feature was standardized before fitting.</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(x'=\frac{8-5}{2}=1.5.\)<br>
+          <b>(B)</b> \(z=0.2+1.5(1.5)=0.2+2.25=2.45.\) \(P=\sigma(2.45)=\frac{1}{1+e^{-2.45}}=\frac{1}{1+0.0863}\approx\mathbf{0.921}.\) \(0.921\ge0.5\) ⇒ predict <b>Pass</b>.<br>
+          <b>(C)</b> Odds ratio \(=e^{1.5}\approx4.48\): each one-standard-deviation increase in study hours multiplies the odds of passing by ~4.5. Standardizing puts the feature on a zero-mean/unit-variance scale so gradient descent converges quickly and the coefficient is interpretable per SD; the scaler is fit on the training set only.
+        </div></details>
+        <p class="src">tests: scaling + logistic + odds · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: overfitting diagnosis → regularization choice · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C4. Model selection &amp; regularization</h3>
+        <p>Polynomial models of increasing degree give: deg 1 — train MSE 8.0, test 8.4; deg 4 — train 1.2, test 1.5; deg 15 — train 0.05, test 9.0.<br>
+        (A) [3] Diagnose each (underfit/good/overfit) with bias–variance language.<br>
+        (B) [3] Which degree do you deploy, and why?<br>
+        (C) [3] For the degree-15 model you must keep, would you add L1 or L2 (or Elastic Net) and what happens to bias/variance as λ increases?</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Deg 1: both errors high ⇒ <b>underfitting</b> (high bias, low variance). Deg 4: low and close ⇒ <b>good fit</b> (balanced). Deg 15: near-zero train but high test (big gap) ⇒ <b>overfitting</b> (low bias, high variance).<br>
+          <b>(B)</b> Deploy <b>degree 4</b> — lowest test error (best generalization); it captures the pattern without fitting noise.<br>
+          <b>(C)</b> Add <b>regularization</b> (L2/Ridge to shrink smoothly; L1/Lasso if you also want feature/term selection; Elastic Net if terms are correlated). As <b>λ increases, bias increases and variance decreases</b> — pulling the degree-15 model back from overfitting toward a smoother fit; tune λ on validation error.
+        </div></details>
+        <p class="src">tests: overfitting + regularization + bias-variance · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: decision tree entropy → IG → Gini split · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C5. Decision-tree root split (EC2-style)</h3>
+        <p>A 9-instance set has 4 Positive, 5 Negative. Splitting on a1: {3+,1−} (4 inst) and {1+,4−} (5 inst). Splitting on a2: {2+,3−} (5 inst) and {2+,2−} (4 inst).<br>
+        (A) [1] Entropy of the whole set.<br>
+        (B) [4] Information gain of a1 and a2 — which is the better split (entropy criterion)?<br>
+        (C) [4] Using Gini for the a2 split, compute its weighted Gini.</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(H(S)=-\tfrac49\log_2\tfrac49-\tfrac59\log_2\tfrac59=0.520+0.471=\mathbf{0.991}.\)<br>
+          <b>(B)</b> a1 children: \(H(3+,1-)=0.811,\ H(1+,4-)=0.722\) ⇒ weighted \(=\tfrac49(0.811)+\tfrac59(0.722)=0.761\); \(IG(a1)=0.991-0.761=\mathbf{0.230}.\)<br>
+          a2 children: \(H(2+,3-)=0.971,\ H(2+,2-)=1.0\) ⇒ weighted \(=\tfrac59(0.971)+\tfrac49(1.0)=0.984\); \(IG(a2)=0.991-0.984=\mathbf{0.007}.\)<br>
+          \(IG(a1)\gg IG(a2)\) ⇒ <b>a1 is the better root split.</b><br>
+          <b>(C)</b> \(\text{Gini}(2+,3-)=1-0.16-0.36=0.48\); \(\text{Gini}(2+,2-)=0.5\); weighted \(=\tfrac59(0.48)+\tfrac49(0.5)=\mathbf{0.489}.\)
+        </div></details>
+        <p class="src">tests: entropy + IG + Gini · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes + Naive Bayes reasoning · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C6. Probabilistic classification end-to-end (EC3-style)</h3>
+        <p>(A) [2] A disease has prevalence 2%; test sensitivity \(P(T+|D+)=0.9\), false-positive \(P(T+|D-)=0.05\). Compute \(P(T+)\).<br>
+        (B) [3] Compute \(P(D+|T+)\) with Bayes' theorem.<br>
+        (C) [3] Separately, a Naive Bayes email classifier has \(P(spam)=0.4\); a message contains words w1, w2 with \(P(w1|spam)=0.7, P(w2|spam)=0.5, P(w1|ham)=0.2, P(w2|ham)=0.6\). Classify it.</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(P(T+)=0.9(0.02)+0.05(0.98)=0.018+0.049=\mathbf{0.067}.\)<br>
+          <b>(B)</b> \(P(D+|T+)=\dfrac{0.9(0.02)}{0.067}=\dfrac{0.018}{0.067}\approx\mathbf{0.269}\) — a positive test still means only ~27% chance of disease (low base rate).<br>
+          <b>(C)</b> spam score \(=0.4(0.7)(0.5)=0.14\); ham score \(=0.6(0.2)(0.6)=0.072.\) \(0.14\gt0.072\) ⇒ classify as <b>spam</b> (posterior \(\approx0.14/0.212\approx0.66\)).
+        </div></details>
+        <p class="src">tests: Bayes + Naive Bayes · Mixed</p>
+      </div>
+
+      <div class="card q" data-src="tests: GD iteration → cost → convergence → R² · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <h3>C7. Gradient descent workflow</h3>
+        <p>Data \((1,1),(2,2),(3,3)\), model \(h=\theta_0+\theta_1x\), start \(\theta_0=\theta_1=0\), \(\alpha=0.1\).<br>
+        (A) [2] Initial cost \(J(\theta)\).<br>
+        (B) [3] Parameters after one batch-GD iteration.<br>
+        (C) [2] With tolerance \(\epsilon=0.001\), has it converged after that step?<br>
+        (D) [3] If a later fit reaches \(\hat y=(1,2,3)\) exactly, compute \(R^2\).</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Predictions all 0; errors \(-1,-2,-3\); \(J=\frac{1}{2(3)}(1+4+9)=\frac{14}{6}\approx\mathbf{2.333}.\)<br>
+          <b>(B)</b> \(\theta_0:=0-0.1\cdot\frac13(-6)=0.2\); \(\theta_1:=0-0.1\cdot\frac13(-14)=0.467.\) ⇒ \((0.2,\ 0.467).\)<br>
+          <b>(C)</b> \(\lVert(0.2,0.467)-(0,0)\rVert_2=\sqrt{0.04+0.218}=\sqrt{0.258}\approx0.508\gt0.001\) ⇒ <b>not converged.</b><br>
+          <b>(D)</b> \(SS_{res}=0\) (perfect fit) ⇒ \(R^2=1-0/SS_{tot}=\mathbf{1}\) (100% of variance explained).
+        </div></details>
+        <p class="src">tests: MSE cost + GD + convergence + R² · Mixed</p>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

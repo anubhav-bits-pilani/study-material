@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML — Definitions</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>ML</span> · Definitions<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="ML-concepts.html">Concepts</a>
+    <a class="tab" href="ML-formulas.html">Formulas</a>
+    <a class="tab active" href="ML-definitions.html">Definitions</a>
+    <a class="tab" href="ML-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Precise term glossary for ML (AIMLZG565), grouped by session deck — CS1 (Introduction), CS2 (Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Evaluation) — plus exam-referenced terms from the EC2/EC3 sheets.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ML_CS 1 · p16">
+        <h3>Machine Learning</h3>
+        <p>The field of study that gives computers the ability to learn from data without being explicitly programmed; formally, a program that improves its performance P at a task T with experience E.</p>
+        <p class="src">ML_CS 1 · p16</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p16">
+        <h3>Task, Performance, Experience (T, P, E)</h3>
+        <p>The three elements of a well-defined learning problem &lt;P, T, E&gt;: T is what the system does, P is the metric measuring success, and E is the data/experience it learns from.</p>
+        <p class="src">ML_CS 1 · p17-18</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p33">
+        <h3>Supervised Learning</h3>
+        <p>Learning a function f(x) from labelled examples (xᵢ, yᵢ) to predict the output y of unseen inputs.</p>
+        <p class="src">ML_CS 1 · p33</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p33">
+        <h3>Classification</h3>
+        <p>Supervised learning where the target y is categorical; the model assigns each input to a discrete class.</p>
+        <p class="src">ML_CS 1 · p33</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p39">
+        <h3>Regression</h3>
+        <p>Supervised learning where the target y is real-valued; the model predicts a continuous quantity.</p>
+        <p class="src">ML_CS 1 · p39</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p40">
+        <h3>Unsupervised Learning</h3>
+        <p>Learning hidden structure from unlabelled data x₁…xₙ, e.g. clustering to minimise intra-cluster and maximise inter-cluster distances.</p>
+        <p class="src">ML_CS 1 · p40</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p44">
+        <h3>Reinforcement Learning</h3>
+        <p>A feedback-based paradigm in which an agent learns a sequence of actions in an environment through rewards and penalties, without labelled data.</p>
+        <p class="src">ML_CS 1 · p44</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p50">
+        <h3>Semi-Supervised Learning</h3>
+        <p>Learning that combines a small amount of labelled data with a large amount of unlabelled data.</p>
+        <p class="src">ML_CS 1 · p50</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p51">
+        <h3>Batch / Mini-Batch / Online Learning</h3>
+        <p>Training regimes distinguished by data usage: batch uses all data per update, mini-batch uses a subset, and online (incremental) uses one instance at a time.</p>
+        <p class="src">ML_CS 1 · p51</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p52">
+        <h3>Instance-Based Learning</h3>
+        <p>A "lazy" approach that stores training examples and classifies new points by comparing them to stored instances (e.g. KNN) rather than building an explicit model.</p>
+        <p class="src">ML_CS 1 · p52</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p52">
+        <h3>Model-Based Learning</h3>
+        <p>An approach that detects patterns in training data and fits an explicit predictive model whose parameters generalise to new data.</p>
+        <p class="src">ML_CS 1 · p52</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 1 · p30">
+        <h3>Feature (Attribute / Predictor)</h3>
+        <p>An input variable describing an object, used by a model to predict the target.</p>
+        <p class="src">ML_CS 1 · p30</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — ML Workflow &amp; Data <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ML_CS 2 · p7">
+        <h3>Data Object</h3>
+        <p>A single record/point/sample/instance/entity described by a collection of attributes.</p>
+        <p class="src">ML_CS 2 · p7</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p7">
+        <h3>Attribute</h3>
+        <p>A property or characteristic of an object (aka variable, field, feature, dimension), e.g. a person's eye colour or temperature.</p>
+        <p class="src">ML_CS 2 · p7</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p8">
+        <h3>Nominal Attribute</h3>
+        <p>A categorical attribute whose values only distinguish objects (=, ≠) with no order, e.g. zip codes, eye colour, sex.</p>
+        <p class="src">ML_CS 2 · p8-11</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p8">
+        <h3>Ordinal Attribute</h3>
+        <p>A categorical attribute whose values can be ordered (&lt;, &gt;) but whose differences are not meaningful, e.g. grades, mineral hardness, {good, better, best}.</p>
+        <p class="src">ML_CS 2 · p8-11</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p8">
+        <h3>Interval Attribute</h3>
+        <p>A numeric attribute with meaningful differences (+, −) but no true zero, e.g. calendar dates, temperature in Celsius/Fahrenheit.</p>
+        <p class="src">ML_CS 2 · p8-11</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p8">
+        <h3>Ratio Attribute</h3>
+        <p>A numeric attribute with a true zero so both differences and ratios are meaningful, e.g. temperature in Kelvin, length, counts, age.</p>
+        <p class="src">ML_CS 2 · p8-11</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p13">
+        <h3>Discrete vs Continuous Attribute</h3>
+        <p>Discrete attributes take a finite/countable set of values (counts, zip codes; binary is a special case); continuous attributes take real-number values (temperature, weight).</p>
+        <p class="src">ML_CS 2 · p13</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p14">
+        <h3>Dimensionality</h3>
+        <p>The number of attributes describing each object; high dimensionality introduces sparsity and analysis challenges.</p>
+        <p class="src">ML_CS 2 · p14</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p25">
+        <h3>Noise</h3>
+        <p>An extraneous object or the modification/distortion of original attribute values (e.g. voice distortion, TV "snow").</p>
+        <p class="src">ML_CS 2 · p25</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p26">
+        <h3>Outlier</h3>
+        <p>A data object with characteristics considerably different from most other objects; may be nuisance noise or the actual analysis target (e.g. fraud).</p>
+        <p class="src">ML_CS 2 · p26</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p29">
+        <h3>Data Engineering</h3>
+        <p>The process of converting raw data into prepared (clean, integrated) data.</p>
+        <p class="src">ML_CS 2 · p29</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p29">
+        <h3>Feature Engineering</h3>
+        <p>Tuning prepared data to create the features expected by the model — extraction, selection, construction and transformation.</p>
+        <p class="src">ML_CS 2 · p29, p49</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p32">
+        <h3>Aggregation</h3>
+        <p>Combining two or more attributes/objects into a single one for data reduction, change of scale, or more stable (lower-variance) data.</p>
+        <p class="src">ML_CS 2 · p32</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p34">
+        <h3>Data Cleansing</h3>
+        <p>Removing or correcting noisy, inconsistent, intentional-error, missing, or duplicate records from raw data.</p>
+        <p class="src">ML_CS 2 · p34</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p38">
+        <h3>Interquartile Range (IQR)</h3>
+        <p>The spread between the 75th and 25th percentiles, IQR = Q3 − Q1, used to detect outliers via the 1.5·IQR rule.</p>
+        <p class="src">ML_CS 2 · p38</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p41">
+        <h3>Sampling</h3>
+        <p>Selecting a representative subset of data for analysis; a representative sample has approximately the same properties of interest as the full dataset.</p>
+        <p class="src">ML_CS 2 · p41-42</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p41">
+        <h3>Sampling Bias vs Sampling Noise</h3>
+        <p>Sampling noise is random error from a small sample; sampling bias is systematic error from a flawed sampling process (persists even at large sample size).</p>
+        <p class="src">ML_CS 2 · p41</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p44">
+        <h3>Stratified Sampling</h3>
+        <p>Sampling that preserves the proportions of subgroups (strata/classes) present in the full population.</p>
+        <p class="src">ML_CS 2 · p44</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p46">
+        <h3>Feature Scaling</h3>
+        <p>Mapping continuous values from one range to a target range so features are comparable and fit distributional assumptions.</p>
+        <p class="src">ML_CS 2 · p46</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p47">
+        <h3>Normalization (Min-Max)</h3>
+        <p>Rescaling a feature into a fixed range such as [0,1] or [−1,1]; used when bounds are known and the algorithm makes no distribution assumption.</p>
+        <p class="src">ML_CS 2 · p47-48</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p47">
+        <h3>Standardization (Z-Score)</h3>
+        <p>Rescaling a feature to zero mean and unit variance; used when the algorithm assumes Gaussian data, not range-bounded and less outlier-sensitive.</p>
+        <p class="src">ML_CS 2 · p47-48</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p51">
+        <h3>Curse of Dimensionality</h3>
+        <p>The phenomenon where increasing feature count makes data increasingly sparse, degrading learning; addressed by dimensionality reduction (e.g. PCA).</p>
+        <p class="src">ML_CS 2 · p51</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p52">
+        <h3>Feature Selection</h3>
+        <p>Choosing a useful subset of existing input features — removing redundant, irrelevant or mostly-missing ones — to train the model.</p>
+        <p class="src">ML_CS 2 · p52</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p53">
+        <h3>Feature Construction</h3>
+        <p>Creating new features by polynomial expansion, feature crossing (interactions), or domain business logic.</p>
+        <p class="src">ML_CS 2 · p53</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p55">
+        <h3>Discretization (Binning)</h3>
+        <p>Converting a continuous attribute into a discrete one via interval or conceptual labels ("binning"/"bucketing").</p>
+        <p class="src">ML_CS 2 · p55-56</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p57">
+        <h3>One-Hot / Dummy Encoding</h3>
+        <p>Mapping a categorical attribute to one or more binary indicator variables.</p>
+        <p class="src">ML_CS 2 · p57</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p57">
+        <h3>Label Encoding</h3>
+        <p>Mapping categorical values to integer codes for a numeric representation.</p>
+        <p class="src">ML_CS 2 · p57</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p62">
+        <h3>Inductive Learning Hypothesis</h3>
+        <p>The assumption that a hypothesis approximating the target function well over a large training set will also approximate it well over unseen examples.</p>
+        <p class="src">ML_CS 2 · p62</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 2 · p66">
+        <h3>Hypothesis</h3>
+        <p>A candidate function/rule constraining attribute values; the most general labels every instance positive, the most specific labels none positive.</p>
+        <p class="src">ML_CS 2 · p66</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Models for Regression <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ML_CS 34 · p9">
+        <h3>Linear Regression</h3>
+        <p>A model predicting a continuous target as a linear combination of input features and parameters; simple (one predictor) or multiple (several predictors).</p>
+        <p class="src">ML_CS 34 · p9</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p8">
+        <h3>Hypothesis / Model h(·)</h3>
+        <p>The function mapping inputs to predicted outputs, parameterised by the θ's learned from data.</p>
+        <p class="src">ML_CS 34 · p8</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p11">
+        <h3>Cost Function</h3>
+        <p>A function measuring the discrepancy between predictions and actual targets (e.g. mean squared error) that is minimized during training.</p>
+        <p class="src">ML_CS 34 · p11-16</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p23">
+        <h3>Convex Function</h3>
+        <p>A function whose line segment between any two graph points lies on or above the graph, guaranteeing a single global minimum.</p>
+        <p class="src">ML_CS 34 · p23</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p24">
+        <h3>Closed-Form (Normal Equation) Solution</h3>
+        <p>An analytic solution θ = (XᵀX)⁻¹Xᵀy that computes optimal linear-regression parameters directly, without iteration.</p>
+        <p class="src">ML_CS 34 · p24</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p25">
+        <h3>Vectorization</h3>
+        <p>Expressing model computations as matrix/vector operations over the whole dataset instead of explicit loops.</p>
+        <p class="src">ML_CS 34 · p25</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p31">
+        <h3>Gradient Descent</h3>
+        <p>An iterative optimization algorithm that repeatedly updates parameters in the direction of the negative gradient of the cost until convergence.</p>
+        <p class="src">ML_CS 34 · p31</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p50">
+        <h3>Learning Rate (α)</h3>
+        <p>The step-size hyperparameter in gradient descent; too small converges slowly, too large may overshoot or diverge.</p>
+        <p class="src">ML_CS 34 · p50</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p66">
+        <h3>Batch Gradient Descent</h3>
+        <p>Gradient descent that computes the gradient from all training data before each parameter update.</p>
+        <p class="src">ML_CS 34 · p66</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p66">
+        <h3>Stochastic Gradient Descent (SGD)</h3>
+        <p>Gradient descent that updates parameters from a single training instance at a time — fast but noisy.</p>
+        <p class="src">ML_CS 34 · p66</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p66">
+        <h3>Mini-Batch Gradient Descent</h3>
+        <p>Gradient descent that computes the gradient from small batches of data — the default for deep learning, balancing speed and stability.</p>
+        <p class="src">ML_CS 34 · p66</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p74">
+        <h3>R-squared</h3>
+        <p>The proportion of variance in the target explained by the regression model; a goodness-of-fit measure (1 = perfect).</p>
+        <p class="src">ML_CS 34 · p74</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p78">
+        <h3>Basis Function</h3>
+        <p>A transformation Φⱼ(x) of the input (e.g. a power of x) that lets a model linear in its weights fit non-linear relationships.</p>
+        <p class="src">ML_CS 34 · p78</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p76">
+        <h3>Polynomial Regression</h3>
+        <p>Regression using polynomial basis functions of the input; still a linear model because it is linear in the weights.</p>
+        <p class="src">ML_CS 34 · p76</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p81">
+        <h3>Bias</h3>
+        <p>Error from wrong/too-simple modelling assumptions; high bias underfits the data.</p>
+        <p class="src">ML_CS 34 · p81</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p81">
+        <h3>Variance</h3>
+        <p>Error from sensitivity to the particular training set; high variance overfits, changing greatly with different data.</p>
+        <p class="src">ML_CS 34 · p81</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p82">
+        <h3>Underfitting</h3>
+        <p>When a model is too simple to capture the data pattern — high bias, with both training and test error high.</p>
+        <p class="src">ML_CS 34 · p82</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p82">
+        <h3>Overfitting</h3>
+        <p>When a model is too complex and learns training noise — low training error but high test error (poor generalization), i.e. high variance.</p>
+        <p class="src">ML_CS 34 · p82</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p89">
+        <h3>Regularization</h3>
+        <p>Adding a penalty on weight magnitude to the cost to control model complexity and overfitting.</p>
+        <p class="src">ML_CS 34 · p89</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p96">
+        <h3>Ridge Regression (L2 / Tikhonov)</h3>
+        <p>Regularized regression penalizing the sum of squared weights, shrinking them toward but not exactly zero.</p>
+        <p class="src">ML_CS 34 · p96</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p97">
+        <h3>Lasso Regression (L1)</h3>
+        <p>Regularized regression penalizing the sum of absolute weights, able to set some weights exactly to zero (sparse model, feature selection).</p>
+        <p class="src">ML_CS 34 · p97</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p98">
+        <h3>Elastic Net</h3>
+        <p>Regularization mixing L1 and L2 penalties via a ratio r (r=0 ⇒ Ridge, r=1 ⇒ Lasso); preferred with highly correlated features.</p>
+        <p class="src">ML_CS 34 · p98</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Logistic Regression &amp; Evaluation <small>· source: ML_CS 5 6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ML_CS 5 · p4">
+        <h3>Generative Classifier</h3>
+        <p>A probabilistic classifier that models the joint distribution P(X, Y) (e.g. Naive Bayes).</p>
+        <p class="src">ML_CS 5 · p4</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p4">
+        <h3>Discriminative Classifier</h3>
+        <p>A probabilistic classifier that directly learns the decision boundary separating classes (e.g. logistic regression).</p>
+        <p class="src">ML_CS 5 · p4</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p7">
+        <h3>Logistic Regression</h3>
+        <p>A statistical model for binary classification that predicts the probability an input belongs to a class using the logistic (sigmoid) function on a linear score.</p>
+        <p class="src">ML_CS 5 · p7</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p12">
+        <h3>Sigmoid (Logistic) Function</h3>
+        <p>The function σ(z)=1/(1+e⁻ᶻ) that maps any real input to a value in (0,1), interpreted as a probability.</p>
+        <p class="src">ML_CS 5 · p12</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p9">
+        <h3>Discriminant Function</h3>
+        <p>A function that takes an input vector x and assigns it to one of K classes Cₖ; a linear discriminant produces a hyperplane boundary.</p>
+        <p class="src">ML_CS 5 · p9</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p14">
+        <h3>Decision Boundary</h3>
+        <p>The surface where a classifier's output switches class (for logistic regression, where output = 0.5); it may be linear or non-linear.</p>
+        <p class="src">ML_CS 5 · p14</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p20">
+        <h3>Cross-Entropy / Log Loss</h3>
+        <p>The convex cost function for logistic regression that heavily penalizes confident wrong predictions and is zero when predictions match the labels.</p>
+        <p class="src">ML_CS 5 · p20</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p58">
+        <h3>Logit (Log-Odds)</h3>
+        <p>logit(p)=log(p/(1−p)), the inverse of the logistic function; the linear score equals the log of the odds.</p>
+        <p class="src">ML_CS 5 · p58</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p29">
+        <h3>Odds Ratio</h3>
+        <p>The exponential of a regression coefficient, e^w — the multiplicative change in odds for a one-unit increase in that predictor.</p>
+        <p class="src">ML_CS 5 · p29</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p33">
+        <h3>Confusion Matrix</h3>
+        <p>A table of predicted vs actual classes (TP, FP, FN, TN) that is the basis of all classification metrics.</p>
+        <p class="src">ML_CS 5 · p33</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p34">
+        <h3>Accuracy</h3>
+        <p>The fraction of all predictions that are correct; misleading under class imbalance.</p>
+        <p class="src">ML_CS 5 · p34</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p44">
+        <h3>Precision</h3>
+        <p>Of instances predicted positive, the fraction that are actually positive: TP/(TP+FP).</p>
+        <p class="src">ML_CS 5 · p44</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p44">
+        <h3>Recall (True Positive Rate)</h3>
+        <p>Of actual positive instances, the fraction correctly detected: TP/(TP+FN).</p>
+        <p class="src">ML_CS 5 · p44</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p44">
+        <h3>F1-Score</h3>
+        <p>The harmonic mean of precision and recall, balancing the two into a single metric.</p>
+        <p class="src">ML_CS 5 · p44 / EC2 · Q3</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p44">
+        <h3>False Positive Rate (FPR)</h3>
+        <p>Of actual negatives, the fraction wrongly predicted positive: FP/(FP+TN); the x-axis of the ROC curve.</p>
+        <p class="src">ML_CS 5 · p44</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p41">
+        <h3>ROC Curve</h3>
+        <p>A plot of true positive rate against false positive rate across decision thresholds, showing the detection vs false-alarm trade-off.</p>
+        <p class="src">ML_CS 5 · p41</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p42">
+        <h3>AUC (Area Under ROC Curve)</h3>
+        <p>A scalar measure of class separability: 1 for a perfect model, 0.5 for random guessing; higher is better.</p>
+        <p class="src">ML_CS 5 · p42</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p50">
+        <h3>Class Imbalance</h3>
+        <p>A dataset where the class of interest is rare relative to the majority class (e.g. fraud, cancer), making accuracy a poor metric.</p>
+        <p class="src">ML_CS 5 · p50</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p51">
+        <h3>SMOTE</h3>
+        <p>Synthetic Minority Oversampling Technique: generates new minority-class samples based on distances to nearest neighbours to balance training data.</p>
+        <p class="src">ML_CS 5 · p51</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p56">
+        <h3>One-vs-All (One-vs-Rest)</h3>
+        <p>A multiclass strategy training N binary classifiers (each class vs the rest) and choosing the highest-scoring class.</p>
+        <p class="src">ML_CS 5 · p56</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p57">
+        <h3>One-vs-One</h3>
+        <p>A multiclass strategy training N(N−1)/2 binary classifiers for every class pair and combining them by voting.</p>
+        <p class="src">ML_CS 5 · p57</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Exam-Referenced Terms <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="EC3 · Q1">
+        <h3>k-Nearest Neighbors (kNN)</h3>
+        <p>An instance-based classifier that labels a new point by majority vote of its k closest training points under a distance metric.</p>
+        <p class="src">EC3 · Q1</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q1">
+        <h3>Manhattan Distance</h3>
+        <p>The sum of absolute coordinate differences between two points (L1 distance).</p>
+        <p class="src">EC3 · Q1</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q2">
+        <h3>Bayes' Theorem</h3>
+        <p>The rule P(A|B)=P(B|A)P(A)/P(B) for updating the probability of a hypothesis given evidence.</p>
+        <p class="src">EC3 · Q2</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q3">
+        <h3>Naive Bayes Classifier</h3>
+        <p>A generative classifier applying Bayes' theorem under the assumption that features are conditionally independent given the class.</p>
+        <p class="src">EC3 · Q3</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q3">
+        <h3>Maximum Likelihood Estimation (MLE)</h3>
+        <p>Estimating a parameter by choosing the value that maximizes the likelihood (usually log-likelihood) of the observed i.i.d. data.</p>
+        <p class="src">EC3 · Q3</p>
+      </div>
+
+      <div class="card def" data-src="EC2 · Q6">
+        <h3>Entropy</h3>
+        <p>A measure of impurity/disorder of class labels at a node, −Σ pᵢ log₂ pᵢ; zero when the node is pure.</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC2 · Q6">
+        <h3>Information Gain</h3>
+        <p>The reduction in entropy achieved by splitting on an attribute; the attribute with the highest gain is chosen.</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC2 · Q6">
+        <h3>Gini Index</h3>
+        <p>A node-impurity measure, 1 − Σ pᵢ², used as an alternative to entropy for decision-tree splits.</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q4">
+        <h3>Support Vector Machine (SVM)</h3>
+        <p>A classifier that finds the maximum-margin separating hyperplane defined by support vectors and Lagrange multipliers.</p>
+        <p class="src">EC3 · Q4</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q4">
+        <h3>Kernel Trick</h3>
+        <p>Using a kernel function (e.g. polynomial K(u,v)=(u·v+1)²) to implicitly map data into a higher-dimensional space where it becomes linearly separable.</p>
+        <p class="src">EC3 · Q4</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q5">
+        <h3>K-Means Clustering</h3>
+        <p>A centroid-based algorithm that hard-assigns points to the nearest of K centroids and iteratively recomputes centroids as cluster means.</p>
+        <p class="src">EC3 · Q5</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q5">
+        <h3>Gaussian Mixture Model (GMM)</h3>
+        <p>A probabilistic clustering model representing data as a mixture of Gaussian components with mixing weights, giving soft responsibilities per point.</p>
+        <p class="src">EC3 · Q5</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q6">
+        <h3>Bagging</h3>
+        <p>An ensemble method training models on bootstrap samples and aggregating their predictions by voting/averaging.</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q6">
+        <h3>Random Forest</h3>
+        <p>An ensemble of bagged decision trees that additionally randomly subsamples features at each split for extra decorrelation.</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q6">
+        <h3>Out-of-Bag (OOB) Samples</h3>
+        <p>Training instances not selected in a given bootstrap sample, used to estimate a bagged model's error.</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+      <div class="card def" data-src="EC3 · Q6">
+        <h3>AdaBoost</h3>
+        <p>A boosting ensemble that sequentially reweights training instances (up-weighting misclassified ones) and combines weak learners by weight α.</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ML_CS 5 · p55 (image)">
+        <h3>Binary Classification</h3>
+        <p>A classification task with exactly two output classes (e.g. spam vs ham, positive vs negative).</p>
+        <p class="src">ML_CS 5 · p55 (image)</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 5 · p55 (image)">
+        <h3>Multiclass Classification</h3>
+        <p>A classification task with three or more mutually-exclusive output classes (e.g. Yes/No/Maybe), commonly solved by reducing it to several binary problems via One-vs-All or One-vs-One.</p>
+        <p class="src">ML_CS 5 · p55 (image)</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p89 (image)">
+        <h3>Early Stopping</h3>
+        <p>A regularization technique that halts training at the epoch of minimum validation-set error, before the model begins to overfit the training data.</p>
+        <p class="src">ML_CS 34 · p89 (image)</p>
+      </div>
+
+      <div class="card def" data-src="ML_CS 34 · p30 (image)">
+        <h3>Pseudo-Inverse</h3>
+        <p>A generalized matrix inverse (Python: numpy.linalg.pinv) used to solve the normal equation when XᵀX is singular / not invertible.</p>
+        <p class="src">ML_CS 34 · p30 (image)</p>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNN — Concepts</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>DNN</span> · Concepts<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab active" href="DNN-concepts.html">Concepts</a>
+    <a class="tab" href="DNN-formulas.html">Formulas</a>
+    <a class="tab" href="DNN-definitions.html">Definitions</a>
+    <a class="tab" href="DNN-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Conceptual walkthrough of Deep Neural Networks (AIML ZG511): intro to deep learning, artificial neurons & the perceptron, linear NN for regression and classification, deep feed-forward networks with backpropagation, worked numerical methods, and the two lab notebooks. Sources: DNN_M1–M5 decks, DFNN numerical decks, Weight/Bias/Cost pptx, L1-Perceptron & L2-Linear Regression notebooks.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Introduction to Deep Learning <small>· source: DNN_M1_Introduction.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>What is Deep Learning?</h3>
+        <p>A subset of machine learning based on artificial neural networks that stack <em>multiple layers</em> of processing to extract progressively higher-level features from data. "Deep" refers to adding more layers; typically ≥3 layers.</p>
+        <span class="src">DNN_M1 · p4</span>
+      </div>
+
+      <div class="card">
+        <h3>AI vs ML vs DL</h3>
+        <p>AI = making machines perform human tasks; ML = an approach to AI where machines learn from experience; DL = a technique for implementing ML that recognises patterns via layered neural networks. DL ⊂ ML ⊂ AI.</p>
+        <span class="src">DNN_M1 · p5-6</span>
+      </div>
+
+      <div class="card">
+        <h3>Depth & Layered Representations</h3>
+        <p>DL learns successive layers of increasingly meaningful representations from data. The number of layers contributing to the model is its <em>depth</em>; representations are learned via neural networks stacked layer on layer.</p>
+        <span class="src">DNN_M1 · p7</span>
+      </div>
+
+      <div class="card">
+        <h3>Why Deep Learning Now?</h3>
+        <p>Enabled by large volumes of unstructured data (images/text/audio/video), cheap high-quality sensors, cheap compute (CPU/GPU/clusters), and cheap storage. DL automates feature generation and scales well.</p>
+        <span class="src">DNN_M1 · p9</span>
+      </div>
+
+      <div class="card">
+        <h3>Scale Drives DL Progress</h3>
+        <p>As labelled-data volume grows, large neural networks keep improving while traditional ML (logistic regression, SVM) plateaus. Bigger networks + more data → better performance (Andrew Ng's scaling intuition).</p>
+        <span class="src">DNN_M1 · p10</span>
+      </div>
+
+      <div class="card">
+        <h3>Four Core Components of a DL Problem</h3>
+        <p>Every DL system needs: (1) <em>Data</em> to learn from, (2) a <em>Model</em> to transform data, (3) an <em>Objective/loss function</em> measuring how well the model does, and (4) a <em>learning algorithm</em> (e.g. gradient descent) that adjusts parameters to optimise the objective.</p>
+        <span class="src">DNN_M1 · p22</span>
+      </div>
+
+      <div class="card">
+        <h3>Data: Features, Examples, Labels</h3>
+        <p>Data \(D=\{X,t\}\): each example (sample) has \(d\) features (covariates); \(N\) examples total. In supervised learning the attribute to be predicted is the label/target. More features ⇒ higher dimensionality.</p>
+        <span class="src">DNN_M1 · p23-24</span>
+      </div>
+
+      <div class="card">
+        <h3>Objective (Loss) Function</h3>
+        <p>A formal measure of how good/bad a model is. By convention lower is better, so objective functions are called loss functions. Training minimises this loss.</p>
+        <span class="src">DNN_M1 · p26</span>
+      </div>
+
+      <div class="card">
+        <h3>Model Family & Training</h3>
+        <p>A model starts as a program whose behaviour depends on parameters. Training finds the best parameters w.r.t. the loss; the set of all input–output mappings reachable by varying parameters is the <em>family of models</em>.</p>
+        <span class="src">DNN_M1 · p29-30</span>
+      </div>
+
+      <div class="card">
+        <h3>Kinds of Learning Problems</h3>
+        <p>Supervised (data + labels: classification, regression), Unsupervised (features only: clustering, density estimation, GAN synthesis), and Reinforcement Learning (agent acts in an environment over time). This course focuses on supervised DL.</p>
+        <span class="src">DNN_M1 · p32</span>
+      </div>
+
+      <div class="card">
+        <h3>Supervised Learning Tasks</h3>
+        <p>Regression ("how much/how many"), Classification (binary, multi-class, multi-label), Recommender systems, and Sequence learning (tagging/parsing, ASR, TTS, machine translation).</p>
+        <span class="src">DNN_M1 · p34</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — Artificial Neural Network / Perceptron <small>· source: DNN_M2_ANN_Perceptron.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Biological Neuron</h3>
+        <p>Dendrites receive signals, the soma (cell body) processes them, the axon transmits the output, and synapses connect neurons. The brain has ~10¹⁰ neurons, each with ~10⁴–10⁵ connections, doing massive parallel computation — inspiration for artificial neurons.</p>
+        <span class="src">DNN_M2 · p6-8</span>
+      </div>
+
+      <div class="card">
+        <h3>Artificial Neuron</h3>
+        <p>A processing element that computes a weighted sum of inputs plus a bias, then applies an activation function to produce one output \(\hat y\). Each weight \(w_i\) encodes the importance of feature \(x_i\); knowledge is stored in the weights.</p>
+        <span class="src">DNN_M2 · p10-12</span>
+      </div>
+
+      <div class="card">
+        <h3>Biological vs Artificial Neuron</h3>
+        <p>Biological: analog, adaptive synapses, fault-tolerant, learns by experience. Artificial: a simple deterministic math model with adjustable weights that learns via algorithms. Artificial neurons capture the essential computation, greatly simplified.</p>
+        <span class="src">DNN_M2 · p13</span>
+      </div>
+
+      <div class="card">
+        <h3>Artificial Neural Network (ANN)</h3>
+        <p>A computational model of interconnected neurons that learns patterns from data through training and can approximate complex functions. Connections may be forward, recurrent, or self-loops; layers are input, hidden, and output.</p>
+        <span class="src">DNN_M2 · p15-16</span>
+      </div>
+
+      <div class="card">
+        <h3>When to Use ANNs</h3>
+        <p>Good when input is high-dimensional/noisy, output is discrete/real/vector-valued, the target function form is unknown, and human-readable explanations aren't required — e.g. speech recognition, image classification, financial prediction.</p>
+        <span class="src">DNN_M2 · p17</span>
+      </div>
+
+      <div class="card">
+        <h3>Connectionism</h3>
+        <p>Neural networks are connectionist machines: intelligence emerges from many simple neurons, knowledge is stored in connection weights, and learning modifies connection strengths through parallel distributed processing.</p>
+        <span class="src">DNN_M2 · p19-20</span>
+      </div>
+
+      <div class="card">
+        <h3>The Perceptron</h3>
+        <p>The simplest artificial neuron (Rosenblatt, 1958): a single-layer linear classifier that outputs a sign/step of the weighted sum. Output is \(+1\) if \(\sum w_ix_i+b\ge0\) else \(-1\) (classical) or \(\{0,1\}\) for logic gates.</p>
+        <span class="src">DNN_M2 · p22-23</span>
+      </div>
+
+      <div class="card">
+        <h3>Perceptrons & Logic Gates</h3>
+        <p>Any linearly separable Boolean function (AND, OR, NOT, NAND, NOR) can be represented by a single perceptron by choosing weights/bias that satisfy the truth-table inequalities. One AND solution: \(w_0=-1, w_1=w_2=0.75\); one OR solution: \(w_0=-1, w_1=w_2=2\).</p>
+        <span class="src">DNN_M2 · p25-31</span>
+      </div>
+
+      <div class="card">
+        <h3>How the Perceptron Learns</h3>
+        <p>Iteratively: predict \(\hat y=\text{sign}(w^\top x+b)\); if wrong, nudge weights toward the target using the perceptron rule \(w_i\leftarrow w_i+\eta(t-\hat y)x_i\). Guaranteed to converge in finite steps if the data is linearly separable (Convergence Theorem).</p>
+        <span class="src">DNN_M2 · p33</span>
+      </div>
+
+      <div class="card">
+        <h3>Worked Example: NOT Gate Learning</h3>
+        <p>Starting from \(w_0=w_1=0\), \(\eta=1\): the algorithm updates on the misclassified example, iterating over epochs until predictions match all targets. Converges to \(w_1=-1, w_0=0\) — demonstrates the update rule step by step.</p>
+        <span class="src">DNN_M2 · p34-39</span>
+      </div>
+
+      <div class="card">
+        <h3>The XOR Problem</h3>
+        <p>XOR is <em>not</em> linearly separable — no single line \(w_1x_1+w_2x_2+b=0\) separates its classes, so a single perceptron cannot solve it. Motivates multi-layer networks with non-linear activations.</p>
+        <span class="src">DNN_M2 · p41-42</span>
+      </div>
+
+      <div class="card">
+        <h3>Linearly Separable Data</h3>
+        <p>Two point sets are linearly separable in \(n\)-D if an \((n-1)\)-D hyperplane can separate them (a straight line in 2D). Infinitely many separating lines can exist. Separability is the condition for perceptron convergence.</p>
+        <span class="src">DNN_M2 · p45</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Neural Networks for Regression <small>· source: DNN_M3_Linear NN Regression (1).pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Regression</h3>
+        <p>A supervised task predicting a continuous-valued output \(y\in\mathbb R\) from features \(x\in\mathbb R^d\); learn \(f:\mathbb R^d\to\mathbb R\) with \(y\approx f(x)\). Examples: house prices, temperature, stock prices.</p>
+        <span class="src">DNN_M3 · p4-5</span>
+      </div>
+
+      <div class="card">
+        <h3>Linear Regression</h3>
+        <p>Assumes the output is a linear combination of features: \(y=w_0+w_1x_1+\dots+w_dx_d\). Interpretable and efficient; forms the base case of a neural network.</p>
+        <span class="src">DNN_M3 · p7-8</span>
+      </div>
+
+      <div class="card">
+        <h3>Linear Model as a Single Neuron</h3>
+        <p>Linear regression = one neuron computing a weighted sum with an <em>identity</em> activation \(f(z)=z\). Prediction \(\hat y=w^\top x\); vectorized over all examples, \(\hat y = Xw\).</p>
+        <span class="src">DNN_M3 · p13-14</span>
+      </div>
+
+      <div class="card">
+        <h3>Identity Activation</h3>
+        <p>\(f(z)=z\), differentiable everywhere with \(f'(z)=1\), output range \((-\infty,\infty)\). Ideal for regression: allows any real output, passes the gradient through unchanged, and loses no information.</p>
+        <span class="src">DNN_M3 · p15-16</span>
+      </div>
+
+      <div class="card">
+        <h3>Squared Error Loss (MSE)</h3>
+        <p>Measures fit as the mean of squared residuals \(\tfrac12(\hat y-y)^2\). Differentiable, convex (single global minimum for linear models), penalises large errors quadratically, and corresponds to maximum likelihood under Gaussian noise.</p>
+        <span class="src">DNN_M3 · p17-18</span>
+      </div>
+
+      <div class="card">
+        <h3>Gradient Descent</h3>
+        <p>Iteratively move weights opposite the gradient of the loss (steepest descent): \(w\leftarrow w-\eta\nabla J\). The learning rate \(\eta\) sets step size; too large overshoots, too small is slow. Each step moves perpendicular to loss contours toward the minimum.</p>
+        <span class="src">DNN_M3 · p20-24</span>
+      </div>
+
+      <div class="card">
+        <h3>Batch Gradient Descent</h3>
+        <p>Uses all \(N\) examples per update. Compute \(\nabla J=\tfrac1N X^\top(Xw-y)\), update, and repeat until \(\|\nabla J\|<\epsilon\) or max iterations. Smooth, deterministic convergence.</p>
+        <span class="src">DNN_M3 · p21-23</span>
+      </div>
+
+      <div class="card">
+        <h3>Worked Example: House Price</h3>
+        <p>Tiny 3-point dataset, \(\eta=0.1\), \(w^{(0)}=0\): initial loss 7.5; one GD step gives \(w^{(1)}=[0.367,0.833]\) and loss ≈1.51 — an 80% reduction in one iteration. Illustrates forward pass → error → gradient → update.</p>
+        <span class="src">DNN_M3 · p26-30</span>
+      </div>
+
+      <div class="card">
+        <h3>Train vs Test Error</h3>
+        <p>Fit weights on the training set (90–99%) but evaluate on unseen test data (1–10%) to measure generalisation. Goal is to minimise test error, not just training error.</p>
+        <span class="src">DNN_M3 · p33</span>
+      </div>
+
+      <div class="card">
+        <h3>Regression Evaluation Metrics</h3>
+        <p>MSE (mean squared error), RMSE (√MSE, same units as target), MAE (mean absolute error, robust to outliers), and R² (fraction of variance explained; 1 = perfect, 0 = predicts the mean, &lt;0 = worse than baseline).</p>
+        <span class="src">DNN_M3 · p34-35</span>
+      </div>
+
+      <div class="card">
+        <h3>Implementation Tips</h3>
+        <p>Try \(\eta\in\{0.001,0.01,0.1,1\}\) and plot loss vs iterations; stop on small gradient/loss change or max iterations. Zero init works for linear regression. <em>Feature scaling</em> (standardisation/min-max) is critical for fast convergence.</p>
+        <span class="src">DNN_M3 · p39-40</span>
+      </div>
+
+      <div class="card">
+        <h3>Debugging Checklist</h3>
+        <p>NaN/Inf loss → \(\eta\) too large or unscaled features; oscillating loss → \(\eta\) too large; loss not decreasing → \(\eta\) too small or a gradient-sign bug (update must subtract); high test error → overfitting (regularise / more data).</p>
+        <span class="src">DNN_M3 · p41</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Linear Neural Networks for Classification <small>· source: DNN_M4_Linear NN Classification.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Classification</h3>
+        <p>Supervised task predicting a discrete class label \(y\in\{1,\dots,K\}\) from features. Unlike regression's continuous output, classification assigns inputs to categories (spam/not-spam, cat/dog).</p>
+        <span class="src">DNN_M4 · p4-5</span>
+      </div>
+
+      <div class="card">
+        <h3>Types of Classification</h3>
+        <p>Binary (\(y\in\{0,1\}\)), Multi-class (\(K&gt;2\), one class per example), and Multi-label (an example may belong to several classes at once, e.g. movie genres).</p>
+        <span class="src">DNN_M4 · p6</span>
+      </div>
+
+      <div class="card">
+        <h3>Why Not Linear Regression for Classification?</h3>
+        <p>Linear regression outputs \((-\infty,\infty)\), but we need probabilities in \([0,1]\). A linear model can predict &lt;0 or &gt;1, so we squash the output with a function mapping \((-\infty,\infty)\to[0,1]\) — the sigmoid.</p>
+        <span class="src">DNN_M4 · p10</span>
+      </div>
+
+      <div class="card">
+        <h3>Logistic Regression</h3>
+        <p>A linear model + sigmoid for binary classification: compute \(z=w^\top x\), then \(\hat y=\sigma(z)=P(y=1\mid x)\in[0,1]\). It's a single neuron with sigmoid activation.</p>
+        <span class="src">DNN_M4 · p12,18-19</span>
+      </div>
+
+      <div class="card">
+        <h3>Sigmoid Activation</h3>
+        <p>\(\sigma(z)=1/(1+e^{-z})\): range (0,1), monotonic, smooth, symmetric (\(\sigma(-z)=1-\sigma(z)\)), with \(\sigma(0)=0.5\). Its derivative \(\sigma'(z)=\sigma(z)(1-\sigma(z))\) (max 0.25 at 0) makes gradient-based learning easy.</p>
+        <span class="src">DNN_M4 · p13-14</span>
+      </div>
+
+      <div class="card">
+        <h3>Decision Rule & Boundary</h3>
+        <p>Predict class 1 if \(\hat y\ge0.5\), else 0 — equivalently class 1 when \(w^\top x\ge0\). The decision boundary \(w^\top x=0\) is a hyperplane in feature space.</p>
+        <span class="src">DNN_M4 · p20</span>
+      </div>
+
+      <div class="card">
+        <h3>Binary Cross-Entropy Loss</h3>
+        <p>The right loss for classification (not squared error): \(-[y\log\hat y+(1-y)\log(1-\hat y)]\). Derived from maximum likelihood, convex for logistic regression, and heavily penalises confident wrong predictions.</p>
+        <span class="src">DNN_M4 · p21-23</span>
+      </div>
+
+      <div class="card">
+        <h3>Stochastic Gradient Descent (SGD)</h3>
+        <p>Update weights using one random example per step, giving a noisy gradient estimate. Much faster and lower-memory than batch GD; the noise helps escape sharp minima. Gradient of BCE per example is the clean \((\hat y-y)x\).</p>
+        <span class="src">DNN_M4 · p24-27</span>
+      </div>
+
+      <div class="card">
+        <h3>Worked Example: Pass/Fail SGD</h3>
+        <p>Study-hours dataset, \(\eta=0.5\), \(w^{(0)}=0\): after two SGD iterations weights move to \([0.116,0.847]\) and predictions shift correctly toward 0 for low hours and 1 for high hours — shows forward pass, error, gradient, and update per example.</p>
+        <span class="src">DNN_M4 · p31-35</span>
+      </div>
+
+      <div class="card">
+        <h3>Confusion Matrix</h3>
+        <p>Tabulates TP, TN, FP (Type I error), FN (Type II error). Basis for all classification metrics. Diagonal = correct predictions.</p>
+        <span class="src">DNN_M4 · p39</span>
+      </div>
+
+      <div class="card">
+        <h3>Classification Metrics</h3>
+        <p>Accuracy = (TP+TN)/total; Precision = TP/(TP+FP); Recall/Sensitivity = TP/(TP+FN); F1 = harmonic mean of precision & recall. Choose based on error costs.</p>
+        <span class="src">DNN_M4 · p40-41</span>
+      </div>
+
+      <div class="card">
+        <h3>Which Metric to Use?</h3>
+        <p>Accuracy misleads on imbalanced data. Precision matters when false positives are costly (spam filtering); recall matters when false negatives are costly (disease detection); F1 balances both and suits imbalanced datasets.</p>
+        <span class="src">DNN_M4 · p42</span>
+      </div>
+
+      <div class="card">
+        <h3>Multi-class Classification</h3>
+        <p>Assign each input to one of \(K&gt;2\) classes; output a probability distribution over classes summing to 1. Uses \(K\) output neurons and softmax; predicted class = argmax probability.</p>
+        <span class="src">DNN_M4 · p47</span>
+      </div>
+
+      <div class="card">
+        <h3>One-Hot Encoding</h3>
+        <p>Represents class \(k\) as a length-\(K\) binary vector (1 at position \(k\), else 0). Treats classes equally (no ordering), matches softmax output format, and simplifies loss computation.</p>
+        <span class="src">DNN_M4 · p53</span>
+      </div>
+
+      <div class="card">
+        <h3>Softmax</h3>
+        <p>Converts \(K\) logits into a probability distribution: \(\hat y_k=e^{z_k}/\sum_j e^{z_j}\). Outputs in (0,1) summing to 1, order-preserving, translation-invariant, differentiable, and reduces to sigmoid when \(K=2\).</p>
+        <span class="src">DNN_M4 · p57-58</span>
+      </div>
+
+      <div class="card">
+        <h3>Categorical Cross-Entropy</h3>
+        <p>Multi-class loss \(-\sum_k y_k\log\hat y_k\); with one-hot labels only the true class's term contributes. Penalises confident wrong predictions and pairs cleanly with softmax (gradient \(\hat y-y\)).</p>
+        <span class="src">DNN_M4 · p61-63</span>
+      </div>
+
+      <div class="card">
+        <h3>Mini-batch SGD</h3>
+        <p>Best of both worlds: update using a small batch of \(B\) examples (typically 32–256). Vectorized (GPU-friendly), less noisy than single-example SGD, more efficient than batch GD. Iterations/epoch = \(\lceil N/B\rceil\).</p>
+        <span class="src">DNN_M4 · p65-71</span>
+      </div>
+
+      <div class="card">
+        <h3>Inference (Prediction)</h3>
+        <p>For a new input: compute logits \(z=W^\top x\), apply softmax, pick \(\hat k=\arg\max_k\hat y_k\), optionally reporting the probability as a confidence score.</p>
+        <span class="src">DNN_M4 · p81-82</span>
+      </div>
+
+      <div class="card">
+        <h3>Multi-class Metrics & Averaging</h3>
+        <p>Per-class precision/recall/F1 (one-vs-all) combined via macro-average (equal weight) or weighted-average (by class frequency). Top-K accuracy (Top-1/Top-5) is used when \(K\) is large (e.g. ImageNet).</p>
+        <span class="src">DNN_M4 · p84-88</span>
+      </div>
+
+      <div class="card">
+        <h3>Comparison of Linear Models</h3>
+        <p>Regression → identity + MSE, output \(\mathbb R\), 1 neuron. Binary → sigmoid + BCE, output [0,1], 1 neuron. Multi-class → softmax + categorical CE, distribution over \(K\), \(K\) neurons (weight matrix \(W\)). Same 4-component framework throughout.</p>
+        <span class="src">DNN_M4 · p94-97</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Deep Feed-Forward Neural Networks <small>· source: DNN_M5_DFNN (1).pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Limitation of Linear Models</h3>
+        <p>A single neuron \(\hat y=f(w^\top x+b)\) can only draw a linear decision boundary, so it fails on non-linearly separable problems like XOR. Real-world mappings (images→classes, words→sentiment) are non-linear.</p>
+        <span class="src">DNN_M5 · p4-6</span>
+      </div>
+
+      <div class="card">
+        <h3>MLP Solves XOR</h3>
+        <p>Stacking a hidden layer of neurons with non-linear activations re-maps inputs into a new feature space where the classes become linearly separable; the output layer then combines them. Depth + non-linearity enables complex boundaries.</p>
+        <span class="src">DNN_M5 · p7-8</span>
+      </div>
+
+      <div class="card">
+        <h3>Why Non-Linearity Matters</h3>
+        <p>Without a non-linear activation, stacked linear layers collapse into a single linear map — so a deep network would be no more expressive than one layer. Non-linear activations let networks learn complex patterns.</p>
+        <span class="src">DNN_M5 · p10</span>
+      </div>
+
+      <div class="card">
+        <h3>Activation Functions (Sigmoid, Tanh, ReLU)</h3>
+        <p>Sigmoid (0,1) and tanh (−1,1) saturate and cause vanishing gradients; ReLU \(\max(0,z)\) is cheap, avoids vanishing gradients for \(z&gt;0\), and gives sparse activations. Tanh is zero-centred; Leaky ReLU fixes "dying ReLU".</p>
+        <span class="src">DNN_M5 · p11-12</span>
+      </div>
+
+      <div class="card">
+        <h3>Why ReLU Works Well</h3>
+        <p>Fast (just a threshold, no exponentials), gradient of 1 for \(z&gt;0\) flows unchanged enabling deep training, and produces sparse activations. Caveat: "dying ReLU" (always-0 neurons) — mitigated by Leaky ReLU/PReLU/ELU.</p>
+        <span class="src">DNN_M5 · p13</span>
+      </div>
+
+      <div class="card">
+        <h3>Deep Feed-Forward Neural Network (DFNN)</h3>
+        <p>A network with one or more hidden layers where information flows forward through non-linear transformations. Same four components as linear models — Data, Model (multi-layer), Objective (loss), Learning (backprop + SGD) — plus depth and non-linearity.</p>
+        <span class="src">DNN_M5 · p15</span>
+      </div>
+
+      <div class="card">
+        <h3>Layer-wise Computation</h3>
+        <p>For each layer \(\ell\): pre-activation \(z^{(\ell)}=h^{(\ell-1)}W^{(\ell)}+b^{(\ell)}\), then activation \(h^{(\ell)}=\sigma^{(\ell)}(z^{(\ell)})\), with \(h^{(0)}=x\) and output \(\hat y=h^{(L)}\). Vectorized over a mini-batch for GPU efficiency.</p>
+        <span class="src">DNN_M5 · p19-20</span>
+      </div>
+
+      <div class="card">
+        <h3>Parameter Count</h3>
+        <p>Layer \(\ell\) has \(n_\ell(n_{\ell-1}+1)\) parameters (weights + biases). Total is the sum over layers. Example 784→256→128→10 = 235,146 params; deep nets can reach millions/billions.</p>
+        <span class="src">DNN_M5 · p21</span>
+      </div>
+
+      <div class="card">
+        <h3>Forward Propagation</h3>
+        <p>Given input \(x\), compute predictions by passing activations forward layer by layer, storing all \(z^{(\ell)}, h^{(\ell)}\) for use in backprop. Cost \(O(B\sum_\ell n_{\ell-1}n_\ell)\) per pass.</p>
+        <span class="src">DNN_M5 · p28-30</span>
+      </div>
+
+      <div class="card">
+        <h3>Backpropagation</h3>
+        <p>Efficiently computes gradients of the loss w.r.t. all parameters by applying the chain rule backward. Define error signal \(\delta^{(\ell)}=\partial J/\partial z^{(\ell)}\); propagate it from output to input, then use it for weight/bias gradients. One forward + one backward pass ≈ 2× forward cost (dynamic programming).</p>
+        <span class="src">DNN_M5 · p33-38</span>
+      </div>
+
+      <div class="card">
+        <h3>Output Layer Gradient (Elegant Pairing)</h3>
+        <p>For the three matched loss–activation pairs — MSE+identity, BCE+sigmoid, CCE+softmax — the output-layer error takes the same simple form \(\delta^{(L)}=\tfrac1B(\hat Y-Y)\).</p>
+        <span class="src">DNN_M5 · p32</span>
+      </div>
+
+      <div class="card">
+        <h3>Depth vs Width</h3>
+        <p>Depth (more layers) yields hierarchical features and better generalisation/expressiveness; width (more units/layer) increases capacity but risks overfitting. Deep nets can represent exponentially more functions than shallow ones with the same parameter budget.</p>
+        <span class="src">DNN_M5 · p44-45</span>
+      </div>
+
+      <div class="card">
+        <h3>Universal Approximation Theorem</h3>
+        <p>A single-hidden-layer network with enough neurons can approximate any continuous function on a compact set (Cybenko/Hornik, 1989). But shallow nets may need exponentially many units; deep nets learn hierarchical structure far more parameter-efficiently.</p>
+        <span class="src">DNN_M5 · p46</span>
+      </div>
+
+      <div class="card">
+        <h3>Deep-Network Training Challenges</h3>
+        <p>Vanishing gradients (early layers barely learn — use ReLU, good init, normalization), exploding gradients (NaN/Inf — gradient clipping, proper init), and the degradation problem (very deep nets hard to optimize — residual/skip connections).</p>
+        <span class="src">DNN_M5 · p47</span>
+      </div>
+
+      <div class="card">
+        <h3>Output Layer Design by Task</h3>
+        <p>Regression: \(K\) units, identity activation, MSE. Binary: 1 unit, sigmoid, BCE. Multi-class: \(C\) units, softmax, categorical CE. The output activation must match the loss.</p>
+        <span class="src">DNN_M5 · p50</span>
+      </div>
+
+      <div class="card">
+        <h3>Architecture Guidelines</h3>
+        <p>Start simple (2–3 hidden layers, 10–100 units), then grow. Common patterns: funnel (decreasing width, compression), constant width, hourglass (wide→narrow→wide). Scale network size with dataset size to avoid overfitting.</p>
+        <span class="src">DNN_M5 · p51</span>
+      </div>
+
+      <div class="card">
+        <h3>Parameter Initialization</h3>
+        <p>Never initialise all weights to zero (symmetry). Use random init: Xavier/Glorot for sigmoid/tanh, He for ReLU; biases to zero. Proper init is critical for successful training.</p>
+        <span class="src">DNN_M5 · p55</span>
+      </div>
+
+      <div class="card">
+        <h3>Regularization</h3>
+        <p>Prevent overfitting via L2 (weight decay), Dropout, Early stopping, and Batch Normalization. (Covered in depth in later modules.)</p>
+        <span class="src">DNN_M5 · p53</span>
+      </div>
+
+      <div class="card">
+        <h3>Diagnosing Training Issues</h3>
+        <p>NaN/Inf → decrease \(\eta\), normalize; loss flat → \(\eta\) too small or bug; oscillating → \(\eta\) too large; train↓/val↑ → overfitting; both high → underfitting (bigger net); gradients→0 vanishing (ReLU/better init); gradients→∞ exploding (clip, lower \(\eta\)).</p>
+        <span class="src">DNN_M5 · p59</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Numerical Methods — Worked Problems <small>· source: DNN_M5_DFNN_Numerical.pdf · DFFNNUMERICAL.pdf · Weight_Bias_Cost_Function.pptx</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Complete Training Cycle (2-layer net)</h3>
+        <p>End-to-end worked example: 2→3 (ReLU) →2 (sigmoid) network, input \(x=[1.0,0.5]\), target \([1,0]\), BCE loss, \(\eta=0.1\). Steps: forward prop (\(z^{[1]},a^{[1]},z^{[2]},a^{[2]}\)) → BCE loss (0.560) → output error \(\delta^{[2]}=a^{[2]}-y\) → layer gradients → hidden error via ReLU′ → weight update. This is the canonical exam problem.</p>
+        <span class="src">DNN_M5_Numerical · p3-31</span>
+      </div>
+
+      <div class="card">
+        <h3>Forward Propagation, Step by Step</h3>
+        <p>\(z^{[1]}=W^{[1]}x+b^{[1]}=[0.7,-0.1,0.2]\); ReLU zeros the negative unit → \(a^{[1]}=[0.7,0,0.2]\) (a "dead" neuron); \(z^{[2]}=W^{[2]}a^{[1]}+b^{[2]}=[0.6,-0.02]\); sigmoid → \(\hat y=[0.646,0.495]\).</p>
+        <span class="src">DNN_M5_Numerical · p5-12</span>
+      </div>
+
+      <div class="card">
+        <h3>Backward Propagation, Step by Step</h3>
+        <p>\(\delta^{[2]}=a^{[2]}-y=[-0.354,0.495]\); \(\partial L/\partial W^{[2]}=\delta^{[2]}(a^{[1]})^\top\); hidden error \(\delta^{[1]}=(W^{[2]\top}\delta^{[2]})\odot g'^{[1]}(z^{[1]})\). Because ReLU′ is 0 for the dead neuron, its gradient is 0 → no update.</p>
+        <span class="src">DNN_M5_Numerical · p17-26</span>
+      </div>
+
+      <div class="card">
+        <h3>Weight Update</h3>
+        <p>\(\theta_{\text{new}}=\theta_{\text{old}}-\alpha\,\partial L/\partial\theta\) applied to every \(W^{[\ell]},b^{[\ell]}\) with \(\alpha=0.1\). Dead-neuron rows stay essentially unchanged since their gradients are 0.</p>
+        <span class="src">DNN_M5_Numerical · p28-30</span>
+      </div>
+
+      <div class="card">
+        <h3>Gradient Flow / Vanishing Gradients</h3>
+        <p>Per backward step gradient magnitude scales by \(\|W\|\cdot|g'|\). With \(\|W\|=0.8\) and sigmoid \(g'=0.25\), factor = 0.2/layer: \(|\delta^{[4]}|=1\to|\delta^{[1]}|=0.008\) — early layers get a vanishingly weak signal (the vanishing-gradient problem in deep sigmoid nets).</p>
+        <span class="src">DNN_M5_Numerical · p33-34</span>
+      </div>
+
+      <div class="card">
+        <h3>Designing a Network (Layer/Neuron Sizing)</h3>
+        <p>Use rules of thumb \(L\le\log_2(M/(d\cdot c))+1\) and Parameters \(\le M/5\) to pick depth and width from dataset size \(M\), features \(d\), classes \(c\). Worked cases: tabular [20,6,3], MNIST-like [784,32,10], text [1000,512,256,128,5] — iterate down until the parameter budget is met, then add regularization.</p>
+        <span class="src">DNN_M5_Numerical · p36-41</span>
+      </div>
+
+      <div class="card">
+        <h3>Softmax + Cross-Entropy Simplification</h3>
+        <p>Chaining the CE gradient \(-y_k/\hat y_k\) with the softmax Jacobian \(\hat y_k(\delta_{kj}-\hat y_j)\) collapses to the clean result \(\partial\ell/\partial z_j=\hat y_j-y_j\) — the gradient is just (predicted − true) probability.</p>
+        <span class="src">DNN_M5_Numerical · p49,57-61</span>
+      </div>
+
+      <div class="card">
+        <h3>Activation Functions — Numerical Evaluation</h3>
+        <p>Worked vector example computing sigmoid, tanh, and ReLU and their derivatives element-wise. Sigmoid′ peaks at 0.25, tanh′ at 1.0 (4× stronger), ReLU′ is 1/0. Confirms tanh's stronger gradients and ReLU's dead-zone.</p>
+        <span class="src">DNN_M5_Numerical · p44-56</span>
+      </div>
+
+      <div class="card">
+        <h3>Loss Functions & Their Derivatives</h3>
+        <p>MSE ½(ŷ−y)² → ŷ−y; MAE |ŷ−y| → sign(ŷ−y) (constant ±1, robust to outliers); BCE → (ŷ−y)/(ŷ(1−ŷ)); Categorical CE → −yⱼ/ŷⱼ. Understanding these derivatives is the basis for backprop.</p>
+        <span class="src">DNN_M5_Numerical · p63-79</span>
+      </div>
+
+      <div class="card">
+        <h3>ANN Backpropagation Overview</h3>
+        <p>Conceptual 7-step recipe: init small non-zero weights → input example → forward propagate to \(\hat y\) → measure error vs target → back-propagate error and update weights by responsibility (scaled by learning rate) → repeat per observation → repeat epochs. Backprop is what made training multilayer nets feasible.</p>
+        <span class="src">DFFNNUMERICAL · p10-11</span>
+      </div>
+
+      <div class="card">
+        <h3>Gradient Descent Across Epochs (Intuition)</h3>
+        <p>For \(\hat y=wx+b\) with \(\eta=0.01\): weight rises fast then flattens (0→2.09), bias drifts up (0→0.54), and cost MSE drops sharply early (122→6.3 by epoch 2, →0.146 by epoch 80). Largest cost reduction happens in the earliest updates.</p>
+        <span class="src">Weight_Bias_Cost.pptx · slides 3-6</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lab Notebooks — Code Demonstrations <small>· source: L1-Perceptron.ipynb · L2-Linear Regression.ipynb</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Perceptron from Scratch (Logic Gates)</h3>
+        <p>Implements a perceptron (input+output layers, no hidden layer) with a sign activation and outputs in \(\{-1,+1\}\). Trains OR, AND, and XOR gates via the perceptron learning rule; OR/AND converge (linearly separable) but XOR does not — visualised through the decision boundary and cost curve.</p>
+        <span class="src">L1-Perceptron.ipynb</span>
+      </div>
+
+      <div class="card">
+        <h3>Perceptron Methodology</h3>
+        <p>Four-step build: define structure (n_x inputs, n_y outputs, 0 hidden) → initialise \(W,b\) to zero → loop forward prop \(Z=XW+b\), \(A=\text{sign}(Z)\) → compute hinge-style cost → update \(W,b\) by the perceptron rule. Learning rate 0.1.</p>
+        <span class="src">L1-Perceptron.ipynb</span>
+      </div>
+
+      <div class="card">
+        <h3>Single-Neuron Linear Regression (Auto MPG)</h3>
+        <p>Predicts car fuel efficiency (MPG) from 7 features using one neuron with identity activation, trained by batch gradient descent for 1000 iterations. Demonstrates the full pipeline: load/clean data, standardize features, forward pass, MSE loss, gradient computation, weight update, evaluation.</p>
+        <span class="src">L2-Linear Regression.ipynb</span>
+      </div>
+
+      <div class="card">
+        <h3>Feature Scaling Is Essential</h3>
+        <p>Features are standardized to zero mean/unit variance before training so that large-scale features (e.g. weight in lbs) don't dominate; this yields smooth convergence within 1000 iterations. Loss falls 310→5.67.</p>
+        <span class="src">L2-Linear Regression.ipynb</span>
+      </div>
+
+      <div class="card">
+        <h3>Interpreting Learned Weights</h3>
+        <p>Trained model reaches R² ≈ 0.82 (train) / 0.77 (test). Negative weights (weight, horsepower, displacement) lower MPG; positive weights (model_year, origin) raise it — matching physical intuition. Similar train/test scores indicate good generalisation.</p>
+        <span class="src">L2-Linear Regression.ipynb</span>
+      </div>
+
+      <div class="card">
+        <h3>Regression Evaluation in Code</h3>
+        <p>The notebook computes MSE, RMSE, MAE, and R² and plots the loss curve, predictions-vs-actual, and residuals. Suggested extensions include the closed-form normal equation \(w^*=(X^\top X)^{-1}X^\top y\), k-fold CV, and alternative scalers.</p>
+        <span class="src">L2-Linear Regression.ipynb</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: DNN image slides</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="DNN_M1 · p11 (image)">
+        <h3>Deep Learning Timeline</h3>
+        <p>Key milestones: Hebbian Learning Rule (Hebb, 1949), McCulloch–Pitts Neuron, ADALINE/MADALINE (Widrow &amp; Hoff), Perceptron (Rosenblatt), the XOR Problem critique (Minsky &amp; Papert, 1969), Backpropagation theory (Werbos), LeNet-5 CNN (LeCun), LSTM (Hochreiter &amp; Schmidhuber), Deep Belief Nets (Hinton), AlexNet wins ImageNet 2012 (Krizhevsky/Sutskever/Hinton), GANs (Goodfellow), Transformer (Vaswani et al.), BERT, GPT-3 and ChatGPT (OpenAI). Shows the alternating "AI winters" and breakthroughs that shaped the field.</p>
+        <span class="src">DNN_M1 · p11 (image)</span>
+      </div>
+
+      <div class="card" data-src="DNN_M1 · p13-18 (image)">
+        <h3>Deep Learning Breakthroughs / Applications</h3>
+        <p>Real-world successes that motivate DL: speech recognition surpassing human transcription (Microsoft, 2016), fluent neural machine translation (Google Translate), image segmentation and object detection/recognition, superhuman game play (AlphaGo/AlphaZero mastering Go/Chess/Shogi from self-play), and conversational language models (ChatGPT). Illustrates DL's dominance across perception, language, and decision tasks.</p>
+        <span class="src">DNN_M1 · p13-18 (image)</span>
+      </div>
+
+      <div class="card" data-src="DFFNNUMERICAL · p12-15 (image)">
+        <h3>Worked Example: 3-3-3-3 Network — Forward Pass</h3>
+        <p>Full forward propagation of a 3→3→3→3 net (hidden layers ReLU then sigmoid, output softmax). Inputs \(I=[0.1,0.3,0.5]\), all biases \([1,1,1]\). Layer 1: \(h1_{in}=I\,W_{ij}+b=[1.2,1.6,1.5]\), ReLU → \(h1_{out}=[1.2,1.6,1.5]\). Layer 2: \(h2_{in}=[3.0,3.0,2.4]\), sigmoid → \(h2_{out}=[0.952,0.952,0.916]\). Layer 3: \(o_{in}=[1.7,2.9,2.7]\), softmax → \(o_{out}=[0.1420,0.4717,0.3862]\). Target is \([0,1,0]\).</p>
+        <span class="src">DFFNNUMERICAL · p12-15 (image)</span>
+      </div>
+
+      <div class="card" data-src="DFFNNUMERICAL · p15-16 (image)">
+        <h3>Worked Example: Cross-Entropy Loss (3 outputs)</h3>
+        <p>Per-output log loss \(E_i=-y_i\log(o_{out,i})-(1-y_i)\log(1-o_{out,i})\): \(E_1=-\log(0.858)=0.0665\), \(E_2=-\log(0.4717)=0.3263\), \(E_3=-\log(0.6138)=0.2119\). Total cost \(=\tfrac13(0.0665+0.3263+0.2119)=0.2015\). Only the true-class term dominates when the prediction is confident.</p>
+        <span class="src">DFFNNUMERICAL · p15-16 (image)</span>
+      </div>
+
+      <div class="card" data-src="DFFNNUMERICAL · p16-22 (image)">
+        <h3>Worked Example: Output-Layer Backprop (\(W_{kl}\))</h3>
+        <p>Backprop the error to the hidden2→output weights via \(\partial E/\partial W = (\partial E/\partial o_{out})(\partial o_{out}/\partial o_{in})(\partial o_{in}/\partial W)\). Cross-entropy derivative \(\partial E/\partial o_{out}=[-1.1655,-2.1199,-1.6291]\); softmax (diagonal) derivative \(\partial o_{out}/\partial o_{in}=o_{out}(1-o_{out})=[0.1218,0.2492,0.2370]\); \(\partial o_{in}/\partial W=h2_{out}\). Result \(\partial W_{kl}=\begin{bmatrix}-0.1351&-0.5029&-0.3675\\-0.1351&-0.5029&-0.3675\\-0.1300&-0.4839&-0.3536\end{bmatrix}\). With \(lr=0.01\), \(W'=W-lr\cdot\partial W\) changes each weight by only ~0.001–0.005.</p>
+        <span class="src">DFFNNUMERICAL · p16-22 (image)</span>
+      </div>
+
+      <div class="card" data-src="DFFNNUMERICAL · p22-30 (image)">
+        <h3>Worked Example: Hidden &amp; Input-Layer Backprop (\(W_{jk}\), \(W_{ij}\))</h3>
+        <p>Continue backward with the chain rule. Sigmoid derivative at layer 2: \(h2_{out}(1-h2_{out})=[0.0451,0.0451,0.0762]\); error flows back through the output weights, \(\partial E_{tot}/\partial h2_{out}=[-0.4082,-0.6824,-0.7597]\), giving \(\partial W_{jk}=\begin{bmatrix}-0.0220&-0.0369&-0.0694\\-0.0294&-0.0492&-0.0926\\-0.0276&-0.0461&-0.0868\end{bmatrix}\). For the input layer, ReLU derivative is \([1,1,1]\) (all pre-activations \(&gt;0\)) and \(\partial h1_{in}/\partial W_{ij}=I_{out}\) (the inputs). Demonstrates the full output→hidden→input gradient cascade.</p>
+        <span class="src">DFFNNUMERICAL · p22-30 (image)</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

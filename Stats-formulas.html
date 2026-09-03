@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stats — Formulas</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Stats</span> · Formulas<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="Stats-concepts.html">Concepts</a>
+    <a class="tab active" href="Stats-formulas.html">Formulas</a>
+    <a class="tab" href="Stats-definitions.html">Definitions</a>
+    <a class="tab" href="Stats-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Formula sheet for Introduction to Statistical Methods (AIMLZC418): descriptive statistics, probability rules, Bayes/Naïve Bayes, random variables, discrete & continuous distributions, and inference/forecasting. Each card gives the equation, a symbol legend, and when to use it. Sources: ISM CS-1…CS-5, Webinar 1, EC-2/EC-3.</p>
+
+  <details class="module" open>
+    <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Sample mean (ungrouped)</h3>
+        $$\bar{Y}=\frac{1}{n}\sum_{i=1}^{n} Y_i$$
+        <p>where: \(Y_i\) = each observation; \(n\) = number of observations.</p>
+        <p>use: the arithmetic average of quantitative data with no extreme outliers.</p>
+        <span class="src">ISM CS-1 · p14–15</span>
+      </div>
+
+      <div class="card">
+        <h3>Mean for grouped / frequency data</h3>
+        $$\bar{Y}=\frac{\sum f\,Y}{N}$$
+        <p>where: \(Y\) = a class value/score; \(f\) = its frequency; \(N=\sum f\) = total frequency.</p>
+        <p>use: mean when data are given as a frequency distribution.</p>
+        <span class="src">ISM CS-1 · p14,16</span>
+      </div>
+
+      <div class="card">
+        <h3>Median (positional)</h3>
+        $$\text{Median}=\begin{cases}Y_{\left(\frac{n+1}{2}\right)}, & n\text{ odd}\\[4pt] \dfrac{Y_{(n/2)}+Y_{(n/2+1)}}{2}, & n\text{ even}\end{cases}$$
+        <p>where: values sorted ascending; subscript = rank position.</p>
+        <p>use: robust centre for skewed data or ordinal scales; unaffected by outliers.</p>
+        <span class="src">ISM CS-1 · p20–22</span>
+      </div>
+
+      <div class="card">
+        <h3>Empirical mode relation</h3>
+        $$\text{Mode}=3\,\text{Median}-2\,\text{Mean}$$
+        <p>where: applies to moderately skewed distributions.</p>
+        <p>use: quick estimate of the mode from mean and median for unimodal, moderately skewed data.</p>
+        <span class="src">ISM CS-1 · p23</span>
+      </div>
+
+      <div class="card">
+        <h3>Range</h3>
+        $$R = X_{\max}-X_{\min}$$
+        <p>where: \(X_{\max},X_{\min}\) = largest and smallest values (real limits URL/LRL for continuous data).</p>
+        <p>use: quickest, crudest spread measure; sensitive to extremes.</p>
+        <span class="src">ISM CS-1 · p29</span>
+      </div>
+
+      <div class="card">
+        <h3>Sum of squares (SS)</h3>
+        $$SS=\sum_{i=1}^{N}(X_i-\bar{X})^2$$
+        <p>where: \(X_i\) = observation; \(\bar X\) = mean.</p>
+        <p>use: building block for both variance and standard deviation.</p>
+        <span class="src">ISM CS-1 · p33,39</span>
+      </div>
+
+      <div class="card">
+        <h3>Population variance &amp; SD</h3>
+        $$\sigma^2=\frac{\sum_{i=1}^{N}(X_i-\mu)^2}{N},\qquad \sigma=\sqrt{\sigma^2}$$
+        <p>where: \(\mu\) = population mean; \(N\) = population size.</p>
+        <p>use: spread when the whole population is measured.</p>
+        <span class="src">ISM CS-1 · p34–36</span>
+      </div>
+
+      <div class="card">
+        <h3>Sample variance &amp; SD (n−1)</h3>
+        $$s^2=\frac{\sum_{i=1}^{n}(X_i-\bar{X})^2}{n-1}=\frac{SS}{n-1},\qquad s=\sqrt{s^2}$$
+        <p>where: \(\bar X\) = sample mean; \(n-1\) = degrees of freedom (Bessel's correction).</p>
+        <p>use: unbiased estimate of population variability from a sample (e.g. SS = 24, n = 4 → \(s^2=8\)).</p>
+        <span class="src">ISM CS-1 · p38–41</span>
+      </div>
+
+      <div class="card">
+        <h3>Quartile positions</h3>
+        $$\text{Pos}(Q_1)=\frac{1(n+1)}{4},\qquad \text{Pos}(Q_3)=\frac{3(n+1)}{4}$$
+        <p>where: \(n\) = number of ordered observations; interpolate between ranks if non-integer.</p>
+        <p>use: locate the 25% and 75% marks for the five-number summary.</p>
+        <span class="src">ISM CS-1 · p44</span>
+      </div>
+
+      <div class="card">
+        <h3>Interquartile range &amp; quartile deviation</h3>
+        $$IQR = Q_3-Q_1,\qquad QD=\frac{IQR}{2}$$
+        <p>where: \(Q_1,Q_3\) = first and third quartiles.</p>
+        <p>use: robust spread of the middle 50%, unaffected by extreme values.</p>
+        <span class="src">ISM CS-1 · p44</span>
+      </div>
+
+      <div class="card">
+        <h3>Outlier fences (1.5·IQR rule)</h3>
+        $$\text{Lower}=Q_1-1.5\,IQR,\qquad \text{Upper}=Q_3+1.5\,IQR$$
+        <p>where: values outside the fences are potential outliers; using 3·IQR gives major/extreme outliers.</p>
+        <p>use: flag outliers and set box-plot whisker limits.</p>
+        <span class="src">ISM CS-1 · p45–48</span>
+      </div>
+
+      <div class="card">
+        <h3>Coefficient of variation</h3>
+        $$CV=\frac{s}{\bar{x}}\times 100\%$$
+        <p>where: \(s\) = standard deviation; \(\bar x\) = mean.</p>
+        <p>use: compare relative variability across variables on different scales/units.</p>
+        <span class="src">Webinar 1 · s16; EC-3 · Q1</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-2 — Probability Rules &amp; Counting <small>· source: S1-26_ISM_CS-2_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Classical probability</h3>
+        $$P(A)=\frac{\text{number of favourable outcomes}}{\text{total number of equally likely outcomes}}$$
+        <p>where: outcomes assumed equally likely.</p>
+        <p>use: dice, cards, coins — finite equally-likely sample spaces.</p>
+        <span class="src">ISM CS-2 · p11</span>
+      </div>
+
+      <div class="card">
+        <h3>Axioms of probability</h3>
+        $$0\le P(A)\le 1,\quad P(S)=1,\quad P\!\left(\bigcup_i A_i\right)=\sum_i P(A_i)\ \text{for disjoint }A_i$$
+        <p>where: \(S\) = sample space; \(A_i\) = mutually exclusive events.</p>
+        <p>use: the rules any valid probability assignment must satisfy.</p>
+        <span class="src">ISM CS-2 · p13,19</span>
+      </div>
+
+      <div class="card">
+        <h3>Complement rule</h3>
+        $$P(A^c)=1-P(A)$$
+        <p>where: \(A^c\) = "not A".</p>
+        <p>use: "at least one" problems are easiest via the complement.</p>
+        <span class="src">ISM CS-2 · p8; ISM CS-3 · p20</span>
+      </div>
+
+      <div class="card">
+        <h3>Addition rule</h3>
+        $$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$
+        <p>where: subtract the overlap once; if mutually exclusive, \(P(A\cap B)=0\).</p>
+        <p>use: probability that A or B (or both) occurs; rearrange to get \(P(A\cap B)\).</p>
+        <span class="src">ISM CS-2 · p15,28</span>
+      </div>
+
+      <div class="card">
+        <h3>Exactly one of two events</h3>
+        $$P(\text{exactly one})=P(A)+P(B)-2P(A\cap B)$$
+        <p>where: equals \(P(A\cup B)-P(A\cap B)\).</p>
+        <p>use: "exactly one service / one constituency" style questions.</p>
+        <span class="src">ISM CS-2 · p35; Webinar 1 · s20</span>
+      </div>
+
+      <div class="card">
+        <h3>Permutations &amp; combinations</h3>
+        $$^nP_r=\frac{n!}{(n-r)!},\qquad \binom{n}{r}={}^nC_r=\frac{n!}{r!\,(n-r)!}$$
+        <p>where: \(n\) = total items; \(r\) = chosen; permutations count ordered, combinations unordered selections.</p>
+        <p>use: count favourable/total outcomes (e.g. committee of 5 from 8 men and 4 women).</p>
+        <span class="src">ISM CS-2 · p33,36</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-3 — Conditional &amp; Total Probability <small>· source: S1-26_ISM_CS-3_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Conditional probability</h3>
+        $$P(B\mid A)=\frac{P(A\cap B)}{P(A)},\quad P(A)>0$$
+        <p>where: \(A\) = conditioning (given) event; \(B\) = event of interest.</p>
+        <p>use: revise a probability after learning event A occurred.</p>
+        <span class="src">ISM CS-3 · p6</span>
+      </div>
+
+      <div class="card">
+        <h3>Multiplication rule</h3>
+        $$P(A\cap B)=P(A)\,P(B\mid A)=P(B)\,P(A\mid B)$$
+        $$P(A\cap B\cap C)=P(A)\,P(B\mid A)\,P(C\mid A\cap B)$$
+        <p>where: chains dependent events in sequence.</p>
+        <p>use: sampling without replacement; joint probability of a sequence of events.</p>
+        <span class="src">ISM CS-3 · p8</span>
+      </div>
+
+      <div class="card">
+        <h3>Independence condition</h3>
+        $$P(A\cap B)=P(A)\,P(B)\iff P(B\mid A)=P(B)$$
+        <p>where: holds only when A gives no information about B.</p>
+        <p>use: test independence; compute joint probability of independent events by multiplying.</p>
+        <span class="src">ISM CS-3 · p16</span>
+      </div>
+
+      <div class="card">
+        <h3>Total probability theorem</h3>
+        $$P(B)=\sum_{i=1}^{k} P(A_i)\,P(B\mid A_i)$$
+        <p>where: \(A_1,\dots,A_k\) partition \(S\) (mutually exclusive, \(\bigcup A_i=S\)).</p>
+        <p>use: overall probability of B by summing over all "causes" \(A_i\) (tree diagram).</p>
+        <span class="src">ISM CS-3 · p26–28,40</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-4 — Bayes' Theorem &amp; Naïve Bayes <small>· source: S1-26_ISM_CS-4_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Bayes' theorem (partition form)</h3>
+        $$P(E_i\mid A)=\frac{P(E_i)\,P(A\mid E_i)}{\sum_{j=1}^{n} P(E_j)\,P(A\mid E_j)}$$
+        <p>where: \(E_1,\dots,E_n\) = mutually exclusive, exhaustive causes; \(A\) = observed event.</p>
+        <p>use: find the probability of a particular cause given an observed effect (e.g. which machine produced a defective item).</p>
+        <span class="src">ISM CS-4 · p5,8</span>
+      </div>
+
+      <div class="card">
+        <h3>Bayes for a hypothesis</h3>
+        $$P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}$$
+        <p>where: \(P(H)\) = prior; \(P(E\mid H)\) = likelihood; \(P(E)\) = evidence (normaliser); \(P(H\mid E)\) = posterior.</p>
+        <p>use: update belief in hypothesis H after observing evidence E.</p>
+        <span class="src">ISM CS-4 · p15</span>
+      </div>
+
+      <div class="card">
+        <h3>Naïve Bayes classifier</h3>
+        $$P(Y=y_k\mid X_1,\dots,X_n)=\frac{P(y_k)\prod_{i=1}^{n} P(X_i\mid y_k)}{\sum_{j} P(y_j)\prod_{i=1}^{n} P(X_i\mid y_j)}$$
+        <p>where: \(y_k\) = class; \(X_i\) = features assumed conditionally independent given the class.</p>
+        <p>use: classify by comparing numerators across classes (spam vs normal, play vs no-play).</p>
+        <span class="src">ISM CS-4 · p28–29,32</span>
+      </div>
+
+      <div class="card">
+        <h3>MAP decision rule</h3>
+        $$\hat{Y}=\arg\max_{y_k}\; P(y_k)\prod_{i} P(X_i\mid y_k)$$
+        <p>where: choose the class maximising the posterior (denominator is common, so ignored).</p>
+        <p>use: assign the new instance to the most probable class.</p>
+        <span class="src">ISM CS-4 · p29</span>
+      </div>
+
+      <div class="card">
+        <h3>Laplace (add-one) smoothing</h3>
+        $$P(X_i=x\mid y)=\frac{\text{count}(x,y)+1}{\text{count}(y)+d}$$
+        <p>where: \(d\) = number of distinct values of feature \(X_i\) (add 1 to every cell).</p>
+        <p>use: avoid zero probabilities when a feature value is unseen for a class.</p>
+        <span class="src">ISM CS-4 · p34–35,44</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-5 — Random Variables &amp; Distributions <small>· source: S1-26_ISM_CS-5_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Discrete uniform pmf</h3>
+        $$f(x)=\frac{1}{n},\quad x=1,2,\dots,n$$
+        <p>where: \(n\) = number of equally likely values.</p>
+        <p>use: fair die, random digit — all outcomes equally likely.</p>
+        <span class="src">ISM CS-5 · p8</span>
+      </div>
+
+      <div class="card">
+        <h3>Valid discrete distribution</h3>
+        $$f(x)\ge 0\quad\text{and}\quad \sum_{x} f(x)=1$$
+        <p>where: \(f(x)=P(X=x)\).</p>
+        <p>use: verify a proposed pmf; solve for an unknown probability constant.</p>
+        <span class="src">ISM CS-5 · p7,9</span>
+      </div>
+
+      <div class="card">
+        <h3>Expectation (discrete)</h3>
+        $$\mu=E[X]=\sum_{x} x\,f(x)$$
+        <p>where: sum of value × probability.</p>
+        <p>use: mean of a RV; a game is fair when \(E[\text{gain}]=0\).</p>
+        <span class="src">ISM CS-5 · p10–11,13</span>
+      </div>
+
+      <div class="card">
+        <h3>Variance of a discrete RV</h3>
+        $$\operatorname{Var}(X)=\sum_x (x-\mu)^2 f(x)=E[X^2]-\mu^2,\qquad \sigma=\sqrt{\operatorname{Var}(X)}$$
+        <p>where: \(E[X^2]=\sum_x x^2 f(x)\); \(\mu=E[X]\).</p>
+        <p>use: spread of a RV; the computational form \(E[X^2]-\mu^2\) is fastest.</p>
+        <span class="src">ISM CS-5 · p12–14</span>
+      </div>
+
+      <div class="card">
+        <h3>Cumulative distribution function</h3>
+        $$F(x)=P(X\le x)=\sum_{x_i\le x} f(x_i)$$
+        <p>where: running total of probabilities; \(F(\text{max})=1\).</p>
+        <p>use: probabilities of "≤" or interval events for a discrete RV.</p>
+        <span class="src">ISM CS-5 · p15–16</span>
+      </div>
+
+      <div class="card">
+        <h3>Continuous pdf: validity &amp; probability</h3>
+        $$f(x)\ge 0,\quad \int_{-\infty}^{\infty} f(x)\,dx=1,\quad P(a\lt X\lt b)=\int_a^b f(x)\,dx$$
+        <p>where: probability = area under the density; a single point has probability 0.</p>
+        <p>use: verify a pdf; compute interval probabilities (e.g. \(f(x)=6x^5\) on [0,1]).</p>
+        <span class="src">ISM CS-5 · p23,27; EC-2 · Q4</span>
+      </div>
+
+      <div class="card">
+        <h3>Mean &amp; variance (continuous)</h3>
+        $$E[X]=\int_{-\infty}^{\infty} x\,f(x)\,dx,\qquad \operatorname{Var}(X)=\int_{-\infty}^{\infty}(x-\mu)^2 f(x)\,dx$$
+        <p>where: integrate over the support of the pdf.</p>
+        <p>use: expected value and spread of a continuous RV.</p>
+        <span class="src">ISM CS-5 · p27–28; EC-2 · Q4</span>
+      </div>
+
+      <div class="card">
+        <h3>Marginal distribution</h3>
+        $$p_X(x)=\sum_{y} p(x,y),\qquad f_X(x)=\int_{-\infty}^{\infty} f(x,y)\,dy$$
+        <p>where: sum/integrate the joint over the other variable.</p>
+        <p>use: recover one variable's distribution from a joint distribution.</p>
+        <span class="src">ISM CS-5 · p38,50</span>
+      </div>
+
+      <div class="card">
+        <h3>Conditional distribution</h3>
+        $$f(y\mid x)=\frac{f(x,y)}{f_X(x)},\qquad f_X(x)>0$$
+        <p>where: joint divided by the marginal of the conditioning variable.</p>
+        <p>use: distribution of Y for a fixed X (e.g. \(P(D\mid S=\text{Fever})\)).</p>
+        <span class="src">ISM CS-5 · p41–44</span>
+      </div>
+
+      <div class="card">
+        <h3>Independence of two RVs</h3>
+        $$f(x,y)=f_X(x)\,f_Y(y)\ \forall x,y\;\Rightarrow\; E[XY]=E[X]\,E[Y]$$
+        <p>where: joint factorises into the product of marginals.</p>
+        <p>use: test independence of RVs; simplify \(E[XY]\).</p>
+        <span class="src">ISM CS-5 · p40,50</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>EC Exams — Distributions, Inference, Correlation &amp; Forecasting <small>· source: EC-2 &amp; EC-3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Binomial distribution</h3>
+        $$P(X=k)=\binom{n}{k}p^{k}(1-p)^{n-k},\quad E[X]=np,\ \operatorname{Var}=np(1-p)$$
+        <p>where: \(n\) = trials; \(p\) = success probability; \(k\) = number of successes.</p>
+        <p>use: exactly \(k\) successes in \(n\) independent yes/no trials (e.g. defective bulbs).</p>
+        <span class="src">EC-2 · Q6</span>
+      </div>
+
+      <div class="card">
+        <h3>Poisson distribution</h3>
+        $$P(X=k)=\frac{e^{-\lambda}\lambda^{k}}{k!},\quad \lambda=np,\ E[X]=\operatorname{Var}=\lambda$$
+        <p>where: \(\lambda\) = mean count; \(k\) = number of events.</p>
+        <p>use: rare-event counts; approximates binomial when \(n\) large, \(p\) small.</p>
+        <span class="src">EC-2 · Q6</span>
+      </div>
+
+      <div class="card">
+        <h3>Continuous uniform distribution</h3>
+        $$f(x)=\frac{1}{b-a},\ a\le x\le b,\quad E[X]=\frac{a+b}{2},\ \operatorname{Var}=\frac{(b-a)^2}{12}$$
+        <p>where: \(a,b\) = interval endpoints.</p>
+        <p>use: outcomes equally likely across a continuous interval.</p>
+        <span class="src">ISM CS-5 · p8 (uniform); course scope</span>
+      </div>
+
+      <div class="card">
+        <h3>Exponential distribution</h3>
+        $$f(x)=\lambda e^{-\lambda x},\ x\ge 0,\quad E[X]=\frac{1}{\lambda},\ \operatorname{Var}=\frac{1}{\lambda^2}$$
+        <p>where: \(\lambda\) = rate parameter.</p>
+        <p>use: waiting times / lifetimes between random events.</p>
+        <span class="src">Module 3 scope (Prob. Distributions)</span>
+      </div>
+
+      <div class="card">
+        <h3>Normal distribution (pdf)</h3>
+        $$f(x)=\frac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+        <p>where: \(\mu\) = mean; \(\sigma\) = standard deviation.</p>
+        <p>use: continuous bell-shaped data; foundation of the CLT and z-tests.</p>
+        <span class="src">EC-3 · Q5,Q8</span>
+      </div>
+
+      <div class="card">
+        <h3>Standard score (z-score)</h3>
+        $$z=\frac{x-\mu}{\sigma}$$
+        <p>where: \(x\) = value; \(\mu,\sigma\) = mean and SD.</p>
+        <p>use: standardise to the \(N(0,1)\) table; count standard deviations from the mean.</p>
+        <span class="src">EC-3 · Q5</span>
+      </div>
+
+      <div class="card">
+        <h3>Central limit theorem &amp; standard error</h3>
+        $$\bar{X}\ \dot\sim\ N\!\left(\mu,\ \frac{\sigma^2}{n}\right),\qquad SE=\frac{\sigma}{\sqrt{n}}$$
+        <p>where: \(\bar X\) = sample mean; \(n\) = sample size; \(SE\) = standard error of the mean.</p>
+        <p>use: justify normal-based inference on means for large \(n\); scale of sampling error.</p>
+        <span class="src">Module 4 scope (Hypothesis Testing)</span>
+      </div>
+
+      <div class="card">
+        <h3>Confidence interval for a mean</h3>
+        $$\bar{x}\pm z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\quad(\text{or }t_{\alpha/2,\,n-1}\,\tfrac{s}{\sqrt n}\text{ if }\sigma\text{ unknown})$$
+        <p>where: \(z_{\alpha/2}\) / \(t\) = critical value at confidence \(1-\alpha\).</p>
+        <p>use: interval estimate of a population mean.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card">
+        <h3>Two-sample z-test for means</h3>
+        $$z=\frac{\bar{x}_1-\bar{x}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}}}$$
+        <p>where: \(\bar x_i,\sigma_i,n_i\) = mean, population SD and size of sample \(i\).</p>
+        <p>use: test whether two population means differ (known SDs, large samples) — e.g. two fertilizers.</p>
+        <span class="src">EC-3 · Q5</span>
+      </div>
+
+      <div class="card">
+        <h3>One-sample t-statistic</h3>
+        $$t=\frac{\bar{x}-\mu_0}{s/\sqrt{n}},\quad df=n-1$$
+        <p>where: \(\mu_0\) = hypothesised mean; \(s\) = sample SD.</p>
+        <p>use: test a mean when the population SD is unknown and \(n\) is small.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card">
+        <h3>Chi-square goodness of fit</h3>
+        $$\chi^2=\sum \frac{(O_i-E_i)^2}{E_i}$$
+        <p>where: \(O_i\) = observed; \(E_i\) = expected frequency.</p>
+        <p>use: test whether observed counts match an expected distribution / independence in tables.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card">
+        <h3>One-way ANOVA (F-test)</h3>
+        $$F=\frac{MS_{\text{between}}}{MS_{\text{within}}}=\frac{SS_{B}/(k-1)}{SS_{W}/(N-k)}$$
+        <p>where: \(k\) = number of groups; \(N\) = total observations; \(MS\) = mean square.</p>
+        <p>use: test equality of three or more population means (equal variances).</p>
+        <span class="src">EC-3 · Q6</span>
+      </div>
+
+      <div class="card">
+        <h3>Pearson correlation coefficient</h3>
+        $$r=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum (x_i-\bar x)^2\,\sum (y_i-\bar y)^2}}=\frac{\operatorname{Cov}(X,Y)}{s_X s_Y}$$
+        <p>where: \(\operatorname{Cov}(X,Y)=\frac{1}{n}\sum(x_i-\bar x)(y_i-\bar y)\); \(r\in[-1,1]\).</p>
+        <p>use: strength/direction of a linear relationship between two variables.</p>
+        <span class="src">Module 5 scope (Prediction); EC-3 · Q4</span>
+      </div>
+
+      <div class="card">
+        <h3>Spearman's rank correlation</h3>
+        $$r_s=1-\frac{6\sum d_i^2}{n(n^2-1)}$$
+        <p>where: \(d_i\) = difference in ranks of the two variables; \(n\) = number of pairs.</p>
+        <p>use: monotonic association between ranked data (e.g. two judges' rankings).</p>
+        <span class="src">EC-3 · Q4</span>
+      </div>
+
+      <div class="card">
+        <h3>Simple linear regression coefficients</h3>
+        $$\hat{y}=b_0+b_1 x,\qquad b_1=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{\sum(x_i-\bar x)^2},\qquad b_0=\bar y-b_1\bar x$$
+        <p>where: \(b_1\) = slope; \(b_0\) = intercept (least-squares fit).</p>
+        <p>use: predict \(y\) from \(x\); the regression/prediction line.</p>
+        <span class="src">Module 5 scope (Prediction &amp; Forecasting)</span>
+      </div>
+
+      <div class="card">
+        <h3>Coefficient of determination R²</h3>
+        $$R^2=1-\frac{SS_{\text{res}}}{SS_{\text{tot}}}=1-\frac{\sum(y_i-\hat y_i)^2}{\sum(y_i-\bar y)^2}$$
+        <p>where: \(SS_{\text{res}}\) = residual sum of squares; \(SS_{\text{tot}}\) = total sum of squares; \(R^2=r^2\) in simple regression.</p>
+        <p>use: fraction of variance in \(y\) explained by the model.</p>
+        <span class="src">Module 5 scope</span>
+      </div>
+
+      <div class="card">
+        <h3>Simple exponential smoothing</h3>
+        $$F_{t+1}=\alpha A_t+(1-\alpha)F_t$$
+        <p>where: \(F_{t+1}\) = forecast; \(A_t\) = actual at \(t\); \(F_t\) = previous forecast; \(0<\alpha<1\) = smoothing constant.</p>
+        <p>use: one-step-ahead forecasting of a time series (e.g. daily patient arrivals, α = 0.4).</p>
+        <span class="src">EC-3 · Q7</span>
+      </div>
+
+      <div class="card">
+        <h3>Gaussian Mixture Model density</h3>
+        $$p(x)=\sum_{k=1}^{K}\pi_k\,\frac{1}{\sigma_k\sqrt{2\pi}}\,e^{-\frac{(x-\mu_k)^2}{2\sigma_k^2}},\quad \sum_k \pi_k=1$$
+        <p>where: \(\pi_k\) = mixing coefficient; \(\mu_k,\sigma_k^2\) = component mean and variance.</p>
+        <p>use: model multi-modal densities; evaluate mixture density at a point (fit via EM).</p>
+        <span class="src">EC-3 · Q8</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ISM CS image slides</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ISM CS-5 · p10 (image)">
+        <h3>Properties of expectation</h3>
+        $$E(aX)=aE(X),\qquad E(X+b)=E(X)+b,\qquad E(aX+b)=aE(X)+b$$
+        $$E(XY)=E(X)\,E(Y)\ \text{only if }X,Y\text{ are independent}$$
+        <p>where: \(a,b\) = constants; \(X,Y\) = random variables.</p>
+        <p>use: rescale/shift a random variable's mean; caution: \(E(X/Y)\neq E(X)/E(Y)\) in general.</p>
+        <span class="src">ISM CS-5 · p10 (image)</span>
+      </div>
+
+      <div class="card" data-src="ISM CS-5 · p12 (image)">
+        <h3>Properties of variance</h3>
+        $$\operatorname{Var}(b)=0,\qquad \operatorname{Var}(aX)=a^2\operatorname{Var}(X),\qquad \sigma_{aX}=|a|\,\sigma_X$$
+        $$\operatorname{Var}(aX+bY)=a^2\operatorname{Var}(X)+b^2\operatorname{Var}(Y)\quad(X,Y\text{ independent})$$
+        <p>where: \(a,b\) = constants; \(\sigma\) = standard deviation.</p>
+        <p>use: variance under linear transforms; adding a constant leaves spread unchanged; combine independent RVs.</p>
+        <span class="src">ISM CS-5 · p12 (image)</span>
+      </div>
+
+      <div class="card" data-src="ISM CS-4 · p46 (image)">
+        <h3>Naïve Bayes for text classification (with Laplace smoothing)</h3>
+        $$P(c\mid d)=P(c)\prod_{t_i\in d} P(t_i\mid c),\qquad P(t_i\mid c)=\frac{N_{ic}+1}{N_c+T}$$
+        <p>where: \(d\) = document of terms \(t_i\); \(N_{ic}\) = number of times term \(t_i\) appears in documents of class \(c\); \(N_c\) = total number of terms in all documents of class \(c\); \(T\) = vocabulary size (number of unique words); \(P(c)\) = fraction of documents in class \(c\).</p>
+        <p>use: classify a document (spam vs normal, positive vs negative) from word frequencies (bag of words); the \(+1\) numerator and \(+T\) denominator keep every term probability non-zero and bounded below 1.</p>
+        <span class="src">ISM CS-4 · p46 (image)</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

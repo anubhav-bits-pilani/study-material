@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths — Concepts</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Maths</span> · Concepts<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab active" href="Maths-concepts.html">Concepts</a>
+    <a class="tab" href="Maths-formulas.html">Formulas</a>
+    <a class="tab" href="Maths-definitions.html">Definitions</a>
+    <a class="tab" href="Maths-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Conceptual walkthrough of AIMLZC416 Mathematical Foundations for Machine Learning — the 7 lecture decks: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, and backpropagation. Use the filter box to jump to a topic.</p>
+
+  <details class="module" open>
+    <summary>Lecture 1 — Linear Algebra: Systems of Linear Equations &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 1 · p2">
+        <h3>What linear algebra studies</h3>
+        <p>Linear algebra is the study of vectors and the rules for manipulating them. A "vector" is any object that can be added to another and scaled by a scalar to yield another object of the same kind — geometric arrows, tuples in \(\mathbb{R}^n\), even polynomials. Most of the course lives in \(\mathbb{R}^n\).</p>
+        <span class="src">Lecture 1 · p2</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p3">
+        <h3>Closure</h3>
+        <p>If we take a set of objects and operate on them (add, scale) and always land back inside the same set, the set is "closed" under those operations. This idea of closure is exactly what makes a vector space, and it underlies much of machine learning.</p>
+        <span class="src">Lecture 1 · p3</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p4-8">
+        <h3>Systems of linear equations</h3>
+        <p>Many problems reduce to solving several linear equations simultaneously. A linear system has exactly zero, one, or infinitely many solutions — never any other count. Linear regression is a ML technique that gives an approximate solution to an over-constrained system that has no exact solution.</p>
+        <span class="src">Lecture 1 · p4-8</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p13-17">
+        <h3>Geometric interpretation of solutions</h3>
+        <p>Each linear equation in two variables is a line; the solution set is their intersection — a point (unique), the whole line (infinite), or empty (parallel lines). In 3D each equation is a plane, and intersections of planes give the same trichotomy. This gives geometric intuition for why solution counts are 0/1/∞.</p>
+        <span class="src">Lecture 1 · p13-17</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p18-27">
+        <h3>Matrices and matrix algebra</h3>
+        <p>An \((m,n)\) matrix arranges \(mn\) numbers in \(m\) rows and \(n\) columns; row and column vectors are special cases. Addition is element-wise; multiplication combines rows of the first with columns of the second and is associative and distributive but <em>not</em> commutative. The identity matrix acts as a multiplicative neutral element.</p>
+        <span class="src">Lecture 1 · p18-27</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p22-24">
+        <h3>Matrix inverse and when it exists</h3>
+        <p>The inverse \(A^{-1}\) of a square matrix satisfies \(AA^{-1}=A^{-1}A=I\). Working the \(2\times2\) case shows the inverse exists <strong>iff the determinant is non-zero</strong> — the determinant appears as the scaling factor \(a_{11}a_{22}-a_{12}a_{21}\) that must be invertible.</p>
+        <span class="src">Lecture 1 · p22-24</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p25-26">
+        <h3>Transpose and its properties</h3>
+        <p>The transpose swaps rows and columns (\(b_{ij}=a_{ji}\)). Key identities: \((A^{T})^{T}=A\), \((A+B)^{T}=A^{T}+B^{T}\), and the order-reversing \((AB)^{T}=B^{T}A^{T}\) — proved by matching the \((i,j)\) inner-product entries of both sides.</p>
+        <span class="src">Lecture 1 · p25-26</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p28-37">
+        <h3>Ax = b and particular vs general solution</h3>
+        <p>Any linear system compacts to \(Ax=b\), where the right-hand side is a linear combination of \(A\)'s columns scaled by the unknowns. A <strong>particular solution</strong> solves \(Ax=b\); adding any solution of the homogeneous system \(Ax=0\) gives another solution. The <strong>general solution</strong> = particular solution + all solutions of \(Ax=0\).</p>
+        <span class="src">Lecture 1 · p28-37</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p38-45">
+        <h3>Gaussian elimination &amp; elementary row operations</h3>
+        <p>To solve a general system algorithmically we transform the augmented matrix into a simple form using three solution-preserving elementary operations: swapping two rows, scaling a row by a non-zero constant, and adding a multiple of one row to another. The multiplier must be non-zero so the step is reversible.</p>
+        <span class="src">Lecture 1 · p38-45</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p50">
+        <h3>Row-echelon form, pivots, basic &amp; free variables</h3>
+        <p>In row-echelon form all-zero rows sit at the bottom and each leading non-zero entry (the pivot) lies strictly to the right of the pivot above it, giving a staircase. Variables at pivot columns are <strong>basic (pivot) variables</strong>; the rest are <strong>free variables</strong> that parameterise infinite solution families.</p>
+        <span class="src">Lecture 1 · p50</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p53-57">
+        <h3>Reduced row-echelon form (RREF)</h3>
+        <p>RREF tightens row-echelon form so every pivot equals 1 and is the only non-zero entry in its column; pivot columns become canonical basis vectors. This makes reading off particular solutions and null-space solutions almost immediate — non-pivot columns are expressed via the pivot columns to their left.</p>
+        <span class="src">Lecture 1 · p53-57</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p58-62">
+        <h3>Computing the inverse by Gaussian elimination</h3>
+        <p>If \(A\) is invertible, elimination reduces it to \(I\). Solving \(Ax=e_i\) for each canonical vector \(e_i\) yields the columns of \(A^{-1}\); doing all \(n\) systems at once means row-reducing the augmented block \([A\,|\,I]\) into \([I\,|\,A^{-1}]\).</p>
+        <span class="src">Lecture 1 · p58-62</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 2 — Vector Spaces, Linear Independence &amp; Basis <small>· source: Lecture_2.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 2 · p4-5">
+        <h3>Groups and Abelian groups</h3>
+        <p>A group is a set \(G\) with an operation \(\otimes\) that is closed, associative, has an identity element, and gives every element an inverse. If the operation also commutes, the group is <strong>Abelian</strong>. Groups formalise the "adding two things stays inside the set" behaviour needed for vector spaces; e.g. \((\mathbb{Z},+)\) is Abelian but \((\mathbb{N}_0,+)\) is not (no inverses).</p>
+        <span class="src">Lecture 2 · p4-5</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p6-9">
+        <h3>Vector space</h3>
+        <p>A real vector space \(V=(V,+,\cdot)\) has an inner operation \(+\) (vector addition, making \((V,+)\) an Abelian group) and an outer operation \(\cdot\) (scaling by reals) satisfying distributivity, associativity of scaling, and a scalar identity \(1\cdot x=x\). Examples: \(\mathbb{R}^n\), and even \(\mathbb{R}^{m\times n}\) matrices treated as vectors.</p>
+        <span class="src">Lecture 2 · p6-9</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p10-13">
+        <h3>Vector subspaces</h3>
+        <p>A non-empty subset \(U\subseteq V\) is a subspace if it is itself a vector space under the inherited operations — which reduces to checking closure under addition and scalar multiplication. A line through the origin qualifies; a shifted line \(\{x=1\}\) or a square around the origin does not. The null space of a matrix is an important subspace.</p>
+        <span class="src">Lecture 2 · p10-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p14-15">
+        <h3>Linear combination</h3>
+        <p>A linear combination of \(x_1,\dots,x_k\) is any weighted sum \(\lambda_1 x_1+\cdots+\lambda_k x_k\). The zero vector is always a trivial combination (all \(\lambda_i=0\)); the interesting question is whether a <em>non-trivial</em> combination can also produce zero.</p>
+        <span class="src">Lecture 2 · p14-15</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p16-18">
+        <h3>Linear independence vs dependence</h3>
+        <p>Vectors are <strong>linearly dependent</strong> if some non-trivial combination equals zero (at least one \(\lambda_i\neq0\)); otherwise they are <strong>independent</strong>. Dependence means a vector is redundant — writable in terms of the others. Any set containing the zero vector is automatically dependent.</p>
+        <span class="src">Lecture 2 · p16-18</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p19-22">
+        <h3>Testing independence with Gaussian elimination</h3>
+        <p>Place the candidate vectors as columns of a matrix and row-reduce. Pivot columns are the independent vectors (they lie on the left); each non-pivot column is a linear combination of the pivot columns before it. If every column is a pivot, the vectors are independent.</p>
+        <span class="src">Lecture 2 · p19-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p23-32">
+        <h3>Independence of combined vectors &amp; the m &gt; k rule</h3>
+        <p>If vectors \(x_j=B\lambda_j\) are built from independent vectors \(b_i\), then the \(x_j\) are independent iff the coefficient vectors \(\lambda_j\) are independent. A key consequence: if you have more vectors than the dimension (\(m>k\)), they <em>must</em> be dependent — there aren't enough pivots.</p>
+        <span class="src">Lecture 2 · p23-32</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p33-34">
+        <h3>Span and generating set</h3>
+        <p>The span of a set \(A\) is the set of all its linear combinations. If every vector of \(V\) is a linear combination of \(A\), then \(A\) is a <strong>generating set</strong> and \(V=\text{span}[A]\).</p>
+        <span class="src">Lecture 2 · p33-34</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p35-38">
+        <h3>Basis</h3>
+        <p>A basis is a minimal generating set — equivalently a maximal linearly independent set. Every vector has a <strong>unique</strong> representation in a basis. A basis is not unique (\(\mathbb{R}^3\) has infinitely many), but a linearly independent set with too few vectors cannot be a basis.</p>
+        <span class="src">Lecture 2 · p35-38</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p39-42">
+        <h3>Dimension</h3>
+        <p>The dimension \(\dim(V)\) is the number of vectors in any basis. It need not equal the number of components: \(\text{span}\{(0,1)^T\}\) has 2-component vectors but dimension 1. For a subspace, \(\dim(U)\le\dim(V)\), with equality iff \(U=V\). A basis of a subspace is found by column-reducing the spanning vectors and keeping the pivot columns.</p>
+        <span class="src">Lecture 2 · p39-42</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 3 — Analytic Geometry: Norms, Inner Products &amp; Orthogonality <small>· source: Lecture_3.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 3 · p4">
+        <h3>Norms (vector length)</h3>
+        <p>A norm assigns a non-negative length \(\lVert x\rVert\) to each vector and satisfies absolute homogeneity \(\lVert\lambda x\rVert=|\lambda|\lVert x\rVert\), the triangle inequality, and positive definiteness. Common norms are the Manhattan (\(\ell_1\)) and Euclidean (\(\ell_2\)) norms.</p>
+        <span class="src">Lecture 3 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p5-6">
+        <h3>Inner products</h3>
+        <p>An inner product is a symmetric, positive-definite bilinear map \(\langle\cdot,\cdot\rangle:V\times V\to\mathbb{R}\); the dot product \(x^{T}y\) is the standard example. It lets us measure lengths, distances and angles, turning a bare vector space into an inner-product space.</p>
+        <span class="src">Lecture 3 · p5-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p7-8">
+        <h3>Symmetric positive-definite matrices define inner products</h3>
+        <p>For a finite-dimensional space with an ordered basis, every inner product can be written \(\langle x,y\rangle=\hat{x}^{T}A\hat{y}\) for some symmetric positive-definite \(A\). Such matrices have full rank (only the zero vector in the null space) and strictly positive diagonal entries.</p>
+        <span class="src">Lecture 3 · p7-8</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p9-10">
+        <h3>Induced norm and Cauchy–Schwarz</h3>
+        <p>Every inner product induces a norm \(\lVert x\rVert=\sqrt{\langle x,x\rangle}\) (though not every norm comes from an inner product — e.g. Manhattan). The induced norm obeys the Cauchy–Schwarz inequality \(|\langle x,y\rangle|\le\lVert x\rVert\lVert y\rVert\), proved by requiring \(\lVert u-\alpha v\rVert^2\ge0\).</p>
+        <span class="src">Lecture 3 · p9-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p11-12">
+        <h3>Metric / distance</h3>
+        <p>Distance is defined from the norm: \(d(x,y)=\lVert x-y\rVert\). A metric is positive-definite, symmetric, and satisfies the triangle inequality. Note the inverse relationship with the inner product: nearby vectors have large inner product but small distance.</p>
+        <span class="src">Lecture 3 · p11-12</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p13-16">
+        <h3>Angles and orthogonality</h3>
+        <p>Cauchy–Schwarz keeps the ratio \(\frac{\langle x,y\rangle}{\lVert x\rVert\lVert y\rVert}\) in \([-1,1]\), so it defines a unique angle via \(\cos\omega\). Angle captures similarity of orientation. Two vectors are <strong>orthogonal</strong> (\(x\perp y\)) exactly when their inner product is 0 — and orthogonality depends on which inner product you chose.</p>
+        <span class="src">Lecture 3 · p13-16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p17-19">
+        <h3>Orthogonal (orthonormal) matrices</h3>
+        <p>A square matrix with orthonormal columns satisfies \(A^{T}A=AA^{T}=I\), so \(A^{T}=A^{-1}\). Such transformations preserve lengths and angles — the 2D rotation matrix is a prime example. Because left- and right-inverses of a square matrix coincide, orthonormal columns force orthonormal rows too.</p>
+        <span class="src">Lecture 3 · p17-19</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p22-23">
+        <h3>Orthonormal basis</h3>
+        <p>An orthonormal basis is a basis whose vectors are mutually orthogonal and each of unit length (\(\langle b_i,b_j\rangle=0\) for \(i\neq j\), \(\langle b_i,b_i\rangle=1\)). If they are only mutually orthogonal it is merely an orthogonal basis. The canonical vectors are the obvious orthonormal basis of \(\mathbb{R}^n\).</p>
+        <span class="src">Lecture 3 · p22-23</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p24-25">
+        <h3>Gram–Schmidt via Gaussian elimination</h3>
+        <p>Any basis can be turned into an orthogonal (then orthonormal) basis. Placing basis vectors as columns of \(A\) and row-reducing the augmented matrix \([A^{T}A\,|\,A^{T}]\) yields orthogonal rows on the right (valid because \(A^{T}A\) is positive-definite when \(A\) has full column rank, so no row swaps are needed).</p>
+        <span class="src">Lecture 3 · p24-25</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p26-29">
+        <h3>Elementary matrices and LU decomposition</h3>
+        <p>Each Gaussian-elimination step (subtracting a multiple of a row) is a pre-multiplication by an elementary matrix. Products of such lower-triangular matrices stay lower-triangular, so the whole elimination reads \(L^{-1}A=U\), i.e. \(A=LU\) — a lower-triangular times an upper-triangular factor.</p>
+        <span class="src">Lecture 3 · p26-29</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 4 — Eigenvalues, Eigenvectors &amp; Matrix Decompositions <small>· source: Lecture_4.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 4 · p4-6">
+        <h3>Determinant and the cofactor expansion</h3>
+        <p>The determinant is a scalar summarising a square matrix, computed recursively by cofactor (Laplace) expansion along any row or column, where each cofactor \(C_{jk}=(-1)^{j+k}M_{jk}\) uses the minor \(M_{jk}\). An \(n\times n\) determinant is built from \((n-1)\times(n-1)\) ones down to the base case.</p>
+        <span class="src">Lecture 4 · p4-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p7-10">
+        <h3>Determinant under row operations</h3>
+        <p>Interchanging two rows multiplies the determinant by \(-1\); adding a multiple of one row to another leaves it unchanged (because a matrix with two equal rows has determinant 0). These rules make Gaussian elimination a practical way to compute determinants.</p>
+        <span class="src">Lecture 4 · p7-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p11-12">
+        <h3>Determinant, rank and trace</h3>
+        <p>An \(n\times n\) matrix has full rank \(n\) iff its determinant is non-zero (elimination gives a triangular \(U\) whose diagonal pivots multiply to \(\det\)). The trace is the sum of diagonal entries; it is linear and cyclic: \(\text{tr}(AB)=\text{tr}(BA)\).</p>
+        <span class="src">Lecture 4 · p11-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p14-16">
+        <h3>Characteristic polynomial</h3>
+        <p>\(p_A(\lambda)=\det(A-\lambda I)\) is a degree-\(n\) polynomial whose constant term is \(\det(A)\) and whose \(\lambda^{n-1}\) coefficient encodes the trace. Its roots are exactly the eigenvalues — this is the standard route to computing them.</p>
+        <span class="src">Lecture 4 · p14-16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p17-19">
+        <h3>Eigenvalues and eigenvectors</h3>
+        <p>\(\lambda\) is an eigenvalue and \(x\neq0\) its eigenvector when \(Ax=\lambda x\): \(A\) merely scales \(x\) without changing direction. Equivalent conditions: \((A-\lambda I)x=0\) has non-trivial solutions, \(\text{rank}(A-\lambda I)\lt n\), and \(\det(A-\lambda I)=0\). Procedure: find roots of \(p_A\), then the null space of each \(A-\lambda I\).</p>
+        <span class="src">Lecture 4 · p17-19</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p20-21">
+        <h3>Eigenspace, spectrum and multiplicities</h3>
+        <p>The eigenvectors of one \(\lambda\) plus zero form the eigenspace \(E_\lambda\) = null space of \(A-\lambda I\); the set of all eigenvalues is the spectrum. A matrix and its transpose share eigenvalues, and symmetric positive-definite matrices have positive real eigenvalues.</p>
+        <span class="src">Lecture 4 · p20-21</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p22-24">
+        <h3>Spectral theorem</h3>
+        <p>Every symmetric real matrix has an orthonormal basis of eigenvectors, all eigenvalues real, and geometric multiplicity equal to algebraic multiplicity. Consequently a symmetric \(A\) factorises as \(A=Q\Lambda Q^{T}\) with orthonormal \(Q\) — the backbone of PCA and SVD, since \(A^{T}A\) and \(AA^{T}\) are always symmetric.</p>
+        <span class="src">Lecture 4 · p22-24, p30</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p25-28">
+        <h3>Complex vectors and Hermitian matrices</h3>
+        <p>For complex vectors the length uses moduli, so the inner product becomes \(x^{H}y\) with the conjugate transpose. A Hermitian matrix satisfies \(A^{H}=A\) (the complex generalisation of symmetric). This machinery proves symmetric matrices have real eigenvalues and that eigenvectors of distinct eigenvalues are orthogonal.</p>
+        <span class="src">Lecture 4 · p25-28</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p31">
+        <h3>Trace = sum of eigenvalues, det = product</h3>
+        <p>Factoring \(p_A(\lambda)=\prod(\lambda_i-\lambda)\) and matching coefficients shows \(\sum\lambda_i=\text{tr}(A)\); setting \(\lambda=0\) shows \(\prod\lambda_i=\det(A)\). Handy sanity checks when computing eigenvalues.</p>
+        <span class="src">Lecture 4 · p31</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p32-33">
+        <h3>Cholesky decomposition</h3>
+        <p>A symmetric positive-definite matrix factorises uniquely as \(A=LL^{T}\) with \(L\) lower-triangular and positive diagonal. It is the key tool for sampling multivariate Gaussians: factor the covariance \(\Sigma=LL^{T}\), draw independent Gaussian \(x\), and \(Lx\) has the desired distribution.</p>
+        <span class="src">Lecture 4 · p32-33</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 5 — Diagonalization &amp; Singular Value Decomposition <small>· source: Lecture_5.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 5 · p4">
+        <h3>Diagonal matrices</h3>
+        <p>A diagonal matrix has zeros off the diagonal. Its determinant is the product of diagonal entries, its \(k\)-th power raises each entry to \(k\), and its inverse inverts each non-zero entry — making diagonal matrices trivially cheap to work with.</p>
+        <span class="src">Lecture 5 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p5-6">
+        <h3>Diagonalizable matrices</h3>
+        <p>\(A\) is diagonalizable if an invertible \(P\) exists with \(D=P^{-1}AP\) diagonal. Rewriting as \(AP=PD\) shows each column \(p_i\) of \(P\) satisfies \(Ap_i=\lambda_i p_i\) — the columns are eigenvectors and the diagonal of \(D\) are eigenvalues.</p>
+        <span class="src">Lecture 5 · p5-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p7-11">
+        <h3>Eigenvalue (eigen) decomposition</h3>
+        <p>A square matrix with a full set of \(n\) independent eigenvectors factorises as \(A=PDP^{-1}\), with \(P\) the eigenvector matrix and \(D\) the eigenvalue diagonal. Symmetric matrices are always diagonalizable and, by the spectral theorem, admit an <em>orthogonal</em> \(P\).</p>
+        <span class="src">Lecture 5 · p7-11</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p12-13">
+        <h3>SVD: motivation and statement</h3>
+        <p>Eigendecomposition needs a square matrix with an eigenbasis; the singular value decomposition works for <strong>any</strong> \(m\times n\) matrix. It writes \(A=U\Sigma V^{T}\) with orthogonal \(U,V\) and a rectangular \(\Sigma\) holding the ordered non-negative singular values on its diagonal (with zero padding).</p>
+        <span class="src">Lecture 5 · p12-14</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p15-17">
+        <h3>Constructing U, V and Σ</h3>
+        <p>The right-singular vectors \(V\) are eigenvectors of \(A^{T}A\); its eigenvalues are the squared singular values. The left-singular vectors \(U\) are eigenvectors of \(AA^{T}\), obtained directly via \(u_i=\frac{1}{\sigma_i}Av_i\). The singular values are square roots of the non-zero eigenvalues of \(A^{T}A\).</p>
+        <span class="src">Lecture 5 · p15-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p23-25">
+        <h3>SVD vs eigendecomposition</h3>
+        <p>SVD always exists and its \(U,V\) are orthonormal with real, non-negative singular values; eigendecomposition exists only for square matrices with an eigenbasis, its \(P\) need not be orthogonal, and its diagonal entries can be complex. In SVD domain and codomain can differ in dimension, and \(U,V\) are generally not inverses of each other.</p>
+        <span class="src">Lecture 5 · p23-25</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p26-28">
+        <h3>Matrix approximation (rank-k)</h3>
+        <p>SVD writes a rank-\(r\) matrix as a sum of rank-1 pieces \(A=\sum_{i=1}^{r}\sigma_i u_i v_i^{T}\). Truncating the sum at \(k\lt r\) gives the best rank-\(k\) approximation \(\hat A(k)\) — cheaper to store and compute, and the basis of low-rank compression.</p>
+        <span class="src">Lecture 5 · p26-28</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p29-30">
+        <h3>Spectral norm</h3>
+        <p>The spectral norm \(\lVert A\rVert_2=\max_{x\neq0}\frac{\lVert Ax\rVert_2}{\lVert x\rVert_2}\) measures the largest stretching factor of \(A\). Theorem: it equals the largest singular value — used to quantify the error of a rank-\(k\) approximation.</p>
+        <span class="src">Lecture 5 · p29-30</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 6 — Differentiation, Gradients &amp; the Jacobian <small>· source: Lecture_6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 6 · p3">
+        <h3>Why differentiation matters in ML</h3>
+        <p>Training a model is an optimization problem: adjust parameters to best explain data (e.g. maximise likelihood in linear regression, minimise reconstruction error in autoencoders). Derivatives and gradients are the tools that drive this optimization.</p>
+        <span class="src">Lecture 6 · p3</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p4-6">
+        <h3>Derivative of a univariate function</h3>
+        <p>The derivative is the limit of the difference quotient \(\frac{f(x+h)-f(x)}{h}\) as \(h\to0\); it points in the direction of steepest ascent. Applying the definition to \(x^n\) recovers the power rule \(\frac{d}{dx}x^n=nx^{n-1}\).</p>
+        <span class="src">Lecture 6 · p4-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p7-11">
+        <h3>Taylor polynomial and Taylor series</h3>
+        <p>The degree-\(n\) Taylor polynomial approximates \(f\) near \(x_0\) using its derivatives; the Taylor series is the infinite version (Maclaurin series when \(x_0=0\)). For a polynomial \(f\), a Taylor polynomial of high-enough degree reproduces \(f\) exactly — the basis for local linear/quadratic models.</p>
+        <span class="src">Lecture 6 · p7-11</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p12-13">
+        <h3>Differentiation rules</h3>
+        <p>Sum, product, quotient and chain rules let us differentiate compound functions. The chain rule \((g\circ f)'(x)=g'(f(x))f'(x)\) is especially central — it powers backpropagation later.</p>
+        <span class="src">Lecture 6 · p12-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p14-17">
+        <h3>Partial derivatives and the gradient</h3>
+        <p>For \(f:\mathbb{R}^n\to\mathbb{R}\), varying one input at a time gives partial derivatives; collecting them into a row vector gives the gradient \(\nabla_x f\). The gradient points in the direction of steepest ascent of \(f\).</p>
+        <span class="src">Lecture 6 · p14-17</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p18-22">
+        <h3>Multivariate chain rule</h3>
+        <p>When \(f\) depends on variables that themselves depend on \(t\) (or on \(s,t\)), the gradient w.r.t. \(t\) is the sum \(\sum_i\frac{\partial f}{\partial x_i}\frac{\partial x_i}{\partial t}\), written compactly as a matrix product of the gradient with the Jacobian of the inner map.</p>
+        <span class="src">Lecture 6 · p18-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p23-28">
+        <h3>Gradients of vector-valued functions (Jacobian)</h3>
+        <p>For \(f:\mathbb{R}^n\to\mathbb{R}^m\), the derivative is the \(m\times n\) Jacobian matrix collecting all partial derivatives \(\partial f_i/\partial x_j\). For a linear map \(f(x)=Ax\), the Jacobian is simply \(A\).</p>
+        <span class="src">Lecture 6 · p23-28</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p14 (prereq)">
+        <h3>Hessian and critical points (prerequisite)</h3>
+        <p>The Hessian is the matrix of second partial derivatives — the "curvature" of \(f\). Critical points (where the gradient is zero) are classified by the Hessian: positive-definite → local minimum, negative-definite → local maximum, indefinite → saddle. Needed for the EC2 exam's classify-critical-points question.</p>
+        <span class="src">Lecture 6 · p14 (prereq)</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 7 — Backpropagation &amp; Automatic Differentiation <small>· source: Lecture-7.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 7 · p4">
+        <h3>Useful gradient identities</h3>
+        <p>A toolbox of matrix-calculus identities (e.g. \(\partial(x^{T}a)/\partial x=a^{T}\), \(\partial(x^{T}Bx)/\partial x=x^{T}(B+B^{T})\)) lets us differentiate the vector/matrix expressions that appear in ML loss functions without expanding them coordinate-by-coordinate.</p>
+        <span class="src">Lecture 7 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p5-6">
+        <h3>Why backpropagation</h3>
+        <p>Differentiating a nested function directly produces enormous expressions, so a naive gradient can cost far more than the function itself. Backpropagation computes the gradient of the loss w.r.t. all parameters efficiently by reusing intermediate results.</p>
+        <span class="src">Lecture 7 · p5-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p7-10">
+        <h3>Backpropagation through layers</h3>
+        <p>A deep network stacks layers \(f_i=\sigma_i(A_{i-1}f_{i-1}+b_{i-1})\). The chain rule expresses \(\partial L/\partial\theta_i\) as a product of Jacobians from the output backward; once \(\partial L/\partial\theta_{i+1}\) is known it is reused for \(\partial L/\partial\theta_i\) — the key efficiency of backprop.</p>
+        <span class="src">Lecture 7 · p7-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p11-16">
+        <h3>Automatic differentiation &amp; computation graphs</h3>
+        <p>Breaking a function into elementary intermediate variables (a computation graph) lets us compute derivatives mechanically. Reverse-mode auto-diff sets \(\partial f/\partial x_D=1\) at the output and propagates \(\partial f/\partial x_i=\sum_j\frac{\partial f}{\partial x_j}\frac{\partial x_j}{\partial x_i}\) backward — this is exactly backpropagation of the gradient.</p>
+        <span class="src">Lecture 7 · p11-16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p17-25">
+        <h3>Backprop through a sigmoid layer</h3>
+        <p>For \(Z=Ax+b,\ a=\sigma(Z)\), the sigmoid Jacobian is diagonal (\(\text{diag}(a\odot(1-a))\)) because the activation is element-wise. The complete rules are \(\delta(Z)=\delta(a)\odot a\odot(1-a)\), \(\partial L/\partial A=\delta(Z)x^{T}\), \(\partial L/\partial b=\delta(Z)\), \(\partial L/\partial x=A^{T}\delta(Z)\).</p>
+        <span class="src">Lecture 7 · p17-25</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p21">
+        <h3>Hadamard (element-wise) product</h3>
+        <p>The Hadamard product \(\odot\) multiplies two equal-sized vectors/matrices entry-by-entry. It appears in backprop wherever an activation is applied element-wise, giving diagonal Jacobians.</p>
+        <span class="src">Lecture 7 · p21</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

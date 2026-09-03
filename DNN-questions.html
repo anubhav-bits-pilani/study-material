@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNN — Question Bank</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.card.q{border-left-color:#a78bfa}
+.card.q h3{color:#a78bfa}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.1rem .5rem;border-radius:999px;margin-bottom:.35rem}
+.badge.easy{background:#064e3b;color:#6ee7b7}
+.badge.medium{background:#78350f;color:#fcd34d}
+.badge.hard{background:#7f1d1d;color:#fca5a5}
+.badge.mixed{background:#3730a3;color:#c7d2fe}
+details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans>summary::before{content:"▸ show answer";}
+details.ans[open]>summary::before{content:"▾ answer";}
+details.ans[open]>summary{color:var(--muted)}
+details.ans .sol{margin-top:.4rem;color:var(--ink)}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>DNN</span> · Question Bank<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="DNN-concepts.html">Concepts</a>
+    <a class="tab" href="DNN-formulas.html">Formulas</a>
+    <a class="tab" href="DNN-definitions.html">Definitions</a>
+    <a class="tab active" href="DNN-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Practice problems for AIML ZG511 — every formula in the Formulas guide gets an Easy (single eval), Medium (one forward/gradient step), and Hard (full forward+backward pass or derivation) problem, and every concept is exercised. Questions mirror the past-paper style ("Consider the network… / Given weights… / Compute… / Perform one step… / Derive…") with marks in brackets. Click "show answer" for a full worked solution. Modules follow the course order (M1–M5, Numerical Methods, Lab Notebooks, Recovered slides) and a final Combined / Exam-style set. Sources: DNN_M1–M5 decks, DFNN numericals, lab notebooks, and EC-2/EC-3 past papers.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Introduction to Deep Learning <small>· source: DNN_M1_Introduction.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: AI vs ML vs DL · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> State the containment relationship between Artificial Intelligence (AI), Machine Learning (ML) and Deep Learning (DL), and give a one-line definition of each. <em>(01+02 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Relationship: <strong>DL ⊂ ML ⊂ AI</strong> (each is a subset of the previous).<br>
+          • <strong>AI</strong> = the broad science of making machines perform tasks that normally require human intelligence.<br>
+          • <strong>ML</strong> = an approach to AI in which a machine learns to perform a task from experience/data rather than hand-coded rules.<br>
+          • <strong>DL</strong> = a subset of ML that uses artificial neural networks with multiple (≥3) layers to learn progressively higher-level representations from data.
+        </div></details>
+        <span class="src">tests: AI vs ML vs DL · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: four DL components · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> Name the four core components every deep-learning problem must have, and say which component gradient descent belongs to. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          The four components are: (1) <strong>Data</strong> to learn from; (2) a <strong>Model</strong> that transforms data into predictions; (3) an <strong>Objective / loss function</strong> measuring how well the model does; (4) a <strong>learning algorithm</strong> that adjusts parameters to optimise the objective.<br>
+          <strong>Gradient descent</strong> is the <em>learning algorithm</em> (component 4) — it searches for the parameters that minimise the loss.
+        </div></details>
+        <span class="src">tests: four DL components · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: kinds of learning · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q3.</strong> Classify each task as supervised (regression / classification), unsupervised, or reinforcement learning, and justify in one line each:
+        (a) predicting tomorrow's temperature from weather features; (b) grouping customers into segments with no labels; (c) an agent learning to play chess by self-play; (d) tagging an email as spam / not-spam. <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <strong>Supervised — regression</strong>: continuous target \(y\in\mathbb R\) (temperature) predicted from features.<br>
+          (b) <strong>Unsupervised</strong>: only features, no labels — clustering into segments.<br>
+          (c) <strong>Reinforcement learning</strong>: an agent takes actions in an environment over time to maximise reward (winning), no fixed labels.<br>
+          (d) <strong>Supervised — classification</strong> (binary): discrete label \(y\in\{\text{spam},\text{not-spam}\}\) from features.
+        </div></details>
+        <span class="src">tests: kinds of learning · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: why DL now / scaling · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q4.</strong> A team observes that their logistic-regression model's accuracy plateaus as they add more training data, whereas a large neural network keeps improving. Explain this behaviour using the "scale drives DL" intuition, and list two enabling factors that make training such large networks feasible today. <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Traditional ML models (logistic regression, SVM) have limited capacity, so their performance <strong>saturates</strong> once they have enough data to fit their simple hypothesis. Large neural networks have far greater capacity and automatically learn features, so given <strong>more data + more parameters</strong> they keep improving (Andrew Ng's scaling intuition: bigger network + more data → better performance).<br>
+          Enabling factors (any two): large volumes of unstructured data (images/text/audio), cheap high-quality sensors, cheap compute (GPUs/clusters), and cheap storage.
+        </div></details>
+        <span class="src">tests: why DL now / scaling · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: model family + loss convention · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q5.</strong> Define "objective/loss function" and state the convention about whether it should be maximised or minimised. What is the "family of models"? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          A <strong>loss function</strong> is a formal measure of how good or bad a model is. By convention <strong>lower is better</strong>, so it is <em>minimised</em> during training.<br>
+          The <strong>family of models</strong> is the set of all input→output mappings reachable by varying the model's parameters; training selects the member of this family with the smallest loss.
+        </div></details>
+        <span class="src">tests: model family + loss convention · Easy</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — Neuron &amp; Perceptron <small>· source: DNN_M2_ANN_Perceptron.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: net input z=wᵀx+b · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> A neuron has weights \(w=[0.5,-1,2]\), bias \(b=1\), and input \(x=[2,3,1]\). Compute the net input (pre-activation) \(z=w^\top x+b\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z = (0.5)(2)+(-1)(3)+(2)(1)+1 = 1-3+2+1 = \mathbf{1}\).
+        </div></details>
+        <span class="src">tests: net input z=wᵀx+b · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: augmented notation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> Rewrite the neuron of Q1 in augmented notation (bias as \(w_0\)): give \(\tilde x\) and \(w\), then verify \(h=w^\top\tilde x\) equals the earlier net input. <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Augmented input \(\tilde x=[1,\,2,\,3,\,1]^\top\) (leading 1) and weight vector \(w=[1,\,0.5,\,-1,\,2]^\top\) (bias \(w_0=1\) first).<br>
+          \(h=w^\top\tilde x=(1)(1)+(0.5)(2)+(-1)(3)+(2)(1)=1+1-3+2=\mathbf{1}\) — identical to \(z\). The augmented dot product absorbs the bias.
+        </div></details>
+        <span class="src">tests: augmented notation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: step / sign activation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> A perceptron uses the step activation \(f(z)=1\) if \(z\ge0\) else \(0\). For \(w=[2,-1],\,b=-0.5\), give the output for inputs \(x=(1,0)\) and \(x=(0,1)\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(x=(1,0):\ z=2(1)-1(0)-0.5=1.5\ge0\Rightarrow f=\mathbf{1}\).<br>
+          \(x=(0,1):\ z=2(0)-1(1)-0.5=-1.5\lt0\Rightarrow f=\mathbf{0}\).
+        </div></details>
+        <span class="src">tests: step / sign activation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: artificial neuron output f(wᵀx+b) · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q4.</strong> A single neuron with sigmoid activation has \(w=[1,-2],\,b=0.5,\,x=[1,1]\). Compute \(\hat y=\sigma(w^\top x+b)\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z=(1)(1)+(-2)(1)+0.5=-0.5\).<br>
+          \(\hat y=\sigma(-0.5)=\dfrac{1}{1+e^{0.5}}=\dfrac{1}{1+1.6487}=\mathbf{0.378}\).
+        </div></details>
+        <span class="src">tests: artificial neuron output f(wᵀx+b) · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: perceptron learning rule (one step) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q5.</strong> A perceptron (step output, target/label in \(\{0,1\}\)) has \(w=[0.2,-0.1],\,b=0.1,\,\eta=0.5\). For example \(x=[1,1]\) with target \(t=0\): (a) compute the prediction; (b) if wrong, perform one perceptron update of \(w\) and \(b\). <em>(01+03 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(z=0.2(1)-0.1(1)+0.1=0.2\ge0\Rightarrow\hat y=1\). Target \(t=0\), so it is <strong>misclassified</strong>.<br>
+          (b) Error \((t-\hat y)=0-1=-1\). Update \(w_i\leftarrow w_i+\eta(t-\hat y)x_i\):<br>
+          \(w_1=0.2+0.5(-1)(1)=-0.3\); \(w_2=-0.1+0.5(-1)(1)=-0.6\); \(b=0.1+0.5(-1)=-0.4\).<br>
+          New \(w=[-0.3,-0.6],\ b=-0.4\). (Re-check: \(z=-0.3-0.6-0.4=-1.3\lt0\Rightarrow\hat y=0\), now correct.)
+        </div></details>
+        <span class="src">tests: perceptron learning rule (one step) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: decision boundary line (2D) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> A perceptron has \(w_1=1,\,w_2=2\) (on features \(x_1,x_2\)) and bias \(b=-3\). Write the decision-boundary line \(w_1x_1+w_2x_2+b=0\) in the form \(x_2=mx_1+c\), and state which side (\(x_2\) larger/smaller) is classified as class 1. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Boundary: \(x_1+2x_2-3=0\Rightarrow x_2=-\tfrac12 x_1+\tfrac32\). So slope \(m=-0.5\), intercept \(c=1.5\).<br>
+          Class 1 is where \(z=x_1+2x_2-3\ge0\), i.e. \(2x_2\ge3-x_1\Rightarrow x_2\ge-\tfrac12x_1+\tfrac32\): the region <strong>above</strong> the line.
+        </div></details>
+        <span class="src">tests: decision boundary line (2D) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: AND-gate weights (inequalities) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> Using the perceptron model with step activation, derive inequalities on \((w_0,w_1,w_2)\) for a 2-input <strong>AND</strong> gate (output 1 only when both inputs are 1) and give one valid weight set. Bias term is \(w_0\). <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Need \(f(w_0+w_1x_1+w_2x_2)\) to be 1 only for \((1,1)\). Truth-table inequalities (fire iff \(z\ge0\)):<br>
+          (0,0): \(w_0\lt0\); (1,0): \(w_0+w_1\lt0\); (0,1): \(w_0+w_2\lt0\); (1,1): \(w_0+w_1+w_2\ge0\).<br>
+          A valid set: \(w_0=-1,\ w_1=w_2=0.75\). Checks: (0,0)=−1&lt;0 ✓; (1,0)=−0.25&lt;0 ✓; (0,1)=−0.25&lt;0 ✓; (1,1)=0.5≥0 ✓.
+        </div></details>
+        <span class="src">tests: AND-gate weights (inequalities) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: XOR not linearly separable · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q8.</strong> Explain why a single perceptron cannot represent the XOR function, and what structural change fixes it. Reference the linear-separability condition. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          XOR outputs 1 for \((0,1),(1,0)\) and 0 for \((0,0),(1,1)\). These two classes cannot be separated by any single straight line \(w_1x_1+w_2x_2+b=0\) — no linear boundary puts the diagonal pairs on the same side, so the data is <strong>not linearly separable</strong>. A single perceptron only draws one hyperplane, so it fails.<br>
+          Fix: add a <strong>hidden layer</strong> with non-linear activations (a multilayer perceptron). The hidden layer re-maps inputs into a space where the classes become linearly separable, then the output neuron combines them.
+        </div></details>
+        <span class="src">tests: XOR not linearly separable · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: perceptron convergence (multi-step) · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q9.</strong> Train a perceptron for the NOT gate. Single input \(x\in\{0,1\}\); model \(\hat y=f(w_1x+w_0)\) with step output in \(\{0,1\}\); start \(w_1=0,\,w_0=0\), \(\eta=1\). Targets: \(x=0\to t=1\), \(x=1\to t=0\). Perform updates until all examples are classified correctly and give the final weights. <em>(01+03+01 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Rule: \(w_1\leftarrow w_1+\eta(t-\hat y)x\), \(w_0\leftarrow w_0+\eta(t-\hat y)\). Present \((x=0),(x=1)\) each epoch.<br>
+          <strong>Epoch 1</strong>, \(x=0,t=1\): \(z=0\ge0\Rightarrow\hat y=1\). Correct, no update.<br>
+          &nbsp;\(x=1,t=0\): \(z=w_1+w_0=0\ge0\Rightarrow\hat y=1\). Wrong, error \(=-1\): \(w_1=0+(-1)(1)=-1\), \(w_0=0+(-1)=-1\). Now \(w=(w_1,w_0)=(-1,-1)\).<br>
+          <strong>Epoch 2</strong>, \(x=0,t=1\): \(z=w_0=-1\lt0\Rightarrow\hat y=0\). Wrong, error \(=+1\): \(w_1=-1+0=-1\) (since \(x=0\)), \(w_0=-1+1=0\). Now \(w=(-1,0)\).<br>
+          &nbsp;\(x=1,t=0\): \(z=w_1+w_0=-1\lt0\Rightarrow\hat y=0\). Correct.<br>
+          <strong>Epoch 3</strong>: \(x=0\Rightarrow z=0\ge0\Rightarrow1=t\) ✓; \(x=1\Rightarrow z=-1\lt0\Rightarrow0=t\) ✓. All correct.<br>
+          <strong>Final: \(w_1=-1,\ w_0=0\)</strong> — matches the deck's NOT-gate solution. Converges because a 1-D NOT gate is linearly separable (Perceptron Convergence Theorem).
+        </div></details>
+        <span class="src">tests: perceptron convergence (multi-step) · Hard</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Neural Networks for Regression <small>· source: DNN_M3_Linear NN Regression.pdf · L2-Linear Regression.ipynb</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: linear regression hypothesis ŷ=wᵀx · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> A linear-regression model has weights \(w=[2,\,0.5,\,-1]\) (with \(w_0=2\) the bias) and augmented input \(\tilde x=[1,\,4,\,3]\). Compute the prediction \(\hat y=w^\top\tilde x\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\hat y=(2)(1)+(0.5)(4)+(-1)(3)=2+2-3=\mathbf{1}\).
+        </div></details>
+        <span class="src">tests: linear regression hypothesis ŷ=wᵀx · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: identity activation &amp; derivative · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> For the identity (linear) activation used at a regression output, give \(f(z)\) and \(f'(z)\) at \(z=3.7\), and state why identity is the right choice for regression. <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(f(z)=z\Rightarrow f(3.7)=\mathbf{3.7}\); \(f'(z)=1\Rightarrow f'(3.7)=\mathbf{1}\).<br>
+          Identity allows any real output \((-\infty,\infty)\) (needed for continuous targets) and passes the gradient through unchanged (\(f'=1\)), losing no information.
+        </div></details>
+        <span class="src">tests: identity activation &amp; derivative · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: squared error (single example) · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> Compute the single-example squared-error loss \(\ell=\tfrac12(\hat y-y)^2\) for \(\hat y=3,\,y=5\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\ell=\tfrac12(3-5)^2=\tfrac12(4)=\mathbf{2}\).
+        </div></details>
+        <span class="src">tests: squared error (single example) · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: MSE / RMSE / MAE evaluation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q4.</strong> Predictions \(\hat y=[12,18,33]\) for targets \(y=[10,20,30]\). Compute MSE, RMSE and MAE. <em>(01+01+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Errors \((\hat y-y)=[2,-2,3]\).<br>
+          MSE \(=\tfrac13(2^2+2^2+3^2)=\tfrac{4+4+9}{3}=\tfrac{17}{3}=\mathbf{5.667}\).<br>
+          RMSE \(=\sqrt{5.667}=\mathbf{2.380}\).<br>
+          MAE \(=\tfrac13(|2|+|{-2}|+|3|)=\tfrac{7}{3}=\mathbf{2.333}\).
+        </div></details>
+        <span class="src">tests: MSE / RMSE / MAE evaluation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: feature scaling (min-max &amp; z-score) · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q5.</strong> A feature takes values \([10,20,30,40]\). Compute the min-max-scaled and the z-score-standardised value of \(x=20\). <em>(01+02 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Min-max: \(\dfrac{20-10}{40-10}=\dfrac{10}{30}=\mathbf{0.333}\).<br>
+          Mean \(\mu=25\); variance \(=\tfrac14(15^2+5^2+5^2+15^2)=\tfrac{500}{4}=125\Rightarrow\sigma=11.18\).<br>
+          Z-score: \(\dfrac{20-25}{11.18}=\mathbf{-0.447}\).
+        </div></details>
+        <span class="src">tests: feature scaling (min-max &amp; z-score) · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: MSE cost J(w) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> For predictions \(\hat y=[2,4,6]\) and targets \(y=[1,5,5]\) (\(N=3\)), compute the cost \(J(w)=\frac{1}{2N}\sum(\hat y^{(i)}-y^{(i)})^2\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Residuals \((\hat y-y)=[1,-1,1]\); \(\sum(\cdot)^2=1+1+1=3\).<br>
+          \(J=\dfrac{1}{2\cdot3}(3)=\dfrac{3}{6}=\mathbf{0.5}\).
+        </div></details>
+        <span class="src">tests: MSE cost J(w) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: gradient of MSE · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> Design matrix \(X=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;3\end{bmatrix}\), targets \(y=[2,2,4]^\top\), weights \(w=[0,1]^\top\). Compute the MSE gradient \(\nabla J=\frac1N X^\top(Xw-y)\). <em>(01+02+01 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Predictions \(Xw=[0+1,\ 0+2,\ 0+3]=[1,2,3]\).<br>
+          Residual \((Xw-y)=[1-2,\ 2-2,\ 3-4]=[-1,0,-1]\).<br>
+          \(X^\top(Xw-y)\): bias row \(\sum=(-1)+0+(-1)=-2\); slope row \(=1(-1)+2(0)+3(-1)=-4\).<br>
+          \(\nabla J=\tfrac13[-2,-4]=\mathbf{[-0.667,\,-1.333]}\).
+        </div></details>
+        <span class="src">tests: gradient of MSE · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: batch GD update · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q8.</strong> Continuing Q7, with \(w=[0,1]\), gradient \(\nabla J=[-0.667,-1.333]\) and \(\eta=0.3\), perform one batch gradient-descent update \(w^{(t+1)}=w^{(t)}-\eta\nabla J\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(w_0=0-0.3(-0.667)=+0.200\); \(w_1=1-0.3(-1.333)=1+0.400=1.400\).<br>
+          New \(w=\mathbf{[0.200,\ 1.400]}\) (both move to reduce the residuals).
+        </div></details>
+        <span class="src">tests: batch GD update · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: R² coefficient of determination · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q9.</strong> Targets \(y=[3,5,7,9]\), predictions \(\hat y=[2.5,5.5,7,8]\). Compute \(R^2\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\bar y=6\). \(SS_{\text{tot}}=(3-6)^2+(5-6)^2+(7-6)^2+(9-6)^2=9+1+1+9=20\).<br>
+          \(SS_{\text{res}}=(3-2.5)^2+(5-5.5)^2+(7-7)^2+(9-8)^2=0.25+0.25+0+1=1.5\).<br>
+          \(R^2=1-\dfrac{1.5}{20}=1-0.075=\mathbf{0.925}\) (92.5% of variance explained).
+        </div></details>
+        <span class="src">tests: R² coefficient of determination · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal equation (closed form) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q10.</strong> For data points \((x,y)=(1,2),(2,5),(4,11),(5,14)\), find the least-squares fit \(\hat y=w_0+w_1x\) using the normal equation \(w^*=(X^\top X)^{-1}X^\top y\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(X=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;4\\1&amp;5\end{bmatrix}\). \(\ \Sigma x=12,\ \Sigma x^2=46,\ \Sigma y=32,\ \Sigma xy=126\).<br>
+          \(X^\top X=\begin{bmatrix}4&amp;12\\12&amp;46\end{bmatrix}\), \(\ X^\top y=\begin{bmatrix}32\\126\end{bmatrix}\), \(\det=4(46)-12^2=40\).<br>
+          \((X^\top X)^{-1}=\tfrac1{40}\begin{bmatrix}46&amp;-12\\-12&amp;4\end{bmatrix}\).<br>
+          \(w_0=\tfrac{46(32)-12(126)}{40}=\tfrac{1472-1512}{40}=-1\); \(w_1=\tfrac{-12(32)+4(126)}{40}=\tfrac{-384+504}{40}=3\).<br>
+          \(w^*=\mathbf{[-1,\ 3]}\Rightarrow\hat y=-1+3x\) — a perfect fit (all four points lie on the line).
+        </div></details>
+        <span class="src">tests: normal equation (closed form) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: full GD iteration + normal-equation check · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q11.</strong> Given data \((1,2),(2,5),(4,11),(5,14)\), model \(\hat y=w_0+w_1x\), \(\eta=0.05\), initial \(w_0=1,\,w_1=-1\).
+        (a) Compute the gradient of MSE (cost \(\tfrac1{2N}\|Xw-y\|^2\)) at initialisation, showing the residuals.
+        (b) Perform one batch update.
+        (c) Given the optimum \(w^*=[-1,3]\) (normal equation), state whether the first update moves toward the optimum. <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Predictions \(\hat y=w_0+w_1x=1-x\): \([0,-1,-3,-4]\).<br>
+          Residuals \((\hat y-y)=[0-2,\,-1-5,\,-3-11,\,-4-14]=[-2,-6,-14,-18]\).<br>
+          \(\nabla J=\tfrac1N X^\top(\hat y-y)\), \(N=4\). Bias comp: \(\sum r=-40\Rightarrow-10\). Slope comp: \(1(-2)+2(-6)+4(-14)+5(-18)=-160\Rightarrow-40\).<br>
+          \(\nabla J=\mathbf{[-10,\,-40]}\).<br>
+          <strong>(b)</strong> \(w\leftarrow w-\eta\nabla J=[1,-1]-0.05[-10,-40]=[1+0.5,\,-1+2.0]=\mathbf{[1.5,\ 1.0]}\).<br>
+          <strong>(c)</strong> Optimum \([-1,3]\). Slope \(w_1\): \(-1\to1.0\), moving <strong>toward</strong> 3 ✓. Bias \(w_0\): \(1\to1.5\), moving slightly <strong>away</strong> from \(-1\). Overall the step still decreases the loss (guaranteed for a suitably small \(\eta\)); individual components need not each approach the optimum monotonically. So the update is a valid descent step even though \(w_0\) temporarily worsens.
+        </div></details>
+        <span class="src">tests: full GD iteration + normal-equation check · Hard</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Linear Neural Networks for Classification <small>· source: DNN_M4_Linear NN Classification.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: sigmoid evaluation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> Compute \(\sigma(z)=\dfrac{1}{1+e^{-z}}\) at \(z=0,\ z=2,\ z=-1\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(0)=\dfrac{1}{1+1}=\mathbf{0.5}\).<br>
+          \(\sigma(2)=\dfrac{1}{1+e^{-2}}=\dfrac{1}{1+0.1353}=\mathbf{0.881}\).<br>
+          \(\sigma(-1)=\dfrac{1}{1+e^{1}}=\dfrac{1}{1+2.7183}=\mathbf{0.269}\).
+        </div></details>
+        <span class="src">tests: sigmoid evaluation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: BCE single-example loss · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> Compute the binary cross-entropy \(\ell=-[y\log\hat y+(1-y)\log(1-\hat y)]\) for (a) \(y=1,\hat y=0.8\); (b) \(y=0,\hat y=0.3\). Use natural log. <em>(01+01 = 02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(y=1:\ \ell=-\log(0.8)=\mathbf{0.223}\).<br>
+          (b) \(y=0:\ \ell=-\log(1-0.3)=-\log(0.7)=\mathbf{0.357}\).
+        </div></details>
+        <span class="src">tests: BCE single-example loss · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: softmax evaluation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> Compute \(\text{softmax}(z)\) for logits \(z=[2,1,0]\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(e^{2}=7.389,\ e^{1}=2.718,\ e^{0}=1\); sum \(=11.107\).<br>
+          \(\hat y=\big[\tfrac{7.389}{11.107},\tfrac{2.718}{11.107},\tfrac{1}{11.107}\big]=\mathbf{[0.665,\ 0.245,\ 0.090]}\) (sums to 1).
+        </div></details>
+        <span class="src">tests: softmax evaluation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: categorical cross-entropy eval · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q4.</strong> One-hot label \(y=[0,1,0]\), predicted \(\hat y=[0.2,0.7,0.1]\). Compute the categorical cross-entropy \(-\sum_k y_k\log\hat y_k\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Only the true class (index 2) contributes: \(-\log(0.7)=\mathbf{0.357}\).
+        </div></details>
+        <span class="src">tests: categorical cross-entropy eval · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: iterations per epoch · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q5.</strong> Compute iterations per epoch \(\lceil N/B\rceil\) for (a) \(N=1000,B=32\); (b) \(N=60000,B=128\). <em>(01+01 = 02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\lceil1000/32\rceil=\lceil31.25\rceil=\mathbf{32}\).<br>
+          (b) \(\lceil60000/128\rceil=\lceil468.75\rceil=\mathbf{469}\).
+        </div></details>
+        <span class="src">tests: iterations per epoch · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: confusion-matrix metrics · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q6.</strong> A classifier gives TP=40, FP=10, FN=20, TN=30. Compute Accuracy, Precision, Recall and \(F_1\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Total \(=100\). Acc \(=\tfrac{40+30}{100}=\mathbf{0.70}\).<br>
+          Prec \(=\tfrac{40}{40+10}=\mathbf{0.80}\); Rec \(=\tfrac{40}{40+20}=\mathbf{0.667}\).<br>
+          \(F_1=\dfrac{2(0.80)(0.667)}{0.80+0.667}=\dfrac{1.067}{1.467}=\mathbf{0.727}\).
+        </div></details>
+        <span class="src">tests: confusion-matrix metrics · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: sigmoid derivative · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> Using \(\sigma'(z)=\sigma(z)(1-\sigma(z))\), compute \(\sigma'(0)\) and \(\sigma'(2)\). Why is \(\sigma'(0)=0.25\) significant? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(0)=0.5\Rightarrow\sigma'(0)=0.5(1-0.5)=\mathbf{0.25}\).<br>
+          \(\sigma(2)=0.881\Rightarrow\sigma'(2)=0.881(1-0.881)=0.881(0.119)=\mathbf{0.105}\).<br>
+          \(0.25\) is the <strong>maximum</strong> of \(\sigma'\); since every backprop step through a sigmoid multiplies the gradient by \(\le0.25\), stacking sigmoids drives the vanishing-gradient problem.
+        </div></details>
+        <span class="src">tests: sigmoid derivative · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: logistic regression prediction + decision · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q8.</strong> Logistic-regression model \(w=[0.5,-0.5]\), \(x=[1,2]\) (no separate bias). (a) Compute \(z=w^\top x\) and \(\hat y=\sigma(z)\). (b) With threshold 0.5, what class is predicted? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(z=0.5(1)+(-0.5)(2)=0.5-1=-0.5\); \(\hat y=\sigma(-0.5)=\dfrac{1}{1+e^{0.5}}=\mathbf{0.378}\).<br>
+          (b) \(\hat y=0.378\lt0.5\ (\)equivalently \(z\lt0)\Rightarrow\) predict <strong>class 0</strong>.
+        </div></details>
+        <span class="src">tests: logistic regression prediction + decision · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: BCE gradient (ŷ−y)x · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q9.</strong> For the model of Q8 (\(\hat y=0.378\)) with true label \(y=1\), compute the per-example BCE gradient \(\nabla_w\ell=(\hat y-y)x\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Error \((\hat y-y)=0.378-1=-0.6225\).<br>
+          \(\nabla_w\ell=-0.6225\cdot[1,2]=\mathbf{[-0.6225,\ -1.245]}\).<br>
+          (The clean "error × input" form arises because the sigmoid derivative cancels in sigmoid+BCE.)
+        </div></details>
+        <span class="src">tests: BCE gradient (ŷ−y)x · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: SGD update rule · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q10.</strong> Continuing Q9 with \(w=[0.5,-0.5]\), gradient \([-0.6225,-1.245]\) and \(\eta=0.1\), perform one SGD update \(w\leftarrow w-\eta\nabla\ell\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(w_1=0.5-0.1(-0.6225)=0.5+0.0623=\mathbf{0.5623}\);<br>
+          \(w_2=-0.5-0.1(-1.245)=-0.5+0.1245=\mathbf{-0.3755}\).<br>
+          Both weights move to raise \(\hat y\) toward the target \(y=1\).
+        </div></details>
+        <span class="src">tests: SGD update rule · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: multi-class logits z=Wᵀx · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q11.</strong> A 3-class linear model has per-class weight vectors \(w_1=[1,0],\,w_2=[0,1],\,w_3=[-1,1]\). For \(x=[2,3]\) compute the logits \(z=[w_1^\top x,w_2^\top x,w_3^\top x]\), then the softmax probabilities. <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z=[1(2)+0(3),\ 0(2)+1(3),\ -1(2)+1(3)]=[2,3,1]\).<br>
+          \(e^{2}=7.389,\ e^{3}=20.086,\ e^{1}=2.718\); sum \(=30.193\).<br>
+          softmax \(=[0.2447,\ 0.6652,\ 0.0900]\); predicted class = \(\arg\max=\) <strong>class 2</strong>.
+        </div></details>
+        <span class="src">tests: multi-class logits z=Wᵀx · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: numerically-stable softmax · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q12.</strong> Show that subtracting \(c=\max_k z_k\) before exponentiating leaves softmax unchanged, using \(z=[2,1,0]\) (so \(c=2\)). Why is this done in practice? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Shifted logits \(z-c=[0,-1,-2]\): \(e^{0}=1,\ e^{-1}=0.3679,\ e^{-2}=0.1353\); sum \(=1.5032\).<br>
+          softmax \(=[0.665,\ 0.245,\ 0.090]\) — identical to the un-shifted result (Q3), because \(\dfrac{e^{z_k-c}}{\sum_j e^{z_j-c}}=\dfrac{e^{-c}e^{z_k}}{e^{-c}\sum_j e^{z_j}}\) (the \(e^{-c}\) cancels: translation invariance).<br>
+          In practice this prevents \(e^{z}\) from <strong>overflowing</strong> for large logits (the log-sum-exp trick).
+        </div></details>
+        <span class="src">tests: numerically-stable softmax · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: softmax+CE gradient ŷ−y · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q13.</strong> For softmax output \(\hat y=[0.2,0.7,0.1]\) and one-hot label \(y=[0,1,0]\), compute the loss gradient w.r.t. the logits \(\partial\ell/\partial z=\hat y-y\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\partial\ell/\partial z=\hat y-y=[0.2-0,\ 0.7-1,\ 0.1-0]=\mathbf{[0.2,\ -0.3,\ 0.1]}\).<br>
+          The true-class logit gets a negative gradient (push it up); the others get positive gradients (push them down).
+        </div></details>
+        <span class="src">tests: softmax+CE gradient ŷ−y · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: BCE total cost + mini-batch gradient · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q14.</strong> A mini-batch of 3 examples has predictions \(\hat y=[0.8,0.3,0.6]\) and labels \(y=[1,0,1]\). Compute the average BCE cost \(J\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Per-example: \(-\log(0.8)=0.223\); \(-\log(1-0.3)=-\log0.7=0.357\); \(-\log(0.6)=0.511\).<br>
+          \(J=\tfrac13(0.223+0.357+0.511)=\tfrac{1.091}{3}=\mathbf{0.364}\).
+        </div></details>
+        <span class="src">tests: BCE total cost + mini-batch gradient · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: macro vs weighted precision · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q15.</strong> Three classes have per-class precision \([0.9,0.6,0.3]\) and support (counts) \([50,30,20]\) out of \(N=100\). Compute the macro-average and weighted-average precision. <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Macro \(=\tfrac13(0.9+0.6+0.3)=\mathbf{0.60}\) (all classes equal).<br>
+          Weighted \(=0.9(\tfrac{50}{100})+0.6(\tfrac{30}{100})+0.3(\tfrac{20}{100})=0.45+0.18+0.06=\mathbf{0.69}\) (weights the frequent, well-classified class more).
+        </div></details>
+        <span class="src">tests: macro vs weighted precision · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: BCE derivative wrt output · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q16.</strong> Compute \(\dfrac{\partial\ell}{\partial\hat y}=\dfrac{\hat y-y}{\hat y(1-\hat y)}\) for \(\hat y=0.8,\,y=1\), then multiply by \(\sigma'(z)=\hat y(1-\hat y)\) and confirm the product equals \(\hat y-y\). <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{\partial\ell}{\partial\hat y}=\dfrac{0.8-1}{0.8(0.2)}=\dfrac{-0.2}{0.16}=\mathbf{-1.25}\).<br>
+          Chaining with \(\sigma'=\hat y(1-\hat y)=0.16\): \((-1.25)(0.16)=-0.20=\hat y-y\) ✓. This cancellation is why sigmoid+BCE yields the clean \((\hat y-y)\) output error.
+        </div></details>
+        <span class="src">tests: BCE derivative wrt output · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: confusion matrix at two thresholds · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q17.</strong> A binary model outputs probabilities \([0.90,0.80,0.70,0.60,0.55,0.40,0.30,0.20,0.10,0.05]\) with true labels \([1,1,0,0,1,0,0,0,0,0]\).
+        (a) At threshold 0.50, build the confusion matrix and compute Precision, Recall, \(F_1\).
+        (b) At threshold 0.30, do the same.
+        (c) Which threshold suits (i) credit-risk approval and (ii) disease detection? Why can 0.50 be sub-optimal on imbalanced data? <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Actual positives = 3 (obs 1,2,5).<br>
+          <strong>(a) t=0.50</strong> → predict 1 for probs ≥0.50: obs 1–5. Of these labels \([1,1,0,0,1]\): TP=3, FP=2. Remaining obs 6–10 all label 0: TN=5, FN=0.<br>
+          Prec \(=\tfrac{3}{5}=0.60\); Rec \(=\tfrac{3}{3}=1.00\); \(F_1=\tfrac{2(0.6)(1)}{1.6}=\mathbf{0.75}\).<br>
+          <strong>(b) t=0.30</strong> → predict 1 for probs ≥0.30: obs 1–7. Labels \([1,1,0,0,1,0,0]\): TP=3, FP=4. Obs 8–10 label 0: TN=3, FN=0.<br>
+          Prec \(=\tfrac{3}{7}=0.429\); Rec \(=1.00\); \(F_1=\tfrac{2(0.429)(1)}{1.429}=\mathbf{0.60}\).<br>
+          <strong>(c)</strong> (i) Credit risk: a false positive (approving a bad borrower) is costly → favour <strong>precision</strong> → higher threshold (0.50). (ii) Disease detection: a false negative (missing a sick patient) is costly → favour <strong>recall</strong> → lower threshold (0.30). On imbalanced data, 0.50 can be sub-optimal because accuracy is dominated by the majority class and the default cut-off may ignore the rare-but-important positive class; the threshold should be tuned to the error costs.
+        </div></details>
+        <span class="src">tests: confusion matrix at two thresholds · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: derive sigmoid derivative · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q18.</strong> Derive \(\sigma'(z)=\sigma(z)(1-\sigma(z))\) from \(\sigma(z)=(1+e^{-z})^{-1}\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\sigma(z)=(1+e^{-z})^{-1}\). By the chain rule:<br>
+          \(\sigma'(z)=-(1+e^{-z})^{-2}\cdot\dfrac{d}{dz}(1+e^{-z})=-(1+e^{-z})^{-2}(-e^{-z})=\dfrac{e^{-z}}{(1+e^{-z})^2}\).<br>
+          Write \(\dfrac{e^{-z}}{(1+e^{-z})^2}=\dfrac{1}{1+e^{-z}}\cdot\dfrac{e^{-z}}{1+e^{-z}}=\sigma(z)\cdot\dfrac{e^{-z}}{1+e^{-z}}\).<br>
+          Since \(\dfrac{e^{-z}}{1+e^{-z}}=1-\dfrac{1}{1+e^{-z}}=1-\sigma(z)\), we get \(\sigma'(z)=\sigma(z)(1-\sigma(z))\). ∎
+        </div></details>
+        <span class="src">tests: derive sigmoid derivative · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: derive softmax+CE gradient · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q19.</strong> Derive that for softmax outputs \(\hat y_k=\dfrac{e^{z_k}}{\sum_j e^{z_j}}\) with categorical cross-entropy \(\ell=-\sum_k y_k\log\hat y_k\) (one-hot \(y\)), the gradient w.r.t. logit \(z_j\) is \(\partial\ell/\partial z_j=\hat y_j-y_j\). <em>(05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Loss derivative w.r.t. output: \(\dfrac{\partial\ell}{\partial\hat y_i}=-\dfrac{y_i}{\hat y_i}\).<br>
+          Softmax Jacobian: \(\dfrac{\partial\hat y_i}{\partial z_j}=\hat y_i(\delta_{ij}-\hat y_j)\) (where \(\delta_{ij}=1\) if \(i{=}j\), else 0).<br>
+          Chain: \(\dfrac{\partial\ell}{\partial z_j}=\sum_i\dfrac{\partial\ell}{\partial\hat y_i}\dfrac{\partial\hat y_i}{\partial z_j}=\sum_i\Big(-\dfrac{y_i}{\hat y_i}\Big)\hat y_i(\delta_{ij}-\hat y_j)=-\sum_i y_i(\delta_{ij}-\hat y_j)\).<br>
+          \(=-\sum_i y_i\delta_{ij}+\hat y_j\sum_i y_i=-y_j+\hat y_j\cdot1\) (one-hot \(\Rightarrow\sum_i y_i=1\)).<br>
+          \(\therefore\ \dfrac{\partial\ell}{\partial z_j}=\hat y_j-y_j\). ∎
+        </div></details>
+        <span class="src">tests: derive softmax+CE gradient · Hard</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Deep Feed-Forward Networks: Forward Prop &amp; Backprop <small>· source: DNN_M5_DFNN.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: layer pre-activation + activation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> A hidden layer has weight rows \(W=\begin{bmatrix}0.1&amp;0.2\\0.3&amp;0.4\end{bmatrix}\), bias \(b=[0.5,0.5]\), input \(x=[1,2]\). Compute \(z=Wx+b\) then \(h=\text{ReLU}(z)\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z_1=0.1(1)+0.2(2)+0.5=1.0\); \(z_2=0.3(1)+0.4(2)+0.5=1.6\). \(z=[1.0,1.6]\).<br>
+          \(h=\text{ReLU}([1.0,1.6])=\mathbf{[1.0,\ 1.6]}\) (both positive, unchanged).
+        </div></details>
+        <span class="src">tests: layer pre-activation + activation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: total parameter count · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> A network is \(784\to256\to128\to10\). Compute the parameters in the first hidden layer (include bias), and the total parameter count. <em>(01+02 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Per layer \(=n_\ell(n_{\ell-1}+1)\).<br>
+          First hidden: \(256(784+1)=256\times785=\mathbf{200{,}960}\).<br>
+          Layer 2: \(128(256+1)=128\times257=32{,}896\). Output: \(10(128+1)=1{,}290\).<br>
+          Total \(=200{,}960+32{,}896+1{,}290=\mathbf{235{,}146}\).
+        </div></details>
+        <span class="src">tests: total parameter count · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: task loss/activation selection · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> State the output-layer activation and loss for: (a) predicting a house price; (b) spam/not-spam; (c) classifying into 5 mutually-exclusive categories. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Regression → <strong>identity</strong> activation + <strong>MSE</strong> loss (1 output unit).<br>
+          (b) Binary → <strong>sigmoid</strong> + <strong>BCE</strong> (1 output unit).<br>
+          (c) Multi-class → <strong>softmax</strong> + <strong>categorical cross-entropy</strong> (5 output units). The output activation must match the loss.
+        </div></details>
+        <span class="src">tests: task loss/activation selection · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: parameter count (funnel net) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q4.</strong> A funnel regression net is \(20\to64\to32\to16\to1\). Compute the total number of parameters (weights + biases). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(64(20+1)=1{,}344\); \(32(64+1)=2{,}080\); \(16(32+1)=528\); \(1(16+1)=17\).<br>
+          Total \(=1344+2080+528+17=\mathbf{3{,}969}\) parameters.
+        </div></details>
+        <span class="src">tests: parameter count (funnel net) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: output-layer error signal δ(L) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q5.</strong> A softmax output layer (batch \(B=1\)) predicts \(\hat Y=[0.7,0.2,0.1]\) with one-hot target \(Y=[1,0,0]\). Compute the output-layer error signal \(\delta^{(L)}=\tfrac1B(\hat Y-Y)\). Why is the form identical for MSE+identity and BCE+sigmoid? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\delta^{(L)}=\hat Y-Y=[0.7-1,\ 0.2-0,\ 0.1-0]=\mathbf{[-0.3,\ 0.2,\ 0.1]}\).<br>
+          For all three matched loss–activation pairs the activation derivative cancels the loss derivative, leaving the clean \((\hat Y-Y)\). This "elegant pairing" is why the output error is always predicted − target.
+        </div></details>
+        <span class="src">tests: output-layer error signal δ(L) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: parameter gradients from δ · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> A layer received input activation \(h^{(\ell-1)}=[0.7,\,0,\,0.2]\) and has error signal \(\delta^{(\ell)}=[-0.354,\,0.495]\) (single example). Compute the weight gradient \(\partial J/\partial W^{(\ell)}=\delta^{(\ell)}\,h^{(\ell-1)\top}\) and the bias gradient. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{\partial J}{\partial W}=\delta\,h^\top\) is a \(2\times3\) matrix (outer product):<br>
+          Row 1 (\(-0.354\)): \([-0.354(0.7),\ -0.354(0),\ -0.354(0.2)]=[-0.248,\ 0,\ -0.0708]\).<br>
+          Row 2 (\(0.495\)): \([0.495(0.7),\ 0,\ 0.495(0.2)]=[0.3465,\ 0,\ 0.099]\).<br>
+          \(\dfrac{\partial J}{\partial b}=\delta=\mathbf{[-0.354,\ 0.495]}\). (The column feeding a dead input — the middle 0 — gets zero weight gradient.)
+        </div></details>
+        <span class="src">tests: parameter gradients from δ · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: single-example SGD update · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> Given weight \(W=\begin{bmatrix}0.4&amp;-0.1&amp;0.6\\0.2&amp;0.7&amp;-0.3\end{bmatrix}\) and gradient \(\partial J/\partial W=\begin{bmatrix}-0.248&amp;0&amp;-0.0708\\0.3465&amp;0&amp;0.099\end{bmatrix}\), apply the SGD update \(W\leftarrow W-\eta\,\partial J/\partial W\) with \(\eta=0.1\). Give the updated \(W\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Subtract \(0.1\times\) each gradient entry:<br>
+          Row 1: \([0.4+0.0248,\ -0.1-0,\ 0.6+0.00708]=[0.4248,\ -0.1,\ 0.6071]\).<br>
+          Row 2: \([0.2-0.03465,\ 0.7-0,\ -0.3-0.0099]=[0.1654,\ 0.7,\ -0.3099]\).<br>
+          \(W_{\text{new}}=\begin{bmatrix}\mathbf{0.4248}&amp;\mathbf{-0.1}&amp;\mathbf{0.6071}\\\mathbf{0.1654}&amp;\mathbf{0.7}&amp;\mathbf{-0.3099}\end{bmatrix}\). Column 2 is unchanged (zero gradient from the dead neuron).
+        </div></details>
+        <span class="src">tests: single-example SGD update · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: why non-linearity (linear collapse) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q8.</strong> Show that stacking two linear layers \(h=W_1x\), \(\hat y=W_2h\) (no activation) is equivalent to a single linear layer, and explain the consequence for network expressiveness. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\hat y=W_2h=W_2(W_1x)=(W_2W_1)x=W'x\) where \(W'=W_2W_1\) is a single matrix.<br>
+          So without a non-linear activation, any depth of linear layers collapses to <strong>one</strong> linear map — a deep linear network is no more expressive than a single layer and can only draw linear boundaries. Non-linear activations (ReLU/tanh/sigmoid) between layers are what let depth build complex, hierarchical functions.
+        </div></details>
+        <span class="src">tests: why non-linearity (linear collapse) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: full forward+backward pass (2→3→2) · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q9.</strong> Consider a 2-layer network: 2 inputs → 3 hidden (ReLU) → 2 outputs (sigmoid), BCE loss, \(\eta=0.1\).
+        Input \(x=[1.0,0.5]^\top\), target \(y=[1,0]^\top\).
+        \(W^{[1]}=\begin{bmatrix}0.5&amp;0.2\\-0.3&amp;0.8\\0.1&amp;-0.4\end{bmatrix},\ b^{[1]}=[0.1,-0.2,0.3]^\top,\ W^{[2]}=\begin{bmatrix}0.4&amp;-0.1&amp;0.6\\0.2&amp;0.7&amp;-0.3\end{bmatrix},\ b^{[2]}=[0.2,-0.1]^\top\).
+        (a) Compute \(z^{[1]},a^{[1]}\). (b) Compute \(z^{[2]},a^{[2]}\). (c) Compute BCE loss, \(\delta^{[2]}\), \(dW^{[2]},db^{[2]}\). (d) Backprop to the hidden layer (\(\delta^{[1]},dW^{[1]}\)) and explain the dead-neuron gradient. <em>(02+02+02+02 = 08 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(z^{[1]}=W^{[1]}x+b^{[1]}\):<br>
+          \(z_1=0.5(1)+0.2(0.5)+0.1=0.7\); \(z_2=-0.3(1)+0.8(0.5)-0.2=-0.1\); \(z_3=0.1(1)-0.4(0.5)+0.3=0.2\).<br>
+          \(z^{[1]}=[0.7,-0.1,0.2]\Rightarrow a^{[1]}=\text{ReLU}=[0.7,\ 0,\ 0.2]\) (unit 2 is "dead").<br>
+          <strong>(b)</strong> \(z^{[2]}=W^{[2]}a^{[1]}+b^{[2]}\):<br>
+          \(z_1=0.4(0.7)-0.1(0)+0.6(0.2)+0.2=0.28+0.12+0.2=0.6\);<br>
+          \(z_2=0.2(0.7)+0.7(0)-0.3(0.2)-0.1=0.14-0.06-0.1=-0.02\).<br>
+          \(a^{[2]}=\sigma([0.6,-0.02])=[0.6457,\ 0.4950]\).<br>
+          <strong>(c)</strong> BCE \(=-[\,1\cdot\log0.6457+0\cdot(\dots)\,]-[\,0+1\cdot\log(1-0.4950)\,]=-\log0.6457-\log0.5050=0.437+0.683=1.121\) (mean over 2 outputs \(=\mathbf{0.560}\)).<br>
+          \(\delta^{[2]}=a^{[2]}-y=[0.6457-1,\ 0.4950-0]=\mathbf{[-0.354,\ 0.495]}\).<br>
+          \(dW^{[2]}=\delta^{[2]}(a^{[1]})^\top=\begin{bmatrix}-0.248&amp;0&amp;-0.0708\\0.3465&amp;0&amp;0.099\end{bmatrix}\); \(db^{[2]}=\delta^{[2]}=[-0.354,0.495]\).<br>
+          <strong>(d)</strong> \(W^{[2]\top}\delta^{[2]}\): \([0.4(-0.354)+0.2(0.495),\ -0.1(-0.354)+0.7(0.495),\ 0.6(-0.354)-0.3(0.495)]=[-0.0427,\ 0.382,\ -0.361]\).<br>
+          \(\text{ReLU}'(z^{[1]})=[1,0,1]\). \(\delta^{[1]}=(W^{[2]\top}\delta^{[2]})\odot\text{ReLU}'=\mathbf{[-0.0427,\ 0,\ -0.361]}\).<br>
+          \(dW^{[1]}=\delta^{[1]}x^\top=\begin{bmatrix}-0.0427&amp;-0.0214\\0&amp;0\\-0.361&amp;-0.181\end{bmatrix}\).<br>
+          <strong>Dead neuron:</strong> since \(z_2^{[1]}=-0.1\le0\), \(\text{ReLU}'=0\), so \(\delta^{[1]}_2=0\) and its entire weight-gradient row is 0 — that neuron receives no update this step (the dying-ReLU effect).
+        </div></details>
+        <span class="src">tests: full forward+backward pass (2→3→2) · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: derive backprop error recursion · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q10.</strong> Using the chain rule, derive the backprop error recursion \(\delta^{(\ell)}=\big(\delta^{(\ell+1)}W^{(\ell+1)\top}\big)\odot\sigma'^{(\ell)}(z^{(\ell)})\), starting from \(\delta^{(\ell)}=\partial J/\partial z^{(\ell)}\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Define \(\delta^{(\ell)}=\dfrac{\partial J}{\partial z^{(\ell)}}\). By the chain rule through \(h^{(\ell)}=\sigma^{(\ell)}(z^{(\ell)})\):<br>
+          \(\dfrac{\partial J}{\partial z^{(\ell)}}=\dfrac{\partial J}{\partial h^{(\ell)}}\cdot\dfrac{\partial h^{(\ell)}}{\partial z^{(\ell)}}\).<br>
+          The second factor is the element-wise activation derivative \(\sigma'^{(\ell)}(z^{(\ell)})\).<br>
+          For the first factor, \(h^{(\ell)}\) affects \(J\) only through the next layer's pre-activation \(z^{(\ell+1)}=h^{(\ell)}W^{(\ell+1)}+b^{(\ell+1)}\), so \(\dfrac{\partial J}{\partial h^{(\ell)}}=\dfrac{\partial J}{\partial z^{(\ell+1)}}\dfrac{\partial z^{(\ell+1)}}{\partial h^{(\ell)}}=\delta^{(\ell+1)}W^{(\ell+1)\top}\).<br>
+          Combining (element-wise product because \(\partial h/\partial z\) is diagonal):<br>
+          \(\delta^{(\ell)}=\big(\delta^{(\ell+1)}W^{(\ell+1)\top}\big)\odot\sigma'^{(\ell)}(z^{(\ell)})\). ∎
+        </div></details>
+        <span class="src">tests: derive backprop error recursion · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: overfitting diagnosis + fixes + param counts · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q11.</strong> A DFNN predicts house prices from 500 samples, 20 features (regression).
+        Model A: 6 hidden layers × 512 units — training loss → 0, validation loss rises.
+        Model B: 3 hidden layers 64/32/16 (funnel) — moderate train loss, low validation loss.
+        (a) Diagnose Model A. (b) Give three architectural fixes. (c) Parameters in Model A's first hidden layer (with bias). (d) Compare A vs B total parameters (order of magnitude). (e) Why are funnels preferred with limited data? <em>(01×5 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Model A is <strong>overfitting</strong>: near-zero train loss with rising validation loss = high variance (too much capacity for 500 samples).<br>
+          <strong>(b)</strong> Any three: reduce depth/width (fewer layers/units → e.g. the funnel), add regularisation (L2 weight decay, dropout), early stopping, batch normalization, or get more data / data augmentation.<br>
+          <strong>(c)</strong> First hidden layer \(=512(20+1)=512\times21=\mathbf{10{,}752}\) parameters.<br>
+          <strong>(d)</strong> Model A: \(10{,}752+5\times[512(512+1)]+1(512+1)=10{,}752+5(262{,}656)+513\approx\mathbf{1.32\times10^6}\) (\(\sim10^6\)). Model B: \(64(21)+32(65)+16(33)+1(17)=1344+2080+528+17=3{,}969\) (\(\sim10^3\!-\!10^4\)). A has \(\sim\)300× more parameters.<br>
+          <strong>(e)</strong> Funnels progressively <strong>compress</strong> the representation (fewer parameters, forced feature abstraction), so they have lower capacity and overfit less — well-suited when data is limited relative to model size.
+        </div></details>
+        <span class="src">tests: overfitting diagnosis + fixes + param counts · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: activation choice + init + training issues · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q12.</strong> (a) Why is ReLU the default hidden activation over sigmoid/tanh in deep nets? (b) Why must weights not be initialised to all zeros, and which init suits ReLU vs sigmoid/tanh? <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) ReLU \(=\max(0,z)\) is cheap (a threshold, no exponentials), has gradient 1 for \(z\gt0\) so it does <strong>not saturate/vanish</strong> for positive inputs (sigmoid/tanh saturate, capping \(\sigma'\le0.25\)), and gives sparse activations.<br>
+          (b) All-zero weights make every neuron in a layer compute the same thing and receive the same gradient (symmetry) → they never differentiate. Use random init: <strong>He</strong> initialization for ReLU, <strong>Xavier/Glorot</strong> for sigmoid/tanh; biases can be 0.
+        </div></details>
+        <span class="src">tests: activation choice + init + training issues · Medium</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Numerical Methods — Activations, Loss Derivatives &amp; Gradient Flow <small>· source: DNN_M5_DFNN_Numerical.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: tanh evaluation · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> Compute \(\tanh(z)=\dfrac{e^{z}-e^{-z}}{e^{z}+e^{-z}}\) at \(z=0\) and \(z=1\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\tanh(0)=\dfrac{0}{2}=\mathbf{0}\).<br>
+          \(\tanh(1)=\dfrac{2.7183-0.3679}{2.7183+0.3679}=\dfrac{2.3504}{3.0862}=\mathbf{0.762}\).
+        </div></details>
+        <span class="src">tests: tanh evaluation · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: ReLU value &amp; derivative · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> For \(\text{ReLU}(z)=\max(0,z)\), give \(\text{ReLU}(z)\) and \(\text{ReLU}'(z)\) at \(z=-3\) and \(z=2.5\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(z=-3:\ \text{ReLU}=\mathbf{0},\ \text{ReLU}'=\mathbf{0}\) (dead zone).<br>
+          \(z=2.5:\ \text{ReLU}=\mathbf{2.5},\ \text{ReLU}'=\mathbf{1}\).
+        </div></details>
+        <span class="src">tests: ReLU value &amp; derivative · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: MSE &amp; MAE derivatives · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> For \(\hat y=4,\,y=1\), compute the MSE derivative \(\partial\ell/\partial\hat y=\hat y-y\) and the MAE derivative \(\text{sign}(\hat y-y)\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          MSE: \(\hat y-y=4-1=\mathbf{3}\) (grows with the error).<br>
+          MAE: \(\text{sign}(3)=\mathbf{+1}\) (constant magnitude — robust to outliers, undefined at 0).
+        </div></details>
+        <span class="src">tests: MSE &amp; MAE derivatives · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: cross-entropy derivative wrt output · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q4.</strong> For categorical CE \(\ell=-\sum_c y_c\log\hat y_c\) with one-hot true class \(k\) and \(\hat y_k=0.4\), compute \(\partial\ell/\partial\hat y_k=-y_k/\hat y_k\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\partial\ell/\partial\hat y_k=-\dfrac{1}{0.4}=\mathbf{-2.5}\). For non-true classes \(y_c=0\Rightarrow\) derivative 0.
+        </div></details>
+        <span class="src">tests: cross-entropy derivative wrt output · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: tanh derivative · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q5.</strong> Using \(\tanh'(z)=1-\tanh^2(z)\), compute \(\tanh'(0)\) and \(\tanh'(1)\), and state how the peak compares with the sigmoid derivative's peak. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\tanh'(0)=1-0^2=\mathbf{1}\).<br>
+          \(\tanh'(1)=1-(0.762)^2=1-0.580=\mathbf{0.420}\).<br>
+          The tanh derivative peaks at \(1.0\) (at \(z=0\)) — <strong>4× larger</strong> than the sigmoid's peak of \(0.25\) — so tanh delivers stronger gradients and, being zero-centred, is often preferred over sigmoid in hidden layers.
+        </div></details>
+        <span class="src">tests: tanh derivative · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: gradient-flow recursion (one step) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> Per backward step \(|\delta^{[l-1]}|=|\delta^{[l]}|\cdot\|W^{[l]}\|\cdot|g'^{[l-1]}|\). With \(\|W\|=0.8\) and sigmoid \(g'=0.25\), compute the per-layer shrink factor and \(|\delta^{[l-1]}|\) when \(|\delta^{[l]}|=1\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Factor \(=0.8\times0.25=\mathbf{0.20}\) per layer.<br>
+          \(|\delta^{[l-1]}|=1\times0.20=\mathbf{0.20}\).
+        </div></details>
+        <span class="src">tests: gradient-flow recursion (one step) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: network design heuristics · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> A dataset has \(M=10000\) samples, \(d=20\) features, \(c=3\) classes. Use \(L\le\log_2\!\big(M/(d\cdot c)\big)+1\) and Parameters \(\le M/5\) to bound the depth and the parameter budget. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{M}{d\cdot c}=\dfrac{10000}{60}=166.7\); \(\log_2(166.7)=7.38\); \(L\le7.38+1=8.38\Rightarrow L\le\mathbf{8}\) layers.<br>
+          Parameter budget \(\le M/5=10000/5=\mathbf{2000}\) parameters. Choose an architecture whose total params stay under 2000, then add regularisation.
+        </div></details>
+        <span class="src">tests: network design heuristics · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: vanishing gradient over 4 layers · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q8.</strong> A 4-layer sigmoid network has \(\|W\|=0.8\) and \(g'=0.25\) at every layer. Starting from \(|\delta^{[4]}|=1\), compute \(|\delta^{[3]}|,|\delta^{[2]}|,|\delta^{[1]}|\), and explain the vanishing-gradient problem. Then state what happens if instead \(\|W\|=4\) (with ReLU \(g'=1\)). <em>(03+02 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Per-layer factor \(=0.8\times0.25=0.2\).<br>
+          \(|\delta^{[3]}|=1(0.2)=0.20\); \(|\delta^{[2]}|=0.20(0.2)=0.04\); \(|\delta^{[1]}|=0.04(0.2)=\mathbf{0.008}\).<br>
+          The error signal shrinks by 125× over three hops, so the <strong>early layers barely learn</strong> (vanishing gradients) — the classic failure of deep sigmoid nets; fixes are ReLU, better init, and normalization.<br>
+          With \(\|W\|=4,\ g'=1\): factor \(=4\) per layer, so \(|\delta|\) <strong>grows</strong> \(4\to16\to64\) — <strong>exploding gradients</strong> (NaN/Inf); fixes are gradient clipping, lower \(\eta\), proper init.
+        </div></details>
+        <span class="src">tests: vanishing gradient over 4 layers · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: derive tanh derivative · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q9.</strong> Derive \(\tanh'(z)=1-\tanh^2(z)\) from \(\tanh(z)=\dfrac{e^z-e^{-z}}{e^z+e^{-z}}\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Let \(u=e^z-e^{-z}\), \(v=e^z+e^{-z}\), so \(\tanh=u/v\), with \(u'=e^z+e^{-z}=v\) and \(v'=e^z-e^{-z}=u\).<br>
+          Quotient rule: \(\tanh'=\dfrac{u'v-uv'}{v^2}=\dfrac{v\cdot v-u\cdot u}{v^2}=\dfrac{v^2-u^2}{v^2}=1-\dfrac{u^2}{v^2}=1-\tanh^2(z)\). ∎<br>
+          (Since \(v^2-u^2=(e^z+e^{-z})^2-(e^z-e^{-z})^2=4\), one can also write \(\tanh'(z)=\dfrac{4}{(e^z+e^{-z})^2}\).)
+        </div></details>
+        <span class="src">tests: derive tanh derivative · Hard</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lab Notebooks — Perceptron &amp; Linear Regression from Scratch <small>· source: L1-Perceptron.ipynb · L2-Linear Regression.ipynb</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: perceptron forward pass Z=XW+b, sign · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> In the L1 lab the perceptron computes \(Z=XW+b\) then \(A=\text{sign}(Z)\) (\(+1\) if \(Z\ge0\), else \(-1\)). For one example \(x=[1,0]\), \(W=[0.5,-0.5]\), \(b=0.2\), give \(Z\) and \(A\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(Z=0.5(1)+(-0.5)(0)+0.2=0.7\ge0\Rightarrow A=\mathbf{+1}\).
+        </div></details>
+        <span class="src">tests: perceptron forward pass Z=XW+b, sign · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: decision-boundary line (lab form) · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> Using the lab's 2-D boundary \(x_2=-\dfrac{W_0}{W_1}x_1-\dfrac{b}{W_1}\), write the line for \(W_0=2,\,W_1=1,\,b=-1\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(x_2=-\dfrac{2}{1}x_1-\dfrac{-1}{1}=\mathbf{-2x_1+1}\) (slope \(-2\), intercept \(1\)).
+        </div></details>
+        <span class="src">tests: decision-boundary line (lab form) · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: perceptron batch update (lab form) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q3.</strong> AND gate with labels in \(\{-1,+1\}\): \(X=\begin{bmatrix}0&amp;0\\0&amp;1\\1&amp;0\\1&amp;1\end{bmatrix}\), \(Y=[-1,-1,-1,1]\). Start \(W=[0,0],\,b=0\), \(\alpha=0.1\). With \(A=\text{sign}(Z)\) (so all \(Z=0\Rightarrow A=+1\)), perform one batch update \(W\leftarrow W-\tfrac{\alpha}{2}X^\top(A-Y),\ b\leftarrow b-\tfrac{\alpha}{2}\sum(A-Y)\). <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(Z=XW+b=[0,0,0,0]\Rightarrow A=[1,1,1,1]\). Error \((A-Y)=[1-(-1),\,1-(-1),\,1-(-1),\,1-1]=[2,2,2,0]\).<br>
+          \(X^\top(A-Y)\): \(x_1\) col \(=0(2)+0(2)+1(2)+1(0)=2\); \(x_2\) col \(=0(2)+1(2)+0(2)+1(0)=2\). \(=[2,2]\).<br>
+          \(W\leftarrow[0,0]-\tfrac{0.1}{2}[2,2]=\mathbf{[-0.1,-0.1]}\).<br>
+          \(\sum(A-Y)=6\Rightarrow b\leftarrow0-\tfrac{0.1}{2}(6)=\mathbf{-0.3}\).
+        </div></details>
+        <span class="src">tests: perceptron batch update (lab form) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: perceptron hinge cost + XOR non-convergence · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q4.</strong> The lab tracks the cost \(J=\tfrac1m\sum_i\max(0,\,-y^{(i)}x^{(i)}W)\). Explain why this cost stays flat (never reaches 0) when the perceptron is trained on XOR, and what that tells you. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          The hinge cost is 0 only when every point satisfies \(y^{(i)}(x^{(i)}W)\gt0\), i.e. all points are correctly classified with the right sign. XOR is <strong>not linearly separable</strong>, so no single weight vector can put all four points on the correct side — at least one term \(\max(0,-y\,xW)\gt0\) always remains. Hence the cost curve stays flat/non-zero and the perceptron never converges, empirically confirming XOR needs a multilayer (non-linear) network.
+        </div></details>
+        <span class="src">tests: perceptron hinge cost + XOR non-convergence · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: single-neuron regression GD step (lab) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q5.</strong> L2 single-neuron regressor \(\hat y=wx+b\) (identity activation), data \(x=[1,2,3]\), \(y=[2,4,6]\), start \(w=0,\,b=0\), \(\eta=0.1\). Using \(\partial_w J=\tfrac1N\sum(\hat y-y)x\), \(\partial_b J=\tfrac1N\sum(\hat y-y)\), perform one batch GD step. <em>(04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\hat y=[0,0,0]\); residual \((\hat y-y)=[-2,-4,-6]\).<br>
+          \(\partial_w J=\tfrac13[(-2)(1)+(-4)(2)+(-6)(3)]=\tfrac13(-28)=-9.333\).<br>
+          \(\partial_b J=\tfrac13(-2-4-6)=\tfrac13(-12)=-4\).<br>
+          Update: \(w=0-0.1(-9.333)=\mathbf{0.933}\); \(b=0-0.1(-4)=\mathbf{0.4}\) (moving toward the true \(w=2,b=0\)).
+        </div></details>
+        <span class="src">tests: single-neuron regression GD step (lab) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: feature scaling necessity + weight interpretation · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> In the L2 Auto-MPG lab, (a) why are features standardised before batch GD, and (b) after training the weight for "vehicle weight" is negative while "model year" is positive — what does each sign mean physically? <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Features have very different scales (e.g. weight in thousands of lbs vs. cylinders). Without standardisation the large-scale feature dominates the gradient, causing slow/unstable convergence; z-scoring to zero mean/unit variance makes all features comparable so GD converges smoothly (loss fell 310→5.67 in 1000 iters).<br>
+          (b) A <strong>negative</strong> weight on vehicle weight means heavier cars have lower MPG (worse fuel efficiency); a <strong>positive</strong> weight on model year means newer cars have higher MPG — both match physical intuition, and the similar train/test \(R^2\) (≈0.82/0.77) indicates good generalisation.
+        </div></details>
+        <span class="src">tests: feature scaling necessity + weight interpretation · Medium</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered Slides — Softmax Jacobian &amp; 3-Layer Worked Backprop <small>· source: DFFNNUMERICAL.pdf (image slides)</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: softmax Jacobian (diagonal) · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> Softmax output \(\hat y=[0.7,0.2,0.1]\). Compute the diagonal Jacobian term \(\partial\hat y_1/\partial z_1=\hat y_1(1-\hat y_1)\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\partial\hat y_1/\partial z_1=0.7(1-0.7)=0.7(0.3)=\mathbf{0.21}\).
+        </div></details>
+        <span class="src">tests: softmax Jacobian (diagonal) · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: softmax Jacobian (off-diagonal) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q2.</strong> For \(\hat y=[0.7,0.2,0.1]\), compute the off-diagonal term \(\partial\hat y_1/\partial z_2=\hat y_1(\delta_{12}-\hat y_2)\) and confirm the row \([\partial\hat y_1/\partial z_1,\partial\hat y_1/\partial z_2,\partial\hat y_1/\partial z_3]\) sums to 0. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\delta_{12}=0\Rightarrow\partial\hat y_1/\partial z_2=0.7(0-0.2)=\mathbf{-0.14}\). Similarly \(\partial\hat y_1/\partial z_3=0.7(0-0.1)=-0.07\).<br>
+          Row \(=[0.21,-0.14,-0.07]\), sum \(=0\) ✓ (softmax probabilities sum to 1, so their sensitivities to all logits cancel).
+        </div></details>
+        <span class="src">tests: softmax Jacobian (off-diagonal) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: per-weight backprop chain · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q3.</strong> In the 3-3-3-3 example the softmax output is \(o=[0.142,0.4717,0.3862]\) with target \(y=[0,1,0]\); the incoming hidden-2 activation is \(h2=[0.952,0.952,0.916]\). Using the softmax+CE simplification \(\partial E/\partial o_{in,k}=o_k-y_k\) and \(\partial E/\partial W_{jk}=(o_k-y_k)\,h2_j\), compute the gradient of the weight from hidden unit \(j=1\) to the true-class output \(k=2\). <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Output error for class 2: \(o_2-y_2=0.4717-1=-0.5283\).<br>
+          \(\partial E/\partial W_{1,2}=(o_2-y_2)\,h2_1=(-0.5283)(0.952)=\mathbf{-0.503}\).<br>
+          (This matches the deck's \(\approx-0.5029\). With \(lr=0.01\), the weight changes by only \(\approx+0.005\).)
+        </div></details>
+        <span class="src">tests: per-weight backprop chain · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: 3-3-3-3 softmax + CCE loss + output error · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q4.</strong> In the 3-3-3-3 network the output-layer pre-activations are \(o_{in}=[1.7,2.9,2.7]\), the target (one-hot) is \(y=[0,1,0]\), and the softmax diagonal derivatives are needed for backprop.
+        (a) Compute the softmax output \(o_{out}\). (b) Compute the categorical cross-entropy loss. (c) Compute the softmax diagonal derivatives \(o_{out}(1-o_{out})\). (d) Give the output-layer error \(\partial E/\partial o_{in}=o_{out}-y\). <em>(02+01+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(e^{1.7}=5.474,\ e^{2.9}=18.174,\ e^{2.7}=14.880\); sum \(=38.528\).<br>
+          \(o_{out}=[0.1421,\ 0.4717,\ 0.3862]\).<br>
+          <strong>(b)</strong> CCE \(=-\log(o_{true})=-\log(0.4717)=\mathbf{0.751}\) (only the true class, index 2, contributes).<br>
+          <strong>(c)</strong> \(o_{out}(1-o_{out})=[0.1421(0.8579),\ 0.4717(0.5283),\ 0.3862(0.6138)]=\mathbf{[0.1219,\ 0.2492,\ 0.2371]}\) — the "own-class" sensitivities used to backprop each output.<br>
+          <strong>(d)</strong> \(\partial E/\partial o_{in}=o_{out}-y=[0.1421-0,\ 0.4717-1,\ 0.3862-0]=\mathbf{[0.1421,\ -0.5283,\ 0.3862]}\). The elegant softmax+CE result: the true-class logit gets a negative push (raise it), the others positive (lower them).
+        </div></details>
+        <span class="src">tests: 3-3-3-3 softmax + CCE loss + output error · Hard</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Combined / Exam-style — Full Training Iterations, Design &amp; Debugging <small>· source: mixed · EC-2 &amp; EC-3 past papers</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: full logistic training iteration (forward→loss→grad→update) · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <p><strong>Q1.</strong> A single sigmoid neuron has \(w=[0.1,-0.2]\), \(b=0.05\), input \(x=[2,1]\), true label \(y=1\), \(\eta=0.5\), BCE loss. Perform one complete training iteration: (a) forward pass \(z,\hat y\); (b) BCE loss; (c) gradients \(\nabla_w\ell,\partial_b\ell\); (d) updated \(w,b\); (e) re-evaluate the loss and confirm it decreased. <em>(01+01+01+01+01 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(z=0.1(2)-0.2(1)+0.05=0.05\); \(\hat y=\sigma(0.05)=\dfrac{1}{1+e^{-0.05}}=0.5125\).<br>
+          <strong>(b)</strong> BCE \(=-\log(0.5125)=\mathbf{0.669}\).<br>
+          <strong>(c)</strong> Error \((\hat y-y)=-0.4875\). \(\nabla_w\ell=(\hat y-y)x=-0.4875[2,1]=[-0.975,-0.4875]\); \(\partial_b\ell=-0.4875\).<br>
+          <strong>(d)</strong> \(w=[0.1+0.5(0.975),\ -0.2+0.5(0.4875)]=[\mathbf{0.5875},\ \mathbf{-0.0438}]\); \(b=0.05+0.5(0.4875)=\mathbf{0.294}\).<br>
+          <strong>(e)</strong> New \(z=0.5875(2)-0.0438(1)+0.294=1.425\); \(\hat y=\sigma(1.425)=0.806\); loss \(=-\log(0.806)=\mathbf{0.216}\lt0.669\) ✓ — the step reduced the loss and pushed \(\hat y\) toward 1.
+        </div></details>
+        <span class="src">tests: full logistic training iteration (forward→loss→grad→update) · Mixed</span>
+      </div>
+
+      <div class="card q" data-src="tests: exploding-gradient debugging (depth estimate + fixes) · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <p><strong>Q2.</strong> A model fails during training. Setup: input \(x=1\); each layer is a single scalar weight; all weights \(w=2\); \(dL/dy=1\); \(\eta=0.01\). Logs: Epoch 1 loss 0.8 (grad ≈10–20), Epoch 3 loss 15.2 (grad ≈300+), Epoch 5 loss = NaN.
+        (a) Is the network shallow (≈5 layers) or deep (≈10 layers)? Support with a calculation. (b) Compute the gradient w.r.t. the first weight for a 10-layer network. (c) Diagnose: root cause and why loss goes NaN. (d) One init fix, one training-time fix, one architecture-level fix. <em>(02+01+02+03 = 08 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          For a chain of scalar layers \(y=w^L x\), the gradient w.r.t. the first weight is \(\dfrac{\partial L}{\partial w_1}=\dfrac{dL}{dy}\cdot w^{L-1}\cdot x\).<br>
+          <strong>(a)</strong> 5-layer: \(1\cdot2^{4}\cdot1=16\) — consistent with the "≈10–20" early gradient. 10-layer: \(2^{9}=512\) — far above the logged range. So the network is <strong>shallow (≈5 layers)</strong>.<br>
+          <strong>(b)</strong> 10-layer gradient \(=2^{10-1}=2^{9}=\mathbf{512}\).<br>
+          <strong>(c)</strong> Root cause: <strong>exploding gradients</strong> — weights \(\gt1\) compound multiplicatively (\(2^{L-1}\)), so gradients and activations blow up; each update overshoots and increases the loss. The loss becomes <strong>NaN</strong> because values exceed floating-point range (overflow to \(\pm\infty\), then \(\infty-\infty\)/\(\infty\times0\) = NaN).<br>
+          <strong>(d)</strong> Init fix: smaller-variance random init (Xavier/He) so weights aren't \(\gt1\). Training-time fix: <strong>gradient clipping</strong> (and/or lower \(\eta\)). Architecture fix: residual/skip connections or batch/layer normalization to keep signal magnitude stable across depth.
+        </div></details>
+        <span class="src">tests: exploding-gradient debugging (depth estimate + fixes) · Mixed</span>
+      </div>
+
+      <div class="card q" data-src="tests: design network + param count + activation/loss · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <p><strong>Q3.</strong> You must design a DFNN to classify \(28\times28\) grayscale images into 10 classes, with 50,000 training samples. (a) Choose input size, a funnel hidden architecture, output size, output activation and loss — justify each. (b) Compute the total parameter count. (c) Use \(L\le\log_2(M/(d\cdot c))+1\) to check your depth. (d) Given the parameter budget \(\le M/5\), comment on capacity and one mitigation. <em>(02+02+01+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Flatten image → input \(d=784\). Funnel hidden layers \(784\to128\to64\), output \(=10\) units with <strong>softmax</strong> activation and <strong>categorical cross-entropy</strong> loss (mutually-exclusive multi-class). Hidden activation ReLU. Funnel compresses features and limits capacity.<br>
+          <strong>(b)</strong> \(128(784+1)=100{,}480\); \(64(128+1)=8{,}256\); \(10(64+1)=650\). Total \(=\mathbf{109{,}386}\) parameters.<br>
+          <strong>(c)</strong> \(\log_2\!\big(\tfrac{50000}{784\cdot10}\big)+1=\log_2(6.38)+1=2.67+1=3.67\Rightarrow L\le3\). Two hidden layers (\(L=3\) incl. output) is within budget ✓.<br>
+          <strong>(d)</strong> Parameter budget \(=M/5=10{,}000\), but the net has \(\sim110\)k params — far over budget, so overfitting risk is high. Mitigation: add regularisation (dropout, L2 weight decay), reduce width, or use data augmentation / more data.
+        </div></details>
+        <span class="src">tests: design network + param count + activation/loss · Mixed</span>
+      </div>
+
+      <div class="card q" data-src="tests: deep-sigmoid vanishing diagnosis + fixes · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <p><strong>Q4.</strong> A 10-layer network with sigmoid activations everywhere trains extremely slowly — the early layers' weights barely change. Assume each backward hop scales \(|\delta|\) by \(\|W\|\cdot g'=0.9\times0.25=0.225\). (a) Compute the factor by which \(|\delta|\) shrinks from the output layer to the first layer (9 hops). (b) Name the phenomenon and why sigmoids cause it. (c) Give three concrete fixes. <em>(02+02+01 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Shrink factor \(=0.225^{9}\). \(0.225^2=0.0506,\ 0.225^3=0.0114,\ \dots,\ 0.225^{9}\approx\mathbf{9.5\times10^{-7}}\). The first layer's error signal is ~a million times weaker than the output's.<br>
+          <strong>(b)</strong> <strong>Vanishing gradients</strong>: sigmoid's derivative peaks at only 0.25 (and is much smaller when saturated), so each layer multiplies the gradient by \(\le0.25\); over many layers the product decays exponentially and early layers stop learning.<br>
+          <strong>(c)</strong> Any three: use <strong>ReLU</strong> (derivative 1 for \(z\gt0\)); proper initialization (He/Xavier); batch normalization; residual/skip connections; keeping the network shallower.
+        </div></details>
+        <span class="src">tests: deep-sigmoid vanishing diagnosis + fixes · Mixed</span>
+      </div>
+
+      <div class="card q" data-src="tests: 2-layer perceptron for Boolean function · Mixed">
+        <span class="badge mixed">Mixed</span>
+        <p><strong>Q5.</strong> Design a 2-layer perceptron network (step activation, output 1 if \(z\ge0\) else 0) to implement \(F(x_1,x_2,x_3,x_4)=(x_1\wedge x_2)\vee(x_3\wedge x_4)\), \(x_i\in\{0,1\}\). (a) Decompose into hidden-layer and output-layer operations. (b) Give perceptron weights/biases for the AND and OR gates. (c) State the full network. <em>(01+03+01 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Hidden layer computes two ANDs: \(h_1=x_1\wedge x_2\), \(h_2=x_3\wedge x_4\). Output layer computes \(F=h_1\vee h_2\).<br>
+          <strong>(b)</strong> AND gate inequalities (fire iff \(z\ge0\)): \(b\lt0\), \(b+w\lt0\) (one input), \(b+2w\ge0\) (both). A valid set: \(w_1=w_2=1,\ b=-1.5\) (both-on: \(2-1.5=0.5\ge0\) ✓; one-on: \(1-1.5\lt0\) ✓; none: \(-1.5\lt0\) ✓).<br>
+          OR gate: fire if any input is 1: \(b\lt0\), \(b+w\ge0\). Valid set: \(w_1=w_2=1,\ b=-0.5\) (one-on: \(0.5\ge0\) ✓; none: \(-0.5\lt0\) ✓).<br>
+          <strong>(c)</strong> Hidden neuron 1: inputs \(x_1,x_2\), weights \([1,1]\), bias \(-1.5\) (AND). Hidden neuron 2: inputs \(x_3,x_4\), weights \([1,1]\), bias \(-1.5\) (AND). Output neuron: inputs \(h_1,h_2\), weights \([1,1]\), bias \(-0.5\) (OR). This 2-layer perceptron realises \(F\) — a non-linearly-separable function a single perceptron cannot.
+        </div></details>
+        <span class="src">tests: 2-layer perceptron for Boolean function · Mixed</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

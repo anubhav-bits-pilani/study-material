@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML — Formulas</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>ML</span> · Formulas<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="ML-concepts.html">Concepts</a>
+    <a class="tab active" href="ML-formulas.html">Formulas</a>
+    <a class="tab" href="ML-definitions.html">Definitions</a>
+    <a class="tab" href="ML-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">All equations needed to solve ML (AIMLZG565) numerical problems — preprocessing, linear &amp; logistic regression, gradient descent, regularization, evaluation metrics — from the four session decks, plus prerequisite formulas (distance, Bayes, entropy/Gini, MLE, SVM, k-Means) implied by the EC2/EC3 exam sheets.</p>
+
+  <details class="module" open>
+    <summary>Module 2 — Data Preprocessing &amp; Scaling <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 2 · p38">
+        <h3>IQR Outlier Bounds</h3>
+        $$\text{IQR}=Q_3-Q_1,\quad \text{Lower}=Q_1-1.5\cdot\text{IQR},\quad \text{Upper}=Q_3+1.5\cdot\text{IQR}$$
+        <p>where: \(Q_1\) = 25th percentile, \(Q_3\) = 75th percentile, IQR = inter-quartile range.</p>
+        <p>use: any value below the lower bound or above the upper bound is a univariate outlier. (Ex: Q1=10, Q3=20 ⇒ bounds −5 and 35.)</p>
+        <p class="src">ML_CS 2 · p38-39</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p40">
+        <h3>3-Sigma (Z-Score) Outlier Bounds</h3>
+        $$\text{Lower}=\mu-3\sigma,\qquad \text{Upper}=\mu+3\sigma$$
+        <p>where: \(\mu\) = mean, \(\sigma\) = standard deviation of the attribute.</p>
+        <p>use: for approximately normal data ~99% of values lie within μ ± 3σ; points outside are outliers. (μ=50, σ=5 ⇒ bounds 35 and 65.)</p>
+        <p class="src">ML_CS 2 · p40</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p48">
+        <h3>Min-Max Normalization</h3>
+        $$v' = \frac{v-\min_A}{\max_A-\min_A}\,(\text{new\_max}_A-\text{new\_min}_A)+\text{new\_min}_A$$
+        <p>where: \(v\) = original value, \(\min_A,\max_A\) = attribute min/max, new range = \([\text{new\_min}_A,\text{new\_max}_A]\) (often [0,1]).</p>
+        <p>use: rescale a feature to a bounded range when its bounds are known / data ≈ uniform. (Ex: income 12k-98k ⇒ 73k maps to 0.716.)</p>
+        <p class="src">ML_CS 2 · p48</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p48">
+        <h3>Z-Score Standardization</h3>
+        $$v' = \frac{v-\mu}{\sigma}$$
+        <p>where: \(\mu\) = attribute mean, \(\sigma\) = attribute standard deviation.</p>
+        <p>use: standardize when an algorithm assumes Gaussian data; not range-bounded, less outlier-sensitive. (Ex: μ=54000, σ=16000 ⇒ 73600 maps to 1.225.)</p>
+        <p class="src">ML_CS 2 · p48</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p48">
+        <h3>Decimal Scaling</h3>
+        $$v' = \frac{v}{10^{\,j}}\quad\text{where } j \text{ is the smallest integer s.t. } \max(|v'|)<1$$
+        <p>where: \(v\) = original value, \(j\) = number of decimal shifts.</p>
+        <p>use: normalize by moving the decimal point based on the maximum absolute value.</p>
+        <p class="src">ML_CS 2 · p48</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p56">
+        <h3>Equal-Width Binning Interval</h3>
+        $$W=\frac{B-A}{N}$$
+        <p>where: \(A\) = lowest value, \(B\) = highest value, \(N\) = number of bins, \(W\) = width of each interval.</p>
+        <p>use: discretize a continuous attribute into N equal-width bins (outliers may dominate; skewed data handled poorly).</p>
+        <p class="src">ML_CS 2 · p56</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Regression, Gradient Descent &amp; Regularization <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 34 · p8">
+        <h3>Linear Regression Hypothesis</h3>
+        $$h_\theta(x)=\theta_0+\theta_1 x_1+\theta_2 x_2+\dots+\theta_d x_d=\theta^{\top}x$$
+        <p>where: \(h_\theta(x)\) = predicted value, \(\theta_0\) = intercept/bias, \(\theta_j\) = weight of feature \(x_j\).</p>
+        <p>use: the model form for simple (one \(x\)) and multiple (many \(x\)) linear regression; \(x_0=1\) absorbs the intercept in vector form.</p>
+        <p class="src">ML_CS 34 · p8-9</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p16">
+        <h3>Cost Function — Mean Squared Error (Least Squares)</h3>
+        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2$$
+        <p>where: \(n\) = number of training examples, \(h_\theta(x^{(i)})\) = prediction, \(y^{(i)}\) = actual target.</p>
+        <p>use: the convex objective minimized to fit linear regression; the ½ simplifies the derivative.</p>
+        <p class="src">ML_CS 34 · p11-16</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p24">
+        <h3>Normal Equation (Closed-Form Solution)</h3>
+        $$\theta=(X^{\top}X)^{-1}X^{\top}y$$
+        <p>where: \(X\) = design matrix (rows = examples, with a leading 1 column), \(y\) = target vector, \(\theta\) = parameter vector.</p>
+        <p>use: solve for optimal parameters directly without iteration; requires an invertible \(X^{\top}X\) (costly for very many features).</p>
+        <p class="src">ML_CS 34 · p24-30</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p46">
+        <h3>Gradient Descent — General Update</h3>
+        $$\theta_j := \theta_j-\alpha\,\frac{\partial}{\partial \theta_j}J(\theta)\quad(\text{update all } j \text{ simultaneously})$$
+        <p>where: \(\alpha\) = learning rate, \(\partial J/\partial\theta_j\) = gradient of cost w.r.t. \(\theta_j\).</p>
+        <p>use: iteratively step downhill toward the minimum of the cost; repeat until convergence.</p>
+        <p class="src">ML_CS 34 · p46-49</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p55">
+        <h3>Gradient Descent for Linear Regression (per parameter)</h3>
+        $$\theta_0 := \theta_0-\alpha\,\frac{1}{n}\sum(h_\theta(x)-y),\qquad \theta_j := \theta_j-\alpha\,\frac{1}{n}\sum\big((h_\theta(x)-y)\,x_j\big)$$
+        <p>where: \(h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2\), \(n\) = #examples, \(\alpha\) = learning rate, \(x_j\) = j-th feature.</p>
+        <p>use: the concrete batch-GD update for fitting a regression line; drives the "one iteration" numerical problems (e.g. RRCHD from BMI &amp; diastolic pressure).</p>
+        <p class="src">ML_CS 34 · p55, p63</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p74">
+        <h3>R-squared (Coefficient of Determination)</h3>
+        $$R^2 = 1-\frac{SS_{res}}{SS_{tot}}=1-\frac{\sum_i (y_i-\hat y_i)^2}{\sum_i (y_i-\bar y)^2}$$
+        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(\bar y\) = mean of \(y\); \(SS_{res}\) = unexplained variation, \(SS_{tot}\) = total variation.</p>
+        <p>use: fraction of variance in \(y\) explained by the model (1 = perfect fit); compares regression models.</p>
+        <p class="src">ML_CS 34 · p74</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q1">
+        <h3>Root Mean Squared Error (RMSE)</h3>
+        $$\text{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\big(y_i-\hat y_i\big)^2}$$
+        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(n\) = #examples.</p>
+        <p>use: regression error in the target's units, penalizing large errors more; asked directly in EC2 Q1.</p>
+        <p class="src">EC2 · Q1 / ML_CS 34 · p102</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q1">
+        <h3>Mean Absolute Error (MAE)</h3>
+        $$\text{MAE}=\frac{1}{n}\sum_{i=1}^{n}\big|\,y_i-\hat y_i\,\big|$$
+        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(n\) = #examples.</p>
+        <p>use: average absolute regression error, less sensitive to large outliers than RMSE; asked directly in EC2 Q1.</p>
+        <p class="src">EC2 · Q1</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p78">
+        <h3>Linear Basis Function / Polynomial Model</h3>
+        $$h_w(x)=\sum_{j=0}^{M} w_j\,\phi_j(x),\qquad \phi_j(x)=x^{\,j}\ \ (\phi_0(x)=1)$$
+        <p>where: \(\phi_j\) = basis functions, \(w_j\) = weights, \(M\) = polynomial order; model is linear in \(w\).</p>
+        <p>use: fit non-linear input→output relationships (e.g. quadratic Car Price vs Mileage) while keeping linear-model machinery.</p>
+        <p class="src">ML_CS 34 · p76-79</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p96">
+        <h3>Ridge Regression (L2) Cost</h3>
+        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2+\lambda\sum_{j=1}^{d}\theta_j^{2}$$
+        <p>where: \(\lambda\) = regularization strength, \(\theta_j\) = weights (bias \(\theta_0\) not penalized).</p>
+        <p>use: shrink weights toward zero to reduce variance/overfitting; weights stay small but non-zero.</p>
+        <p class="src">ML_CS 34 · p96</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p97">
+        <h3>Lasso Regression (L1) Cost</h3>
+        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2+\lambda\sum_{j=1}^{d}\lvert\theta_j\rvert$$
+        <p>where: \(\lambda\) = regularization strength, \(|\theta_j|\) = absolute value of each weight.</p>
+        <p>use: drives some weights exactly to 0 (sparse model, feature selection); L1 is non-differentiable at 0.</p>
+        <p class="src">ML_CS 34 · p97</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p98">
+        <h3>Elastic Net Cost</h3>
+        $$J(\theta)=\text{MSE}(\theta)+r\,\lambda\sum_{j}\lvert\theta_j\rvert+\frac{(1-r)}{2}\,\lambda\sum_{j}\theta_j^{2}$$
+        <p>where: \(r\) = mix ratio (r=0 ⇒ Ridge, r=1 ⇒ Lasso), \(\lambda\) = strength.</p>
+        <p>use: combine L1 sparsity and L2 stability; preferred for highly correlated features (sklearn: ElasticNet(alpha, l1_ratio)).</p>
+        <p class="src">ML_CS 34 · p98</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p100">
+        <h3>Ridge GD Update (weight decay form)</h3>
+        $$w_j := w_j\,(1-\alpha\lambda)-\alpha\,\frac{1}{n}\sum\big((h_w(x)-y)\,x_j\big)$$
+        <p>where: \(\alpha\) = learning rate, \(\lambda\) = regularization constant, \(w_j\) = weight (bias \(w_0\) updated without the \((1-\alpha\lambda)\) shrink).</p>
+        <p>use: gradient-descent step for ridge regression; the factor \((1-\alpha\lambda)\) shrinks each weight every iteration.</p>
+        <p class="src">ML_CS 34 · p100-101</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p100">
+        <h3>Lasso GD Update</h3>
+        $$w_j := w_j-\alpha\,\frac{1}{n}\sum\big((h_w(x)-y)\,x_j\big)-\alpha\lambda\,\operatorname{sign}(w_j)$$
+        <p>where: \(\alpha\) = learning rate, \(\lambda\) = regularization constant, \(\operatorname{sign}(w_j)\) = +1/−1 sub-gradient of \(|w_j|\).</p>
+        <p>use: GD step for lasso; the fixed \(\alpha\lambda\) penalty pushes weights toward zero faster.</p>
+        <p class="src">ML_CS 34 · p100-101</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Logistic Regression &amp; Classification Metrics <small>· source: ML_CS 5 6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 5 · p12">
+        <h3>Sigmoid / Logistic Function</h3>
+        $$\sigma(z)=\frac{1}{1+e^{-z}}$$
+        <p>where: \(z\) = real-valued input (the linear score), \(\sigma(z)\in(0,1)\).</p>
+        <p>use: squashes any real number into a probability; σ(z)≥0.5 ⇔ z≥0.</p>
+        <p class="src">ML_CS 5 · p12</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p7">
+        <h3>Logistic Regression Hypothesis</h3>
+        $$z=w_0x_0+w_1x_1+\dots+w_nx_n,\qquad h_w(x)=\frac{1}{1+e^{-z}}$$
+        <p>where: \(w_i\) = weights, \(x_i\) = features (\(x_0=1\)), \(h_w(x)\) = estimated P(y=1|x).</p>
+        <p>use: predicts class probability; classify as 1 if \(h_w(x)\ge0.5\), else 0.</p>
+        <p class="src">ML_CS 5 · p7</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p9">
+        <h3>Linear Discriminant Decision Rule</h3>
+        $$y=\operatorname{sign}(w_0+w^{\top}x),\qquad \text{boundary: } w_0+w^{\top}x=0$$
+        <p>where: \(w_0\) = bias, \(w\) = weight vector, \(x\) = input vector.</p>
+        <p>use: a linear classifier assigns class by which side of the hyperplane a point lies on.</p>
+        <p class="src">ML_CS 5 · p9</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p20">
+        <h3>Logistic Regression Cost (Cross-Entropy / Log Loss)</h3>
+        $$J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}\Big[y^{(i)}\log h_\theta(x^{(i)})+(1-y^{(i)})\log\big(1-h_\theta(x^{(i)})\big)\Big]$$
+        <p>where: \(m\) = #examples, \(y^{(i)}\in\{0,1\}\) = true label, \(h_\theta(x^{(i)})\) = predicted probability.</p>
+        <p>use: convex classification cost; per-example cost is \(-\log h\) when y=1 and \(-\log(1-h)\) when y=0.</p>
+        <p class="src">ML_CS 5 · p20-22</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p23">
+        <h3>Gradient Descent for Logistic Regression</h3>
+        $$\theta_j := \theta_j-\alpha\,\frac{1}{m}\sum_{i=1}^{m}\big(h_\theta(x^{(i)})-y^{(i)}\big)\,x_j^{(i)}$$
+        <p>where: \(\alpha\) = learning rate, \(h_\theta\) = sigmoid hypothesis, \(x_j^{(i)}\) = j-th feature of example i.</p>
+        <p>use: same update form as linear regression but with the sigmoid hypothesis; drives the logistic-regression numerical exercises.</p>
+        <p class="src">ML_CS 5 · p23-24, p28</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p58">
+        <h3>Logit (Log-Odds) &amp; Odds Ratio</h3>
+        $$\operatorname{logit}(p)=\log\frac{p}{1-p}=w^{\top}x,\qquad \text{odds ratio}=e^{\,w_j}$$
+        <p>where: \(p\) = predicted probability, \(w_j\) = coefficient of feature \(j\).</p>
+        <p>use: logit is the inverse sigmoid; \(e^{w_j}\) is the multiplicative change in odds per unit increase in feature \(j\) (e.g. 1.35× per CGPA point).</p>
+        <p class="src">ML_CS 5 · p29, p58</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p34">
+        <h3>Accuracy</h3>
+        $$\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}$$
+        <p>where: TP/TN = correct positive/negative predictions, FP/FN = false positive/negative.</p>
+        <p>use: overall correctness; misleading under class imbalance — use only when classes are balanced.</p>
+        <p class="src">ML_CS 5 · p34-36</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p44">
+        <h3>Precision, Recall (TPR) &amp; F1-Score</h3>
+        $$\text{Precision}=\frac{TP}{TP+FP},\quad \text{Recall}=\frac{TP}{TP+FN},\quad F_1=\frac{2\cdot\text{Prec}\cdot\text{Rec}}{\text{Prec}+\text{Rec}}$$
+        <p>where: TP = true positives, FP = false positives, FN = false negatives.</p>
+        <p>use: precision = correctness of positive predictions; recall = coverage of actual positives; F1 = harmonic mean balancing both (needed for EC2 per-class metrics).</p>
+        <p class="src">ML_CS 5 · p44 / EC2 · Q3</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p44">
+        <h3>ROC Rates — TPR &amp; FPR</h3>
+        $$\text{TPR}=\frac{TP}{TP+FN},\qquad \text{FPR}=\frac{FP}{FP+TN}$$
+        <p>where: TPR = true positive (detection) rate, FPR = false positive (false alarm) rate.</p>
+        <p>use: the axes of the ROC curve (TPR vs FPR) plotted across thresholds; TNR=1−FPR, FNR=1−TPR.</p>
+        <p class="src">ML_CS 5 · p43-44</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Exam-Referenced Prerequisite Formulas <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="EC3 · Q1">
+        <h3>Distance Metrics (Euclidean &amp; Manhattan)</h3>
+        $$d_{\text{Euc}}(p,q)=\sqrt{\sum_i (p_i-q_i)^2},\qquad d_{\text{Man}}(p,q)=\sum_i \lvert p_i-q_i\rvert$$
+        <p>where: \(p,q\) = two points, \(p_i,q_i\) = their i-th coordinates.</p>
+        <p>use: proximity measures for kNN and clustering; EC3 Q1 asks a k=3 kNN classification using Manhattan distance.</p>
+        <p class="src">EC3 · Q1</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q2">
+        <h3>Bayes' Theorem</h3>
+        $$P(A\mid B)=\frac{P(B\mid A)\,P(A)}{P(B)},\qquad P(B)=\sum_k P(B\mid A_k)P(A_k)$$
+        <p>where: \(P(A|B)\) = posterior, \(P(B|A)\) = likelihood, \(P(A)\) = prior, \(P(B)\) = evidence (total probability).</p>
+        <p>use: compute posterior class probability (e.g. P(disease | positive test)) from priors and likelihoods.</p>
+        <p class="src">EC3 · Q2</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q3">
+        <h3>Naive Bayes Classifier</h3>
+        $$\hat y=\arg\max_{c}\ P(c)\prod_{j=1}^{d} P(x_j\mid c)$$
+        <p>where: \(c\) = class, \(P(c)\) = prior, \(P(x_j|c)\) = conditional likelihood of feature \(x_j\) (assumed independent given \(c\)).</p>
+        <p>use: predict the class maximizing posterior under the conditional-independence assumption (EC3 "play cricket?" table).</p>
+        <p class="src">EC3 · Q3</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q3">
+        <h3>Likelihood &amp; MLE (Binomial)</h3>
+        $$L(p)=\binom{n}{h}p^{h}(1-p)^{n-h},\qquad \hat p_{\text{MLE}}=\frac{h}{n}$$
+        <p>where: \(n\) = #trials, \(h\) = #successes (heads), \(p\) = success probability.</p>
+        <p>use: estimate a parameter by maximizing (log-)likelihood of i.i.d. data; EC3 Q3 coin-toss MLE.</p>
+        <p class="src">EC3 · Q3</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q6">
+        <h3>Entropy</h3>
+        $$H=-\sum_{i=1}^{K} p_i\log_2 p_i$$
+        <p>where: \(p_i\) = proportion of instances in class \(i\), \(K\) = number of classes.</p>
+        <p>use: measure of class impurity/disorder at a node; 0 = pure, max when classes are equal.</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q6">
+        <h3>Information Gain</h3>
+        $$IG(S,A)=H(S)-\sum_{v\in \text{values}(A)}\frac{|S_v|}{|S|}\,H(S_v)$$
+        <p>where: \(H(S)\) = entropy before split, \(S_v\) = subset with attribute value \(v\), \(|S_v|/|S|\) = weight.</p>
+        <p>use: pick the split attribute with the largest entropy reduction (EC2 Q6: compare a1 vs a2 at the root).</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q6">
+        <h3>Gini Index</h3>
+        $$\text{Gini}=1-\sum_{i=1}^{K} p_i^{2}$$
+        <p>where: \(p_i\) = estimated probability of class \(i\) at the node, \(K\) = number of classes.</p>
+        <p>use: alternative node-impurity measure for decision-tree splits; lower weighted Gini = better split (EC2 Q6c).</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q4">
+        <h3>SVM Hyperplane, Weight Vector &amp; Bias</h3>
+        $$w=\sum_i \alpha_i y_i x_i,\qquad y_i(w\cdot x_i+b)=1\ \text{ for each support vector}$$
+        <p>where: \(\alpha_i\) = Lagrange multipliers, \(y_i\) = class labels (±1), \(x_i\) = support vectors, \(b\) = bias.</p>
+        <p>use: build the SVM decision boundary \(w\cdot x+b=0\); average the \(b\) solved from each support-vector equation (EC3 Q4a).</p>
+        <p class="src">EC3 · Q4</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q4">
+        <h3>Polynomial Kernel</h3>
+        $$K(u,v)=(u\cdot v+1)^{2},\qquad D_{ij}=y_i y_j\,K(x_i,x_j)$$
+        <p>where: \(u,v\) = input vectors, \(y_i,y_j\) = class labels, \(D\) = kernel/Gram matrix of the dual formulation.</p>
+        <p>use: the kernel trick maps points to higher dimensions for non-linear separation; EC3 Q4c computes matrix D.</p>
+        <p class="src">EC3 · Q4</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q5">
+        <h3>K-Means Objective &amp; Centroid Update</h3>
+        $$J=\sum_{k=1}^{K}\sum_{x\in C_k}\lVert x-\mu_k\rVert^2,\qquad \mu_k=\frac{1}{|C_k|}\sum_{x\in C_k} x$$
+        <p>where: \(C_k\) = cluster \(k\), \(\mu_k\) = its centroid, \(K\) = number of clusters.</p>
+        <p>use: assign each point to the nearest centroid then recompute centroids as cluster means; iterate (EC3 Q5a).</p>
+        <p class="src">EC3 · Q5</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q6">
+        <h3>AdaBoost Final Prediction &amp; Weight Update</h3>
+        $$H(x)=\operatorname{sign}\!\Big(\sum_{t} \alpha_t\,h_t(x)\Big),\qquad w_i \leftarrow w_i\,e^{\pm\alpha_t}\ \text{(then normalize)}$$
+        <p>where: \(\alpha_t\) = weight of weak learner \(t\), \(h_t(x)\) = its prediction (±1), \(w_i\) = instance weight (increase if misclassified, decrease if correct).</p>
+        <p>use: combine weak learners by weighted vote; reweight misclassified instances up each round and renormalize to sum to 1 (EC3 Q6c, Q6d).</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q6">
+        <h3>Out-of-Bag (OOB) Error</h3>
+        $$\text{OOB error}=\frac{\#\text{misclassified OOB samples}}{\#\text{OOB samples}}$$
+        <p>where: OOB samples = training rows not drawn in a given bootstrap sample.</p>
+        <p>use: validate a bagged/random-forest model on the ~⅓ of data left out of each bootstrap (EC3 Q6b).</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 34 · p14 (image)">
+        <h3>Simple Linear Regression — Slope &amp; Intercept (OLS)</h3>
+        $$\theta_1=\frac{\sum_i (x_i-\bar x)(y_i-\bar y)}{\sum_i (x_i-\bar x)^2},\qquad \theta_0=\bar y-\theta_1\bar x$$
+        <p>where: \(\bar x,\bar y\) = feature/target means, \(\theta_1\) = slope, \(\theta_0\) = intercept.</p>
+        <p>use: direct least-squares fit of a single-predictor line, no iteration. (Worked ex: \(\sum(x_i-\bar x)(y_i-\bar y)=615\), \(\sum(x_i-\bar x)^2=4206\) ⇒ \(\theta_1\approx0.1462\), \(\theta_0=10-0.1462\times74\approx-0.8188\).)</p>
+        <p class="src">ML_CS 34 · p14-16 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p59 (image)">
+        <h3>Vectorized MSE Gradient</h3>
+        $$\nabla J(\mathbf{w})=\frac{1}{N}\mathbf{X}^{\top}\mathbf{e},\qquad \mathbf{e}=\hat{\mathbf{y}}-\mathbf{y}=\mathbf{X}\mathbf{w}-\mathbf{y}$$
+        <p>where: \(\mathbf{X}\) = design matrix (\(N\times(d{+}1)\)), \(\mathbf{e}\) = error/residual vector, \(N\) = #examples.</p>
+        <p>use: one matrix expression for the whole-batch gradient; the GD step is \(\mathbf{w}\leftarrow\mathbf{w}-\eta\,\nabla J(\mathbf{w})\). (Worked ex: loss \(7.5\to1.51\) after one step with \(\eta=0.1\) — an 80% reduction.)</p>
+        <p class="src">ML_CS 34 · p59-61 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p54 (image)">
+        <h3>Gradient-Descent Convergence Criterion (L2 norm)</h3>
+        $$\lVert \boldsymbol{\theta}_{new}-\boldsymbol{\theta}_{old}\rVert_2 \lt \epsilon,\qquad \lVert \mathbf{v}\rVert_2=\sqrt{\textstyle\sum_i v_i^2}=\sqrt{v_1^2+v_2^2+\dots+v_{|v|}^2}$$
+        <p>where: \(\epsilon\) = small tolerance, \(\lVert\cdot\rVert_2\) = Euclidean (L2) norm of the parameter-change vector.</p>
+        <p>use: stop iterating when successive parameter vectors change by less than \(\epsilon\) (equivalently when \(\lVert\nabla J(\boldsymbol{\theta})\rVert\lt\epsilon\) or max iterations reached).</p>
+        <p class="src">ML_CS 34 · p54 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p79 (image)">
+        <h3>Gaussian &amp; Sigmoidal Basis Functions</h3>
+        $$\phi_j(x)=\exp\!\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\},\qquad \phi_j(x)=\sigma\!\left(\frac{x-\mu_j}{s}\right),\ \ \sigma(a)=\frac{1}{1+e^{-a}}$$
+        <p>where: \(\mu_j\) = centre/location, \(s\) = scale/width, \(\sigma\) = logistic sigmoid.</p>
+        <p>use: local basis functions for linear-basis-function regression — \(\mu_j\) and \(s\) control location and width/slope; the polynomial basis \(\phi_j(x)=x^{\,j}\) is the global alternative.</p>
+        <p class="src">ML_CS 34 · p79 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p47 (image)">
+        <h3>AUC via Trapezoidal Rule</h3>
+        $$\text{AUC}=\sum_i \big(\text{FPR}_i-\text{FPR}_{i+1}\big)\cdot\frac{\text{TPR}_i+\text{TPR}_{i+1}}{2}$$
+        <p>where: \((\text{FPR}_i,\text{TPR}_i)\) = successive ROC points taken in decreasing FPR order.</p>
+        <p>use: numerically integrate the area under the ROC curve — each term is a trapezoid (width × average height); vertical steps (width 0) add nothing. (Worked ex: \(0.16+0.12+0.12+0.12+0.08=0.60\).)</p>
+        <p class="src">ML_CS 5 · p45-47 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p49 (image)">
+        <h3>Error Rate (Misclassification Rate)</h3>
+        $$\text{Error rate}=\frac{FP+FN}{TP+TN+FP+FN}=1-\text{Accuracy}$$
+        <p>where: \(FP,FN\) = incorrect predictions, denominator = total instances.</p>
+        <p>use: overall fraction of wrong predictions — the complement of accuracy (asked in the cancer confusion-matrix practice exercise alongside precision/recall/F-score).</p>
+        <p class="src">ML_CS 5 · p49 (image)</p>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

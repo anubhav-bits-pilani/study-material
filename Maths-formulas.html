@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths — Formulas</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Maths</span> · Formulas<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="Maths-concepts.html">Concepts</a>
+    <a class="tab active" href="Maths-formulas.html">Formulas</a>
+    <a class="tab" href="Maths-definitions.html">Definitions</a>
+    <a class="tab" href="Maths-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Formula reference for AIMLZC416 — matrix algebra, norms and inner products, projections, eigenvalues/SVD, determinants, calculus, gradients and backpropagation. Each card gives the equation, a symbol legend, and when to use it. Includes standard prerequisite identities the exams require.</p>
+
+  <details class="module" open>
+    <summary>Lecture 1 — Linear Algebra: Systems &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 1 · p18-20">
+        <h3>Matrix–matrix product</h3>
+        $$C=AB,\qquad c_{ij}=\sum_{l=1}^{k} a_{il}\,b_{lj}$$
+        <p>where: \(A\in\mathbb{R}^{m\times k}\), \(B\in\mathbb{R}^{k\times n}\), \(C\in\mathbb{R}^{m\times n}\); \(c_{ij}\) = dot product of row \(i\) of \(A\) with column \(j\) of \(B\).</p>
+        <p>use: composing linear maps. Inner dimensions must match; \(AB\neq BA\) in general.</p>
+        <span class="src">Lecture 1 · p18-20</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p21">
+        <h3>Matrix multiplication properties</h3>
+        $$(AB)C=A(BC),\quad (A+B)C=AC+BC,\quad I_mA=AI_n=A$$
+        <p>where: associativity, distributivity, and identity; \(I_m,I_n\) are identity matrices of the compatible size.</p>
+        <p>use: simplifying/re-ordering matrix expressions during derivations.</p>
+        <span class="src">Lecture 1 · p21</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p23-24">
+        <h3>2×2 inverse and determinant</h3>
+        $$A^{-1}=\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\begin{bmatrix} a_{22} & -a_{12}\\ -a_{21} & a_{11}\end{bmatrix}$$
+        <p>where: \(\det(A)=a_{11}a_{22}-a_{12}a_{21}\) must be non-zero.</p>
+        <p>use: quickly inverting 2×2 matrices; the inverse exists iff the determinant is non-zero.</p>
+        <span class="src">Lecture 1 · p23-24</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p25">
+        <h3>Inverse &amp; transpose identities</h3>
+        $$AA^{-1}=A^{-1}A=I,\quad (AB)^{-1}=B^{-1}A^{-1},\quad (AB)^{T}=B^{T}A^{T},\quad (A^{T})^{T}=A$$
+        <p>where: \(A,B\) conformable and invertible where inverses appear. Note \((A+B)^{-1}\neq A^{-1}+B^{-1}\) in general.</p>
+        <p>use: manipulating products; the order reverses under both inverse and transpose.</p>
+        <span class="src">Lecture 1 · p25</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p27">
+        <h3>Scalar multiplication rules</h3>
+        $$(\lambda\psi)A=\lambda(\psi A),\quad \lambda(AB)=(\lambda A)B=A(\lambda B),\quad (\lambda A)^{T}=\lambda A^{T}$$
+        <p>where: \(\lambda,\psi\in\mathbb{R}\); \((\lambda+\psi)A=\lambda A+\psi A\) and \(\lambda(A+B)=\lambda A+\lambda B\).</p>
+        <p>use: pulling scalars through matrix expressions.</p>
+        <span class="src">Lecture 1 · p27</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p28-29">
+        <h3>System of equations in matrix form</h3>
+        $$Ax=b$$
+        <p>where: \(A\in\mathbb{R}^{m\times n}\) coefficient matrix, \(x\in\mathbb{R}^{n}\) unknowns, \(b\in\mathbb{R}^{m}\) right-hand side.</p>
+        <p>use: compact form for solving any linear system; \(b\) is a linear combination of the columns of \(A\).</p>
+        <span class="src">Lecture 1 · p28-29</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p37">
+        <h3>General solution of Ax = b</h3>
+        $$x = x_{p} + \sum_{i}\lambda_i\, n_i,\qquad A x_p=b,\ \ A n_i = 0$$
+        <p>where: \(x_p\) = a particular solution; \(\{n_i\}\) = basis of the null space (solutions of \(Ax=0\)); \(\lambda_i\in\mathbb{R}\).</p>
+        <p>use: describing all solutions of an underdetermined system as particular solution + homogeneous solutions.</p>
+        <span class="src">Lecture 1 · p37</span>
+      </div>
+
+      <div class="card" data-src="Lecture 1 · p61-62">
+        <h3>Inverse via augmented elimination</h3>
+        $$[\,A \mid I\,]\ \xrightarrow{\text{Gaussian elimination}}\ [\,I \mid A^{-1}\,]$$
+        <p>where: solving \(Ax=e_i\) for each canonical vector \(e_i\) yields the \(i\)-th column of \(A^{-1}\).</p>
+        <p>use: computing a matrix inverse by row reduction.</p>
+        <span class="src">Lecture 1 · p61-62</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 2 — Vector Spaces &amp; Linear Independence <small>· source: Lecture_2.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 2 · p4">
+        <h3>Group axioms</h3>
+        $$\forall x,y,z\in G:\ x\otimes y\in G,\ (x\otimes y)\otimes z=x\otimes(y\otimes z),\ \exists e:\ x\otimes e=x,\ \exists y:\ x\otimes y=e$$
+        <p>where: \(G\) = set, \(\otimes\) = binary operation, \(e\) = identity. Abelian adds \(x\otimes y=y\otimes x\).</p>
+        <p>use: closure + associativity + identity + inverse define a group; the algebraic foundation of a vector space.</p>
+        <span class="src">Lecture 2 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p7-8">
+        <h3>Vector space operations (in \(\mathbb{R}^n\))</h3>
+        $$x+y=(x_1+y_1,\dots,x_n+y_n),\qquad \lambda x=(\lambda x_1,\dots,\lambda x_n)$$
+        <p>where: \(x,y\in\mathbb{R}^n\), \(\lambda\in\mathbb{R}\); addition is inner operation, scaling is outer operation.</p>
+        <p>use: the concrete operations under which \(\mathbb{R}^n\) (and \(\mathbb{R}^{m\times n}\)) form a vector space.</p>
+        <span class="src">Lecture 2 · p7-8</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p11">
+        <h3>Subspace test</h3>
+        $$U\neq\varnothing,\quad \forall x,y\in U:\ x+y\in U,\quad \forall\lambda\in\mathbb{R},x\in U:\ \lambda x\in U$$
+        <p>where: \(U\subseteq V\). Closure under addition and scaling (with non-empty \(U\)) is sufficient.</p>
+        <p>use: verifying a subset is a subspace (e.g. the null space of a matrix).</p>
+        <span class="src">Lecture 2 · p11</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p14">
+        <h3>Linear combination</h3>
+        $$v=\lambda_1 x_1+\lambda_2 x_2+\cdots+\lambda_k x_k=\sum_{i=1}^{k}\lambda_i x_i$$
+        <p>where: \(x_i\in V\) vectors, \(\lambda_i\in\mathbb{R}\) coefficients.</p>
+        <p>use: building any vector in a span; the core operation of linear algebra.</p>
+        <span class="src">Lecture 2 · p14</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p16">
+        <h3>Linear independence condition</h3>
+        $$\sum_{i=1}^{k}\lambda_i x_i = 0 \ \Longrightarrow\ \lambda_1=\lambda_2=\cdots=\lambda_k=0$$
+        <p>where: if the <em>only</em> solution is all-zero coefficients, the vectors are independent; a non-trivial solution means dependence.</p>
+        <p>use: deciding whether vectors are redundant; tested via Gaussian elimination (all columns pivot ⇒ independent).</p>
+        <span class="src">Lecture 2 · p16-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p24-26">
+        <h3>Independence of transformed vectors</h3>
+        $$x_j=B\lambda_j\ \Rightarrow\ \{x_j\}\ \text{independent} \iff \{\lambda_j\}\ \text{independent}$$
+        <p>where: \(B=[b_1,\dots,b_k]\) has independent columns, \(\lambda_j\) = coefficient vectors.</p>
+        <p>use: reduces testing independence of combined vectors to testing their coefficient vectors.</p>
+        <span class="src">Lecture 2 · p24-26</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p33-34">
+        <h3>Span</h3>
+        $$\text{span}[A]=\left\{\sum_{i=1}^{k}\lambda_i x_i \;\middle|\; \lambda_i\in\mathbb{R}\right\},\qquad V=\text{span}[A]$$
+        <p>where: \(A=\{x_1,\dots,x_k\}\); the span is all linear combinations. \(A\) is a generating set when its span is \(V\).</p>
+        <p>use: describing the subspace reachable from a set of vectors.</p>
+        <span class="src">Lecture 2 · p33-34</span>
+      </div>
+
+      <div class="card" data-src="Lecture 2 · p39">
+        <h3>Dimension relations</h3>
+        $$\dim(V)=|\text{basis}|,\qquad U\subseteq V\Rightarrow \dim(U)\le\dim(V),\qquad \dim(U)=\dim(V)\iff U=V$$
+        <p>where: \(\dim(V)\) = number of vectors in any basis of \(V\).</p>
+        <p>use: counting degrees of freedom; comparing a subspace to its parent space.</p>
+        <span class="src">Lecture 2 · p39</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 3 — Norms, Inner Products &amp; Orthogonality <small>· source: Lecture_3.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 3 · p4">
+        <h3>Manhattan (ℓ₁) and Euclidean (ℓ₂) norms</h3>
+        $$\lVert x\rVert_1=\sum_{i=1}^{n}|x_i|,\qquad \lVert x\rVert_2=\sqrt{\sum_{i=1}^{n}x_i^{2}}$$
+        <p>where: \(x_i\) = components of \(x\in\mathbb{R}^n\).</p>
+        <p>use: measuring vector length; ℓ₂ is the ordinary Euclidean length, ℓ₁ sums absolute values.</p>
+        <span class="src">Lecture 3 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p4">
+        <h3>Norm axioms</h3>
+        $$\lVert\lambda x\rVert=|\lambda|\,\lVert x\rVert,\quad \lVert x+y\rVert\le\lVert x\rVert+\lVert y\rVert,\quad \lVert x\rVert\ge0,\ \lVert x\rVert=0\Rightarrow x=0$$
+        <p>where: absolute homogeneity, triangle inequality, positive definiteness; \(\lambda\in\mathbb{R}\).</p>
+        <p>use: any valid length function must satisfy these three properties.</p>
+        <span class="src">Lecture 3 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p5">
+        <h3>Dot product</h3>
+        $$\langle x,y\rangle = x^{T}y=\sum_{i=1}^{n} x_i y_i$$
+        <p>where: \(x,y\in\mathbb{R}^n\); the standard inner product.</p>
+        <p>use: the default inner product for lengths, angles and projections.</p>
+        <span class="src">Lecture 3 · p5</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p5-7">
+        <h3>Inner product via SPD matrix / bilinearity</h3>
+        $$\langle x,y\rangle=\hat{x}^{T}A\hat{y},\qquad \Omega(\lambda x+\psi y,z)=\lambda\Omega(x,z)+\psi\Omega(y,z)$$
+        <p>where: \(A\in\mathbb{R}^{n\times n}\) symmetric positive-definite; \(\hat{x},\hat{y}\) = coordinates in an ordered basis; \(\Omega\) linear in each argument.</p>
+        <p>use: a general inner product is exactly \(\hat{x}^{T}A\hat{y}\) for some SPD \(A\); \(A=I\) recovers the dot product.</p>
+        <span class="src">Lecture 3 · p5-7</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p9">
+        <h3>Induced norm</h3>
+        $$\lVert x\rVert=\sqrt{\langle x,x\rangle}$$
+        <p>where: any inner product \(\langle\cdot,\cdot\rangle\) generates this norm.</p>
+        <p>use: converting an inner product into a length; not every norm arises this way (e.g. ℓ₁).</p>
+        <span class="src">Lecture 3 · p9</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p9-10">
+        <h3>Cauchy–Schwarz inequality</h3>
+        $$|\langle x,y\rangle|\le\lVert x\rVert\,\lVert y\rVert\qquad\Longleftrightarrow\qquad (u^{T}u)(v^{T}v)\ge(u^{T}v)^{2}$$
+        <p>where: \(x,y\) (or \(u,v\)) any vectors; proved from \(\lVert u-\alpha v\rVert^2\ge0\) with \(\alpha=\tfrac{u^Tv}{v^Tv}\).</p>
+        <p>use: bounds the inner product; guarantees the cosine ratio lies in \([-1,1]\) so angles are well-defined.</p>
+        <span class="src">Lecture 3 · p9-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p11">
+        <h3>Distance / metric</h3>
+        $$d(x,y)=\lVert x-y\rVert=\sqrt{\langle x-y,\,x-y\rangle}$$
+        <p>where: with the dot product this is Euclidean distance; \(d\) is positive-definite, symmetric, obeys the triangle inequality.</p>
+        <p>use: measuring separation between vectors; basis of nearest-neighbour and clustering methods.</p>
+        <span class="src">Lecture 3 · p11-12</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p14">
+        <h3>Angle between vectors</h3>
+        $$\cos\omega=\frac{\langle x,y\rangle}{\lVert x\rVert\,\lVert y\rVert},\qquad \omega\in[0,\pi]$$
+        <p>where: \(x,y\neq0\); \(\omega\) is the angle between them.</p>
+        <p>use: measuring orientation similarity; \(\omega\approx\pi/2\) when the inner product ≈ 0.</p>
+        <span class="src">Lecture 3 · p14</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p16">
+        <h3>Orthogonality</h3>
+        $$x\perp y \iff \langle x,y\rangle = 0$$
+        <p>where: orthogonality is relative to the chosen inner product; the zero vector is orthogonal to all vectors.</p>
+        <p>use: detecting perpendicular directions; foundation of orthonormal bases and projections.</p>
+        <span class="src">Lecture 3 · p16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p17-18">
+        <h3>Orthogonal (orthonormal) matrix</h3>
+        $$A^{T}A=AA^{T}=I,\qquad A^{T}=A^{-1},\qquad \lVert Ax\rVert_2=\lVert x\rVert_2$$
+        <p>where: \(A\in\mathbb{R}^{n\times n}\) with orthonormal columns.</p>
+        <p>use: length- and angle-preserving transformations (rotations/reflections); inverse is just the transpose.</p>
+        <span class="src">Lecture 3 · p17-20</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p20">
+        <h3>2D rotation matrix</h3>
+        $$R(\theta)=\begin{bmatrix}\cos\theta & -\sin\theta\\ \sin\theta & \cos\theta\end{bmatrix}$$
+        <p>where: \(\theta\) = rotation angle; \(R\) is orthonormal (\(R^TR=I\)).</p>
+        <p>use: canonical example of an orthonormal matrix; rotates vectors without changing length.</p>
+        <span class="src">Lecture 3 · p20</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p22-23">
+        <h3>Orthonormal basis condition</h3>
+        $$\langle b_i,b_j\rangle=0\ (i\neq j),\qquad \langle b_i,b_i\rangle=1$$
+        <p>where: \(\{b_1,\dots,b_n\}\) basis of an \(n\)-dim space; mutually orthogonal and unit length.</p>
+        <p>use: coordinates in an orthonormal basis are simple inner products; drops to "orthogonal basis" if unit-length is not required.</p>
+        <span class="src">Lecture 3 · p22-23</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p24-29">
+        <h3>Gram–Schmidt / LU relationship</h3>
+        $$[\,A^{T}A \mid A^{T}\,]\ \xrightarrow{\text{elimination}}\ [\,U \mid L^{-1}A^{T}\,],\qquad A^{T}A=LU,\quad A=LU$$
+        <p>where: \(A\) has basis vectors as columns; \(Q^{T}=L^{-1}A^{T}\) has orthogonal rows, which are normalised to an orthonormal basis.</p>
+        <p>use: constructing an orthonormal basis from any basis; elementary matrices realise the LU factorisation.</p>
+        <span class="src">Lecture 3 · p24-29</span>
+      </div>
+
+      <div class="card" data-src="Lecture 3 · p26-27">
+        <h3>Elementary matrix (row operation)</h3>
+        $$E=\begin{bmatrix}1&0&0\\-2&1&0\\0&0&1\end{bmatrix},\qquad EA=\text{(A with }R_2\!\leftarrow\!R_2-2R_1)$$
+        <p>where: \(E\) = identity with one below-diagonal entry set to the multiplier; pre-multiplying applies the row operation.</p>
+        <p>use: representing Gaussian-elimination steps as matrix products \(E_m\cdots E_1 A\).</p>
+        <span class="src">Lecture 3 · p26-27</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 4 — Determinant, Trace, Eigenvalues &amp; Cholesky <small>· source: Lecture_4.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 4 · p4-5">
+        <h3>Determinant by cofactor expansion</h3>
+        $$\det(A)=\sum_{k=1}^{n} a_{jk}C_{jk},\qquad C_{jk}=(-1)^{j+k}M_{jk}$$
+        <p>where: \(M_{jk}\) = minor (determinant of \(A\) with row \(j\), column \(k\) deleted); expand along any row \(j\) or column \(k\).</p>
+        <p>use: computing determinants recursively; base case \(\det[a_{11}]=a_{11}\).</p>
+        <span class="src">Lecture 4 · p4-5</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p7">
+        <h3>2×2 determinant</h3>
+        $$\det\begin{bmatrix}a&b\\c&d\end{bmatrix}=ad-bc$$
+        <p>where: entries of a 2×2 matrix.</p>
+        <p>use: fastest determinant; also the invertibility test for 2×2 matrices.</p>
+        <span class="src">Lecture 4 · p7</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p9-11">
+        <h3>Determinant, row operations &amp; rank</h3>
+        $$\det(A)=(-1)^{s}\det(U)=(-1)^{s}\prod_{i=1}^{n}U_{ii},\qquad \text{rank}(A)=n \iff \det(A)\neq0$$
+        <p>where: \(U\) = upper-triangular form after elimination, \(s\) = number of row swaps.</p>
+        <p>use: computing determinants by elimination; full rank ⇔ non-zero determinant ⇔ invertible.</p>
+        <span class="src">Lecture 4 · p9-12</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p13">
+        <h3>Trace and its properties</h3>
+        $$\text{tr}(A)=\sum_{i=1}^{n}a_{ii},\quad \text{tr}(A+B)=\text{tr}(A)+\text{tr}(B),\quad \text{tr}(AB)=\text{tr}(BA)$$
+        <p>where: \(a_{ii}\) = diagonal entries; \(\text{tr}(\alpha A)=\alpha\,\text{tr}(A)\), \(\text{tr}(I_n)=n\).</p>
+        <p>use: cyclic property is heavily used in ML derivations (e.g. rewriting quadratic forms).</p>
+        <span class="src">Lecture 4 · p13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p14-16">
+        <h3>Characteristic polynomial</h3>
+        $$p_A(\lambda)=\det(A-\lambda I)=c_0+c_1\lambda+\cdots+c_{n-1}\lambda^{n-1}+(-1)^{n}\lambda^{n}$$
+        <p>where: \(c_0=\det(A)\), \(c_{n-1}=(-1)^{n-1}\text{tr}(A)\).</p>
+        <p>use: its roots are the eigenvalues of \(A\).</p>
+        <span class="src">Lecture 4 · p14-16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p17">
+        <h3>Eigenvalue equation</h3>
+        $$Ax=\lambda x \iff (A-\lambda I)x=0,\quad x\neq0 \iff \det(A-\lambda I)=0$$
+        <p>where: \(\lambda\) = eigenvalue, \(x\) = eigenvector; \(cx\) (\(c\neq0\)) is also an eigenvector.</p>
+        <p>use: defining/finding eigenpairs — solve \(\det(A-\lambda I)=0\) then find the null space of \(A-\lambda I\).</p>
+        <span class="src">Lecture 4 · p17-19</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p31">
+        <h3>Trace = sum, determinant = product of eigenvalues</h3>
+        $$\sum_{i=1}^{n}\lambda_i=\text{tr}(A),\qquad \prod_{i=1}^{n}\lambda_i=\det(A)$$
+        <p>where: \(\lambda_i\) = eigenvalues (with multiplicity).</p>
+        <p>use: quick checks on computed eigenvalues; relates spectrum to trace and determinant.</p>
+        <span class="src">Lecture 4 · p31</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p24, p30">
+        <h3>Spectral decomposition (symmetric A)</h3>
+        $$A=Q\Lambda Q^{T},\qquad Q^{T}Q=I$$
+        <p>where: \(Q\) = orthonormal eigenvector matrix, \(\Lambda\) = diagonal of real eigenvalues.</p>
+        <p>use: diagonalising any symmetric matrix with an orthogonal change of basis; underlies PCA and SVD.</p>
+        <span class="src">Lecture 4 · p24, p30</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p26">
+        <h3>Hermitian inner product &amp; matrix</h3>
+        $$\langle x,y\rangle=x^{H}y,\qquad x^{H}x=\lVert x\rVert^{2},\qquad A^{H}=A$$
+        <p>where: \(x^{H}=\overline{x}^{T}\) = conjugate transpose; a Hermitian matrix equals its conjugate transpose.</p>
+        <p>use: extending symmetry/length to complex vectors; proves symmetric matrices have real eigenvalues.</p>
+        <span class="src">Lecture 4 · p25-28</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p22">
+        <h3>AᵀA symmetric positive-definite</h3>
+        $$x^{T}A^{T}Ax=\lVert Ax\rVert^{2}>0\quad\forall x\neq0\ \ (\text{when }A\text{ has full column rank})$$
+        <p>where: \(A\in\mathbb{R}^{m\times n}\), \(\text{rank}(A)=n\); \(A^{T}A\in\mathbb{R}^{n\times n}\).</p>
+        <p>use: guarantees \(A^{T}A\) is SPD — appears in least-squares and Gram–Schmidt.</p>
+        <span class="src">Lecture 4 · p22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 4 · p32-33">
+        <h3>Cholesky decomposition</h3>
+        $$A=LL^{T},\quad l_{11}=\sqrt{a_{11}},\ \ l_{ii}=\sqrt{a_{ii}-\textstyle\sum_{k\lt i}l_{ik}^{2}},\ \ l_{ij}=\frac{a_{ij}-\sum_{k\lt j}l_{ik}l_{jk}}{l_{jj}}$$
+        <p>where: \(A\) symmetric positive-definite; \(L\) lower-triangular with positive diagonal.</p>
+        <p>use: solving SPD systems and sampling multivariate Gaussians (\(Lx\) with independent Gaussian \(x\)).</p>
+        <span class="src">Lecture 4 · p32-33</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 5 — Diagonalization &amp; SVD <small>· source: Lecture_5.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 5 · p4">
+        <h3>Diagonal matrix operations</h3>
+        $$\det(D)=\prod_i d_i,\qquad D^{k}=\text{diag}(d_1^{k},\dots,d_n^{k}),\qquad D^{-1}=\text{diag}(d_1^{-1},\dots,d_n^{-1})$$
+        <p>where: \(d_i\) = diagonal entries (non-zero for the inverse).</p>
+        <p>use: cheap powers, inverses and determinants — the payoff of diagonalising a matrix.</p>
+        <span class="src">Lecture 5 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p5-6">
+        <h3>Diagonalization</h3>
+        $$D=P^{-1}AP\iff AP=PD\iff Ap_i=\lambda_i p_i$$
+        <p>where: \(P\) invertible with eigenvector columns \(p_i\), \(D\) diagonal of eigenvalues \(\lambda_i\).</p>
+        <p>use: change of basis into eigen-coordinates where \(A\) acts as simple scaling.</p>
+        <span class="src">Lecture 5 · p5-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p7">
+        <h3>Eigenvalue decomposition</h3>
+        $$A=PDP^{-1}$$
+        <p>where: \(A\in\mathbb{R}^{n\times n}\) with \(n\) independent eigenvectors forming \(P\); \(D\) = eigenvalue diagonal. Symmetric \(A\) gives orthogonal \(P\) so \(A=PDP^{T}\).</p>
+        <p>use: powers \(A^{k}=PD^{k}P^{-1}\); analysing repeated linear maps.</p>
+        <span class="src">Lecture 5 · p7</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p12-13">
+        <h3>Singular value decomposition</h3>
+        $$A=U\Sigma V^{T}$$
+        <p>where: \(A\in\mathbb{R}^{m\times n}\) rank \(r\); \(U\in\mathbb{R}^{m\times m}\), \(V\in\mathbb{R}^{n\times n}\) orthogonal; \(\Sigma\in\mathbb{R}^{m\times n}\) with singular values \(\sigma_1\ge\sigma_2\ge\cdots>0\) on the diagonal (zero-padded).</p>
+        <p>use: universal factorisation valid for any rectangular matrix.</p>
+        <span class="src">Lecture 5 · p12-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p15-17">
+        <h3>Constructing SVD from eigendecompositions</h3>
+        $$A^{T}A=V\Sigma^{T}\Sigma V^{T},\qquad AA^{T}=U\Sigma\Sigma^{T}U^{T},\qquad u_i=\tfrac{1}{\sigma_i}Av_i$$
+        <p>where: \(V\) = eigenvectors of \(A^{T}A\), \(U\) = eigenvectors of \(AA^{T}\), \(\sigma_i=\sqrt{\lambda_i(A^{T}A)}\).</p>
+        <p>use: the practical recipe to compute \(U,\Sigma,V\) by hand.</p>
+        <span class="src">Lecture 5 · p15-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p26-28">
+        <h3>Rank-1 sum &amp; rank-k approximation</h3>
+        $$A=\sum_{i=1}^{r}\sigma_i u_i v_i^{T},\qquad \hat{A}(k)=\sum_{i=1}^{k}\sigma_i u_i v_i^{T}$$
+        <p>where: \(u_i,v_i\) = left/right singular vectors, \(\sigma_i\) = singular values, \(k\lt r\).</p>
+        <p>use: best low-rank approximation of \(A\) — compression, denoising, latent factors.</p>
+        <span class="src">Lecture 5 · p26-28</span>
+      </div>
+
+      <div class="card" data-src="Lecture 5 · p29-30">
+        <h3>Spectral norm</h3>
+        $$\lVert A\rVert_2=\max_{x\neq0}\frac{\lVert Ax\rVert_2}{\lVert x\rVert_2}=\sigma_{\max}$$
+        <p>where: \(\sigma_{\max}\) = largest singular value of \(A\).</p>
+        <p>use: largest gain of the linear map; measures rank-\(k\) approximation error.</p>
+        <span class="src">Lecture 5 · p29-30</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 6 — Differentiation, Gradients &amp; Jacobian <small>· source: Lecture_6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 6 · p4">
+        <h3>Derivative (limit definition)</h3>
+        $$\frac{df}{dx}=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}$$
+        <p>where: \(f:\mathbb{R}\to\mathbb{R}\), \(h\) = small increment.</p>
+        <p>use: instantaneous rate of change; points in the direction of steepest ascent.</p>
+        <span class="src">Lecture 6 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p5-6">
+        <h3>Power rule</h3>
+        $$\frac{d}{dx}x^{n}=n x^{n-1}$$
+        <p>where: \(n\in\mathbb{N}\) (extends to real powers).</p>
+        <p>use: differentiating polynomials term by term.</p>
+        <span class="src">Lecture 6 · p5-6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p12-13">
+        <h3>Differentiation rules (univariate)</h3>
+        $$(fg)'=f'g+fg',\quad \left(\tfrac{f}{g}\right)'=\frac{f'g-fg'}{g^{2}},\quad (g\circ f)'=g'(f(x))f'(x)$$
+        <p>where: product, quotient and chain rules; sum rule \((f+g)'=f'+g'\).</p>
+        <p>use: differentiating compositions and combinations of functions.</p>
+        <span class="src">Lecture 6 · p12-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p7">
+        <h3>Taylor polynomial</h3>
+        $$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^{k}$$
+        <p>where: \(f^{(k)}(x_0)\) = \(k\)-th derivative at expansion point \(x_0\).</p>
+        <p>use: local polynomial approximation of a function near \(x_0\); \(n=1\) gives the linear model, \(n=2\) the quadratic.</p>
+        <span class="src">Lecture 6 · p7</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p8">
+        <h3>Taylor / Maclaurin series</h3>
+        $$T_\infty(x)=\sum_{k=0}^{\infty}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^{k}\quad(\text{Maclaurin: }x_0=0)$$
+        <p>where: \(f\) smooth (infinitely differentiable).</p>
+        <p>use: exact series representation; e.g. \(\sin x+\cos x=\sum(-1)^k\big[\tfrac{x^{2k}}{(2k)!}+\tfrac{x^{2k+1}}{(2k+1)!}\big]\).</p>
+        <span class="src">Lecture 6 · p8-11</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p15">
+        <h3>Partial derivative</h3>
+        $$\frac{\partial f}{\partial x_i}=\lim_{h\to0}\frac{f(x_1,\dots,x_i+h,\dots,x_n)-f(x_1,\dots,x_n)}{h}$$
+        <p>where: \(f:\mathbb{R}^n\to\mathbb{R}\); vary \(x_i\), hold the others fixed.</p>
+        <p>use: rate of change along one coordinate; building block of the gradient.</p>
+        <span class="src">Lecture 6 · p15</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p16">
+        <h3>Gradient (row vector)</h3>
+        $$\nabla_x f=\frac{df}{dx}=\left[\frac{\partial f}{\partial x_1},\ \frac{\partial f}{\partial x_2},\ \dots,\ \frac{\partial f}{\partial x_n}\right]\in\mathbb{R}^{1\times n}$$
+        <p>where: collection of all partial derivatives of \(f:\mathbb{R}^n\to\mathbb{R}\).</p>
+        <p>use: direction of steepest ascent; the object gradient descent moves against.</p>
+        <span class="src">Lecture 6 · p16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p17-19">
+        <h3>Multivariate chain rule</h3>
+        $$\frac{df}{dt}=\frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial t}+\frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial t}=\begin{bmatrix}\frac{\partial f}{\partial x_1}&\frac{\partial f}{\partial x_2}\end{bmatrix}\begin{bmatrix}\frac{\partial x_1}{\partial t}\\[2pt]\frac{\partial x_2}{\partial t}\end{bmatrix}$$
+        <p>where: \(f\) depends on \(x_1,x_2\) which depend on \(t\).</p>
+        <p>use: differentiating through intermediate variables; generalises to \(\partial f/\partial s\), \(\partial f/\partial t\).</p>
+        <span class="src">Lecture 6 · p17-22</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p25">
+        <h3>Jacobian (vector-valued function)</h3>
+        $$\frac{df(x)}{dx}=\begin{bmatrix}\frac{\partial f_1}{\partial x_1}&\cdots&\frac{\partial f_1}{\partial x_n}\\ \vdots& &\vdots\\ \frac{\partial f_m}{\partial x_1}&\cdots&\frac{\partial f_m}{\partial x_n}\end{bmatrix}\in\mathbb{R}^{m\times n}$$
+        <p>where: \(f:\mathbb{R}^n\to\mathbb{R}^m\), entries \(\partial f_i/\partial x_j\).</p>
+        <p>use: full first-derivative of a vector-valued map; needed for backprop.</p>
+        <span class="src">Lecture 6 · p25</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p26">
+        <h3>Gradient of a linear map</h3>
+        $$f(x)=Ax\ \Rightarrow\ \frac{df}{dx}=A$$
+        <p>where: \(A\in\mathbb{R}^{m\times n}\), \(x\in\mathbb{R}^n\).</p>
+        <p>use: the Jacobian of a linear layer is just its weight matrix.</p>
+        <span class="src">Lecture 6 · p26</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p14 (prereq)">
+        <h3>Hessian matrix (prerequisite)</h3>
+        $$H=\nabla^{2}f=\begin{bmatrix}\frac{\partial^{2}f}{\partial x_1^{2}}&\cdots&\frac{\partial^{2}f}{\partial x_1\partial x_n}\\ \vdots& &\vdots\\ \frac{\partial^{2}f}{\partial x_n\partial x_1}&\cdots&\frac{\partial^{2}f}{\partial x_n^{2}}\end{bmatrix}$$
+        <p>where: symmetric matrix of second partial derivatives of \(f:\mathbb{R}^n\to\mathbb{R}\).</p>
+        <p>use: local curvature; classifying critical points (EC2 exam). Needed for the second-order Taylor model.</p>
+        <span class="src">Lecture 6 · p14 (prereq)</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p3 (prereq)">
+        <h3>Critical points &amp; second-derivative test (prerequisite)</h3>
+        $$\nabla f(x^{*})=0;\quad H\succ0\Rightarrow\text{min},\ \ H\prec0\Rightarrow\text{max},\ \ H\text{ indefinite}\Rightarrow\text{saddle}$$
+        <p>where: \(x^{*}\) = stationary point; \(H\) = Hessian evaluated there; \(\succ0\) = positive-definite.</p>
+        <p>use: finding and classifying optima of a multivariate function.</p>
+        <span class="src">Lecture 6 · p3 (prereq)</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 7 — Backpropagation &amp; Automatic Differentiation <small>· source: Lecture-7.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 7 · p4">
+        <h3>Matrix-calculus gradient identities</h3>
+        $$\frac{\partial\, x^{T}a}{\partial x}=a^{T},\quad \frac{\partial\, a^{T}Xb}{\partial X}=ab^{T},\quad \frac{\partial\, x^{T}Bx}{\partial x}=x^{T}(B+B^{T})$$
+        <p>where: \(a,b,x\) vectors, \(X,B\) matrices; also \(\frac{\partial}{\partial s}(x-As)^{T}W(x-As)=-2(x-As)^{T}WA\) for symmetric \(W\).</p>
+        <p>use: differentiating quadratic/bilinear ML loss terms directly. Note \(\frac{\partial}{\partial x}(x^TBx)=(B+B^T)x\) for a symmetric \(B\) gives \(2Bx\).</p>
+        <span class="src">Lecture 7 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p7-9">
+        <h3>Network loss &amp; layer recursion</h3>
+        $$f_i=\sigma_i(A_{i-1}f_{i-1}+b_{i-1}),\qquad L(\theta)=\lVert y-f_K(\theta,x)\rVert^{2}$$
+        <p>where: \(f_0=x\); \(\theta=\{A_j,b_j\}\) = weights and biases; \(\sigma_i\) = activation; \(L\) = squared error.</p>
+        <p>use: forward pass of a feed-forward network and its training objective.</p>
+        <span class="src">Lecture 7 · p7-9</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p9-10">
+        <h3>Backprop chain-rule expansion</h3>
+        $$\frac{\partial L}{\partial\theta_i}=\frac{\partial L}{\partial f_K}\frac{\partial f_K}{\partial f_{K-1}}\cdots\frac{\partial f_{i+2}}{\partial f_{i+1}}\frac{\partial f_{i+1}}{\partial\theta_i}$$
+        <p>where: product of layer Jacobians from output back to layer \(i\).</p>
+        <p>use: gradients for every parameter; \(\partial L/\partial\theta_{i+1}\) is reused to get \(\partial L/\partial\theta_i\).</p>
+        <span class="src">Lecture 7 · p9-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p15-16">
+        <h3>Automatic differentiation (reverse mode)</h3>
+        $$x_i=g_i(x_{\text{Pa}(x_i)}),\qquad \frac{\partial f}{\partial x_D}=1,\qquad \frac{\partial f}{\partial x_i}=\sum_{x_j:\,x_i\in \text{Pa}(x_j)}\frac{\partial f}{\partial x_j}\frac{\partial x_j}{\partial x_i}$$
+        <p>where: \(g_i\) = elementary forward functions, \(\text{Pa}(x_j)\) = parent nodes of \(x_j\) in the computation graph, \(x_D\) = output.</p>
+        <p>use: mechanically propagating gradients backward through a computation graph.</p>
+        <span class="src">Lecture 7 · p15-16</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p17-18">
+        <h3>Sigmoid and its derivative</h3>
+        $$\sigma(z)=\frac{1}{1+e^{-z}},\qquad \sigma'(z)=\sigma(z)\big(1-\sigma(z)\big)$$
+        <p>where: \(z\) = pre-activation; applied element-wise so \(\partial a_i/\partial Z_i=a_i(1-a_i)\), \(\partial a_i/\partial Z_j=0\) (\(i\neq j\)).</p>
+        <p>use: activation gradient; its element-wise nature makes the layer Jacobian diagonal.</p>
+        <span class="src">Lecture 7 · p17-19</span>
+      </div>
+
+      <div class="card" data-src="Lecture 7 · p21-25">
+        <h3>Backpropagation rules for a sigmoid layer</h3>
+        $$\delta(Z)=\delta(a)\odot a\odot(1-a),\quad \frac{\partial L}{\partial A}=\delta(Z)x^{T},\quad \frac{\partial L}{\partial b}=\delta(Z),\quad \frac{\partial L}{\partial x}=A^{T}\delta(Z)$$
+        <p>where: \(Z=Ax+b\), \(a=\sigma(Z)\); \(\delta(a)=\partial L/\partial a\); \(\odot\) = Hadamard (element-wise) product; \(\text{diag}(a\odot(1-a))\) is the sigmoid Jacobian.</p>
+        <p>use: the complete gradient set to update weights, bias and pass error to the previous layer.</p>
+        <span class="src">Lecture 7 · p21-25</span>
+      </div>
+
+      <div class="card" data-src="EC3 exam · Q5(2) (prereq)">
+        <h3>Gradient of a quadratic form</h3>
+        $$\frac{\partial}{\partial x}\big(x^{T}Ax\big)=(A+A^{T})x\ \ \xrightarrow{A\text{ symmetric}}\ \ 2Ax$$
+        <p>where: \(A\in\mathbb{R}^{n\times n}\), \(x\in\mathbb{R}^n\).</p>
+        <p>use: differentiating quadratic objectives; a directly examined identity (EC3 Q5.2). Builds on the Lecture 7 identities.</p>
+        <span class="src">EC3 exam · Q5(2) (prereq)</span>
+      </div>
+
+      <div class="card" data-src="Lecture 6 · p3 (prereq)">
+        <h3>Gradient descent update</h3>
+        $$x_{i+1}=x_i-\eta\,[\nabla f(x_i)]^{T}$$
+        <p>where: \(\eta>0\) = learning rate (step size), \([\nabla f(x_i)]^{T}\) = gradient as a column vector.</p>
+        <p>use: iterative minimisation of a differentiable loss; step against steepest ascent. (EC3 also examines the momentum variant \(x_{i+1}=x_i-\eta[\nabla f(x_i)]^{T}+\beta(x_i-x_{i-1})\).)</p>
+        <span class="src">Lecture 6 · p3 / EC3 Q1 (prereq)</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

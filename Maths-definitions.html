@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths — Definitions</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Maths</span> · Definitions<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="Maths-concepts.html">Concepts</a>
+    <a class="tab" href="Maths-formulas.html">Formulas</a>
+    <a class="tab active" href="Maths-definitions.html">Definitions</a>
+    <a class="tab" href="Maths-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Precise definitions of terms from AIMLZC416, grouped by lecture: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, and backpropagation. Use the filter to find a term fast.</p>
+
+  <details class="module" open>
+    <summary>Lecture 1 — Linear Algebra: Systems &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 1 · p2">
+        <h3>Vector</h3>
+        <p>Any object that can be added to another object of the same kind and multiplied by a scalar to yield another object of that kind — e.g. tuples in \(\mathbb{R}^n\), geometric arrows, or polynomials.</p>
+        <span class="src">Lecture 1 · p2</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p3">
+        <h3>Closure</h3>
+        <p>The property that applying an operation (addition or scaling) to members of a set always yields another member of the same set.</p>
+        <span class="src">Lecture 1 · p3</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p8">
+        <h3>Linear system solution count</h3>
+        <p>A system of linear equations has exactly zero, one, or infinitely many solutions — no other possibility exists.</p>
+        <span class="src">Lecture 1 · p8</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p18">
+        <h3>Matrix</h3>
+        <p>An \((m,n)\) array of \(mn\) real numbers \(a_{ij}\) arranged in \(m\) rows and \(n\) columns; \(\mathbb{R}^{m\times n}\) denotes all such real matrices. Row and column vectors are the \(1\times n\) and \(m\times 1\) cases.</p>
+        <span class="src">Lecture 1 · p18</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p22-24">
+        <h3>Matrix inverse</h3>
+        <p>For a square matrix \(A\), the matrix \(A^{-1}\) satisfying \(AA^{-1}=A^{-1}A=I\); it exists if and only if \(\det(A)\neq0\).</p>
+        <span class="src">Lecture 1 · p22-24</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p25">
+        <h3>Transpose</h3>
+        <p>The matrix \(A^{T}\) obtained by writing the rows of \(A\) as columns, i.e. \((A^{T})_{ij}=a_{ji}\).</p>
+        <span class="src">Lecture 1 · p25</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p32">
+        <h3>Particular solution</h3>
+        <p>Any single vector \(x_p\) that satisfies the system \(Ax=b\).</p>
+        <span class="src">Lecture 1 · p32</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p37">
+        <h3>General solution</h3>
+        <p>The complete solution set of \(Ax=b\), expressed as a particular solution plus every solution of the homogeneous system \(Ax=0\).</p>
+        <span class="src">Lecture 1 · p37</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p38-40">
+        <h3>Gaussian elimination</h3>
+        <p>The procedure of applying solution-preserving elementary row operations to reduce a matrix to (reduced) row-echelon form so that solutions can be read off.</p>
+        <span class="src">Lecture 1 · p38-40</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p40">
+        <h3>Elementary row operations</h3>
+        <p>The three operations that preserve a system's solution set: swapping two rows, multiplying a row by a non-zero constant, and adding a multiple of one row to another.</p>
+        <span class="src">Lecture 1 · p40</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p42">
+        <h3>Augmented matrix</h3>
+        <p>The coefficient matrix with the right-hand-side vector appended as an extra column, \([A\,|\,b]\), on which row operations are performed.</p>
+        <span class="src">Lecture 1 · p42</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p50">
+        <h3>Row-echelon form</h3>
+        <p>A matrix in which all-zero rows are at the bottom and each row's leading non-zero entry (pivot) lies strictly to the right of the pivot in the row above, forming a staircase.</p>
+        <span class="src">Lecture 1 · p50</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p50">
+        <h3>Pivot, basic &amp; free variables</h3>
+        <p>A pivot is the first non-zero entry of a non-zero row. Variables at pivot columns are basic (pivot) variables; variables at non-pivot columns are free variables.</p>
+        <span class="src">Lecture 1 · p50</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 1 · p53">
+        <h3>Reduced row-echelon form (RREF)</h3>
+        <p>A row-echelon form in which every pivot equals 1 and is the only non-zero entry in its column, so pivot columns look like canonical basis vectors.</p>
+        <span class="src">Lecture 1 · p53</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 2 — Vector Spaces &amp; Linear Independence <small>· source: Lecture_2.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 2 · p4">
+        <h3>Group</h3>
+        <p>A set \(G\) with an operation \(\otimes\) that is closed, associative, has an identity element, and gives every element an inverse.</p>
+        <span class="src">Lecture 2 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p4">
+        <h3>Abelian group</h3>
+        <p>A group whose operation is also commutative: \(x\otimes y=y\otimes x\) for all \(x,y\).</p>
+        <span class="src">Lecture 2 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p6-7">
+        <h3>Vector space</h3>
+        <p>A set \(V=(V,+,\cdot)\) where \((V,+)\) is an Abelian group and scalar multiplication satisfies distributivity, associativity of scaling, and the identity \(1\cdot x=x\).</p>
+        <span class="src">Lecture 2 · p6-7</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p10">
+        <h3>Vector subspace</h3>
+        <p>A non-empty subset \(U\subseteq V\) that is itself a vector space under the inherited operations, i.e. closed under addition and scalar multiplication.</p>
+        <span class="src">Lecture 2 · p10</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p13">
+        <h3>Null space</h3>
+        <p>The set of all solutions to the homogeneous system \(Ax=0\); it is a vector subspace.</p>
+        <span class="src">Lecture 2 · p13</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p14">
+        <h3>Linear combination</h3>
+        <p>A weighted sum \(\sum_i\lambda_i x_i\) of vectors \(x_i\) with scalar coefficients \(\lambda_i\).</p>
+        <span class="src">Lecture 2 · p14</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p16">
+        <h3>Linear (in)dependence</h3>
+        <p>Vectors are linearly dependent if some non-trivial combination equals the zero vector; they are linearly independent if only the all-zero coefficients give the zero vector.</p>
+        <span class="src">Lecture 2 · p16</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p33">
+        <h3>Span / generating set</h3>
+        <p>The span of a set is the collection of all its linear combinations; the set is a generating set of \(V\) when its span equals \(V\).</p>
+        <span class="src">Lecture 2 · p33-34</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p35">
+        <h3>Basis</h3>
+        <p>A minimal generating set of a vector space — equivalently a maximal linearly independent set — in which every vector has a unique representation.</p>
+        <span class="src">Lecture 2 · p35-36</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 2 · p39">
+        <h3>Dimension</h3>
+        <p>The number of vectors in any basis of a finite-dimensional vector space, denoted \(\dim(V)\).</p>
+        <span class="src">Lecture 2 · p39</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 3 — Norms, Inner Products &amp; Orthogonality <small>· source: Lecture_3.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 3 · p4">
+        <h3>Norm</h3>
+        <p>A function \(\lVert\cdot\rVert:V\to\mathbb{R}\) assigning a length to each vector, satisfying absolute homogeneity, the triangle inequality, and positive definiteness.</p>
+        <span class="src">Lecture 3 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p5-6">
+        <h3>Inner product</h3>
+        <p>A symmetric, positive-definite bilinear map \(\langle\cdot,\cdot\rangle:V\times V\to\mathbb{R}\); the dot product is the standard example.</p>
+        <span class="src">Lecture 3 · p5-6</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p5">
+        <h3>Bilinear mapping</h3>
+        <p>A two-argument mapping that is linear in each argument separately.</p>
+        <span class="src">Lecture 3 · p5</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p6">
+        <h3>Inner product space</h3>
+        <p>A vector space equipped with an inner product, written \((V,\langle\cdot,\cdot\rangle)\).</p>
+        <span class="src">Lecture 3 · p6</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p7-8">
+        <h3>Symmetric positive-definite matrix</h3>
+        <p>A symmetric matrix \(A\) with \(x^{T}Ax>0\) for all \(x\neq0\); it has full rank and strictly positive diagonal entries, and defines a valid inner product.</p>
+        <span class="src">Lecture 3 · p7-8</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p11">
+        <h3>Metric</h3>
+        <p>A distance function \(d(x,y)=\lVert x-y\rVert\) that is positive-definite, symmetric, and satisfies the triangle inequality; with the dot product it is the Euclidean distance.</p>
+        <span class="src">Lecture 3 · p11-12</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p16">
+        <h3>Orthogonal vectors</h3>
+        <p>Two vectors whose inner product is zero (\(x\perp y\)); the zero vector is orthogonal to every vector.</p>
+        <span class="src">Lecture 3 · p16</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p17">
+        <h3>Orthogonal (orthonormal) matrix</h3>
+        <p>A square matrix whose columns are orthonormal, so \(A^{T}A=AA^{T}=I\) and \(A^{T}=A^{-1}\); it preserves lengths and angles.</p>
+        <span class="src">Lecture 3 · p17</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p22-23">
+        <h3>Orthonormal basis</h3>
+        <p>A basis whose vectors are mutually orthogonal and each of unit length; if only mutually orthogonal, it is an orthogonal basis.</p>
+        <span class="src">Lecture 3 · p22-23</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p24">
+        <h3>Gram–Schmidt process</h3>
+        <p>A procedure that converts a given basis into an orthogonal (then orthonormal) basis, here realised via Gaussian elimination on \([A^{T}A\,|\,A^{T}]\).</p>
+        <span class="src">Lecture 3 · p24-25</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p26">
+        <h3>Elementary matrix</h3>
+        <p>An identity matrix with a single below-diagonal entry made non-zero; pre-multiplying by it performs one row operation.</p>
+        <span class="src">Lecture 3 · p26</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 3 · p28-29">
+        <h3>LU decomposition</h3>
+        <p>The factorisation \(A=LU\) of a matrix into a lower-triangular \(L\) and an upper-triangular \(U\), arising from Gaussian elimination.</p>
+        <span class="src">Lecture 3 · p28-29</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 4 — Determinant, Trace, Eigenvalues &amp; Cholesky <small>· source: Lecture_4.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 4 · p4">
+        <h3>Determinant</h3>
+        <p>A scalar associated with a square matrix, computed by cofactor expansion; it is non-zero exactly when the matrix has full rank / is invertible.</p>
+        <span class="src">Lecture 4 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p5">
+        <h3>Minor &amp; cofactor</h3>
+        <p>The minor \(M_{jk}\) is the determinant of the submatrix obtained by deleting row \(j\) and column \(k\); the cofactor is \(C_{jk}=(-1)^{j+k}M_{jk}\).</p>
+        <span class="src">Lecture 4 · p5</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p13">
+        <h3>Trace</h3>
+        <p>The sum of the diagonal entries of a square matrix, \(\text{tr}(A)=\sum_i a_{ii}\).</p>
+        <span class="src">Lecture 4 · p13</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p14">
+        <h3>Characteristic polynomial</h3>
+        <p>The degree-\(n\) polynomial \(p_A(\lambda)=\det(A-\lambda I)\), whose roots are the eigenvalues of \(A\).</p>
+        <span class="src">Lecture 4 · p14</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p17">
+        <h3>Eigenvalue &amp; eigenvector</h3>
+        <p>A scalar \(\lambda\) and non-zero vector \(x\) with \(Ax=\lambda x\); \(A\) scales \(x\) without changing its direction.</p>
+        <span class="src">Lecture 4 · p17</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p20">
+        <h3>Eigenspace</h3>
+        <p>The subspace \(E_\lambda\) of all eigenvectors for a given eigenvalue \(\lambda\) (plus the zero vector); it equals the null space of \(A-\lambda I\).</p>
+        <span class="src">Lecture 4 · p20-21</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p20">
+        <h3>Spectrum</h3>
+        <p>The set of all eigenvalues of a matrix.</p>
+        <span class="src">Lecture 4 · p20</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p24">
+        <h3>Algebraic &amp; geometric multiplicity</h3>
+        <p>Algebraic multiplicity is how many times \(\lambda\) appears as a root of the characteristic polynomial; geometric multiplicity is \(\dim(E_\lambda)\). For symmetric matrices they are equal.</p>
+        <span class="src">Lecture 4 · p24</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p23">
+        <h3>Spectral theorem</h3>
+        <p>Every symmetric real matrix has an orthonormal basis of eigenvectors with all-real eigenvalues, giving the factorisation \(A=Q\Lambda Q^{T}\).</p>
+        <span class="src">Lecture 4 · p23-24, p30</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p26">
+        <h3>Hermitian matrix</h3>
+        <p>A complex matrix equal to its conjugate transpose, \(A^{H}=A\); the complex generalisation of a symmetric matrix.</p>
+        <span class="src">Lecture 4 · p26</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 4 · p32">
+        <h3>Cholesky decomposition</h3>
+        <p>The unique factorisation \(A=LL^{T}\) of a symmetric positive-definite matrix into a lower-triangular \(L\) with positive diagonal entries.</p>
+        <span class="src">Lecture 4 · p32</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 5 — Diagonalization &amp; SVD <small>· source: Lecture_5.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 5 · p4">
+        <h3>Diagonal matrix</h3>
+        <p>A matrix whose off-diagonal entries are all zero.</p>
+        <span class="src">Lecture 5 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p5">
+        <h3>Diagonalizable matrix</h3>
+        <p>A matrix \(A\) for which an invertible \(P\) exists with \(P^{-1}AP\) diagonal; equivalently \(A\) has a full set of independent eigenvectors.</p>
+        <span class="src">Lecture 5 · p5</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p7">
+        <h3>Eigenvalue decomposition</h3>
+        <p>The factorisation \(A=PDP^{-1}\) where \(P\)'s columns are eigenvectors and \(D\) is the diagonal matrix of eigenvalues.</p>
+        <span class="src">Lecture 5 · p7</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p12">
+        <h3>Singular value decomposition (SVD)</h3>
+        <p>The factorisation \(A=U\Sigma V^{T}\) valid for any \(m\times n\) matrix, with orthogonal \(U,V\) and rectangular \(\Sigma\) holding the singular values.</p>
+        <span class="src">Lecture 5 · p12</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p12-13">
+        <h3>Singular values</h3>
+        <p>The non-negative diagonal entries \(\sigma_i\) of \(\Sigma\), ordered decreasingly; they are the square roots of the non-zero eigenvalues of \(A^{T}A\).</p>
+        <span class="src">Lecture 5 · p12-13</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p15-16">
+        <h3>Left / right singular vectors</h3>
+        <p>The right-singular vectors (columns of \(V\)) are eigenvectors of \(A^{T}A\); the left-singular vectors (columns of \(U\)) are eigenvectors of \(AA^{T}\).</p>
+        <span class="src">Lecture 5 · p15-16</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p28">
+        <h3>Rank-k approximation</h3>
+        <p>The matrix \(\hat{A}(k)=\sum_{i=1}^{k}\sigma_i u_i v_i^{T}\) obtained by truncating the SVD sum at \(k\lt r\) terms; the best rank-\(k\) approximation of \(A\).</p>
+        <span class="src">Lecture 5 · p28</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 5 · p29">
+        <h3>Spectral norm</h3>
+        <p>The matrix norm \(\lVert A\rVert_2=\max_{x\neq0}\lVert Ax\rVert_2/\lVert x\rVert_2\), equal to the largest singular value of \(A\).</p>
+        <span class="src">Lecture 5 · p29-30</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 6 — Differentiation, Gradients &amp; Jacobian <small>· source: Lecture_6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 6 · p4">
+        <h3>Derivative</h3>
+        <p>The limit \(\frac{df}{dx}=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}\); it gives the direction of steepest ascent of a univariate function.</p>
+        <span class="src">Lecture 6 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p7">
+        <h3>Taylor polynomial</h3>
+        <p>A degree-\(n\) polynomial built from a function's derivatives at \(x_0\) that approximates the function near \(x_0\).</p>
+        <span class="src">Lecture 6 · p7</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p8">
+        <h3>Taylor series / Maclaurin series</h3>
+        <p>The infinite Taylor expansion of a smooth function; the Maclaurin series is the special case with \(x_0=0\).</p>
+        <span class="src">Lecture 6 · p8</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p15">
+        <h3>Partial derivative</h3>
+        <p>The derivative of a multivariate function with respect to one variable while holding the others constant.</p>
+        <span class="src">Lecture 6 · p15</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p16">
+        <h3>Gradient</h3>
+        <p>The row vector of all partial derivatives of \(f:\mathbb{R}^n\to\mathbb{R}\); it points in the direction of steepest ascent.</p>
+        <span class="src">Lecture 6 · p16</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p25">
+        <h3>Jacobian</h3>
+        <p>The \(m\times n\) matrix of all first partial derivatives \(\partial f_i/\partial x_j\) of a vector-valued function \(f:\mathbb{R}^n\to\mathbb{R}^m\).</p>
+        <span class="src">Lecture 6 · p25</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p14 (prereq)">
+        <h3>Hessian</h3>
+        <p>The symmetric matrix of all second partial derivatives of a scalar function; it describes local curvature and classifies critical points.</p>
+        <span class="src">Lecture 6 · p14 (prereq)</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 6 · p3 (prereq)">
+        <h3>Critical (stationary) point</h3>
+        <p>A point where the gradient vanishes, \(\nabla f=0\); classified as a minimum, maximum, or saddle by the definiteness of the Hessian.</p>
+        <span class="src">Lecture 6 · p3 (prereq)</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 7 — Backpropagation &amp; Automatic Differentiation <small>· source: Lecture-7.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 7 · p5-6">
+        <h3>Backpropagation</h3>
+        <p>An efficient algorithm that computes the gradient of a network's loss with respect to all parameters by applying the chain rule backward through layers and reusing intermediate results.</p>
+        <span class="src">Lecture 7 · p5-6</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 7 · p15">
+        <h3>Automatic differentiation</h3>
+        <p>A technique that decomposes a function into elementary operations on a computation graph and mechanically propagates derivatives; reverse mode is backpropagation.</p>
+        <span class="src">Lecture 7 · p15</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 7 · p15">
+        <h3>Computation graph</h3>
+        <p>A directed graph whose nodes are input, intermediate, and output variables \(x_i=g_i(x_{\text{Pa}(x_i)})\), with edges to their parent nodes.</p>
+        <span class="src">Lecture 7 · p15</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 7 · p17">
+        <h3>Sigmoid function</h3>
+        <p>The activation \(\sigma(z)=1/(1+e^{-z})\) with derivative \(\sigma'(z)=\sigma(z)(1-\sigma(z))\), applied element-wise in a layer.</p>
+        <span class="src">Lecture 7 · p17</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 7 · p16-18">
+        <h3>Error signal (delta)</h3>
+        <p>The backpropagated gradient of the loss with respect to a layer's activation or pre-activation, e.g. \(\delta(a)=\partial L/\partial a\), \(\delta(Z)=\partial L/\partial Z\).</p>
+        <span class="src">Lecture 7 · p16-18</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 7 · p21">
+        <h3>Hadamard product</h3>
+        <p>The element-wise product \(\odot\) of two equal-sized vectors or matrices, multiplying corresponding entries.</p>
+        <span class="src">Lecture 7 · p21</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

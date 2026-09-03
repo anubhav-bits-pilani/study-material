@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML — Concepts</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>ML</span> · Concepts<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab active" href="ML-concepts.html">Concepts</a>
+    <a class="tab" href="ML-formulas.html">Formulas</a>
+    <a class="tab" href="ML-definitions.html">Definitions</a>
+    <a class="tab" href="ML-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Machine Learning (AIMLZG565) exam-prep concept sweep across the four session decks — CS1 (Introduction), CS2 (ML Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Classification Evaluation) — plus exam-referenced topics harvested from the EC2/EC3 instruction sheets.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 1 · p16">
+        <h3>What is Machine Learning</h3>
+        <p>The science of programming computers so they can learn from data — giving computers the ability to learn without being explicitly programmed. Engineering definition: a program learns from experience <b>E</b> with respect to task <b>T</b> and performance measure <b>P</b>, if its performance at T (measured by P) improves with E. A well-defined task is the tuple &lt;P, T, E&gt;.</p>
+        <p class="src">ML_CS 1 · p16</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p16">
+        <h3>Traditional Programming vs Machine Learning</h3>
+        <p>Traditional: data + hand-written program → output. ML: data + desired output → the computer produces the program (model). Matters because for tasks like spam filtering or digit recognition, hand-coded rules become a long, brittle, unmaintainable list, whereas ML learns predictive patterns directly.</p>
+        <p class="src">ML_CS 1 · p16, p19-20</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p25">
+        <h3>When to Use ML</h3>
+        <p>Use ML when human expertise doesn't exist (navigating Mars), humans can't explain their expertise (biometrics), the solution must be customized (personalized medicine), tasks are definable only by examples, or hidden correlations exist in large data. Do NOT "learn" tasks that are trivially computed (e.g. payroll).</p>
+        <p class="src">ML_CS 1 · p25-26</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p29">
+        <h3>Types of ML by Level of Supervision</h3>
+        <p>Supervised (labelled feedback), Unsupervised (no feedback / no labels), and Reinforcement (delayed reward/penalty feedback). Understanding which paradigm a problem fits is the first modelling decision.</p>
+        <p class="src">ML_CS 1 · p29</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p33">
+        <h3>Supervised Learning — Classification</h3>
+        <p>Given labelled pairs (xᵢ, yᵢ), learn f(x) to predict a <b>categorical</b> y (e.g. benign vs malignant). Goal: assign unseen records to a class as accurately as possible. x can be multi-dimensional (each dimension an attribute). Applications: face recognition, spam filters, fraud detection, document tagging.</p>
+        <p class="src">ML_CS 1 · p33-37</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p39">
+        <h3>Supervised Learning — Regression</h3>
+        <p>Given labelled pairs (xᵢ, yᵢ), learn f(x) to predict a <b>real-valued</b> y. Goal: assign unseen records a value as accurately as possible (e.g. predicting used-car price, arctic sea-ice extent by year).</p>
+        <p class="src">ML_CS 1 · p39</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p40">
+        <h3>Unsupervised Learning — Clustering</h3>
+        <p>Given unlabelled x₁…xₙ, output hidden structure behind the data (e.g. clustering). Goal: minimise intra-cluster distance and maximise inter-cluster distance. Techniques: k-Means, hierarchical clustering, EM; and for dim-reduction: PCA, kernel PCA, LLE, t-SNE.</p>
+        <p class="src">ML_CS 1 · p40-42</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p44">
+        <h3>Reinforcement Learning</h3>
+        <p>A feedback-based technique where an agent learns by acting in an environment and observing results — positive feedback (reward) reinforces behaviour, negative feedback (penalty) discourages it. Suits sequential decision problems with long-term goals (game-playing, robotics). No labelled data; learning is by trial and error.</p>
+        <p class="src">ML_CS 1 · p44-47</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p50">
+        <h3>Semi-Supervised Learning</h3>
+        <p>Combines supervised and unsupervised learning on partially labelled data — some labelled and a lot of unlabelled data (e.g. Google Photos grouping and then labelling faces).</p>
+        <p class="src">ML_CS 1 · p50</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p51">
+        <h3>Batch vs Mini-Batch vs Online Learning</h3>
+        <p>Classified by how training data is fed: <b>Batch</b> uses all data per training step; <b>Mini-batch</b> uses a subset; <b>Online (incremental)</b> uses a single instance at a time. Online learning suits streaming data and continual updates.</p>
+        <p class="src">ML_CS 1 · p51</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p52">
+        <h3>Instance-Based vs Model-Based Learning</h3>
+        <p><b>Instance-based</b> compares new data points to stored known points (e.g. KNN — lazy learning). <b>Model-based</b> detects patterns in training data and builds a predictive model (e.g. regression). Determines memory/compute trade-off and generalisation behaviour.</p>
+        <p class="src">ML_CS 1 · p52</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p30">
+        <h3>Features / Attributes / Predictors</h3>
+        <p>The input columns used to predict the target (e.g. CGPA, communication skills, aptitude to predict "Job Offered?"). Choosing informative features is central to model quality.</p>
+        <p class="src">ML_CS 1 · p30-31</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p57">
+        <h3>ML Workflow (End-to-End)</h3>
+        <p>(1) Should I use ML? (is there a pattern, can I solve analytically, do I have data). (2) Gather/organise data. (3) Preprocess, clean, visualise. (4) Choose model, loss, regularization. (5) Optimize. (6) Hyperparameter search. (7) Analyse performance/mistakes and iterate. Understanding this loop frames every other topic.</p>
+        <p class="src">ML_CS 1 · p57-58</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p10">
+        <h3>Issues in Machine Learning</h3>
+        <p>Key practical issues surveyed: what algorithm/representation to use, sufficiency and quality of data, generalisation to unseen cases, and choosing appropriate performance metrics. These motivate the workflow and evaluation modules.</p>
+        <p class="src">ML_CS 1 · p10</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — ML Workflow &amp; Data <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 2 · p5">
+        <h3>Three Components of Every ML Algorithm</h3>
+        <p>Every ML algorithm = Data Representation + Parameter Optimization + Model Evaluation/Selection. A useful lens for comparing the thousands of available algorithms.</p>
+        <p class="src">ML_CS 2 · p5</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p7">
+        <h3>Data, Objects &amp; Attributes</h3>
+        <p>Data = a collection of data objects and their attributes. An <b>attribute</b> (aka variable, field, feature, dimension) is a property of an object; an <b>object</b> (aka record, point, sample, instance) is described by a set of attributes. This is the row/column mental model.</p>
+        <p class="src">ML_CS 2 · p7</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p8">
+        <h3>Attribute Types: Nominal, Ordinal, Interval, Ratio</h3>
+        <p><b>Nominal</b>: labels, only distinctness (=, ≠) — zip codes, eye colour. <b>Ordinal</b>: also ordered (&lt;, &gt;) — grades, rankings. <b>Interval</b>: meaningful differences (+, −) — Celsius dates. <b>Ratio</b>: meaningful ratios too (×, ÷) with true zero — Kelvin, length, counts. Determines which statistics and transformations are valid.</p>
+        <p class="src">ML_CS 2 · p8-12</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p10">
+        <h3>Ratio vs Interval Distinction</h3>
+        <p>Only ratio scales have a true zero, so "twice as much" is meaningful. 10°C is NOT twice 5°C (interval), but 10 K IS twice 5 K (ratio). Height "above average" behaves like interval (no true zero). Exam-relevant justification pattern.</p>
+        <p class="src">ML_CS 2 · p10</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p13">
+        <h3>Discrete vs Continuous Attributes</h3>
+        <p><b>Discrete</b>: finite / countably infinite values (zip codes, counts); binary is a special case. <b>Continuous</b>: real-valued (temperature, height), stored as floating point. Governs modelling and encoding choices.</p>
+        <p class="src">ML_CS 2 · p13</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p14">
+        <h3>Characteristics of Data</h3>
+        <p>Dimensionality (many attributes → challenges), Sparsity (only presence counts), Resolution (patterns depend on scale), and Size (analysis type depends on volume). These characteristics drive preprocessing decisions.</p>
+        <p class="src">ML_CS 2 · p14</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p23">
+        <h3>Data Quality Dimensions</h3>
+        <p>Quality data is Correct, Complete, Consistent, Trustable, Interpretable and Usable-on-demand. Poor data quality directly harms ML — e.g. a loan-risk classifier built on bad data denies credit-worthy applicants and approves defaulters.</p>
+        <p class="src">ML_CS 2 · p23-24</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p25">
+        <h3>Noise and Outliers</h3>
+        <p><b>Noise</b> = extraneous objects or modification of original values (distortion). <b>Outliers</b> = objects considerably different from most others; they may be nuisance noise (to remove) OR the very goal of analysis (fraud, intrusion detection). Context decides which.</p>
+        <p class="src">ML_CS 2 · p25-26</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p27">
+        <h3>Handling Missing Values</h3>
+        <p>Causes: information not collected, or attribute inapplicable. Options: eliminate the object/variable, estimate/impute the value (mean/median), or ignore it during analysis. Imputation strategy affects downstream bias.</p>
+        <p class="src">ML_CS 2 · p27, p36</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p28">
+        <h3>Duplicate Data &amp; Data Cleaning</h3>
+        <p>Datasets may contain duplicate or near-duplicate objects, a major issue when merging heterogeneous sources (e.g. same person, multiple emails). Data cleaning is the process of resolving these plus noisy/inconsistent/intentional-error records.</p>
+        <p class="src">ML_CS 2 · p28, p34-35</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p37">
+        <h3>Handling Outliers (Univariate) — IQR &amp; 3-Sigma</h3>
+        <p>Two standard rules: <b>IQR</b> — flag values below Q1−1.5·IQR or above Q3+1.5·IQR. <b>3-Sigma (Z-score)</b> — for normal data, flag values outside μ ± 3σ (≈99% lie within). Know how to compute both by hand.</p>
+        <p class="src">ML_CS 2 · p37-40</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p31">
+        <h3>Data Preprocessing Steps</h3>
+        <p>Preprocessing = Data Aggregation + Data Cleansing + Instance selection &amp; partitioning + Feature tuning. It splits into <b>data engineering</b> (raw→prepared data) and <b>feature engineering</b> (prepared→model-ready features).</p>
+        <p class="src">ML_CS 2 · p29, p31</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p32">
+        <h3>Aggregation</h3>
+        <p>Combining attributes/objects into one — for data reduction, change of scale (cities→regions, days→months), and to produce more stable, lower-variability data.</p>
+        <p class="src">ML_CS 2 · p32-33</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p41">
+        <h3>Sampling &amp; Train/Validation/Test Partitioning</h3>
+        <p>Sampling is the main data-reduction technique; a sample works nearly as well as the full set <b>if representative</b> (same properties of interest). Small samples cause sampling noise; a flawed process causes sampling bias even at large size. Data is partitioned into training, validation (evaluation) and test sets (e.g. 8000/2000/500).</p>
+        <p class="src">ML_CS 2 · p41-44</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p44">
+        <h3>Sampling Types</h3>
+        <p>Simple random, Stratified (preserves class proportions), and Clustered sampling. Stratified matters when class balance must be maintained across splits (e.g. IRIS by species).</p>
+        <p class="src">ML_CS 2 · p43-44</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p45">
+        <h3>Handling Imbalanced Training Sets</h3>
+        <p>Modify the training distribution so the rare class is well represented: <b>under-sample</b> the majority class or <b>over-sample</b> the rare class (e.g. SMOTE). Essential when the class of interest (fraud, cancer) is rare.</p>
+        <p class="src">ML_CS 2 · p45</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p46">
+        <h3>Feature Scaling — Normalization vs Standardization</h3>
+        <p><b>Normalization (min-max)</b>: use when bounds are known and data ≈ uniform, or algorithms make no distribution assumption (KNN, NN); scales to [0,1] or [−1,1]. <b>Standardization (z-score)</b>: use when algorithms assume Gaussian data; not range-bounded; less affected by outliers. Fit scalers on the training set only, then transform both train and test. Scaling the target is generally not required.</p>
+        <p class="src">ML_CS 2 · p46-48</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p49">
+        <h3>Feature Engineering</h3>
+        <p>Deriving a good feature set: <b>Extraction</b> (dimensionality reduction), <b>Selection</b> (pick useful existing features, drop redundant/irrelevant/mostly-missing), <b>Construction</b> (combine features — polynomial expansion, feature crossing, domain logic), and <b>Transformation</b> (rescale/encode/discretize).</p>
+        <p class="src">ML_CS 2 · p49-54</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p51">
+        <h3>Curse of Dimensionality</h3>
+        <p>As the number of features grows, data becomes increasingly sparse in the occupied space, hurting learning. Solution: dimensionality reduction (e.g. PCA) to create fewer, lower-dimensional features.</p>
+        <p class="src">ML_CS 2 · p51</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p55">
+        <h3>Discretization / Binning</h3>
+        <p>Converting a continuous attribute into a discrete one ("binning"/"bucketing") — into interval labels (0-10, 11-20) or conceptual labels (youth/adult/senior). Helps Naive Bayes, decision trees, KNN; handles outliers and improves value spread. <b>Equal-width</b> partitions the range into N equal intervals (W=(B−A)/N; outliers can dominate); <b>Equal-depth</b> puts ~equal counts per bin (good scaling).</p>
+        <p class="src">ML_CS 2 · p55-56</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p57">
+        <h3>Encoding Categorical Features</h3>
+        <p><b>One-Hot / Dummy encoding</b>: maps a categorical attribute to binary indicator variables. <b>Label encoding</b>: maps categories to integers. Choice affects whether spurious ordinal relationships are introduced.</p>
+        <p class="src">ML_CS 2 · p57</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p62">
+        <h3>Inductive Learning Hypothesis</h3>
+        <p>Any hypothesis that approximates the target function well over a sufficiently large training set will also approximate it well over unseen examples. This assumption is what makes generalisation from data possible. Inductive learning covers classification (discrete F(X)), regression (continuous F(X)) and probability estimation.</p>
+        <p class="src">ML_CS 2 · p62</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p66">
+        <h3>Hypothesis Space (General vs Specific)</h3>
+        <p>A hypothesis constrains attribute values. The <b>most general</b> hypothesis (?, ?, …, ?) labels every instance positive; the <b>most specific</b> (∅, …, ∅) labels none positive. Learning searches this space for a hypothesis consistent with the data.</p>
+        <p class="src">ML_CS 2 · p66</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p59">
+        <h3>Core Challenges of ML</h3>
+        <p>Training data problems (insufficient / non-representative), model-selection problems (overfitting / underfitting), and validation-and-testing problems. These recur through every subsequent module.</p>
+        <p class="src">ML_CS 2 · p59</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Linear Models for Regression <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 34 · p9">
+        <h3>Simple vs Multiple Linear Regression</h3>
+        <p><b>Simple</b>: one predictor (Income vs Education). <b>Multiple</b>: several predictors (Income from Education, Soft skills, Experience, Age). The model is linear in its parameters θ.</p>
+        <p class="src">ML_CS 34 · p9</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p8">
+        <h3>Hypothesis, Parameters &amp; Model</h3>
+        <p>Training set → learning algorithm → hypothesis h(·) mapping input x to predicted output. The θ's are the parameters to be learned. Central question: "How to choose the θ's?" — answered by minimizing a cost function.</p>
+        <p class="src">ML_CS 34 · p8</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p11">
+        <h3>Cost Function (Least Squares / MSE)</h3>
+        <p>Measures how far predictions are from actual values, using squared errors. Minimizing it gives the best-fit line. Intuition built from y=θ₀ (horizontal line) to y=θ₀+θ₁x — the cost surface over parameters is bowl-shaped (convex).</p>
+        <p class="src">ML_CS 34 · p11-19</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p23">
+        <h3>Convex Function</h3>
+        <p>A real-valued function is convex if the line segment between any two points on its graph lies on or above the graph. The MSE cost of linear regression is convex, guaranteeing a single global minimum that gradient descent can reach.</p>
+        <p class="src">ML_CS 34 · p23</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p24">
+        <h3>Closed-Form (Normal Equation) Solution</h3>
+        <p>Solves for optimal parameters directly (analytically) by setting the gradient of the cost to zero: θ = (XᵀX)⁻¹Xᵀy. Uses vectorization (matrix form) rather than iteration. Exact but requires matrix inversion — costly for many features.</p>
+        <p class="src">ML_CS 34 · p24-30</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p25">
+        <h3>Vectorization</h3>
+        <p>Expressing the hypothesis and cost over the whole dataset as matrix/vector operations (Xθ) rather than loops — enables the closed-form solution and efficient computation.</p>
+        <p class="src">ML_CS 34 · p25-29</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p31">
+        <h3>Gradient Descent</h3>
+        <p>Iterative optimization: start at some θ, repeatedly step in the direction of steepest descent (negative gradient) to reduce cost until convergence. A positive derivative pushes θ down, a negative derivative pushes it up — so it always moves toward the minimum.</p>
+        <p class="src">ML_CS 34 · p31-49</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p50">
+        <h3>Choosing the Learning Rate</h3>
+        <p>Learning rate α controls step size. Too small → very slow convergence; too large → overshoots and may diverge. It is a key hyperparameter tuned by observing whether the cost decreases each iteration.</p>
+        <p class="src">ML_CS 34 · p50, p53</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p51">
+        <h3>Feature Scaling &amp; Gradient Descent</h3>
+        <p>With scaling, cost contours are circular → GD path goes straight to the minimum, converges fast. Without scaling, contours are elongated → GD zig-zags inefficiently. So scale features before running GD.</p>
+        <p class="src">ML_CS 34 · p51-52</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p65">
+        <h3>Batch, Stochastic &amp; Mini-Batch Gradient Descent</h3>
+        <p><b>Batch</b>: derivative from all data before one update (slow, stable, small datasets). <b>Stochastic (SGD)</b>: update per single instance (fast, noisy/low-stability, online learning). <b>Mini-batch</b>: update per small batch (medium speed/stability, default for deep learning).</p>
+        <p class="src">ML_CS 34 · p65-71</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p74">
+        <h3>R-squared (Goodness of Fit)</h3>
+        <p>The proportion of variation in y explained by the regression model (explained variation ÷ total variation). Measures goodness of fit for a regression model; higher is better (max 1). Used to compare regression models.</p>
+        <p class="src">ML_CS 34 · p74</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p75">
+        <h3>Linear Basis Function Models / Polynomial Regression</h3>
+        <p>When output is a non-linear function of the input, apply basis functions Φⱼ(x) (e.g. powers of x for an M-th order polynomial). Still called "linear" because the model is linear in the weights w. Φ₀(x)=1 gives the bias term.</p>
+        <p class="src">ML_CS 34 · p75-79</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p80">
+        <h3>Bias and Variance</h3>
+        <p><b>Bias</b> = error from wrong (too-simple) assumptions → underfitting; high bias means predictions systematically far from truth. <b>Variance</b> = sensitivity to the particular training set → overfitting; high variance means a wiggly model that fits training noise but fails on new data.</p>
+        <p class="src">ML_CS 34 · p80-81</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p82">
+        <h3>Underfitting vs Overfitting</h3>
+        <p><b>Underfitting</b>: model too simple → high bias, low variance; both training and test error high. <b>Overfitting</b>: model too complex → low bias, high variance; training error very low but test error high (poor generalization). The goal is the balanced middle.</p>
+        <p class="src">ML_CS 34 · p82-90</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p84">
+        <h3>Ways to Handle Overfitting</h3>
+        <p>(1) Increase training set size (larger data reduces overfitting, especially for higher-order models). (2) Reduce model complexity. (3) Apply regularization. Choosing model complexity is validated experimentally against test error.</p>
+        <p class="src">ML_CS 34 · p84-88</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p89">
+        <h3>Regularization</h3>
+        <p>Adds a penalty on the size of the weights to the cost, discouraging overly complex models and controlling overfitting. Common to both linear (M3) and logistic (M4) regression. Strength is a tuned hyperparameter (λ).</p>
+        <p class="src">ML_CS 34 · p89-95</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p96">
+        <h3>Ridge, Lasso &amp; Elastic Net</h3>
+        <p><b>Ridge (L2 / Tikhonov)</b>: penalizes squared weights → shrinks weights toward (but not exactly) zero. <b>Lasso (L1)</b>: penalizes absolute weights → can set weights exactly to 0 (sparse model, feature selection). <b>Elastic Net</b>: mixes L1 and L2 via ratio r (r=0→Ridge, r=1→Lasso); preferred for highly correlated features.</p>
+        <p class="src">ML_CS 34 · p96-99</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p99">
+        <h3>L1 vs L2 — Practical Choice</h3>
+        <p>L1 drives some coefficients exactly to 0 (sparsity, automatic feature selection) but is non-differentiable so awkward for gradient methods. L2 yields small-but-nonzero weights and is differentiable. Elastic net is preferred when features are highly correlated.</p>
+        <p class="src">ML_CS 34 · p99</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Linear Models for Classification (Logistic Regression &amp; Evaluation) <small>· source: ML_CS 5 6.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 5 · p4">
+        <h3>Generative vs Discriminative Classifiers</h3>
+        <p><b>Probabilistic generative</b>: learn the joint distribution P(X, Y) (e.g. Naive Bayes). <b>Probabilistic discriminative</b>: learn the decision boundary separating classes directly (e.g. logistic regression). Objective in classification: minimise mis-classification rate.</p>
+        <p class="src">ML_CS 5 · p4</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p7">
+        <h3>Logistic Regression Model</h3>
+        <p>A statistical model for binary classification that predicts the <b>probability</b> an input belongs to a class. It computes a linear combination z=w₀x₀+…+wₙxₙ and squashes it through the logistic (sigmoid) function h(x)=1/(1+e⁻ᶻ) to output a value in [0,1].</p>
+        <p class="src">ML_CS 5 · p7</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p12">
+        <h3>Sigmoid / Logistic Function</h3>
+        <p>Takes any real input and outputs a value between 0 and 1, giving a probability interpretation. σ(t) &lt; 0.5 when t &lt; 0 and σ(t) ≥ 0.5 when t ≥ 0, so the model predicts class 1 when xᵀθ ≥ 0.</p>
+        <p class="src">ML_CS 5 · p12, p58</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p8">
+        <h3>Why Not Linear Regression for Classification</h3>
+        <p>Fitting a line and thresholding at 0.5 breaks down: predictions hθ(x) can exceed 1 or fall below 0, and least squares is highly sensitive to outliers — a single new point can swing the boundary. Logistic regression is robust to this and bounds output to [0,1].</p>
+        <p class="src">ML_CS 5 · p8-13</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p9">
+        <h3>Discriminant Function &amp; Decision Rule</h3>
+        <p>A discriminant f(x) takes input x and assigns it to one of K classes Cₖ. A linear discriminant f(x,w)=w₀+wᵀx gives decision rule y=sign(w₀+wᵀx); the boundary w₀+wᵀx=0 is a hyperplane. In two-class problems f(·) is binary-valued.</p>
+        <p class="src">ML_CS 5 · p9</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p14">
+        <h3>Decision Boundary (Linear &amp; Non-Linear)</h3>
+        <p>At the decision boundary logistic-regression output is 0.5. With linear features the boundary is a line/hyperplane; with polynomial/engineered features it becomes non-linear (curved), letting the model separate more complex class regions.</p>
+        <p class="src">ML_CS 5 · p14-15</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p20">
+        <h3>Logistic Regression Cost (Cross-Entropy / Log Loss)</h3>
+        <p>MSE would be non-convex for logistic regression, so a log-loss cost is used: heavily penalizes confident wrong predictions (cost→∞ as prediction diverges from the true label) and is 0 when prediction matches the label. This cost is convex, so gradient descent finds the global minimum.</p>
+        <p class="src">ML_CS 5 · p19-22</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p23">
+        <h3>Fitting Logistic Regression via Gradient Descent</h3>
+        <p>Parameters are fit by applying gradient descent to the cross-entropy cost. The update rule has the same form as linear regression (with the sigmoid hypothesis substituted). Prediction for new x uses hθ(x) and a 0.5 threshold.</p>
+        <p class="src">ML_CS 5 · p22-24, p28</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p29">
+        <h3>Odds Ratio &amp; Coefficient Interpretation</h3>
+        <p>The exponential of a regression coefficient, e^w, is the odds ratio for a one-unit increase in that predictor. E.g. odds of a job offer increase by a factor of 1.35 for each unit increase in CGPA. Enables interpretable inference from logistic models.</p>
+        <p class="src">ML_CS 5 · p29</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p58">
+        <h3>Logit / Log-Odds</h3>
+        <p>logit(p) = log(p/(1−p)) is the inverse of the logistic function; applied to the estimated probability it returns t = xᵀθ. Also called log-odds — it linearizes the relationship between features and the log of the odds.</p>
+        <p class="src">ML_CS 5 · p58</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p30">
+        <h3>Regularization in Logistic Regression (parameter C)</h3>
+        <p>Same regularization idea as linear regression. In Scikit-Learn's LogisticRegression the strength is controlled by <b>C</b> (the inverse of α): higher C → less regularization (more overfitting risk), lower C → stronger regularization.</p>
+        <p class="src">ML_CS 5 · p30-31</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p33">
+        <h3>Confusion Matrix</h3>
+        <p>A table of predicted vs actual classes with TP, FP, FN, TN. It is the basis for all classification metrics and reveals what a single accuracy number hides (which class the errors fall on).</p>
+        <p class="src">ML_CS 5 · p33-36</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p35">
+        <h3>Accuracy Limitation &amp; Class Imbalance</h3>
+        <p>Accuracy is misleading under imbalance: a model predicting the majority class for everything can score 99% yet detect zero rare-class cases. Since detecting the rare class (fraud, cancer, defects) is usually the point, use precision/recall/ROC instead. Accuracy is most meaningful when classes are balanced.</p>
+        <p class="src">ML_CS 5 · p34-35, p50</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p44">
+        <h3>Precision, Recall (TPR) &amp; F1</h3>
+        <p>Precision = TP/(TP+FP) (of predicted positives, how many correct). Recall/TPR = TP/(TP+FN) (of actual positives, how many caught). F1 is their harmonic mean, balancing both. Choose based on which error is costlier.</p>
+        <p class="src">ML_CS 5 · p44</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p40">
+        <h3>Cost of FP vs FN (Choosing a Model)</h3>
+        <p>Different mistakes carry different costs: disease screening wants a low false-negative rate (don't miss sick patients); spam filtering wants a low false-positive rate (don't drop real mail). The same application may need conservative vs aggressive threshold settings.</p>
+        <p class="src">ML_CS 5 · p40</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p41">
+        <h3>ROC Curve</h3>
+        <p>Plots True Positive Rate against False Positive Rate as the decision threshold varies, showing the detection-rate vs false-alarm trade-off. Corners: (0,0) declare all negative, (1,1) declare all positive, (1,0) ideal; the diagonal = random guessing; below diagonal = worse than random.</p>
+        <p class="src">ML_CS 5 · p41-43</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p44">
+        <h3>Constructing an ROC Curve</h3>
+        <p>Use a classifier that outputs a continuous score; sort instances by decreasing score; apply a threshold at each unique score; count TP/FP/TN/FN and plot (FPR, TPR) at each. Higher-scored instances are more likely positive.</p>
+        <p class="src">ML_CS 5 · p44-45</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p42">
+        <h3>AUC (Area Under ROC)</h3>
+        <p>AUC measures a model's ability to separate classes: AUC=1 is a perfect model, AUC=0.5 is random. Higher AUC = better average performance. Used for threshold selection and model comparison; when no model dominates everywhere, one may be better at low FPR and another at high FPR.</p>
+        <p class="src">ML_CS 5 · p42, p46</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p51">
+        <h3>Solutions to Class Imbalance</h3>
+        <p>(1) Generate synthetic minority samples (SMOTE — new points from distances to nearest neighbours). (2) Change the metric to recall/precision/ROC rather than accuracy. (3) Try algorithms that handle imbalance better (SVM, tree-based).</p>
+        <p class="src">ML_CS 5 · p50-51</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p56">
+        <h3>Multiclass Classification — OvA vs OvO</h3>
+        <p><b>One-vs-All (One-vs-Rest)</b>: train N binary classifiers, one per class vs the rest; pick the highest-scoring. <b>One-vs-One</b>: train N(N−1)/2 classifiers for every class pair and vote. Scikit-Learn defaults to OvA (OvO for SVMs).</p>
+        <p class="src">ML_CS 5 · p56-57</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Exam-Referenced Topics (post-midsem &amp; EC prerequisites) <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="EC3 · Q1">
+        <h3>k-Nearest Neighbors (kNN)</h3>
+        <p>An instance-based (lazy) classifier: to classify a new point, find its k nearest training points (by a distance metric such as Euclidean or Manhattan) and take the majority class vote. Low k (1-2) → sensitive to noise, low bias / high variance; high k (10-20) → smoother, higher bias / lower variance.</p>
+        <p class="src">EC3 · Q1</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q2">
+        <h3>Bayes' Theorem &amp; Naive Bayes</h3>
+        <p>Bayes' theorem updates the probability of a class given evidence: P(class|data) ∝ P(data|class)·P(class). <b>Naive Bayes</b> assumes features are conditionally independent given the class, multiplying per-feature likelihoods — used for medical-test posteriors and the "play cricket?" weather classifier.</p>
+        <p class="src">EC3 · Q2, Q3</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q3">
+        <h3>Maximum Likelihood Estimation (MLE)</h3>
+        <p>Estimates a parameter (e.g. coin-bias p) by maximizing the likelihood of the observed i.i.d. data, usually via the log-likelihood for tractability. For a coin with h heads in n tosses, the MLE is p̂ = h/n.</p>
+        <p class="src">EC3 · Q3</p>
+      </div>
+
+      <div class="card" data-src="EC2 · Q6">
+        <h3>Decision Trees — Entropy, Information Gain, Gini</h3>
+        <p>Trees split on the attribute that best reduces impurity. <b>Entropy</b> measures class disorder; <b>Information gain</b> is the entropy reduction from a split (pick the highest). <b>Gini index</b> = 1−Σpᵢ² is an alternative impurity measure. Continuous attributes are split at a threshold (e.g. the mean).</p>
+        <p class="src">EC2 · Q6</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q4">
+        <h3>Support Vector Machines (SVM)</h3>
+        <p>Finds the maximum-margin separating hyperplane defined by support vectors, Lagrange multipliers and labels. Non-linearly-separable data is handled via the <b>kernel trick</b> (e.g. polynomial kernel K(u,v)=(u·v+1)²) that maps points into a higher-dimensional space where they become separable.</p>
+        <p class="src">EC3 · Q4</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q5">
+        <h3>K-Means vs Gaussian Mixture Models</h3>
+        <p><b>K-Means</b>: assign each point to the nearest centroid, then recompute centroids as cluster means, iterating (hard assignments). <b>GMM</b>: models data as a mixture of Gaussians with mixing weights and gives soft "responsibilities" (probabilities). GMM handles elliptical/overlapping clusters K-Means cannot.</p>
+        <p class="src">EC3 · Q5</p>
+      </div>
+
+      <div class="card" data-src="EC3 · Q6">
+        <h3>Ensemble Learning — Bagging, Random Forest, Boosting</h3>
+        <p><b>Bagging</b>: train models on bootstrap samples and average/vote; unused rows form the Out-Of-Bag set for validation. <b>Random Forest</b>: bagged trees that also randomly subsample features at each split (extra decorrelation). <b>AdaBoost</b>: sequentially reweights instances — up-weighting misclassified ones — and combines weak learners by weight α; final label = sign(Σ αₜ·predictionₜ).</p>
+        <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ML_CS 1 · p11 (image)">
+        <h3>AI vs Data Science vs Machine Learning</h3>
+        <p>A nested relationship: <b>Data Science</b> is the broad umbrella (collection, preparation and analysis of data, leveraging AI/ML, research and statistics for business decisions); <b>Artificial Intelligence</b> sits inside it (technology for machines to understand/interpret, learn and make "intelligent" decisions); and <b>Machine Learning</b> is a subset of AI (algorithms that improve through supervised, unsupervised and reinforcement learning). So ML ⊂ AI ⊂ Data Science.</p>
+        <p class="src">ML_CS 1 · p11 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 1 · p46 (image)">
+        <h3>ML Algorithmic Trade-Off (Interpretability vs Accuracy)</h3>
+        <p>Algorithms trade interpretability against accuracy. High-interpretability / lower-accuracy: Linear/Logistic Regression, Lasso, Decision Trees, Naive Bayes. High-accuracy / lower-interpretability: Random Forests, Boosting, SVMs, Neural Nets / Deep Learning. Choose based on whether an explainable model or raw predictive performance matters more for the problem.</p>
+        <p class="src">ML_CS 1 · p46 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 2 · p36 (image)">
+        <h3>Imputing Missing Values — Methods</h3>
+        <p>Beyond deleting records, a missing cell can be filled by: <b>replace with a constant</b> (e.g. 0), <b>forward-fill</b> with the last known value, <b>replace with the column mean</b>, or <b>interpolate</b> (e.g. spline interpolation) between neighbouring known values. Each strategy trades simplicity against introduced bias.</p>
+        <p class="src">ML_CS 2 · p36 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p27 (image)">
+        <h3>Maxima &amp; Minima Condition (Optimisation)</h3>
+        <p>At a maximum or minimum of a differentiable function the slope is zero: dy/dx = tan(0°) = 0 — the tangent is parallel to the x-axis. This stationary-point condition is exactly what the normal equation (∂J/∂θ = 0) and gradient descent exploit to locate the cost minimum.</p>
+        <p class="src">ML_CS 34 · p27 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p30 (image)">
+        <h3>Non-Invertible XᵀX (Pseudo-Inverse)</h3>
+        <p>The normal equation θ = (XᵀX)⁻¹Xᵀy needs XᵀX to be invertible. If it is singular — redundant / linearly-dependent features, or more features than examples (d &gt; n) — you can: use the <b>pseudo-inverse</b> (Python: <code>numpy.linalg.pinv</code>), remove redundant features, or drop extra features so that d ≤ n.</p>
+        <p class="src">ML_CS 34 · p30 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p64 (image)">
+        <h3>Closed-Form vs Gradient Descent</h3>
+        <p><b>Gradient descent</b>: iterative, must choose learning rate α, works well when n is large, and supports incremental/online learning. <b>Closed-form (normal equation)</b>: non-iterative and needs no α, but slow when features are many because computing (XᵀX)⁻¹ is roughly O(n³). Use GD for large/streaming data, closed-form for small feature sets.</p>
+        <p class="src">ML_CS 34 · p64 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 34 · p89 (image)">
+        <h3>Early Stopping (Handling Overfitting)</h3>
+        <p>Track the validation-set error (e.g. RMSE) while training epoch by epoch and keep the model at the point of <b>minimum validation error</b> ("best model") — before it starts rising again while training error keeps falling. Stopping there prevents the model from over-learning training noise.</p>
+        <p class="src">ML_CS 34 · p89 (image)</p>
+      </div>
+
+      <div class="card" data-src="ML_CS 5 · p55 (image)">
+        <h3>Binary vs Multiclass Classification</h3>
+        <p>Classification is categorised by its output labels. <b>Binary</b>: two classes (e.g. spam vs ham). <b>Multiclass</b>: three or more mutually-exclusive classes (e.g. Enjoy-Sports = Yes/No/Maybe). Multiclass problems are commonly reduced to several binary problems via One-vs-All or One-vs-One.</p>
+        <p class="src">ML_CS 5 · p55 (image)</p>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

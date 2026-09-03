@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stats — Definitions</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Stats</span> · Definitions<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="Stats-concepts.html">Concepts</a>
+    <a class="tab" href="Stats-formulas.html">Formulas</a>
+    <a class="tab active" href="Stats-definitions.html">Definitions</a>
+    <a class="tab" href="Stats-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Glossary for Introduction to Statistical Methods (AIMLZC418), grouped by source deck: descriptive statistics, probability, conditional/total probability, Bayes/Naïve Bayes, random variables & distributions, and inference/forecasting terms.</p>
+
+  <details class="module" open>
+    <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Statistics</h3>
+        <p>The science of collecting, organising, analysing, and inferring from data to support decision-making.</p>
+        <span class="src">ISM CS-1 · p8</span>
+      </div>
+
+      <div class="card def">
+        <h3>Quantitative (numerical) data</h3>
+        <p>Data measured in numbers, either discrete (countable) or continuous (measured on a scale).</p>
+        <span class="src">ISM CS-1 · p9,11</span>
+      </div>
+
+      <div class="card def">
+        <h3>Qualitative (categorical) data</h3>
+        <p>Data expressing a category or attribute (e.g. eye colour, religion) rather than a numerical amount.</p>
+        <span class="src">ISM CS-1 · p9,11</span>
+      </div>
+
+      <div class="card def">
+        <h3>Nominal / Ordinal / Interval / Ratio scales</h3>
+        <p>The four measurement levels: nominal (unordered categories), ordinal (ordered categories), interval (meaningful differences, no true zero), ratio (true zero, ratios meaningful).</p>
+        <span class="src">ISM CS-1 · p10</span>
+      </div>
+
+      <div class="card def">
+        <h3>Measure of central tendency</h3>
+        <p>A single value describing the centre of a data set — the mean, median or mode.</p>
+        <span class="src">ISM CS-1 · p13</span>
+      </div>
+
+      <div class="card def">
+        <h3>Mean</h3>
+        <p>The arithmetic average; the sum of values divided by their count. Uses every value and is sensitive to outliers.</p>
+        <span class="src">ISM CS-1 · p14</span>
+      </div>
+
+      <div class="card def">
+        <h3>Median</h3>
+        <p>The middle value of ordered data (the 50th percentile); half the values lie below it. Robust to outliers.</p>
+        <span class="src">ISM CS-1 · p20</span>
+      </div>
+
+      <div class="card def">
+        <h3>Mode</h3>
+        <p>The value or category with the highest frequency; a data set may have none, one, or several modes.</p>
+        <span class="src">ISM CS-1 · p18</span>
+      </div>
+
+      <div class="card def">
+        <h3>Measure of variability</h3>
+        <p>A quantity describing the spread or dispersion of scores — range, variance, standard deviation, or quartile deviation.</p>
+        <span class="src">ISM CS-1 · p27–28</span>
+      </div>
+
+      <div class="card def">
+        <h3>Range</h3>
+        <p>The distance between the largest and smallest values; based on only two data points.</p>
+        <span class="src">ISM CS-1 · p29</span>
+      </div>
+
+      <div class="card def">
+        <h3>Variance</h3>
+        <p>The mean of the squared deviations of scores from their mean; variability measured in squared units.</p>
+        <span class="src">ISM CS-1 · p34</span>
+      </div>
+
+      <div class="card def">
+        <h3>Standard deviation</h3>
+        <p>The square root of the variance; the average distance of scores from the mean, in the original units.</p>
+        <span class="src">ISM CS-1 · p30,35</span>
+      </div>
+
+      <div class="card def">
+        <h3>Sum of squares (SS)</h3>
+        <p>The total of squared deviations from the mean, \(\sum(X_i-\bar X)^2\); the numerator of variance.</p>
+        <span class="src">ISM CS-1 · p33</span>
+      </div>
+
+      <div class="card def">
+        <h3>Skewness</h3>
+        <p>Asymmetry of a distribution: right (positive) skew has a long right tail (mean &gt; median), left (negative) skew a long left tail (mean &lt; median).</p>
+        <span class="src">ISM CS-1 · p23</span>
+      </div>
+
+      <div class="card def">
+        <h3>Bimodal / Multimodal</h3>
+        <p>A distribution with two distinct modes is bimodal; with more than two, multimodal.</p>
+        <span class="src">ISM CS-1 · p23; Webinar 1 · s6</span>
+      </div>
+
+      <div class="card def">
+        <h3>Quartiles (Q1, Q2, Q3)</h3>
+        <p>Values dividing ordered data into four equal parts: Q1 = 25% mark, Q2 = median, Q3 = 75% mark.</p>
+        <span class="src">ISM CS-1 · p43–44</span>
+      </div>
+
+      <div class="card def">
+        <h3>Five-number summary</h3>
+        <p>Minimum, Q1, median, Q3, and maximum — a compact summary of a data set's location and spread.</p>
+        <span class="src">ISM CS-1 · p43</span>
+      </div>
+
+      <div class="card def">
+        <h3>Interquartile range (IQR)</h3>
+        <p>The spread of the middle 50% of data, Q3 − Q1; unaffected by extreme values.</p>
+        <span class="src">ISM CS-1 · p44</span>
+      </div>
+
+      <div class="card def">
+        <h3>Quartile deviation</h3>
+        <p>Half the interquartile range, IQR/2; the semi-interquartile spread.</p>
+        <span class="src">ISM CS-1 · p44</span>
+      </div>
+
+      <div class="card def">
+        <h3>Outlier</h3>
+        <p>A value beyond Q1 − 1.5·IQR or Q3 + 1.5·IQR; a major/extreme outlier lies beyond the 3·IQR fences.</p>
+        <span class="src">ISM CS-1 · p46–48</span>
+      </div>
+
+      <div class="card def">
+        <h3>Box-and-whisker plot</h3>
+        <p>A graphical display of the five-number summary with a box (Q1–Q3), a median line, whiskers, and marked outliers.</p>
+        <span class="src">ISM CS-1 · p45</span>
+      </div>
+
+      <div class="card def">
+        <h3>Coefficient of variation (CV)</h3>
+        <p>The ratio of standard deviation to mean (SD/mean), a scale-free measure of relative variability.</p>
+        <span class="src">Webinar 1 · s16; EC-3 · Q1</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-2 — Probability Basics <small>· source: S1-26_ISM_CS-2_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Random experiment</h3>
+        <p>An action whose outcome is uncertain before it is performed.</p>
+        <span class="src">ISM CS-2 · p40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Sample space</h3>
+        <p>The set \(S\) of all possible outcomes of a random experiment.</p>
+        <span class="src">ISM CS-2 · p6,40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Event</h3>
+        <p>Any subset of the sample space; a collection of outcomes that either occurs or does not on a given trial.</p>
+        <span class="src">ISM CS-2 · p7,40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Equally likely outcomes</h3>
+        <p>Outcomes that all have the same probability.</p>
+        <span class="src">ISM CS-2 · p40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Complement of an event</h3>
+        <p>The event \(A^c\) consisting of all sample points not in \(A\).</p>
+        <span class="src">ISM CS-2 · p8</span>
+      </div>
+
+      <div class="card def">
+        <h3>Union of events</h3>
+        <p>\(A\cup B\): the event containing all points in \(A\), in \(B\), or in both.</p>
+        <span class="src">ISM CS-2 · p9</span>
+      </div>
+
+      <div class="card def">
+        <h3>Intersection of events</h3>
+        <p>\(A\cap B\): the event containing all points that are in both \(A\) and \(B\).</p>
+        <span class="src">ISM CS-2 · p9</span>
+      </div>
+
+      <div class="card def">
+        <h3>Mutually exclusive events</h3>
+        <p>Events with no common outcomes; they cannot occur at the same time, so \(P(A\cap B)=0\).</p>
+        <span class="src">ISM CS-2 · p10,40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Independent events</h3>
+        <p>Events where the occurrence of one has no effect on the probability of the other.</p>
+        <span class="src">ISM CS-2 · p17,40</span>
+      </div>
+
+      <div class="card def">
+        <h3>Classical probability</h3>
+        <p>Probability defined as favourable outcomes divided by total equally likely outcomes.</p>
+        <span class="src">ISM CS-2 · p11</span>
+      </div>
+
+      <div class="card def">
+        <h3>Empirical probability</h3>
+        <p>Probability estimated as the long-run relative frequency of an event from observed data.</p>
+        <span class="src">ISM CS-2 · p12</span>
+      </div>
+
+      <div class="card def">
+        <h3>Axiomatic probability</h3>
+        <p>Probability defined by the axioms: non-negativity, \(P(S)=1\), and additivity over disjoint events.</p>
+        <span class="src">ISM CS-2 · p13</span>
+      </div>
+
+      <div class="card def">
+        <h3>Permutation</h3>
+        <p>An ordered arrangement of \(r\) items chosen from \(n\), counted by \(^nP_r=n!/(n-r)!\).</p>
+        <span class="src">ISM CS-2 · p33 (counting)</span>
+      </div>
+
+      <div class="card def">
+        <h3>Combination</h3>
+        <p>An unordered selection of \(r\) items from \(n\), counted by \(\binom{n}{r}=n!/[r!(n-r)!]\).</p>
+        <span class="src">ISM CS-2 · p33,36</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-3 — Conditional &amp; Total Probability <small>· source: S1-26_ISM_CS-3_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Conditional probability</h3>
+        <p>The probability of event \(B\) given that \(A\) has occurred, \(P(B\mid A)=P(A\cap B)/P(A)\).</p>
+        <span class="src">ISM CS-3 · p6</span>
+      </div>
+
+      <div class="card def">
+        <h3>Conditioning event</h3>
+        <p>The event assumed to have occurred (the "given") in a conditional probability.</p>
+        <span class="src">ISM CS-3 · p5</span>
+      </div>
+
+      <div class="card def">
+        <h3>Multiplication rule</h3>
+        <p>The rule expressing a joint probability as \(P(A\cap B)=P(A)P(B\mid A)\), extendable to several events.</p>
+        <span class="src">ISM CS-3 · p8</span>
+      </div>
+
+      <div class="card def">
+        <h3>Sampling with / without replacement</h3>
+        <p>With replacement, each draw is returned so trials stay independent; without replacement, the pool shrinks and draws become dependent.</p>
+        <span class="src">ISM CS-3 · p19,23</span>
+      </div>
+
+      <div class="card def">
+        <h3>Partition of a sample space</h3>
+        <p>A set of mutually exclusive events whose union is the whole sample space.</p>
+        <span class="src">ISM CS-3 · p26</span>
+      </div>
+
+      <div class="card def">
+        <h3>Total probability theorem</h3>
+        <p>The rule \(P(B)=\sum_i P(A_i)P(B\mid A_i)\) over a partition \(\{A_i\}\); also called the rule of elimination.</p>
+        <span class="src">ISM CS-3 · p26; ISM CS-4 · p7</span>
+      </div>
+
+      <div class="card def">
+        <h3>Tree diagram</h3>
+        <p>A branching diagram whose paths represent sequential events and whose branch products give joint probabilities.</p>
+        <span class="src">ISM CS-3 · p28</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-4 — Bayes' Theorem &amp; Naïve Bayes <small>· source: S1-26_ISM_CS-4_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Bayes' theorem</h3>
+        <p>A rule that inverts conditional probabilities to find \(P(\text{cause}\mid\text{effect})\) from \(P(\text{effect}\mid\text{cause})\), priors and the total probability.</p>
+        <span class="src">ISM CS-4 · p5,15</span>
+      </div>
+
+      <div class="card def">
+        <h3>Prior probability</h3>
+        <p>\(P(H)\): the probability of a hypothesis before any evidence is observed.</p>
+        <span class="src">ISM CS-4 · p15</span>
+      </div>
+
+      <div class="card def">
+        <h3>Likelihood</h3>
+        <p>\(P(E\mid H)\): the probability of observing evidence \(E\) assuming hypothesis \(H\) is true.</p>
+        <span class="src">ISM CS-4 · p15</span>
+      </div>
+
+      <div class="card def">
+        <h3>Posterior probability</h3>
+        <p>\(P(H\mid E)\): the updated probability of a hypothesis after observing the evidence.</p>
+        <span class="src">ISM CS-4 · p15</span>
+      </div>
+
+      <div class="card def">
+        <h3>Evidence (normalising constant)</h3>
+        <p>\(P(E)\): the total probability of the evidence, ensuring posteriors sum to 1.</p>
+        <span class="src">ISM CS-4 · p15,25</span>
+      </div>
+
+      <div class="card def">
+        <h3>MAP hypothesis</h3>
+        <p>The maximum a posteriori hypothesis — the one with the largest posterior probability, chosen as the prediction.</p>
+        <span class="src">ISM CS-4 · p20,29,57</span>
+      </div>
+
+      <div class="card def">
+        <h3>ML estimate</h3>
+        <p>The maximum-likelihood hypothesis — the one maximising \(P(E\mid H)\), ignoring priors.</p>
+        <span class="src">ISM CS-4 · p57</span>
+      </div>
+
+      <div class="card def">
+        <h3>Naïve Bayes classifier</h3>
+        <p>A Bayesian classifier assuming all features are conditionally independent given the class, so their likelihoods multiply.</p>
+        <span class="src">ISM CS-4 · p24,29</span>
+      </div>
+
+      <div class="card def">
+        <h3>Conditional independence</h3>
+        <p>\(X\) is conditionally independent of \(Y\) given \(Z\) if \(P(X\mid Y,Z)=P(X\mid Z)\).</p>
+        <span class="src">ISM CS-4 · p27</span>
+      </div>
+
+      <div class="card def">
+        <h3>Generative model</h3>
+        <p>A model that learns \(P(X\mid Y)\) and \(P(Y)\) to obtain the posterior \(P(Y\mid X)\) via Bayes' rule.</p>
+        <span class="src">ISM CS-4 · p26</span>
+      </div>
+
+      <div class="card def">
+        <h3>Laplace smoothing</h3>
+        <p>Adding a constant (usually 1) to every frequency count so no conditional probability is zero.</p>
+        <span class="src">ISM CS-4 · p34,57</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-5 — Random Variables &amp; Distributions <small>· source: S1-26_ISM_CS-5_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Random variable</h3>
+        <p>A function assigning a real number to each outcome in the sample space.</p>
+        <span class="src">ISM CS-5 · p3</span>
+      </div>
+
+      <div class="card def">
+        <h3>Discrete random variable</h3>
+        <p>A random variable taking a countable set of values (e.g. number of heads in two tosses).</p>
+        <span class="src">ISM CS-5 · p4</span>
+      </div>
+
+      <div class="card def">
+        <h3>Continuous random variable</h3>
+        <p>A random variable taking any value in an interval of the real line (e.g. height, waiting time).</p>
+        <span class="src">ISM CS-5 · p4,23</span>
+      </div>
+
+      <div class="card def">
+        <h3>Probability mass function (pmf)</h3>
+        <p>For a discrete RV, \(f(x)=P(X=x)\), with \(f(x)\ge 0\) and \(\sum f(x)=1\).</p>
+        <span class="src">ISM CS-5 · p6–7</span>
+      </div>
+
+      <div class="card def">
+        <h3>Probability density function (pdf)</h3>
+        <p>For a continuous RV, a function whose area over an interval gives the probability of that interval.</p>
+        <span class="src">ISM CS-5 · p23</span>
+      </div>
+
+      <div class="card def">
+        <h3>Discrete uniform distribution</h3>
+        <p>A distribution assigning equal probability \(1/n\) to each of \(n\) values.</p>
+        <span class="src">ISM CS-5 · p8</span>
+      </div>
+
+      <div class="card def">
+        <h3>Mathematical expectation</h3>
+        <p>The probability-weighted average \(E[X]=\sum x\,f(x)\); the long-run mean of a random variable.</p>
+        <span class="src">ISM CS-5 · p10</span>
+      </div>
+
+      <div class="card def">
+        <h3>Fair game</h3>
+        <p>A game whose expected gain is zero.</p>
+        <span class="src">ISM CS-5 · p11</span>
+      </div>
+
+      <div class="card def">
+        <h3>Cumulative distribution function (CDF)</h3>
+        <p>\(F(x)=P(X\le x)\), the accumulated probability up to \(x\).</p>
+        <span class="src">ISM CS-5 · p15</span>
+      </div>
+
+      <div class="card def">
+        <h3>Joint probability distribution</h3>
+        <p>The distribution describing two (or more) random variables together, \(f(x,y)=P(X=x,Y=y)\); a bivariate distribution.</p>
+        <span class="src">ISM CS-5 · p34–35</span>
+      </div>
+
+      <div class="card def">
+        <h3>Marginal probability</h3>
+        <p>The distribution of one variable obtained by summing/integrating the joint over the other, reported in the table margins.</p>
+        <span class="src">ISM CS-5 · p38</span>
+      </div>
+
+      <div class="card def">
+        <h3>Conditional distribution</h3>
+        <p>The distribution of one RV given a fixed value of another, \(f(y\mid x)=f(x,y)/f_X(x)\).</p>
+        <span class="src">ISM CS-5 · p41</span>
+      </div>
+
+      <div class="card def">
+        <h3>Independent random variables</h3>
+        <p>Random variables whose joint distribution factorises into the product of their marginals.</p>
+        <span class="src">ISM CS-5 · p40</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>EC Exams — Distributions, Inference &amp; Forecasting <small>· source: EC-2 &amp; EC-3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card def">
+        <h3>Binomial distribution</h3>
+        <p>The distribution of the number of successes in \(n\) independent trials each with success probability \(p\).</p>
+        <span class="src">EC-2 · Q6</span>
+      </div>
+
+      <div class="card def">
+        <h3>Poisson distribution</h3>
+        <p>The distribution of the number of rare events in a fixed interval with mean \(\lambda\); approximates the binomial for large \(n\), small \(p\).</p>
+        <span class="src">EC-2 · Q6</span>
+      </div>
+
+      <div class="card def">
+        <h3>Normal distribution</h3>
+        <p>A symmetric bell-shaped continuous distribution defined by its mean \(\mu\) and standard deviation \(\sigma\).</p>
+        <span class="src">EC-3 · Q5,Q8</span>
+      </div>
+
+      <div class="card def">
+        <h3>z-score</h3>
+        <p>The number of standard deviations a value lies from the mean, \(z=(x-\mu)/\sigma\).</p>
+        <span class="src">EC-3 · Q5</span>
+      </div>
+
+      <div class="card def">
+        <h3>Central limit theorem</h3>
+        <p>The result that the sampling distribution of the sample mean approaches normality as \(n\) grows, regardless of the population shape.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Standard error</h3>
+        <p>The standard deviation of a sample statistic; for the mean, \(SE=\sigma/\sqrt{n}\).</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Null &amp; alternative hypotheses</h3>
+        <p>\(H_0\) is the statement of "no effect / no difference" tested; \(H_1\) is the claim accepted if \(H_0\) is rejected.</p>
+        <span class="src">EC-3 · Q5</span>
+      </div>
+
+      <div class="card def">
+        <h3>Significance level</h3>
+        <p>\(\alpha\): the probability of rejecting a true null hypothesis (Type I error), e.g. 5%.</p>
+        <span class="src">EC-3 · Q5–Q6</span>
+      </div>
+
+      <div class="card def">
+        <h3>p-value</h3>
+        <p>The probability, if \(H_0\) is true, of a test statistic at least as extreme as observed; small values favour \(H_1\).</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Confidence interval</h3>
+        <p>A range of values that contains the population parameter with a stated confidence level.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>ANOVA</h3>
+        <p>Analysis of variance: an F-test comparing three or more population means by partitioning total variance into between- and within-group components.</p>
+        <span class="src">EC-3 · Q6</span>
+      </div>
+
+      <div class="card def">
+        <h3>Chi-square test</h3>
+        <p>A test comparing observed and expected frequencies to assess goodness of fit or independence.</p>
+        <span class="src">Module 4 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Correlation coefficient</h3>
+        <p>A number in [−1, 1] measuring the strength and direction of the linear association between two variables.</p>
+        <span class="src">EC-3 · Q4</span>
+      </div>
+
+      <div class="card def">
+        <h3>Spearman's rank correlation</h3>
+        <p>A correlation computed on the ranks of data, measuring monotonic association.</p>
+        <span class="src">EC-3 · Q4</span>
+      </div>
+
+      <div class="card def">
+        <h3>Regression line</h3>
+        <p>The least-squares line \(\hat y=b_0+b_1x\) predicting \(y\) from \(x\).</p>
+        <span class="src">Module 5 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Coefficient of determination (R²)</h3>
+        <p>The proportion of variance in the response explained by the regression model.</p>
+        <span class="src">Module 5 scope</span>
+      </div>
+
+      <div class="card def">
+        <h3>Exponential smoothing</h3>
+        <p>A forecasting method blending the latest observation with the previous forecast via a smoothing constant \(\alpha\).</p>
+        <span class="src">EC-3 · Q7</span>
+      </div>
+
+      <div class="card def">
+        <h3>Gaussian Mixture Model (GMM)</h3>
+        <p>A probabilistic model representing a density as a weighted sum of Gaussian components with mixing coefficients summing to 1.</p>
+        <span class="src">EC-3 · Q8</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ISM CS image slides</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="ISM CS-2 · p12 (image)">
+        <h3>Law of large numbers</h3>
+        <p>The principle that over a large number of trials the empirical (relative-frequency) probability of an event approaches its true probability; more observations give a more accurate estimate.</p>
+        <span class="src">ISM CS-2 · p12 (image)</span>
+      </div>
+
+      <div class="card def" data-src="ISM CS-5 · p6 (image)">
+        <h3>Probability function</h3>
+        <p>The function \(f(x)\) (or \(p(x)\)) giving the probability for each value of a random variable; a distribution can be described by a table, graph, or equation.</p>
+        <span class="src">ISM CS-5 · p6 (image)</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

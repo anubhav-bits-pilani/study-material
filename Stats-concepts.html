@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stats — Concepts</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>Stats</span> · Concepts<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab active" href="Stats-concepts.html">Concepts</a>
+    <a class="tab" href="Stats-formulas.html">Formulas</a>
+    <a class="tab" href="Stats-definitions.html">Definitions</a>
+    <a class="tab" href="Stats-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Concepts for Introduction to Statistical Methods (AIMLZC418) — descriptive statistics, probability, conditional & total probability, Bayes/Naïve Bayes, random variables & distributions, and inference/forecasting. Sources: ISM CS-1…CS-5 decks, Webinar 1, and EC-2/EC-3 exam sheets.</p>
+
+  <details class="module" open>
+    <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>What Statistics is</h3>
+        <p>A branch of applied mathematics for collecting, organising, analysing, and inferring from data, then taking data-driven decisions. It is the backbone of Data Science, AI/ML and information technologies.</p>
+        <span class="src">ISM CS-1 · p7–8</span>
+      </div>
+
+      <div class="card">
+        <h3>Types of data</h3>
+        <p>Data is numerical (quantitative) or categorical (qualitative). Quantitative splits into discrete (countable, e.g. number of children) and continuous (measured, e.g. weight, voltage). Categorical examples: marital status, eye colour.</p>
+        <span class="src">ISM CS-1 · p9,11</span>
+      </div>
+
+      <div class="card">
+        <h3>Levels of measurement</h3>
+        <p>Nominal (categories, no order) → Ordinal (ordered categories) → Interval (meaningful differences, no true zero, e.g. °C) → Ratio (true zero, ratios meaningful, e.g. weight, age). Choosing the right level dictates which statistics are valid.</p>
+        <span class="src">ISM CS-1 · p10–12</span>
+      </div>
+
+      <div class="card">
+        <h3>Measures of central tendency</h3>
+        <p>A single value summarising the "centre" of a data set: mean (arithmetic average), median (middle value), mode (most frequent). They reduce a whole distribution to one representative number.</p>
+        <span class="src">ISM CS-1 · p13</span>
+      </div>
+
+      <div class="card">
+        <h3>Mean — when to use</h3>
+        <p>Most stable measure since every score contributes, but easily distorted by outliers. Best for quantitative interval/ratio data without extreme values, and when SD/CV/skewness are to be computed. The sum of deviations from the mean is always zero.</p>
+        <span class="src">ISM CS-1 · p14,17</span>
+      </div>
+
+      <div class="card">
+        <h3>Median — when to use</h3>
+        <p>The 50th percentile; 50% of values fall below it. Never affected by outliers, so it is the preferred centre for heavily skewed data and ordinal scales.</p>
+        <span class="src">ISM CS-1 · p20–22</span>
+      </div>
+
+      <div class="card">
+        <h3>Mode — when to use</h3>
+        <p>The value with the largest frequency. Works for qualitative and quantitative data, is not affected by extremes, but may not be unique. Best on nominal scales or when the most-frequent outcome drives a decision.</p>
+        <span class="src">ISM CS-1 · p18–19</span>
+      </div>
+
+      <div class="card">
+        <h3>Skewness &amp; symmetry</h3>
+        <p>Symmetric: mean = median = mode. Right (positive) skew: mean &gt; median &gt; mode, long right tail. Left (negative) skew: mean &lt; median &lt; mode, long left tail. Distributions may be bimodal or multimodal.</p>
+        <span class="src">ISM CS-1 · p23</span>
+      </div>
+
+      <div class="card">
+        <h3>Why the mean alone is not enough</h3>
+        <p>Two very different data sets can share the same mean, median and mode; only a measure of spread distinguishes them. This motivates measures of variability.</p>
+        <span class="src">ISM CS-1 · p24–27</span>
+      </div>
+
+      <div class="card">
+        <h3>Measures of variability</h3>
+        <p>Describe how scattered scores are and how well the centre represents the data: range, variance, standard deviation, and quartile deviation. Range uses only two values so is imprecise; SD/variance use all data.</p>
+        <span class="src">ISM CS-1 · p27–30</span>
+      </div>
+
+      <div class="card">
+        <h3>Variance &amp; standard deviation</h3>
+        <p>Because raw deviations from the mean sum to zero, we square them, sum (SS), and average → variance; its square root is the SD, the average distance from the mean. SD describes whether scores cluster near or scatter from the mean.</p>
+        <span class="src">ISM CS-1 · p31–35</span>
+      </div>
+
+      <div class="card">
+        <h3>Population vs sample (the n−1 correction)</h3>
+        <p>A sample has less variability than its population, so dividing SS by \(n\) underestimates the true variance. Dividing by \(n-1\) (Bessel's correction) removes this bias; notation switches from \(\sigma\) to \(s\).</p>
+        <span class="src">ISM CS-1 · p38–39</span>
+      </div>
+
+      <div class="card">
+        <h3>Five-number summary</h3>
+        <p>Minimum, Q1 (25%), median (Q2), Q3 (75%), maximum — a compact description of location and spread used to build box plots.</p>
+        <span class="src">ISM CS-1 · p43</span>
+      </div>
+
+      <div class="card">
+        <h3>Interquartile range &amp; quartile deviation</h3>
+        <p>IQR = Q3 − Q1 measures the spread of the middle 50% and is not affected by extremes; QD = IQR/2. Robust alternatives to range and SD for skewed data.</p>
+        <span class="src">ISM CS-1 · p44</span>
+      </div>
+
+      <div class="card">
+        <h3>Box-and-whisker plot</h3>
+        <p>Visualises the five-number summary; whiskers reach to Q1−1.5·IQR and Q3+1.5·IQR. Points beyond are outliers; points beyond Q1−3·IQR or Q3+3·IQR are major (extreme) outliers.</p>
+        <span class="src">ISM CS-1 · p45–46</span>
+      </div>
+
+      <div class="card">
+        <h3>Outlier detection (1.5·IQR rule)</h3>
+        <p>Lower limit = Q1 − 1.5·IQR, upper limit = Q3 + 1.5·IQR. Values outside these fences are potential outliers; data entirely inside is free of outliers.</p>
+        <span class="src">ISM CS-1 · p47–48</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-2 — Probability Basics: Axioms, Events, Independence <small>· source: S1-26_ISM_CS-2_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Random experiment</h3>
+        <p>Any action whose outcome is not known in advance (coin flip, drawing a card, waiting time for a bus). Probability studies such uncertain experiments.</p>
+        <span class="src">ISM CS-2 · p4–5</span>
+      </div>
+
+      <div class="card">
+        <h3>Sample space and events</h3>
+        <p>The sample space \(S\) is the set of all possible outcomes; an event is any subset of \(S\). An event "occurs" if the realised outcome belongs to it. The empty set and the whole \(S\) are both events.</p>
+        <span class="src">ISM CS-2 · p6–7</span>
+      </div>
+
+      <div class="card">
+        <h3>Operations on events</h3>
+        <p>Complement \(A^c\): all outcomes not in \(A\). Union \(A\cup B\): outcomes in \(A\) or \(B\) or both. Intersection \(A\cap B\): outcomes in both. Basis for combining probabilities.</p>
+        <span class="src">ISM CS-2 · p8–9</span>
+      </div>
+
+      <div class="card">
+        <h3>Mutually exclusive events</h3>
+        <p>Two events with no common outcomes — if one occurs the other cannot (e.g. a single coin toss landing heads vs tails). Then \(P(A\cap B)=0\).</p>
+        <span class="src">ISM CS-2 · p10</span>
+      </div>
+
+      <div class="card">
+        <h3>Independent vs dependent events</h3>
+        <p>Independent: one event's occurrence gives no information about the other. Dependent: it does. Independent events can occur simultaneously, so independence is <em>not</em> the same as mutual exclusivity — in fact two events with non-zero probability that are mutually exclusive must be dependent.</p>
+        <span class="src">ISM CS-2 · p17–18; Webinar 1 · s23</span>
+      </div>
+
+      <div class="card">
+        <h3>Three approaches to probability</h3>
+        <p>Classical (equally likely outcomes: favourable / total), empirical (long-run relative frequency from data), and axiomatic (defined by Kolmogorov's axioms). Probability is a number in [0,1] measuring likelihood, with 0.5 meaning equally likely as unlikely.</p>
+        <span class="src">ISM CS-2 · p11–14</span>
+      </div>
+
+      <div class="card">
+        <h3>Addition rule</h3>
+        <p>\(P(A\cup B)=P(A)+P(B)-P(A\cap B)\); for mutually exclusive events the last term is zero. Used for "A or B" questions and to recover intersection probabilities.</p>
+        <span class="src">ISM CS-2 · p15</span>
+      </div>
+
+      <div class="card">
+        <h3>Permissible probability assignments</h3>
+        <p>An assignment is valid only if every probability lies in [0,1] and (for a full set of mutually exclusive, exhaustive outcomes) they sum to 1. Negative values or totals ≠ 1 are impermissible.</p>
+        <span class="src">ISM CS-2 · p19–20</span>
+      </div>
+
+      <div class="card">
+        <h3>Counting: permutations &amp; combinations</h3>
+        <p>Combinations \(\binom{n}{r}\) count unordered selections and appear when computing classical probabilities (e.g. choosing a committee, selecting motors). Order matters → permutations; order does not → combinations.</p>
+        <span class="src">ISM CS-2 · p33,36</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-3 — Conditional &amp; Total Probability <small>· source: S1-26_ISM_CS-3_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Conditional probability</h3>
+        <p>The probability of \(B\) given that \(A\) has occurred, \(P(B\mid A)=P(A\cap B)/P(A)\). New (partial) information about the experiment revises earlier probability assignments — e.g. a disease probability changes after a test result.</p>
+        <span class="src">ISM CS-3 · p4–6</span>
+      </div>
+
+      <div class="card">
+        <h3>Multiplication rule</h3>
+        <p>\(P(A\cap B)=P(A)P(B\mid A)\); for three events \(P(A\cap B\cap C)=P(A)P(B\mid A)P(C\mid A\cap B)\). Used to chain sequential dependent events (e.g. drawing cards without replacement).</p>
+        <span class="src">ISM CS-3 · p8</span>
+      </div>
+
+      <div class="card">
+        <h3>Independence test</h3>
+        <p>Events are independent iff \(P(A\cap B)=P(A)P(B)\), equivalently \(P(B\mid A)=P(B)\). Comparing the observed joint probability against the product of marginals decides independence.</p>
+        <span class="src">ISM CS-3 · p16; ISM CS-2 · p32</span>
+      </div>
+
+      <div class="card">
+        <h3>With vs without replacement</h3>
+        <p>With replacement the trials are independent (constant probabilities); without replacement each draw changes the remaining pool, so conditional probabilities and the multiplication rule apply.</p>
+        <span class="src">ISM CS-3 · p19–20,23</span>
+      </div>
+
+      <div class="card">
+        <h3>Total probability theorem</h3>
+        <p>If \(A_1,\dots,A_k\) partition \(S\) (mutually exclusive and exhaustive), then \(P(B)=\sum_i P(A_i)P(B\mid A_i)\). It combines branch probabilities in a tree diagram to get an overall (unconditional) probability.</p>
+        <span class="src">ISM CS-3 · p25–28,40</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-4 — Bayes' Theorem &amp; Naïve Bayes <small>· source: S1-26_ISM_CS-4_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Bayes' theorem</h3>
+        <p>Inverts conditional probabilities: given a partition \(E_1,\dots,E_n\), \(P(E_i\mid A)=\dfrac{P(E_i)P(A\mid E_i)}{\sum_j P(E_j)P(A\mid E_j)}\). Lets us update a hypothesis's probability after observing evidence.</p>
+        <span class="src">ISM CS-4 · p5–8</span>
+      </div>
+
+      <div class="card">
+        <h3>Prior, likelihood, posterior, evidence</h3>
+        <p>\(P(H\mid E)=P(E\mid H)P(H)/P(E)\): prior \(P(H)\) is belief before evidence, likelihood \(P(E\mid H)\), posterior \(P(H\mid E)\) after evidence, and \(P(E)\) is the normalising evidence. Posteriors over exhaustive hypotheses sum to 1.</p>
+        <span class="src">ISM CS-4 · p15</span>
+      </div>
+
+      <div class="card">
+        <h3>Bayesian learning &amp; MAP</h3>
+        <p>Prior knowledge is combined with observed data to get the final probability of each hypothesis; a new instance is classified by the most probable (MAP) hypothesis, \(\hat Y=\arg\max_{y_k}P(y_k)\prod_i P(x_i\mid y_k)\).</p>
+        <span class="src">ISM CS-4 · p19,29</span>
+      </div>
+
+      <div class="card">
+        <h3>Naïve Bayes classifier</h3>
+        <p>A generative classifier applying Bayes' rule under the "naïve" assumption that features are conditionally independent given the class, so \(P(X_1,\dots,X_n\mid Y)=\prod_j P(X_j\mid Y)\). Effective for spam filtering, sentiment analysis, document and medical-diagnosis classification.</p>
+        <span class="src">ISM CS-4 · p24–29</span>
+      </div>
+
+      <div class="card">
+        <h3>Conditional independence assumption</h3>
+        <p>\(X\) is conditionally independent of \(Y\) given \(Z\) if \(P(X\mid Y,Z)=P(X\mid Z)\). Naïve Bayes makes this hold across all features, drastically simplifying the joint likelihood (real features rarely are, hence "naïve").</p>
+        <span class="src">ISM CS-4 · p27–28</span>
+      </div>
+
+      <div class="card">
+        <h3>Laplace smoothing</h3>
+        <p>If a feature value never appears with a class, its conditional probability is 0 and zeros out the whole product. Adding a count of 1 to every cell (Laplace/add-one smoothing) prevents this and restores usable estimates.</p>
+        <span class="src">ISM CS-4 · p34–35,44</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-5 — Random Variables &amp; Probability Distributions <small>· source: S1-26_ISM_CS-5_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Random variable</h3>
+        <p>A function mapping each sample point to a real number. Discrete RVs take countable values (heads in two tosses); continuous RVs take any value in an interval (height, waiting time).</p>
+        <span class="src">ISM CS-5 · p3–5</span>
+      </div>
+
+      <div class="card">
+        <h3>Discrete probability distribution</h3>
+        <p>Assigns \(P(X=x)\) to each value with \(P(x)\ge 0\) and \(\sum P(x)=1\). Fully describes a discrete RV (e.g. daily health status categories).</p>
+        <span class="src">ISM CS-5 · p6–7</span>
+      </div>
+
+      <div class="card">
+        <h3>Discrete uniform distribution</h3>
+        <p>The simplest discrete distribution: all \(n\) values equally likely with \(f(x)=1/n\) (e.g. a fair die, \(f(x)=1/6\)).</p>
+        <span class="src">ISM CS-5 · p8</span>
+      </div>
+
+      <div class="card">
+        <h3>Mathematical expectation</h3>
+        <p>\(E[X]=\sum x\,f(x)\) is the long-run average value. A game is "fair" when the expected gain is zero — the criterion used to judge betting games.</p>
+        <span class="src">ISM CS-5 · p10–11</span>
+      </div>
+
+      <div class="card">
+        <h3>Variance of a random variable</h3>
+        <p>\(\operatorname{Var}(X)=E[(X-\mu)^2]=E[X^2]-\mu^2\); its root is the SD. Measures the spread of a RV around its expected value.</p>
+        <span class="src">ISM CS-5 · p12–14</span>
+      </div>
+
+      <div class="card">
+        <h3>Cumulative distribution function</h3>
+        <p>\(F(x)=P(X\le x)\) accumulates probabilities; for a discrete RV it is a step function of running sums that reaches 1 at the largest value.</p>
+        <span class="src">ISM CS-5 · p15–16</span>
+      </div>
+
+      <div class="card">
+        <h3>Continuous RV &amp; probability density function</h3>
+        <p>For a continuous RV, a single point has probability 0; probabilities are areas under the pdf. \(P(x_1&lt;X&lt;x_2)=\int_{x_1}^{x_2}f(x)\,dx\), with \(f(x)\ge 0\) and total area 1.</p>
+        <span class="src">ISM CS-5 · p23,27</span>
+      </div>
+
+      <div class="card">
+        <h3>Joint probability distribution</h3>
+        <p>Describes two RVs together: discrete joint pmf \(f(x,y)=P(X=x,Y=y)\) (bivariate distribution) or a joint density for continuous RVs.</p>
+        <span class="src">ISM CS-5 · p34–37</span>
+      </div>
+
+      <div class="card">
+        <h3>Marginal distribution</h3>
+        <p>The distribution of one variable obtained by summing (or integrating) the joint over the other; reported in the table margins, e.g. \(p(x)=\sum_y p(x,y)\).</p>
+        <span class="src">ISM CS-5 · p38</span>
+      </div>
+
+      <div class="card">
+        <h3>Conditional distribution</h3>
+        <p>The distribution of one RV given a value of the other, \(f(y\mid x)=f(x,y)/f_X(x)\) — e.g. \(P(\text{Flu}\mid \text{Fever})\) from a joint table.</p>
+        <span class="src">ISM CS-5 · p41–44</span>
+      </div>
+
+      <div class="card">
+        <h3>Independent random variables</h3>
+        <p>\(X\) and \(Y\) are independent iff the joint factorises: \(f(x,y)=f_X(x)f_Y(y)\) for all \(x,y\). Then \(E[XY]=E[X]E[Y]\).</p>
+        <span class="src">ISM CS-5 · p40,50</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Webinar 1 — Applied Review: Descriptive Stats &amp; Probability <small>· source: Webinar-1, Slides.pptx</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Coefficient of variation for comparison</h3>
+        <p>CV = SD/mean expresses spread relative to the mean, letting you compare variability across variables on different scales (e.g. protein shows the least variation among milk-quality metrics).</p>
+        <span class="src">Webinar 1 · s15–16</span>
+      </div>
+
+      <div class="card">
+        <h3>Modality of data</h3>
+        <p>A data set can be unimodal, bimodal, trimodal or multimodal depending on how many values tie for the highest frequency; it may also have no mode if no value repeats.</p>
+        <span class="src">Webinar 1 · s6</span>
+      </div>
+
+      <div class="card">
+        <h3>Redundant-backup reliability</h3>
+        <p>For independent components, the system survives unless all fail; \(P(\text{saved})=1-\prod P(\text{each crashes})\). Independence lets failure probabilities multiply.</p>
+        <span class="src">Webinar 1 · s19</span>
+      </div>
+
+      <div class="card">
+        <h3>"Exactly one" event probability</h3>
+        <p>\(P(\text{exactly one of }A,B)=P(A)+P(B)-2P(A\cap B)\); combining the addition rule with the "at least one" information recovers the intersection first.</p>
+        <span class="src">Webinar 1 · s20–21</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>EC Exams — Distributions, Inference, Correlation &amp; Forecasting <small>· source: EC-2 &amp; EC-3 instruction sheets</small></summary>
+    <div class="cards">
+
+      <div class="card">
+        <h3>Binomial &amp; Poisson approximation</h3>
+        <p>Counts of successes in \(n\) independent Bernoulli trials follow a binomial distribution; when \(n\) is large and \(p\) small, the Poisson with \(\lambda=np\) closely approximates it (fewer computations, similar answer).</p>
+        <span class="src">EC-2 · Q6</span>
+      </div>
+
+      <div class="card">
+        <h3>Normal distribution &amp; z-score</h3>
+        <p>The bell-shaped continuous distribution central to inference; standardising \(z=(x-\mu)/\sigma\) converts any normal value to the standard normal so probabilities can be read from a z-table.</p>
+        <span class="src">EC-3 · Q5,Q8</span>
+      </div>
+
+      <div class="card">
+        <h3>Hypothesis testing of means (z-test)</h3>
+        <p>State \(H_0\) (no difference) and \(H_1\), compute a test statistic from the sample, and compare with the critical value at a significance level (e.g. 5%). Used to test whether two population means differ when population SDs are known.</p>
+        <span class="src">EC-3 · Q5</span>
+      </div>
+
+      <div class="card">
+        <h3>ANOVA (F-test)</h3>
+        <p>Compares three or more population means simultaneously by contrasting between-group variance with within-group variance; a large F rejects the hypothesis of equal means.</p>
+        <span class="src">EC-3 · Q6</span>
+      </div>
+
+      <div class="card">
+        <h3>Spearman's rank correlation</h3>
+        <p>Measures monotonic association between two ranked variables (e.g. two judges' rankings); \(r_s\) near +1/−1 indicates strong agreement/disagreement, near 0 none.</p>
+        <span class="src">EC-3 · Q4</span>
+      </div>
+
+      <div class="card">
+        <h3>Exponential smoothing (forecasting)</h3>
+        <p>A weighted forecast where each new forecast blends the latest actual and the previous forecast via a smoothing constant \(\alpha\); larger \(\alpha\) reacts faster to recent data.</p>
+        <span class="src">EC-3 · Q7</span>
+      </div>
+
+      <div class="card">
+        <h3>Gaussian Mixture Model</h3>
+        <p>Models a density as a weighted sum of Gaussian components, \(p(x)=\sum_k \pi_k\,\mathcal N(x\mid\mu_k,\sigma_k^2)\) with mixing weights summing to 1; underlies clustering and the EM algorithm.</p>
+        <span class="src">EC-3 · Q8</span>
+      </div>
+
+      <div class="card">
+        <h3>Data preprocessing from summary statistics</h3>
+        <p>A descriptive summary (count/mean/SD/quartiles/min/max) reveals outliers (via IQR), low-variation features (via SD or CV), and scaling needs — guiding preprocessing before ML.</p>
+        <span class="src">EC-3 · Q1; Webinar 1 · s15–16</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Recovered from image-only slides <small>· source: ISM CS image slides</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="ISM CS-2 · p12 (image)">
+        <h3>Law of large numbers</h3>
+        <p>The empirical (relative-frequency) approach rests on this law: over a large number of trials the empirical probability of an event approaches its true probability. The more observations you collect, the more accurate the probability estimate becomes — which is why frequencies from big data sets are trusted as probabilities.</p>
+        <span class="src">ISM CS-2 · p12 (image)</span>
+      </div>
+
+      <div class="card" data-src="ISM CS-5 · p10,12 (image)">
+        <h3>Expectation &amp; variance under linear transforms</h3>
+        <p>Expectation is linear: scaling and shifting pass through, so \(E(aX+b)=aE(X)+b\). Variance ignores shifts but scales by the square, \(\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)\); adding a constant never changes spread. \(E(XY)=E(X)E(Y)\) and \(\operatorname{Var}(aX+bY)=a^2\operatorname{Var}(X)+b^2\operatorname{Var}(Y)\) hold only when \(X,Y\) are independent. Note \(E(X/Y)\neq E(X)/E(Y)\) in general.</p>
+        <span class="src">ISM CS-5 · p10,12 (image)</span>
+      </div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>

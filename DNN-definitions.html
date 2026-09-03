@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNN — Definitions</title>
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+            svg: { fontCache: 'global' } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+.bar h1 span{color:var(--accent)}
+.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab.home{border-style:dashed}
+#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
+main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
+.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
+.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
+.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.module>summary::-webkit-details-marker{display:none}
+.module>summary::before{content:"▸ ";color:var(--accent)}
+.module[open]>summary::before{content:"▾ "}
+.module>summary small{color:var(--muted);font-weight:400}
+.cards{padding:.5rem 1rem 1rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
+.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}
+.card.def h3{color:var(--accent2)}
+.card p{margin:.3rem 0}
+.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
+.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.hidden{display:none!important}
+.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
+mark{background:#fde68a;color:#111;border-radius:3px}
+a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+@media(max-width:640px){.bar h1{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1><span>DNN</span> · Definitions<span class="count" id="count"></span></h1>
+    <a class="tab home" href="../index.html">All Guides</a>
+    <a class="tab" href="DNN-concepts.html">Concepts</a>
+    <a class="tab" href="DNN-formulas.html">Formulas</a>
+    <a class="tab active" href="DNN-definitions.html">Definitions</a>
+    <a class="tab" href="DNN-questions.html">Question Bank</a>
+    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+  </div>
+</header>
+<main>
+  <p class="intro">Key-term glossary for AIML ZG511 — precise one/two-sentence definitions grouped by module: deep-learning fundamentals, neurons & perceptrons, regression, classification, deep feed-forward networks, and terms from the numerical & lab material. Sources: DNN_M1–M5 decks, DFNN numericals, lab notebooks.</p>
+
+  <details class="module" open>
+    <summary>Module 1 — Deep Learning Fundamentals <small>· source: DNN_M1_Introduction.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Deep Learning</h3><p>A subset of machine learning using artificial neural networks with multiple processing layers to learn progressively higher-level representations from data.</p><span class="src">DNN_M1 · p4</span></div>
+
+      <div class="card def"><h3>Artificial Intelligence (AI)</h3><p>The broad science of making machines perform tasks that require human-like intelligence; encompasses machine learning and deep learning plus non-learning approaches.</p><span class="src">DNN_M1 · p6</span></div>
+
+      <div class="card def"><h3>Machine Learning (ML)</h3><p>An approach to AI in which a machine learns to perform tasks from experience/data rather than from explicit hand-coded rules.</p><span class="src">DNN_M1 · p6</span></div>
+
+      <div class="card def"><h3>Depth (of a model)</h3><p>The number of layers that contribute to modelling the data; more layers = deeper model.</p><span class="src">DNN_M1 · p7</span></div>
+
+      <div class="card def"><h3>Feature (Covariate)</h3><p>An input attribute of an example from which the model makes predictions; \(d\) features define the input dimensionality.</p><span class="src">DNN_M1 · p23</span></div>
+
+      <div class="card def"><h3>Label (Target)</h3><p>In supervised learning, the attribute to be predicted for each example.</p><span class="src">DNN_M1 · p23</span></div>
+
+      <div class="card def"><h3>Model</h3><p>The computational machinery that ingests data of one type and produces predictions, possibly of a different type; in DL a chain of successive transformations.</p><span class="src">DNN_M1 · p25</span></div>
+
+      <div class="card def"><h3>Objective / Loss Function</h3><p>A formal measure of how good or bad a model is; by convention lower is better, so it is minimised during training.</p><span class="src">DNN_M1 · p26</span></div>
+
+      <div class="card def"><h3>Learning Algorithm</h3><p>A procedure that searches for the parameters minimising the loss function; gradient descent is the popular choice in DL.</p><span class="src">DNN_M1 · p27</span></div>
+
+      <div class="card def"><h3>Supervised Learning</h3><p>Learning to predict labels from input features using a dataset of labelled examples.</p><span class="src">DNN_M1 · p32-33</span></div>
+
+      <div class="card def"><h3>Unsupervised Learning</h3><p>Learning from data containing only features (no labels), e.g. clustering, density estimation, or synthetic-data generation.</p><span class="src">DNN_M1 · p32</span></div>
+
+      <div class="card def"><h3>Reinforcement Learning</h3><p>Training an agent that interacts with an environment and takes actions over time steps to maximise reward.</p><span class="src">DNN_M1 · p32</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 2 — Neurons & Perceptron <small>· source: DNN_M2_ANN_Perceptron.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Biological Neuron</h3><p>A brain cell that receives signals via dendrites, processes them in the soma, and transmits output along its axon through synapses.</p><span class="src">DNN_M2 · p8</span></div>
+
+      <div class="card def"><h3>Artificial Neuron</h3><p>A processing element that computes a weighted sum of inputs plus a bias and applies an activation function to produce one output.</p><span class="src">DNN_M2 · p10-12</span></div>
+
+      <div class="card def"><h3>Weight</h3><p>A learnable parameter \(w_i\) scaling input feature \(x_i\), representing that feature's importance; knowledge is stored in the weights.</p><span class="src">DNN_M2 · p11</span></div>
+
+      <div class="card def"><h3>Bias</h3><p>A learnable offset \(b\) (or \(w_0\)) added to the weighted sum, shifting the activation threshold / decision boundary.</p><span class="src">DNN_M2 · p11</span></div>
+
+      <div class="card def"><h3>Activation Function</h3><p>A (usually non-linear) function \(f(\cdot)\) applied to a neuron's net input to produce its output signal, which feeds the next layer.</p><span class="src">DNN_M2 · p12 · DFFNNUMERICAL p4</span></div>
+
+      <div class="card def"><h3>Artificial Neural Network (ANN)</h3><p>A brain-inspired computational model of interconnected neurons (input, hidden, output layers) that learns patterns from data.</p><span class="src">DNN_M2 · p15</span></div>
+
+      <div class="card def"><h3>Connectionism</h3><p>The principle that intelligence emerges from many simple interconnected neurons, with knowledge stored in connection weights and learning modifying those strengths.</p><span class="src">DNN_M2 · p19-20</span></div>
+
+      <div class="card def"><h3>Perceptron</h3><p>The simplest artificial neuron (Rosenblatt, 1958): a single-layer linear classifier that outputs the sign/step of the weighted sum.</p><span class="src">DNN_M2 · p22</span></div>
+
+      <div class="card def"><h3>Perceptron Learning Rule</h3><p>The update \(w_i\leftarrow w_i+\eta(t-\hat y)x_i\) applied to misclassified examples; converges for linearly separable data.</p><span class="src">DNN_M2 · p33</span></div>
+
+      <div class="card def"><h3>Perceptron Convergence Theorem</h3><p>If the training data is linearly separable, the perceptron learning algorithm is guaranteed to converge in a finite number of steps.</p><span class="src">DNN_M2 · p33</span></div>
+
+      <div class="card def"><h3>Linearly Separable Data</h3><p>Two classes that can be perfectly separated by an \((n{-}1)\)-dimensional hyperplane in \(n\)-dimensional feature space.</p><span class="src">DNN_M2 · p45</span></div>
+
+      <div class="card def"><h3>XOR Problem</h3><p>The exclusive-OR function, which is not linearly separable and therefore cannot be solved by a single perceptron — the classic motivation for multilayer networks.</p><span class="src">DNN_M2 · p41</span></div>
+
+      <div class="card def"><h3>Epoch</h3><p>One complete pass of the learning algorithm through the entire training dataset.</p><span class="src">DNN_M2 · p35 · DNN_M4 p67</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 3 — Regression Terms <small>· source: DNN_M3_Linear NN Regression (1).pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Regression</h3><p>A supervised task that predicts a continuous-valued output \(y\in\mathbb R\) from input features.</p><span class="src">DNN_M3 · p4</span></div>
+
+      <div class="card def"><h3>Linear Regression</h3><p>A model assuming the output is a linear combination of the input features, \(y=w_0+\sum_i w_ix_i\).</p><span class="src">DNN_M3 · p7</span></div>
+
+      <div class="card def"><h3>Identity Activation</h3><p>The activation \(f(z)=z\) (derivative 1) used in the output neuron for regression, allowing any real-valued output.</p><span class="src">DNN_M3 · p15</span></div>
+
+      <div class="card def"><h3>Design Matrix</h3><p>The matrix \(X\in\mathbb R^{N\times(d+1)}\) whose rows are augmented training examples (a leading 1 for the bias).</p><span class="src">DNN_M3 · p12</span></div>
+
+      <div class="card def"><h3>Mean Squared Error (MSE)</h3><p>The average squared difference between predictions and targets; a convex, differentiable regression loss.</p><span class="src">DNN_M3 · p17,34</span></div>
+
+      <div class="card def"><h3>Gradient Descent</h3><p>An iterative optimisation that updates parameters opposite the loss gradient, \(w\leftarrow w-\eta\nabla J\), to reach a minimum.</p><span class="src">DNN_M3 · p20</span></div>
+
+      <div class="card def"><h3>Learning Rate (η)</h3><p>The step-size hyperparameter for gradient descent; too large overshoots/diverges, too small converges slowly.</p><span class="src">DNN_M3 · p23</span></div>
+
+      <div class="card def"><h3>Batch Gradient Descent</h3><p>Gradient descent that computes the gradient over all \(N\) training examples per update — smooth but slow for large data.</p><span class="src">DNN_M3 · p21</span></div>
+
+      <div class="card def"><h3>RMSE</h3><p>Root mean squared error, \(\sqrt{\text{MSE}}\); in the same units as the target, making it easier to interpret.</p><span class="src">DNN_M3 · p34</span></div>
+
+      <div class="card def"><h3>MAE</h3><p>Mean absolute error, the average of \(|y-\hat y|\); a regression metric less sensitive to outliers than MSE.</p><span class="src">DNN_M3 · p34</span></div>
+
+      <div class="card def"><h3>R² (Coefficient of Determination)</h3><p>The proportion of target variance explained by the model; 1 = perfect fit, 0 = predicts the mean, &lt;0 = worse than baseline.</p><span class="src">DNN_M3 · p35</span></div>
+
+      <div class="card def"><h3>Feature Scaling / Standardization</h3><p>Transforming features to comparable ranges (min-max to [0,1] or z-score to zero mean/unit variance) so no feature dominates and GD converges faster.</p><span class="src">DNN_M3 · p40</span></div>
+
+      <div class="card def"><h3>Normal Equation</h3><p>The closed-form least-squares solution \(w^*=(X^\top X)^{-1}X^\top y\), requiring no iterations or learning rate.</p><span class="src">L2-Linear Regression.ipynb</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 4 — Classification Terms <small>· source: DNN_M4_Linear NN Classification.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Classification</h3><p>A supervised task predicting a discrete class label from input features.</p><span class="src">DNN_M4 · p4</span></div>
+
+      <div class="card def"><h3>Binary Classification</h3><p>Classification into two classes, \(y\in\{0,1\}\) (or \(\{-1,+1\}\)).</p><span class="src">DNN_M4 · p6,8</span></div>
+
+      <div class="card def"><h3>Multi-class Classification</h3><p>Classification into \(K&gt;2\) mutually exclusive classes, with output a probability distribution over classes.</p><span class="src">DNN_M4 · p6,47</span></div>
+
+      <div class="card def"><h3>Multi-label Classification</h3><p>Classification where each example may belong to several classes simultaneously (e.g. multiple movie genres).</p><span class="src">DNN_M4 · p6</span></div>
+
+      <div class="card def"><h3>Logistic Regression</h3><p>A linear model for binary classification that applies the sigmoid to a weighted sum to output \(P(y=1\mid x)\).</p><span class="src">DNN_M4 · p12</span></div>
+
+      <div class="card def"><h3>Sigmoid (Logistic) Function</h3><p>\(\sigma(z)=1/(1+e^{-z})\); a smooth monotonic function mapping any real number to (0,1), ideal for probabilities.</p><span class="src">DNN_M4 · p13</span></div>
+
+      <div class="card def"><h3>Logit</h3><p>The pre-activation value \(z=w^\top x\) before applying sigmoid/softmax; an unbounded real number.</p><span class="src">DNN_M4 · p19,56</span></div>
+
+      <div class="card def"><h3>Decision Boundary</h3><p>The surface \(w^\top x=0\) (a hyperplane) separating predicted classes, where the predicted probability equals 0.5.</p><span class="src">DNN_M4 · p20</span></div>
+
+      <div class="card def"><h3>Cross-Entropy Loss</h3><p>A loss derived from maximum likelihood that measures divergence between predicted and true probability distributions; heavily penalises confident wrong predictions.</p><span class="src">DNN_M4 · p21,61</span></div>
+
+      <div class="card def"><h3>Stochastic Gradient Descent (SGD)</h3><p>Gradient descent that updates weights using one randomly chosen example at a time, giving fast, noisy updates.</p><span class="src">DNN_M4 · p25</span></div>
+
+      <div class="card def"><h3>Mini-batch SGD</h3><p>Gradient descent using a small batch of \(B\) examples per update — balancing the speed of SGD with the stability of batch GD.</p><span class="src">DNN_M4 · p65</span></div>
+
+      <div class="card def"><h3>Batch Size (B)</h3><p>The number of examples processed per weight update in mini-batch training (typically 32–256, powers of 2).</p><span class="src">DNN_M4 · p67</span></div>
+
+      <div class="card def"><h3>Softmax Function</h3><p>An activation converting a vector of logits into a probability distribution (positive values summing to 1) over \(K\) classes.</p><span class="src">DNN_M4 · p57</span></div>
+
+      <div class="card def"><h3>One-Hot Encoding</h3><p>Representing a class label as a binary vector with a 1 at the true class position and 0 elsewhere.</p><span class="src">DNN_M4 · p53</span></div>
+
+      <div class="card def"><h3>Confusion Matrix</h3><p>A table of TP, TN, FP, FN counts summarising a classifier's prediction outcomes against true labels.</p><span class="src">DNN_M4 · p39</span></div>
+
+      <div class="card def"><h3>Precision</h3><p>Of examples predicted positive, the fraction that are truly positive: TP/(TP+FP).</p><span class="src">DNN_M4 · p40</span></div>
+
+      <div class="card def"><h3>Recall (Sensitivity)</h3><p>Of actual positives, the fraction correctly identified: TP/(TP+FN).</p><span class="src">DNN_M4 · p41</span></div>
+
+      <div class="card def"><h3>F1 Score</h3><p>The harmonic mean of precision and recall; a balanced metric useful for imbalanced datasets.</p><span class="src">DNN_M4 · p41</span></div>
+
+      <div class="card def"><h3>Accuracy</h3><p>The fraction of all predictions that are correct; misleading for imbalanced classes.</p><span class="src">DNN_M4 · p40,42</span></div>
+
+      <div class="card def"><h3>Macro / Weighted Average</h3><p>Ways to combine per-class metrics: macro treats all classes equally; weighted weights each class by its frequency.</p><span class="src">DNN_M4 · p87</span></div>
+
+      <div class="card def"><h3>Top-K Accuracy</h3><p>A metric counting a prediction correct if the true class is among the model's top K predicted classes; useful for large K.</p><span class="src">DNN_M4 · p88</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 5 — Deep Feed-Forward Networks <small>· source: DNN_M5_DFNN (1).pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Deep Feed-Forward Neural Network (DFNN)</h3><p>A network with one or more hidden layers between input and output where information flows forward through non-linear transformations.</p><span class="src">DNN_M5 · p15</span></div>
+
+      <div class="card def"><h3>Multi-Layer Perceptron (MLP)</h3><p>A feed-forward network stacking layers of neurons with non-linear activations, capable of learning non-linear decision boundaries (e.g. solving XOR).</p><span class="src">DNN_M5 · p7</span></div>
+
+      <div class="card def"><h3>Hidden Layer</h3><p>An intermediate layer between input and output that transforms inputs into new feature representations.</p><span class="src">DNN_M5 · p7,18</span></div>
+
+      <div class="card def"><h3>Non-Linearity</h3><p>A property of a function that violates \(f(ax_1+bx_2)=af(x_1)+bf(x_2)\); essential so stacked layers don't collapse to a single linear map.</p><span class="src">DNN_M5 · p10</span></div>
+
+      <div class="card def"><h3>ReLU</h3><p>The Rectified Linear Unit \(\max(0,z)\); the default hidden-layer activation — cheap and free of vanishing gradients for positive inputs.</p><span class="src">DNN_M5 · p13</span></div>
+
+      <div class="card def"><h3>Tanh</h3><p>The hyperbolic tangent activation, range (−1,1), zero-centred with stronger gradients (max derivative 1) than sigmoid.</p><span class="src">DNN_M5 · p11 · Numerical p50</span></div>
+
+      <div class="card def"><h3>Dying ReLU</h3><p>A failure mode where ReLU neurons always output 0 (and thus never update); addressed by Leaky ReLU, PReLU, or ELU.</p><span class="src">DNN_M5 · p13</span></div>
+
+      <div class="card def"><h3>Forward Propagation</h3><p>Computing a network's output by passing activations forward layer by layer from input to output.</p><span class="src">DNN_M5 · p28</span></div>
+
+      <div class="card def"><h3>Backpropagation</h3><p>An algorithm that efficiently computes loss gradients w.r.t. all parameters by applying the chain rule backward through the network.</p><span class="src">DNN_M5 · p33</span></div>
+
+      <div class="card def"><h3>Error Signal (δ)</h3><p>The gradient of the loss w.r.t. a layer's pre-activation, \(\delta^{(\ell)}=\partial J/\partial z^{(\ell)}\); propagated backward and shared by weight and bias gradients.</p><span class="src">DNN_M5 · p33</span></div>
+
+      <div class="card def"><h3>Chain Rule</h3><p>The calculus rule for differentiating composed functions; the mathematical foundation of backpropagation.</p><span class="src">DNN_M5 · p34</span></div>
+
+      <div class="card def"><h3>Hadamard Product (⊙)</h3><p>Element-wise multiplication of two equally-shaped matrices/vectors, used in the backprop error recursion.</p><span class="src">DNN_M5 · p34</span></div>
+
+      <div class="card def"><h3>Depth vs Width</h3><p>Depth = number of layers (hierarchical features, expressiveness); width = units per layer (capacity, overfitting risk).</p><span class="src">DNN_M5 · p44</span></div>
+
+      <div class="card def"><h3>Universal Approximation Theorem</h3><p>A single-hidden-layer network with enough neurons can approximate any continuous function on a compact domain (Cybenko/Hornik, 1989).</p><span class="src">DNN_M5 · p46</span></div>
+
+      <div class="card def"><h3>Vanishing Gradients</h3><p>Gradients shrinking exponentially in early layers so they barely learn; mitigated by ReLU, careful init, and normalization.</p><span class="src">DNN_M5 · p47</span></div>
+
+      <div class="card def"><h3>Exploding Gradients</h3><p>Gradients growing exponentially large, causing numerical instability (NaN/Inf); mitigated by gradient clipping and proper init.</p><span class="src">DNN_M5 · p47</span></div>
+
+      <div class="card def"><h3>Xavier / Glorot Initialization</h3><p>A random weight-initialisation scheme suited to sigmoid/tanh layers that keeps signal variance stable across layers.</p><span class="src">DNN_M5 · p55</span></div>
+
+      <div class="card def"><h3>He Initialization</h3><p>A random weight-initialisation scheme tuned for ReLU activations.</p><span class="src">DNN_M5 · p55</span></div>
+
+      <div class="card def"><h3>Regularization</h3><p>Techniques (L2/weight decay, dropout, early stopping, batch normalization) that reduce overfitting.</p><span class="src">DNN_M5 · p53</span></div>
+
+      <div class="card def"><h3>Overfitting</h3><p>When a model fits training data too closely (training loss low, validation loss rising) and generalises poorly.</p><span class="src">DNN_M5 · p58-59</span></div>
+
+      <div class="card def"><h3>Underfitting</h3><p>When a model is too simple to capture the data's structure, giving high loss on both training and validation sets.</p><span class="src">DNN_M5 · p59</span></div>
+
+      <div class="card def"><h3>Funnel Architecture</h3><p>A network whose hidden layers decrease in width (\(n_1&gt;n_2&gt;\dots\)), compressing representations — often preferred when data is limited.</p><span class="src">DNN_M5 · p51 · EC-2 Q5</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Numerical & Lab Terms <small>· source: DNN_M5_DFNN_Numerical.pdf · L1-Perceptron.ipynb · L2-Linear Regression.ipynb</small></summary>
+    <div class="cards">
+
+      <div class="card def"><h3>Gradient Flow</h3><p>How gradient magnitude changes layer-to-layer during backprop; per step it scales by \(\lVert W\rVert\cdot|g'|\), governing vanishing/exploding behaviour.</p><span class="src">Numerical · p33</span></div>
+
+      <div class="card def"><h3>Spectral Norm (‖W‖)</h3><p>The largest singular value of a weight matrix; used to bound how much a layer amplifies or shrinks the gradient.</p><span class="src">Numerical · p33</span></div>
+
+      <div class="card def"><h3>Dead Neuron</h3><p>A neuron whose pre-activation is ≤0 under ReLU, so it outputs 0 and receives 0 gradient — its weights don't update.</p><span class="src">Numerical · p8,24</span></div>
+
+      <div class="card def"><h3>Parameter Count</h3><p>The total learnable weights and biases in a network, \(\sum_\ell n_\ell(n_{\ell-1}+1)\); a proxy for model capacity.</p><span class="src">DNN_M5 · p21 · Numerical p37</span></div>
+
+      <div class="card def"><h3>Binary Cross-Entropy (BCE)</h3><p>The loss \(-[y\log\hat y+(1-y)\log(1-\hat y)]\) for binary classification with \(y\in\{0,1\}\), \(\hat y\in(0,1)\).</p><span class="src">Numerical · p70</span></div>
+
+      <div class="card def"><h3>Categorical Cross-Entropy (CCE)</h3><p>The multi-class loss \(-\sum_c y_c\log\hat y_c\) with one-hot \(y\) and softmax \(\hat y\).</p><span class="src">Numerical · p74</span></div>
+
+      <div class="card def"><h3>Feed-Forward vs Feedback ANN</h3><p>Feed-forward networks have unidirectional flow with no loops (used for classification/recognition); feedback networks allow loops (used for content-addressable memory).</p><span class="src">DFFNNUMERICAL · p3-4</span></div>
+
+      <div class="card def"><h3>Monotonic Function</h3><p>A function that is entirely non-increasing or non-decreasing; sigmoid, tanh, and ReLU are monotonic.</p><span class="src">DFFNNUMERICAL · p7</span></div>
+
+      <div class="card def"><h3>Sign / Step Activation</h3><p>The perceptron activation returning \(+1\) if \(z\ge0\) else \(-1\); implemented as \(\text{np.sign}(Z)\) in the L1 lab.</p><span class="src">L1-Perceptron.ipynb</span></div>
+
+      <div class="card def"><h3>Cost History</h3><p>The recorded sequence of loss values across training iterations, plotted to visualise convergence (flat for non-separable XOR).</p><span class="src">L1-Perceptron.ipynb</span></div>
+
+      <div class="card def"><h3>Single-Neuron Regressor</h3><p>A from-scratch linear-regression model (one neuron, identity activation) trained by batch gradient descent, as built in the L2 lab on the Auto-MPG dataset.</p><span class="src">L2-Linear Regression.ipynb</span></div>
+
+      <div class="card def"><h3>Residual</h3><p>The prediction error \(y-\hat y\) for an example; residual plots (scattered around 0) check linear-model assumptions.</p><span class="src">L2-Linear Regression.ipynb</span></div>
+
+    </div>
+  </details>
+
+</main>
+<script>
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
+function upd(){const t=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
+  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
+  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
+q.addEventListener('input',upd);upd();
+</script>
+</body>
+</html>
