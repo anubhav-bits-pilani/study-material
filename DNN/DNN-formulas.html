@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Every equation you need for AIML ZG511 problems: neuron net input & activations (+ derivatives), perceptron rule, linear regression + MSE, logistic regression + cross-entropy, softmax, gradient descent (batch/SGD/mini-batch), forward prop, backprop deltas & weight gradients, plus prerequisite chain-rule/matrix/normal-equation tools for the worked numericals. Sources: DNN_M2–M5 decks, DFNN numericals, and the lab notebooks.</p>
+  <p class="intro">Every equation you need for AIML ZG511 problems: neuron net input & activations (+ derivatives), perceptron rule, linear regression + MSE, logistic regression + cross-entropy, softmax, gradient descent (batch/SGD/mini-batch), forward prop, backprop deltas & weight gradients, convolution / feature-map / receptive-field / parameter-count formulas for CNNs, plus prerequisite chain-rule/matrix/normal-equation tools for the worked numericals. Sources: DNN_M2–M6 decks, DFNN numericals, and the lab notebooks.</p>
 
   <details class="module" open>
     <summary>Module 2 — Neuron & Perceptron <small>· source: DNN_M2_ANN_Perceptron.pdf</small></summary>
@@ -419,6 +419,141 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <p>where: composition of local derivatives through the network.</p>
         <p>use: derives every backprop equation; the key idea that makes deep-net training tractable.</p>
         <span class="src">DNN_M5 · p34</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Convolutional Neural Networks (CNN) <small>· source: DNN_M6_CNN.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>2-D Convolution (Cross-Correlation)</h3>
+        $$(I\star K)(i,j)=\sum_{m}\sum_{n} I(i+m,\,j+n)\,K(m,n)$$
+        <p>where: \(I\)=input, \(K\)=kernel (\(k\times k\) learnable weights); element-wise product then sum, slid by the stride.</p>
+        <p>use: the core CNN operation; produces one entry of a feature map.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Feature Map (with bias)</h3>
+        $$\text{FM}_k(i,j)=\sum_{m}\sum_{n} I(i+m,\,j+n)\,K_k(m,n)+b_k$$
+        <p>where: \(K_k,b_k\)=weights/bias of filter \(k\); one filter → one feature map, so \(C_{out}\) filters give \(C_{out}\) maps.</p>
+        <p>use: compute each output channel; stack maps into an \(H'\times W'\times C_{out}\) volume.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Multi-Channel Convolution</h3>
+        $$O(i,j)=\sum_{c=1}^{C_{in}}\sum_{m}\sum_{n} I(i+m,\,j+n,\,c)\,K(m,n,c)+b$$
+        <p>where: filter depth = input depth \(C_{in}\); the sum runs over all input channels → one output channel.</p>
+        <p>use: convolving RGB (\(C_{in}=3\)) or any feature volume; repeat with \(C_{out}\) filters for \(C_{out}\) channels.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Output Spatial Size</h3>
+        $$H_{out}=\left\lfloor\frac{H_{in}+2p-k}{s}\right\rfloor+1\qquad(\text{likewise } W_{out})$$
+        <p>where: \(k\)=kernel size, \(p\)=padding, \(s\)=stride; must yield an integer (filter fully overlaps).</p>
+        <p>use: size any conv/pool output; e.g. 6×6, \(k=3,p=0,s=1\Rightarrow4\times4\); \(s=2\Rightarrow2\times2\).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Same Padding</h3>
+        $$p=\frac{k-1}{2}\quad(\text{stride }1\Rightarrow H_{out}=H_{in})$$
+        <p>where: \(k\)=odd kernel size; pads so the output keeps the input's spatial dimensions.</p>
+        <p>use: preserve resolution through many conv layers (e.g. VGG uses \(k=3,p=1\)).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Receptive Field Growth</h3>
+        $$RF_l = RF_{l-1} + (K_l-1)\prod_{i=1}^{l-1} S_i$$
+        <p>where: \(K_l\)=kernel size, \(S_i\)=stride of layer \(i\); \(RF_0=1\).</p>
+        <p>use: stacked 3×3 stride-1 convs give \(RF=3,5,7,9,\dots\); shows small kernels reach a large RF cheaply.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Dilated (Atrous) Effective Kernel</h3>
+        $$k_{eff}=k+(k-1)(r-1)$$
+        <p>where: \(k\)=kernel size, \(r\)=dilation rate (\(r=1\) standard); parameters stay \(k\times k\).</p>
+        <p>use: enlarge the receptive field without more params; 3×3 with \(r=2\) → effective 5×5.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Convolution Layer Parameters</h3>
+        $$\text{Params}=(k\cdot k\cdot C_{in}+1)\cdot C_{out}$$
+        <p>where: \(k\)=kernel size, \(C_{in}/C_{out}\)=input/output channels, \(+1\)=bias per filter; independent of \(H,W\).</p>
+        <p>use: 3×3, 256 filters on 128-ch input → \(1153\times256=295{,}168\); pooling layers have \(0\) params.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>1×1 Convolution</h3>
+        $$O(i,j)=\sum_{c=1}^{C_{in}} I(i,j,c)\,w_c + b$$
+        <p>where: a per-pixel learned linear combination across channels (Network-in-Network); no neighbouring pixels.</p>
+        <p>use: channel reduction / bottleneck — 256→64→(5×5)→64→256 costs ≈147K vs 1.64M params (~11×).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Global Average Pooling</h3>
+        $$\text{GAP}_c=\frac{1}{H\cdot W}\sum_{i=1}^{H}\sum_{j=1}^{W}\text{FM}_c(i,j)$$
+        <p>where: averages each feature map \(c\) to a single number; parameter-free.</p>
+        <p>use: replace fully connected classifier layers, reducing params and overfitting (NiN).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>ReLU &amp; Its Derivative</h3>
+        $$\text{ReLU}(x)=\max(0,x),\qquad \text{ReLU}'(x)=\begin{cases}1&x>0\\0&x<0\end{cases}$$
+        <p>where: undefined at \(x=0\) (take 0 or 1 in practice); scale-invariant \(\text{ReLU}(\alpha x)=\alpha\,\text{ReLU}(x)\) for \(\alpha>0\).</p>
+        <p>use: default conv activation; the 0/1 gradient avoids the sigmoid's vanishing-gradient shrink.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Softmax &amp; Its Derivative</h3>
+        $$\sigma(z_i)=\frac{e^{z_i}}{\sum_{j} e^{z_j}},\qquad \frac{\partial\sigma_i}{\partial z_j}=\begin{cases}\sigma_i(1-\sigma_i)&i=j\\-\sigma_i\sigma_j&i\neq j\end{cases}$$
+        <p>where: \(z\)=logits from the final layer; output is a probability distribution over \(K\) classes.</p>
+        <p>use: classification head; e.g. \(z=[2,1,0.1]\Rightarrow\sigma=[0.659,0.242,0.099]\).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Fully Connected Layer</h3>
+        $$y=f(Wx+b),\qquad \text{Params}=n\cdot m + m = m(n+1)$$
+        <p>where: \(x\in\mathbb R^n\), \(W\in\mathbb R^{m\times n}\), \(b\in\mathbb R^m\); flattens \(H\times W\times C\to H\!\cdot\!W\!\cdot\!C\) then maps to \(m\) units.</p>
+        <p>use: classification head after feature extraction; e.g. \(3\to2\) layer has \(3\cdot2+2=8\) params.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Backprop Through Convolution</h3>
+        $$\frac{\partial L}{\partial K(m,n)}=\sum_{i}\sum_{j}\frac{\partial L}{\partial O(i,j)}\,I(i+m,\,j+n),\qquad \frac{\partial L}{\partial b}=\sum_{i}\sum_{j}\frac{\partial L}{\partial O(i,j)}$$
+        <p>where: \(O\)=conv output; the kernel gradient is itself a convolution of the input with the upstream gradient.</p>
+        <p>use: derive weight/bias gradients for a conv layer during training.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Kernel Update Rule</h3>
+        $$K_{\text{new}}=K_{\text{old}}-\eta\,\frac{\partial L}{\partial K}$$
+        <p>where: \(\eta\)=learning rate; kernels start random and are updated by gradient descent (bias likewise).</p>
+        <p>use: the learning step that makes filters into pattern detectors.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Residual Block &amp; Gradient</h3>
+        $$y=F(x)+x,\qquad \frac{\partial L}{\partial x}=\frac{\partial L}{\partial y}\Big(1+\frac{\partial F}{\partial x}\Big)$$
+        <p>where: \(F\)=residual mapping (learn \(F=H(x)-x\)); the identity shortcut adds the "+x".</p>
+        <p>use: the "1" gives a direct gradient highway, enabling 100+ layer training (ResNet).</p>
+        <span class="src">M6 · CNN</span>
       </div>
 
     </div>

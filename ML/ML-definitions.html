@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Precise term glossary for ML (AIMLZG565), grouped by session deck — CS1 (Introduction), CS2 (Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Evaluation) — plus exam-referenced terms from the EC2/EC3 sheets.</p>
+  <p class="intro">Precise term glossary for ML (AIMLZG565), grouped by session deck — CS1 (Introduction), CS2 (Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Evaluation), CS7-8 (Decision Tree Classifier) — plus exam-referenced terms from the EC2/EC3 sheets.</p>
 
   <details class="module" open>
     <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
@@ -690,6 +690,163 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>AdaBoost</h3>
         <p>A boosting ensemble that sequentially reweights training instances (up-weighting misclassified ones) and combines weak learners by weight α.</p>
         <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Decision Tree</h3>
+        <p>A hierarchical, tree-based supervised algorithm that classifies or predicts an outcome by applying a sequence of decision rules, splitting the data into purer subsets based on feature values.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Root Node</h3>
+        <p>The topmost node of a tree, representing the entire dataset. It has no incoming edges and one or more outgoing edges, and holds the first attribute test condition.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Internal (Test) Node</h3>
+        <p>A non-leaf node with exactly one incoming edge and two or more outgoing edges. It contains a test condition on a single attribute that routes records to child nodes.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Leaf (Terminal) Node</h3>
+        <p>A node with exactly one incoming edge and no outgoing edges. Each leaf is assigned a class label, which is the tree's final decision for records that reach it.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Decision Rule</h3>
+        <p>A single root-to-leaf path through the tree, read as a conjunction of attribute constraints leading to a class label. The whole tree is equivalent to a set of such rules.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Classification Tree</h3>
+        <p>A decision tree whose leaves output discrete classes/categories.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Regression Tree</h3>
+        <p>A decision tree whose leaves output numerical/continuous values rather than class labels.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Hunt's Algorithm</h3>
+        <p>The generic recursive procedure for growing a decision tree: if all records at a node share a class, make it a leaf; otherwise pick the best attribute test, split the records into children, and recurse on each child.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Impurity</h3>
+        <p>A measure of how mixed the class labels are at a node. A pure node (all one class) has impurity 0; impurity is maximal when the classes are evenly split.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Entropy</h3>
+        <p>An information-theoretic measure of impurity/uncertainty: \(-\sum_c p(c)\log_2 p(c)\). It is 0 for a pure node and maximal (\(\log_2 k\) for k classes) when classes are evenly distributed.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Information Gain</h3>
+        <p>The expected reduction in entropy achieved by partitioning on an attribute: parent entropy minus the weighted average entropy of the children. The tree splits on the attribute with the highest information gain.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Gini Index</h3>
+        <p>An impurity measure \(1-\sum_c p_c^2\) used by CART. Lower weighted Gini after a split means a better split; it is 0 for a pure node.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Classification Error</h3>
+        <p>An impurity measure \(1-\max_c p_c\). Less sensitive to class-proportion changes than Gini/entropy, so it is generally not preferred for growing a tree.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Split Information</h3>
+        <p>The entropy of the dataset with respect to the values of an attribute A: \(-\sum_v \frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}\). It is large when A disperses the data into many uniform subsets.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Gain Ratio</h3>
+        <p>Information gain divided by split information. It corrects information gain's bias toward many-valued attributes (like CustomerID) by penalizing splits that produce many branches.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>ID3</h3>
+        <p>A top-down, greedy decision-tree induction algorithm that recursively selects the attribute with the highest information gain, branching on its values until nodes are pure, attributes are exhausted (majority vote), or no samples remain.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Pruning</h3>
+        <p>Reducing the size of a decision tree to combat overfitting, either by stopping growth early (pre-pruning) or by removing branches from a fully grown tree (post-pruning).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Pre-Pruning</h3>
+        <p>Halting tree growth early using stopping conditions — e.g. gain below a threshold, too few samples at a node, or maximum depth reached — before the tree perfectly fits the training data.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Post-Pruning</h3>
+        <p>Growing the tree fully, then scanning bottom-up and removing a decision node whenever doing so reduces the error measured on a separate prune/validation set.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Overfitting (Trees)</h3>
+        <p>A tree that is too complex — it grows extra branches to fit noise/outliers, giving very low training error but poor accuracy on unseen data.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Prune Set</h3>
+        <p>A held-out validation set used during post-pruning to compare the "keep node" versus "prune node" predictions and decide whether removing a node lowers the error rate.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Minimum Description Length (MDL)</h3>
+        <p>A principle preferring the hypothesis that minimizes length(h) + length(misclassifications) — the bits to encode the tree plus the bits to encode its errors. It trades model complexity against training errors.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Occam's Razor</h3>
+        <p>The preference for the shortest hypothesis that explains the data reasonably well — in trees, shorter (simpler) trees are preferred over larger ones with equal accuracy.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Axis-Parallel Decision Boundary</h3>
+        <p>The kind of boundary a decision tree produces: because each test uses a single attribute, the boundary is a set of splits perpendicular to the feature axes, unable to capture oblique attribute interactions.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card def" data-src="Session 7-8 · Decision Trees">
+        <h3>Confusion Matrix</h3>
+        <p>A table whose entry \(CM_{i,j}\) is the number of class-i tuples labelled as class j, summarizing TP/FN/FP/TN and used to compute the tree's error rate on validation/test data.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
       </div>
 
     </div>

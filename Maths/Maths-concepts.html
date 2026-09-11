@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Conceptual walkthrough of AIMLZC416 Mathematical Foundations for Machine Learning — the 7 lecture decks: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, and backpropagation. Use the filter box to jump to a topic.</p>
+  <p class="intro">Conceptual walkthrough of AIMLZC416 Mathematical Foundations for Machine Learning — the 8 lecture decks: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, backpropagation, and Taylor's theorem &amp; the Hessian. Use the filter box to jump to a topic.</p>
 
   <details class="module" open>
     <summary>Lecture 1 — Linear Algebra: Systems of Linear Equations &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
@@ -488,6 +488,91 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Hadamard (element-wise) product</h3>
         <p>The Hadamard product \(\odot\) multiplies two equal-sized vectors/matrices entry-by-entry. It appears in backprop wherever an activation is applied element-wise, giving diagonal Jacobians.</p>
         <span class="src">Lecture 7 · p21</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 8 — Taylor's Theorem, the Remainder Term &amp; the Hessian <small>· source: Lecture-8.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 8 · p2">
+        <h3>What this lecture adds to Taylor's series</h3>
+        <p>Lecture 6 introduced the Taylor/Maclaurin series, partial derivatives and gradients operationally. This lecture goes into the <em>theory</em>: it proves where the series comes from, derives the <strong>remainder term</strong> that measures the error when the series is truncated, then extends the expansion to <strong>two variables</strong> — which motivates the <strong>Hessian matrix</strong>, the object that governs cost-function minimization in neural networks.</p>
+        <span class="src">Lecture 8 · p2</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p3">
+        <h3>Taylor's theorem (with remainder)</h3>
+        <p>If \(f:(a,b)\to\mathbb{R}\) is \(n\)-times differentiable on \((a,b)\) and \(f,f',\dots,f^{(n-1)}\) extend continuously to \([a,b]\), then there exists \(c\in(a,b)\) with \(f(b)=\sum_{k=0}^{n-1}\frac{f^{(k)}(a)}{k!}(b-a)^k+\frac{f^{(n)}(c)}{n!}(b-a)^n\). The finite sum is the degree-\((n-1)\) Taylor polynomial; the final term is the <strong>exact</strong> error, evaluated at some unknown interior point \(c\).</p>
+        <span class="src">Lecture 8 · p3</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p4-5">
+        <h3>Mean-value theorem — the n = 1 case</h3>
+        <p>Setting \(n=1\) collapses Taylor's theorem to the mean-value theorem: a function continuous on \([a,b]\) and differentiable on \((a,b)\) has some \(c\in(a,b)\) where the instantaneous slope equals the average slope, \(f'(c)=\frac{f(b)-f(a)}{b-a}\). Differentiability is essential — the theorem fails for functions with corners (non-differentiable points).</p>
+        <span class="src">Lecture 8 · p4-5</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p6">
+        <h3>Rolle's theorem — the engine of the proof</h3>
+        <p>If \(f\) is continuous on \([a,b]\), differentiable on \((a,b)\), and \(f(a)=f(b)=0\), then \(f'(c)=0\) for some \(c\in(a,b)\). The mean-value theorem follows from it, and — crucially — the whole Taylor expansion is built by applying Rolle's theorem <em>repeatedly</em>.</p>
+        <span class="src">Lecture 8 · p6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p7-9">
+        <h3>Proposition P: n-fold application of Rolle</h3>
+        <p>Let \(F\) satisfy \(F(a)=F'(a)=\cdots=F^{(n-1)}(a)=0\) and \(F(b)=0\). Applying Rolle to \(F\) gives \(c_1\) with \(F'(c_1)=0\); since \(F'(a)=F'(c_1)=0\), Rolle on \(F'\) gives \(c_2\) with \(F''(c_2)=0\); continuing yields \(a<c_n<\cdots<c_1<b\) with \(F^{(n)}(c)=0\) at \(c=c_n\). This chained argument is the backbone of the derivation.</p>
+        <span class="src">Lecture 8 · p7-9</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p8-10">
+        <h3>Building the approximating polynomial</h3>
+        <p>Take a polynomial \(P(x)=\sum_{k=0}^{n}a_k(x-a)^k\) and force \(F(x)=f(x)-P(x)\) to meet Proposition P's conditions. Matching derivatives at \(a\) fixes \(a_k=\frac{f^{(k)}(a)}{k!}\) for \(k=0,\dots,n-1\); the final coefficient \(a_n\) is pinned down by \(F(b)=0\). Since then \(F^{(n)}(c)=f^{(n)}(c)-n!\,a_n=0\), rearranging reproduces exactly the Taylor expansion with its remainder term.</p>
+        <span class="src">Lecture 8 · p8-10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p10">
+        <h3>Why the remainder term matters</h3>
+        <p>The remainder \(\frac{f^{(n)}(c)}{n!}(b-a)^n\) is the exact truncation error of a Taylor series cut at \(n-1\) terms. In practice \(c\) is unknown, but bounding \(|f^{(n)}(c)|\) on the interval bounds the error — this is how one certifies that a low-degree Taylor (linear or quadratic) model is accurate enough to use.</p>
+        <span class="src">Lecture 8 · p10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p11-12">
+        <h3>Taylor's series in two variables</h3>
+        <p>To expand \(f(x,y)\) near a point \(P(a,b)\), parameterise the segment to \(S(a+h,b+k)\) as \(x=a+th,\ y=b+tk\) and set \(F(t)=f(a+th,b+tk)\) — now a single-variable function. The chain rule gives \(F'(t)=hf_x+kf_y\) and \(F''(t)=h^2f_{xx}+2hk f_{xy}+k^2 f_{yy}\), reducing the multivariate expansion to the one-variable theorem already proved.</p>
+        <span class="src">Lecture 8 · p11-12</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p12-13">
+        <h3>Second-order expansion at a critical point</h3>
+        <p>Applying the single-variable Taylor's theorem to \(F\) on \([0,1]\) gives \(f(a+h,b+k)=f(a,b)+hf_x+kf_y+\tfrac12(h^2f_{xx}+2hkf_{xy}+k^2f_{yy})\big|_{a+ch,b+ck}\). At a critical point the gradient vanishes (\(f_x=f_y=0\)), so the increment \(f(a+h,b+k)-f(a,b)\) is governed entirely by the quadratic form \(Q(c)=(h^2f_{xx}+2hkf_{xy}+k^2f_{yy})\big|_{a+ch,b+ck}\).</p>
+        <span class="src">Lecture 8 · p13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p14">
+        <h3>The sign of Q decides the extremum</h3>
+        <p>For small \(h,k\), the sign of \(Q(c)\) matches the sign of \(Q(0)=h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\) at \((a,b)\). Completing the square by multiplying through by \(f_{xx}\) gives \(f_{xx}Q(0)=(hf_{xx}+kf_{xy})^2+(f_{xx}f_{yy}-f_{xy}^2)k^2\) — so the whole classification rests on just two quantities: \(f_{xx}\) and the discriminant \(f_{xx}f_{yy}-f_{xy}^2\).</p>
+        <span class="src">Lecture 8 · p14</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p15">
+        <h3>Second-derivative test (two variables)</h3>
+        <p>Reading off the completed square: if \(f_{xx}<0\) and \(f_{xx}f_{yy}-f_{xy}^2>0\), then \(Q(0)<0\) always → <strong>local maximum</strong>. If \(f_{xx}>0\) and the discriminant \(>0\) → <strong>local minimum</strong>. If \(f_{xx}f_{yy}-f_{xy}^2<0\), \(Q(0)\) takes both signs → <strong>saddle point</strong>. If the discriminant \(=0\), the test is inconclusive and another test is needed.</p>
+        <span class="src">Lecture 8 · p15</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p16-17">
+        <h3>The Hessian matrix &amp; Sylvester's criterion</h3>
+        <p>The two decisive quantities are exactly the entries and leading minors of the <strong>Hessian</strong> \(H=\begin{bmatrix}f_{xx}&f_{xy}\\f_{xy}&f_{yy}\end{bmatrix}\). Classifying a critical point becomes asking whether \(H\) is positive-definite. Sylvester's criterion says a Hermitian matrix is positive-definite iff every upper-left \(m\times m\) minor is positive — here \(f_{xx}>0\) and \(\det H=f_{xx}f_{yy}-f_{xy}^2>0\), matching the local-minimum case.</p>
+        <span class="src">Lecture 8 · p16-17</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p17-18">
+        <h3>Hessian is symmetric — and links to eigenvalues</h3>
+        <p>For a twice-continuously-differentiable \(f\), the order of differentiation is irrelevant, \(\frac{\partial^2 f}{\partial x\partial y}=\frac{\partial^2 f}{\partial y\partial x}\) (Schwarz's/Clairaut's theorem), so \(H\) is symmetric. A local minimum then means \(H\) is symmetric positive-definite — which, from the linear-algebra part of the course, is equivalent to \(H\) having all positive eigenvalues. A local maximum gives a negative-definite \(H\) with all negative eigenvalues. \(H\) is written \(\nabla^2_{x,y}f\).</p>
+        <span class="src">Lecture 8 · p17-18</span>
       </div>
 
     </div>

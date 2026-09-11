@@ -45,6 +45,7 @@ main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
 .badge.medium{background:#78350f;color:#fcd34d}
 .badge.hard{background:#7f1d1d;color:#fca5a5}
 .badge.mixed{background:#3730a3;color:#c7d2fe}
+.badge.adv{background:#4c1d95;color:#ddd6fe}
 details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
 details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
 details.ans>summary::-webkit-details-marker{display:none}
@@ -72,7 +73,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Practice questions for Introduction to Statistical Methods (AIMLZC418), graded Easy → Medium → Hard within each source deck (CS-1…CS-5, Webinar 1, EC-2/EC-3 scope, recovered image slides), plus a Combined / Exam-style section. Every formula gets direct plug-in, multi-step and full-inference variants; every concept is exercised. Each card carries a difficulty badge and a collapsible worked solution with the final answer. Format mirrors the EC-2/EC-3 past papers (word problems, marks in brackets, "state H₀/H₁… conclude…").</p>
+  <p class="intro">Practice questions for Introduction to Statistical Methods (AIMLZC418), graded Easy → Medium → Hard within each source deck (CS-1…CS-6, Webinar 1, EC-2/EC-3 scope, recovered image slides), plus a Combined / Exam-style section. CS-6 covers the probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square). Every formula gets direct plug-in, multi-step and full-inference variants; every concept is exercised. Each card carries a difficulty badge and a collapsible worked solution with the final answer. Format mirrors the EC-2/EC-3 past papers (word problems, marks in brackets, "state H₀/H₁… conclude…").</p>
 
   <details class="module" open>
     <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
@@ -783,6 +784,214 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </details>
 
   <details class="module" open>
+    <summary>CS-6 — Probability Distributions (Bernoulli, Binomial, Poisson, Normal, t, F, Chi-Square) <small>· source: ISM_CS-6_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: Bernoulli pmf / complement · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q1.</b> A basketball player scores a free throw with probability \(p=0.6\). Treating one shot as a Bernoulli trial, write \(P(\text{score})\) and \(P(\text{miss})\), and state the two outcome values of \(X\). [1M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        Success \(X=1\): \(P(\text{score})=p=0.6\). Failure \(X=0\): \(P(\text{miss})=q=1-p=1-0.6=\textbf{0.4}\). \(X\in\{0,1\}\).
+        </div></details>
+        <span class="src">tests: Bernoulli pmf · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: Bernoulli mean & variance · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q2.</b> For the Bernoulli trial in Q1 (\(p=0.6\)), find the mean and variance of \(X\). [1M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(E[X]=p=\textbf{0.6}\); \(\operatorname{Var}(X)=pq=0.6\times0.4=\textbf{0.24}\) (SD \(=\sqrt{0.24}\approx0.49\)).
+        </div></details>
+        <span class="src">tests: Bernoulli mean/variance · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial conditions / identify · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q3.</b> State whether each is a valid binomial experiment and justify: (a) the number of people among 30 who catch Corona in a week; (b) selecting 3 projectors from 20 (of which 2 are defective) and counting defectives. [2M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) <b>Not binomial</b> — infections spread between people, so trials are <b>not independent</b> and \(p\) is not constant.<br>
+        (b) <b>Not binomial</b> — drawing without replacement makes the trials dependent (once both defectives are found the remaining outcomes are determined), so \(p\) is not constant. A binomial needs fixed \(n\), independent trials, constant \(p\), and two outcomes per trial.
+        </div></details>
+        <span class="src">tests: binomial conditions · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: Poisson mean=variance · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q4.</b> A Poisson random variable has \(\lambda=6\). State its mean, variance and standard deviation. [1M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        For a Poisson, mean = variance = \(\lambda\). So mean \(=\textbf{6}\), variance \(=\textbf{6}\), SD \(=\sqrt6\approx\textbf{2.449}\).
+        </div></details>
+        <span class="src">tests: Poisson mean/variance · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: standard normal table · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q5.</b> Using the standard-normal table, find (a) \(P(Z<1.75)\) and (b) \(P(Z<-1.25)\). [1.5M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(P(Z<1.75)=F(1.75)=\textbf{0.9599}\).<br>
+        (b) By symmetry \(P(Z<-1.25)=1-F(1.25)=1-0.8944=\textbf{0.1056}\).
+        </div></details>
+        <span class="src">tests: standard normal · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial P(3 or fewer heads) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q6.</b> Ten fair coins are thrown. Find the probability of getting 3 or fewer heads. [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(n=10,\ p=q=0.5\). \(P(X\le3)=(0.5)^{10}\big[\binom{10}{0}+\binom{10}{1}+\binom{10}{2}+\binom{10}{3}\big]\).<br>
+        \(=(0.5)^{10}[1+10+45+120]=\dfrac{176}{1024}=\textbf{0.1719}.\)
+        </div></details>
+        <span class="src">tests: binomial cumulative · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial MCQ guessing · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q7.</b> A test has 5 multiple-choice questions, each with 4 options (one correct). A student guesses every answer, so \(p=1/4\). Find (a) \(P(X=3)\), (b) the mean and (c) the variance of the number correct. [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(n=5,\ p=\tfrac14,\ q=\tfrac34\).<br>
+        (a) \(P(X=3)=\binom{5}{3}\left(\tfrac14\right)^3\left(\tfrac34\right)^2=10\cdot\tfrac{1}{64}\cdot\tfrac{9}{16}=\dfrac{90}{1024}=\dfrac{45}{512}\approx\textbf{0.0879}.\)<br>
+        (b) Mean \(=np=5\cdot\tfrac14=\textbf{1.25}\).<br>
+        (c) Variance \(=npq=5\cdot\tfrac14\cdot\tfrac34=\dfrac{15}{16}=\textbf{0.9375}.\)
+        </div></details>
+        <span class="src">tests: binomial pmf + moments · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial at most 2 / at least 3 · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q8.</b> At a restaurant 60% of customers ask for water (\(p=0.6\)). For \(n=10\) customers, given \(P(0)=0.0001\), \(P(1)=0.0016\), \(P(2)=0.0106\), find (a) \(P(\text{at most 2 ask for water})\) and (b) \(P(\text{at least 3 ask for water})\). [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(P(X\le2)=P(0)+P(1)+P(2)=0.0001+0.0016+0.0106=\textbf{0.0123}.\)<br>
+        (b) \(P(X\ge3)=1-P(X\le2)=1-0.0123=\textbf{0.9877}.\)
+        </div></details>
+        <span class="src">tests: binomial cumulative / complement · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: Poisson via binomial approximation · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q9.</b> Three percent of items from a process are defective. In a sample of 200, use a Poisson approximation to find the probability that fewer than 2 are defective. [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(\lambda=np=200\times0.03=6\). \(P(X<2)=P(0)+P(1)=e^{-6}+e^{-6}\cdot6=e^{-6}(1+6)=7e^{-6}\).<br>
+        \(=7\times0.00248\approx\textbf{0.0174}.\)
+        </div></details>
+        <span class="src">tests: Poisson approximation · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal test scores · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q10.</b> Exam scores are normal with mean 30 and SD 4, \(X\sim N(30,4^2)\). Find (a) \(P(X<40)\) and (b) \(P(X>38)\). [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(z=\dfrac{40-30}{4}=2.5\Rightarrow P(X<40)=F(2.5)=\textbf{0.9938}.\)<br>
+        (b) \(z=\dfrac{38-30}{4}=2\Rightarrow P(X>38)=1-F(2)=1-0.9772=\textbf{0.0228}.\)
+        </div></details>
+        <span class="src">tests: normal probabilities · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal two-sided interval · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q11.</b> A machine fills packets with mean 75 g and SD 4 g (normal). Find the probability a packet weighs between 70 g and 80 g. [3M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(z_1=\dfrac{70-75}{4}=-1.25,\ z_2=\dfrac{80-75}{4}=1.25\).<br>
+        \(P(70<X<80)=F(1.25)-F(-1.25)=0.8944-0.1056=\textbf{0.7888}.\)
+        </div></details>
+        <span class="src">tests: normal interval · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: Poisson switchboard over intervals · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q12.</b> A switchboard receives calls at a rate of 0.6 per minute (Poisson). Find (a) the probability of at least one call in a 1-minute period, and (b) the probability of at least 3 calls in a 4-minute period. [4M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) 1 minute: \(\lambda=0.6\). \(P(X\ge1)=1-P(0)=1-e^{-0.6}=1-0.5488=\textbf{0.4512}.\)<br>
+        (b) 4 minutes: \(\lambda t=0.6\times4=2.4\). \(P(X\ge3)=1-[P(0)+P(1)+P(2)]\).<br>
+        \(P(0)=e^{-2.4}=0.0907,\ P(1)=2.4e^{-2.4}=0.2177,\ P(2)=\dfrac{2.4^2}{2}e^{-2.4}=0.2613\); sum \(=0.5697\).<br>
+        \(P(X\ge3)=1-0.5697=\textbf{0.4303}.\)
+        </div></details>
+        <span class="src">tests: Poisson over intervals · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal one- and two-sided · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q13.</b> A quantity is normal with mean 30 and SD 5, \(X\sim N(30,5^2)\). Find (i) \(P(26\le X\le40)\) and (ii) \(P(X\ge45)\). [4M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (i) \(z_1=\dfrac{26-30}{5}=-0.8,\ z_2=\dfrac{40-30}{5}=2\).<br>
+        \(P=F(2)-F(-0.8)=0.9772-(1-0.7881)=0.9772-0.2119=\textbf{0.7653}.\)<br>
+        (ii) \(z=\dfrac{45-30}{5}=3\Rightarrow P(X\ge45)=1-F(3)=1-0.9987=\textbf{0.0013}.\)
+        </div></details>
+        <span class="src">tests: normal probabilities · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: recover n,p from mean & variance · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q14.</b> (a) A binomial distribution has mean 6 and variance 4. Find \(n\) and \(p\). (b) Another has mean 20 with \(n=30\). Find \(p\) and the variance. [4M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(np=6\) and \(npq=4\Rightarrow q=\dfrac{npq}{np}=\dfrac{4}{6}=\dfrac23\), so \(p=\dfrac13\) and \(n=\dfrac{6}{p}=\textbf{18}\). Thus \(n=18,\ p=\tfrac13\).<br>
+        (b) \(p=\dfrac{np}{n}=\dfrac{20}{30}=\dfrac23\); variance \(=npq=30\cdot\tfrac23\cdot\tfrac13=\dfrac{60}{9}\approx\textbf{6.67}.\)
+        </div></details>
+        <span class="src">tests: binomial moments (inverse) · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: dice product success binomial · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q15.</b> A pair of dice is rolled; "success" means the product of the two faces equals 6. This is repeated 5 times. With \(p=\tfrac{4}{36}=\tfrac19\), find \(P(X\ge4)\). [4M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        The product is 6 for \((1,6),(6,1),(2,3),(3,2)\) → 4 of 36 outcomes, so \(p=\tfrac19,\ q=\tfrac89\), \(n=5\).<br>
+        \(P(X\ge4)=P(4)+P(5)=\binom{5}{4}\left(\tfrac19\right)^4\left(\tfrac89\right)+\left(\tfrac19\right)^5=\dfrac{5\cdot8}{9^5}+\dfrac{1}{9^5}=\dfrac{41}{59049}\approx\textbf{0.000694}.\)
+        </div></details>
+        <span class="src">tests: binomial (small p) · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal approximation to binomial + continuity · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q16.</b> 31% of high-school seniors attend college. In a random sample of \(n=50\), use the normal approximation (with continuity correction) to estimate \(P(X<14)\). [5M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        Check: \(np=50(0.31)=15.5\ge15\) and \(nq=50(0.69)=34.5\ge15\) → approximation valid.<br>
+        \(\mu=15.5,\ \sigma=\sqrt{50\cdot0.31\cdot0.69}=\sqrt{10.695}=3.27\).<br>
+        Continuity: \(P(X<14)\to P(X<13.5)\). \(z=\dfrac{13.5-15.5}{3.27}=-0.61\).<br>
+        \(P(Z<-0.61)=1-F(0.61)=1-0.7291=\textbf{0.2709}.\)
+        </div></details>
+        <span class="src">tests: normal approximation to binomial · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: normal approximation (cloud seeding) full check · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q17.</b> In a cloud-seeding study, 62% of seeded clouds produce rain. For a random sample of \(n=40\) clouds: (a) verify the normal approximation is usable; (b) find \(\mu\) and \(\sigma\); (c) estimate \(P(X\le20)\) using the continuity correction. [5M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(p=0.62,\ q=0.38\): \(np=40(0.62)=24.8\ge15\) and \(nq=40(0.38)=15.2\ge15\) → <b>usable</b>.<br>
+        (b) \(\mu=np=24.8\); \(\sigma^2=npq=40\cdot0.62\cdot0.38=9.424\Rightarrow \sigma=3.0699\).<br>
+        (c) Continuity: \(P(X\le20)\to P(X\le20.5)\). \(z=\dfrac{20.5-24.8}{3.0699}=-1.40\).<br>
+        \(P(Z\le-1.40)=1-F(1.40)=1-0.9192=\textbf{0.0808}.\)
+        </div></details>
+        <span class="src">tests: normal approximation to binomial · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: distribution identification · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q18.</b> Name the most appropriate distribution for each and justify briefly: (a) whether a single emailed offer is accepted or not; (b) the number of typing errors on a randomly chosen page; (c) the heights of adult males in a large population; (d) the number of correct answers when guessing 20 true/false questions; (e) the sampling distribution used to test a mean when \(\sigma\) is unknown and \(n\) is small. [4M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) <b>Bernoulli</b> — a single two-outcome trial (accept/reject).<br>
+        (b) <b>Poisson</b> — count of rare events over a fixed interval (a page), rate \(\lambda\).<br>
+        (c) <b>Normal</b> — continuous measurement, bell-shaped over a large population.<br>
+        (d) <b>Binomial</b> — fixed \(n=20\) independent trials, constant \(p=0.5\), two outcomes.<br>
+        (e) <b>Student's t-distribution</b> — inference on a mean with unknown \(\sigma\) and small sample (uses \(s\) and \(n-1\) dof).
+        </div></details>
+        <span class="src">tests: identifying distributions · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial defectives full inference · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q19.</b> The mean number of defectives in samples of 20 items is 2. (a) Find the defect probability \(p\). (b) Find \(P(X\ge3)\) in a sample of 20. (c) In 1000 such samples, about how many would you expect to contain at least 3 defectives? [5M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(np=2\) with \(n=20\Rightarrow p=\dfrac{2}{20}=\textbf{0.1}\) (\(q=0.9\)).<br>
+        (b) \(P(X\ge3)=1-[P(0)+P(1)+P(2)]\). \(P(0)=0.9^{20}=0.1216\); \(P(1)=20(0.1)(0.9)^{19}=0.2702\); \(P(2)=\binom{20}{2}(0.1)^2(0.9)^{18}=0.2852\). Sum \(=0.6770\).<br>
+        \(P(X\ge3)=1-0.6770=\textbf{0.3230}.\)<br>
+        (c) Expected number \(=1000\times0.3230\approx\textbf{323}\) samples.
+        </div></details>
+        <span class="src">tests: binomial full inference · Advanced</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
     <summary>Webinar 1 — Applied Review: Descriptive Stats &amp; Probability <small>· source: Webinar-1, Slides.pptx</small></summary>
     <div class="cards">
 
@@ -1199,6 +1408,224 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         (c) \(P(D\mid+)=\dfrac{P(+\mid D)P(D)}{P(+)}=\dfrac{0.90\times0.20}{0.26}=\dfrac{0.18}{0.26}\approx\textbf{0.692}\). So a positive test raises the disease probability from the 20% prior to ~69%; still not certain, because false positives among the large healthy group dilute the result.
         </div></details>
         <span class="src">tests: conditional probability + Bayes · Mixed</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Advanced Questions — Multi-Concept Synthesis <small>· merges topics across the course, numerical + conceptual</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: descriptive stats → z-score → normal probability → CLT · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q1.</b> A machine's fill weights (g) for 8 sampled units are 2, 4, 4, 4, 5, 5, 7, 9. Treat these as the population and assume weights are normally distributed. (a) Compute the population mean \(\mu\) and SD \(\sigma\). (b) Find the z-score of a 8 g unit and \(P(X&gt;8)\) using \(\Phi(1.5)=0.9332\). (c) For a random sample of \(n=16\) units, use the CLT to find \(P(\bar X&gt;5.5)\) using \(\Phi(1)=0.8413\). (d) Why is the answer in (c) smaller in relative spread than in (b)? [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(\sum X=40\Rightarrow\mu=40/8=5\). \(SS=\sum(X-5)^2=9+1+1+1+0+0+4+16=32\); \(\sigma^2=32/8=4\Rightarrow\sigma=\textbf{2}\).<br>
+        (b) \(z=\dfrac{8-5}{2}=1.5\); \(P(X&gt;8)=1-\Phi(1.5)=1-0.9332=\textbf{0.0668}\).<br>
+        (c) By the CLT \(\bar X\sim N(\mu,\sigma^2/n)\) with \(SE=\dfrac{\sigma}{\sqrt n}=\dfrac{2}{4}=0.5\). \(z=\dfrac{5.5-5}{0.5}=1\); \(P(\bar X&gt;5.5)=1-\Phi(1)=1-0.8413=\textbf{0.1587}\).<br>
+        (d) The sample mean has SD \(\sigma/\sqrt n=0.5\), four times smaller than the individual SD (2); averaging cancels fluctuations, so \(\bar X\) clusters far more tightly around \(\mu\) than a single value does.
+        </div></details>
+        <span class="src">tests: descriptive stats + z-score + normal + CLT · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: CLT → confidence interval → interpretation → sample size · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q2.</b> A logistics firm measures delivery times with known population SD \(\sigma=15\) min. A sample of \(n=36\) deliveries gives \(\bar x=82\) min. (a) State the sampling distribution of \(\bar X\) and the standard error. (b) Build a 95% CI for \(\mu\) (\(z_{0.025}=1.96\)) and interpret it correctly. (c) What sample size is needed so the 95% margin of error is at most 2 min? [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) By the CLT \(\bar X\ \dot\sim\ N\!\left(\mu,\ \sigma^2/n\right)\); \(SE=\dfrac{15}{\sqrt{36}}=\dfrac{15}{6}=\textbf{2.5}\) min.<br>
+        (b) Margin \(=1.96\times2.5=4.9\); CI \(=82\pm4.9=(\textbf{77.1},\ \textbf{86.9})\). Interpretation: we are 95% confident the true mean delivery time lies in this interval — i.e. the procedure captures \(\mu\) in 95% of repeated samples (it is <em>not</em> a 95% probability for a fixed \(\mu\)).<br>
+        (c) Require \(1.96\dfrac{\sigma}{\sqrt n}\le2\Rightarrow \sqrt n\ge\dfrac{1.96\times15}{2}=14.7\Rightarrow n\ge14.7^2=216.09\). Round up: \(n=\textbf{217}\).
+        </div></details>
+        <span class="src">tests: CLT + CI + interpretation + sample size · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: one-sample z-test → p-value → Type I error → CI duality · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q3.</b> A supplier claims the mean fill of its bags is \(\mu=500\) g. With known \(\sigma=20\) g, a sample of \(n=25\) bags gives \(\bar x=508\) g. (a) State \(H_0,H_1\) and test at \(\alpha=0.05\) (two-tailed) by computing \(z\) and the p-value (\(z_{0.025}=1.96\), \(\Phi(2)=0.9772\)). (b) What is the probability of a Type I error here, and what would committing one mean? (c) Build the 95% CI and show it is consistent with the test decision. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(H_0:\mu=500\); \(H_1:\mu\ne500\). \(SE=20/\sqrt{25}=4\); \(z=\dfrac{508-500}{4}=\textbf{2.0}\). p-value \(=2\,[1-\Phi(2)]=2(1-0.9772)=2(0.0228)=\textbf{0.0456}\). Since \(|z|=2.0&gt;1.96\) (equivalently \(p=0.0456&lt;0.05\)), <b>reject \(H_0\)</b>.<br>
+        (b) Type I error probability \(=\alpha=\textbf{0.05}\); committing one means concluding the mean differs from 500 g when in fact it truly equals 500 g (a false alarm).<br>
+        (c) CI \(=508\pm1.96(4)=508\pm7.84=(\textbf{500.16},\ \textbf{515.84})\). It excludes 500, matching the rejection of \(H_0\) at 5% — the CI/test duality.
+        </div></details>
+        <span class="src">tests: z-test + p-value + Type I error + CI duality · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: one-sample t-test → assumptions → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q4.</b> A training programme claims to raise a test score above the historical mean \(\mu_0=50\). A sample of \(n=10\) trainees has \(\bar x=52\) and \(s=4\). (a) Why is a t-test (not a z-test) appropriate? (b) Test \(H_0:\mu=50\) vs \(H_1:\mu\ne50\) at 5% (\(t_{0.025,9}=2.262\)). (c) State the key assumption that matters most at this small \(n\). [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) The population SD \(\sigma\) is unknown (only the sample \(s\) is available) and \(n\) is small, so the standardised statistic follows a \(t\) distribution with \(n-1\) df, not the normal.<br>
+        (b) \(SE=\dfrac{s}{\sqrt n}=\dfrac{4}{\sqrt{10}}=1.2649\); \(t=\dfrac{52-50}{1.2649}=\textbf{1.581}\), \(df=9\). Since \(|1.581|&lt;2.262\), <b>do not reject \(H_0\)</b> — no significant evidence the mean differs from 50.<br>
+        (c) With small \(n\) the validity of the t-test relies on the <b>population being approximately normal</b> (the CLT cannot be leaned on for \(n=10\)); a random, independent sample is also required.
+        </div></details>
+        <span class="src">tests: t-test + assumptions + decision · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: critical-value test → Type I/II error → power · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q5.</b> For \(H_0:\mu=100\) vs \(H_1:\mu&gt;100\) with known \(\sigma=12\), a sample of \(n=36\) is taken at \(\alpha=0.05\) (one-tailed, \(z_{0.05}=1.645\)). (a) Find the critical value of \(\bar X\) (the rejection cutoff). (b) State the Type I error probability. (c) If the true mean is actually \(\mu=106\), find the power of the test and the Type II error probability (use \(\Phi(1.36)=0.9131\)). (d) Interpret. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(SE=12/\sqrt{36}=2\). Reject when \(\bar X&gt;100+1.645(2)=\textbf{103.29}\).<br>
+        (b) Type I error \(=\alpha=\textbf{0.05}\) (rejecting \(H_0\) when \(\mu=100\)).<br>
+        (c) Under \(\mu=106\): \(z=\dfrac{103.29-106}{2}=-1.355\approx-1.36\). Power \(=P(\bar X&gt;103.29\mid\mu=106)=P(Z&gt;-1.36)=\Phi(1.36)=\textbf{0.913}\). Type II error \(\beta=1-0.913=\textbf{0.087}\).<br>
+        (d) If the mean really is 106, the test correctly detects the shift about 91% of the time and misses it (\(\beta\)) about 9%. Power rises as the true effect, \(n\), or \(\alpha\) increase.
+        </div></details>
+        <span class="src">tests: critical-value test + Type I/II error + power · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes theorem → base rate → prevalence effect · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q6.</b> A diagnostic test has sensitivity \(P(+\mid D)=0.95\) and specificity \(P(-\mid H)=0.90\). (a) In the general population the disease prevalence is \(P(D)=0.02\). Find \(P(+)\) and the posterior \(P(D\mid+)\). (b) Repeat for a high-risk group with prevalence \(P(D)=0.20\). (c) Explain, using the base-rate idea, why the same test gives such different posteriors. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        Note \(P(+\mid H)=1-0.90=0.10\) (false-positive rate).<br>
+        (a) \(P(+)=P(D)P(+\mid D)+P(H)P(+\mid H)=0.02(0.95)+0.98(0.10)=0.019+0.098=0.117\).<br>
+        \(P(D\mid+)=\dfrac{0.019}{0.117}\approx\textbf{0.162}\) (≈16%).<br>
+        (b) \(P(+)=0.20(0.95)+0.80(0.10)=0.19+0.08=0.27\); \(P(D\mid+)=\dfrac{0.19}{0.27}\approx\textbf{0.704}\) (≈70%).<br>
+        (c) When the disease is rare, the many healthy people generate a large number of false positives that swamp the few true positives, so a positive result is often wrong. Raising the prior (base rate) shifts the posterior sharply upward — the same likelihoods, very different conclusions.
+        </div></details>
+        <span class="src">tests: Bayes + base rate + prevalence · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial → Poisson approximation → validity → normal check · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q7.</b> A component fails independently with probability \(p=0.015\); a batch of \(n=200\) is inspected. (a) Give the exact binomial probability of no failures and the Poisson approximation (\(\lambda=np\)). (b) State the condition that makes the Poisson approximation valid and confirm it holds. (c) Would a normal approximation be appropriate here? Justify numerically. [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(\lambda=np=200(0.015)=3\). Binomial: \(P(X=0)=(1-0.015)^{200}=0.985^{200}\approx\textbf{0.0487}\). Poisson: \(P(X=0)=e^{-3}\approx\textbf{0.0498}\). The two agree closely.<br>
+        (b) The Poisson approximates the binomial when \(n\) is large and \(p\) is small (rule of thumb \(n\ge20,\ p\le0.05\), so \(\lambda=np\) is moderate). Here \(n=200\ge20\) and \(p=0.015\le0.05\) ✓.<br>
+        (c) No. The normal approximation needs \(np\ge5\) and \(n(1-p)\ge5\); here \(np=3&lt;5\), so the distribution is too right-skewed for a symmetric normal fit — the Poisson (or exact binomial) is the right tool.
+        </div></details>
+        <span class="src">tests: binomial + Poisson approx + validity + normal check · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: correlation → regression (least squares) → R² → prediction · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q8.</b> Hours studied \(x\) and marks \(y\) for 5 students: (1,3), (2,5), (3,4), (4,8), (5,10). (a) Compute Pearson's \(r\). (b) Fit the least-squares line \(\hat y=b_0+b_1x\). (c) Give \(R^2\) and interpret it. (d) Predict marks at \(x=6\) and comment on the reliability of that prediction. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        \(\bar x=3,\ \bar y=6\). Dev \(x\): −2,−1,0,1,2; \(y\): −3,−1,−2,2,4.<br>
+        \(S_{xy}=\sum(x-\bar x)(y-\bar y)=6+1+0+2+8=17\); \(S_{xx}=4+1+0+1+4=10\); \(S_{yy}=9+1+4+4+16=34\).<br>
+        (a) \(r=\dfrac{17}{\sqrt{10\times34}}=\dfrac{17}{\sqrt{340}}=\dfrac{17}{18.439}\approx\textbf{0.922}\) (strong positive).<br>
+        (b) \(b_1=\dfrac{S_{xy}}{S_{xx}}=\dfrac{17}{10}=1.7\); \(b_0=\bar y-b_1\bar x=6-1.7(3)=0.9\). Line: \(\hat y=0.9+1.7x\).<br>
+        (c) \(R^2=r^2=0.922^2=\textbf{0.85}\) — about 85% of the variation in marks is explained by hours studied.<br>
+        (d) At \(x=6\): \(\hat y=0.9+1.7(6)=\textbf{11.1}\). But \(x=6\) is outside the observed range (1–5), so this is an <em>extrapolation</em> and less reliable than predictions within the data range.
+        </div></details>
+        <span class="src">tests: correlation + regression + R² + prediction · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: chi-square goodness of fit → expected counts → df → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q9.</b> A genetics model predicts phenotype ratios 9:3:3:1. Among \(n=160\) offspring the observed counts are 100, 28, 24, 8. (a) Compute the expected counts. (b) Carry out a chi-square goodness-of-fit test at 5% (\(\chi^2_{0.05,3}=7.815\)): state \(H_0/H_1\), the statistic, the df, and the decision. (c) What does the df equal and why? [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) Total ratio parts \(=9+3+3+1=16\); expected \(=\dfrac{160}{16}\times(9,3,3,1)=\textbf{90, 30, 30, 10}\).<br>
+        (b) \(H_0\): the 9:3:3:1 model fits; \(H_1\): it does not. \(\chi^2=\sum\dfrac{(O-E)^2}{E}=\dfrac{(100-90)^2}{90}+\dfrac{(28-30)^2}{30}+\dfrac{(24-30)^2}{30}+\dfrac{(8-10)^2}{10}\)<br>
+        \(=\dfrac{100}{90}+\dfrac{4}{30}+\dfrac{36}{30}+\dfrac{4}{10}=1.111+0.133+1.200+0.400=\textbf{2.844}\). Since \(2.844&lt;7.815\), <b>do not reject \(H_0\)</b> — the data are consistent with the 9:3:3:1 model.<br>
+        (c) \(df=k-1=4-1=\textbf{3}\): one is lost because the expected counts are constrained to sum to the observed total \(n\).
+        </div></details>
+        <span class="src">tests: chi-square GOF + expected counts + df · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: chi-square independence → expected counts → df → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q10.</b> A survey of 200 people cross-tabulates gender and outcome: Male → Pass 60, Fail 40; Female → Pass 50, Fail 50. Test at 5% whether outcome is independent of gender (\(\chi^2_{0.05,1}=3.841\)). Compute expected counts, the statistic and the df, and conclude. [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        Row totals: Male 100, Female 100. Column totals: Pass 110, Fail 90; grand total 200.<br>
+        Expected \(E=\dfrac{\text{row}\times\text{col}}{200}\): Male-Pass \(=\dfrac{100\times110}{200}=55\); Male-Fail \(=45\); Female-Pass \(=55\); Female-Fail \(=45\).<br>
+        \(\chi^2=\dfrac{(60-55)^2}{55}+\dfrac{(40-45)^2}{45}+\dfrac{(50-55)^2}{55}+\dfrac{(50-45)^2}{45}=\dfrac{25}{55}+\dfrac{25}{45}+\dfrac{25}{55}+\dfrac{25}{45}\)<br>
+        \(=0.4545+0.5556+0.4545+0.5556=\textbf{2.020}\). \(df=(r-1)(c-1)=(2-1)(2-1)=\textbf{1}\).<br>
+        Since \(2.020&lt;3.841\), <b>do not reject \(H_0\)</b>: outcome and gender appear <b>independent</b> at the 5% level.
+        </div></details>
+        <span class="src">tests: chi-square independence + df + decision · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: two-sample z-test → CI for difference → duality · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q11.</b> Two production methods are compared. Method A: \(n_1=50\), \(\bar x_1=78\), \(\sigma_1=8\). Method B: \(n_2=50\), \(\bar x_2=74\), \(\sigma_2=6\). (a) Test \(H_0:\mu_1=\mu_2\) vs \(H_1:\mu_1\ne\mu_2\) at 5% (\(z_{0.025}=1.96\)). (b) Construct a 95% CI for \(\mu_1-\mu_2\). (c) Show the CI and the test give the same conclusion. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(SE=\sqrt{\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}}=\sqrt{\dfrac{64}{50}+\dfrac{36}{50}}=\sqrt{1.28+0.72}=\sqrt{2}\approx1.4142\).<br>
+        \(z=\dfrac{78-74}{1.4142}=\dfrac{4}{1.4142}\approx\textbf{2.828}\). Since \(|2.828|&gt;1.96\), <b>reject \(H_0\)</b> — the means differ significantly.<br>
+        (b) CI \(=(\bar x_1-\bar x_2)\pm1.96\,SE=4\pm1.96(1.4142)=4\pm2.772=(\textbf{1.228},\ \textbf{6.772})\).<br>
+        (c) The 95% CI excludes 0, so a zero difference is implausible — consistent with rejecting \(H_0\). Method A's mean is higher.
+        </div></details>
+        <span class="src">tests: two-sample z-test + CI for difference + duality · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: paired t-test → assumptions → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q12.</b> Five subjects' weights (kg) before and after a diet — Before: 80, 85, 90, 78, 88; After: 78, 80, 85, 75, 80. (a) Explain why a paired (not two-independent-sample) t-test is used. (b) Test \(H_0:\mu_d=0\) vs \(H_1:\mu_d\ne0\) at 5% on the differences \(d=\)Before−After (\(t_{0.025,4}=2.776\)). (c) State the assumption on the differences. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) Each subject is measured twice, so the two readings are <b>dependent</b> (matched pairs); analysing the within-subject differences removes between-subject variation.<br>
+        Differences \(d\): 2, 5, 5, 3, 8. \(\bar d=\dfrac{23}{5}=4.6\). Deviations: −2.6, 0.4, 0.4, −1.6, 3.4 → squares 6.76, 0.16, 0.16, 2.56, 11.56, \(\sum=21.2\); \(s_d^2=\dfrac{21.2}{4}=5.3\), \(s_d=2.302\).<br>
+        (b) \(SE=\dfrac{s_d}{\sqrt n}=\dfrac{2.302}{\sqrt5}=1.0296\); \(t=\dfrac{4.6}{1.0296}=\textbf{4.468}\), \(df=4\). Since \(4.468&gt;2.776\), <b>reject \(H_0\)</b> — the diet produces a significant mean weight change (a loss).<br>
+        (c) The <b>paired differences</b> are assumed to come from an approximately normal population (important at small \(n\)).
+        </div></details>
+        <span class="src">tests: paired t-test + assumptions + decision · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: expectation → variance of a distribution → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q13.</b> An insurer sells a 1-year policy for a premium of ₹500. It pays ₹50,000 if the insured event occurs (probability 0.008) and ₹0 otherwise. (a) Find the expected profit per policy. (b) Find the variance and SD of the payout \(X\). (c) Should the insurer sell the policy, and why does selling many policies matter? [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(E[X]=50000(0.008)+0(0.992)=\text{₹}400\) expected payout. Expected profit \(=500-400=\textbf{₹100}\) per policy.<br>
+        (b) \(E[X^2]=50000^2(0.008)=2.5\times10^9\times0.008=2\times10^7\). \(\operatorname{Var}(X)=E[X^2]-E[X]^2=2\times10^7-400^2=20{,}000{,}000-160{,}000=\textbf{19{,}840{,}000}\); \(\sigma=\sqrt{19{,}840{,}000}\approx\textbf{₹4454}\).<br>
+        (c) Yes — expected profit per policy is positive (₹100). But the per-policy SD (≈₹4454) dwarfs the mean, so a single policy is very risky. Selling many independent policies makes the <em>average</em> profit's SD shrink like \(1/\sqrt n\) (law of large numbers / risk pooling), so aggregate profit becomes predictable.
+        </div></details>
+        <span class="src">tests: expectation + variance + decision (risk pooling) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: binomial → normal approximation with continuity correction → validity · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q14.</b> A fair coin (\(p=0.5\)) is tossed \(n=100\) times. (a) Give the mean and SD of the number of heads. (b) Using the normal approximation <em>with a continuity correction</em>, find \(P(X\ge60)\) (\(\Phi(1.9)=0.9713\)). (c) Check that the normal approximation is valid. [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(\mu=np=100(0.5)=50\); \(\sigma=\sqrt{np(1-p)}=\sqrt{100(0.5)(0.5)}=\sqrt{25}=\textbf{5}\).<br>
+        (b) With continuity correction, \(P(X\ge60)=P(X&gt;59.5)\): \(z=\dfrac{59.5-50}{5}=1.9\); \(P=1-\Phi(1.9)=1-0.9713=\textbf{0.0287}\).<br>
+        (c) Valid because \(np=50\ge5\) and \(n(1-p)=50\ge5\), so the binomial is symmetric enough for the normal to approximate it well. (The 0.5 continuity correction compensates for approximating a discrete count by a continuous curve.)
+        </div></details>
+        <span class="src">tests: binomial + normal approximation + continuity + validity · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: Poisson probability → expectation → decision · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q15.</b> A server crashes according to a Poisson process with mean \(\lambda=2\) crashes per week. (a) Find \(P(\text{no crash in a week})\). (b) Find \(P(X\ge3)\) in a week. (c) Each crash costs ₹5,000 in lost work; find the expected weekly crash cost. (d) A support contract costs a flat ₹8,000/week; is it worth buying purely on expected cost? [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(P(X=0)=\dfrac{e^{-2}2^0}{0!}=e^{-2}\approx\textbf{0.135}\).<br>
+        (b) \(P(X=1)=2e^{-2}=0.2707\), \(P(X=2)=\dfrac{2^2}{2!}e^{-2}=2e^{-2}=0.2707\). \(P(X\le2)=0.1353+0.2707+0.2707=0.6767\); \(P(X\ge3)=1-0.6767=\textbf{0.323}\).<br>
+        (c) Expected crashes \(=\lambda=2\), so expected cost \(=2\times5000=\textbf{₹10{,}000}\)/week (\(E[aX]=aE[X]\)).<br>
+        (d) On expected cost alone the ₹8,000 contract (which removes the ₹10,000 expected loss) saves ₹2,000/week, so <b>yes, it is worth buying</b> — provided it actually prevents the crash cost.
+        </div></details>
+        <span class="src">tests: Poisson + expectation + decision · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: sampling distribution of a proportion → z-test → CI · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q16.</b> In a poll of \(n=400\) voters, 220 support a proposal (\(\hat p=0.55\)). (a) Test \(H_0:p=0.5\) vs \(H_1:p\ne0.5\) at 5% using the standard error under \(H_0\) (\(z_{0.025}=1.96\)). (b) Build a 95% CI for \(p\) using \(\hat p\). (c) Do the test and the CI agree? [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) Under \(H_0\), \(SE_0=\sqrt{\dfrac{p_0(1-p_0)}{n}}=\sqrt{\dfrac{0.5(0.5)}{400}}=\sqrt{0.000625}=0.025\). \(z=\dfrac{0.55-0.50}{0.025}=\textbf{2.0}&gt;1.96\), so <b>reject \(H_0\)</b> — support differs significantly from 50%.<br>
+        (b) Using \(\hat p\): \(SE=\sqrt{\dfrac{0.55(0.45)}{400}}=\sqrt{0.00061875}=0.02487\). CI \(=0.55\pm1.96(0.02487)=0.55\pm0.0488=(\textbf{0.501},\ \textbf{0.599})\).<br>
+        (c) Yes — the 95% CI excludes 0.50, consistent with rejecting \(H_0\). (Both rely on the CLT: \(\hat p\) is approximately normal since \(np_0,n(1-p_0)\ge5\).)
+        </div></details>
+        <span class="src">tests: proportion sampling distribution + z-test + CI · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: total probability → Bayes → binomial batch · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q17.</b> Two suppliers feed a line: A provides 60% of parts (2% defective), B provides 40% (5% defective). (a) Find the overall probability a part is defective. (b) Given a part is defective, find the probability it came from B. (c) In a random box of 10 parts, use the overall defect rate and the binomial distribution to find the probability of exactly 1 defective. [7M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) Total probability: \(P(D)=0.60(0.02)+0.40(0.05)=0.012+0.020=\textbf{0.032}\).<br>
+        (b) Bayes: \(P(B\mid D)=\dfrac{0.40(0.05)}{0.032}=\dfrac{0.020}{0.032}=\textbf{0.625}\).<br>
+        (c) With \(p=0.032\), \(n=10\): \(P(X=1)=\binom{10}{1}(0.032)^1(0.968)^9=10\times0.032\times0.968^9\). \(0.968^9\approx0.7462\), so \(P\approx10\times0.032\times0.7462\approx\textbf{0.239}\).
+        </div></details>
+        <span class="src">tests: total probability + Bayes + binomial · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: z-score standardisation comparison → normal percentile → inverse normal · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q18.</b> Exam 1 scores are \(N(70,10^2)\); Exam 2 scores are \(N(65,8^2)\). A student scores 85 on Exam 1 and 80 on Exam 2. (a) Using z-scores, on which exam did the student perform relatively better? (b) What percentile is the Exam-1 score (\(\Phi(1.5)=0.9332\))? (c) What Exam-1 raw score marks the top 10% cut-off (\(z_{0.90}=1.28\))? [6M]</p>
+        <details class="ans"><summary></summary><div class="sol">
+        (a) \(z_1=\dfrac{85-70}{10}=1.5\); \(z_2=\dfrac{80-65}{8}=\dfrac{15}{8}=1.875\). Since \(1.875&gt;1.5\), the student did <b>relatively better on Exam 2</b> (further above its mean in SD units).<br>
+        (b) \(P(Z&lt;1.5)=\Phi(1.5)=0.9332\), so the Exam-1 score is at about the <b>93rd percentile</b>.<br>
+        (c) Top 10% cut-off: \(x=\mu+z_{0.90}\sigma=70+1.28(10)=\textbf{82.8}\). A score of about 82.8 or above lands in the top 10%.
+        </div></details>
+        <span class="src">tests: z-score comparison + percentile + inverse normal · Advanced</span>
       </div>
 
     </div>

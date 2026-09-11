@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">All equations needed to solve ML (AIMLZG565) numerical problems — preprocessing, linear &amp; logistic regression, gradient descent, regularization, evaluation metrics — from the four session decks, plus prerequisite formulas (distance, Bayes, entropy/Gini, MLE, SVM, k-Means) implied by the EC2/EC3 exam sheets.</p>
+  <p class="intro">All equations needed to solve ML (AIMLZG565) numerical problems — preprocessing, linear &amp; logistic regression, gradient descent, regularization, evaluation metrics, decision-tree impurity (entropy, Gini, gain ratio) — from the session decks, plus prerequisite formulas (distance, Bayes, entropy/Gini, MLE, SVM, k-Means) implied by the EC2/EC3 exam sheets.</p>
 
   <details class="module" open>
     <summary>Module 2 — Data Preprocessing &amp; Scaling <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
@@ -411,6 +411,109 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <p>where: OOB samples = training rows not drawn in a given bootstrap sample.</p>
         <p>use: validate a bagged/random-forest model on the ~⅓ of data left out of each bootstrap (EC3 Q6b).</p>
         <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Entropy (Binary)</h3>
+        $$\text{Entropy}(S)=-p_{+}\log_2 p_{+}-p_{-}\log_2 p_{-}$$
+        <p>where: \(p_{+}\) = proportion of positive examples, \(p_{-}\) = proportion of negative examples in S, with \(0\le\text{Entropy}\le 1\).</p>
+        <p>use: measure impurity of a node in a two-class problem (0 = pure, 1 = 50/50 split).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Entropy (k Classes)</h3>
+        $$\text{Entropy}(S)=-\sum_{c=1}^{k} p(c)\,\log_2 p(c)$$
+        <p>where: \(p(c)\) = proportion of records of class c at the node; the value ranges from 0 to \(\log_2 k\).</p>
+        <p>use: generalise impurity to multi-class nodes.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Information Gain</h3>
+        $$\text{Gain}(S,A)=\text{Entropy}(S)-\sum_{v\in\text{Values}(A)}\frac{|S_v|}{|S|}\,\text{Entropy}(S_v)$$
+        <p>where: \(S_v\) = subset of S with A = v, \(|S_v|/|S|\) = its weight.</p>
+        <p>use: choose the split attribute in ID3 — pick the A with the highest gain.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Gini Index</h3>
+        $$\text{Gini}(t)=1-\sum_{c=1}^{k} p_c^{\,2}$$
+        <p>where: \(p_c\) = fraction of records of class c at node t; 0 = pure, up to \(1-1/k\) at maximum impurity.</p>
+        <p>use: CART's impurity measure for a single node.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Weighted Gini of a Split &amp; Gini Gain</h3>
+        $$\text{Gini}_{\text{split}}=\sum_{i}\frac{n_i}{n}\,\text{Gini}(i),\qquad \Delta=\text{Gini}(\text{parent})-\text{Gini}_{\text{split}}$$
+        <p>where: \(n_i\) = records in child i, n = records at the parent, \(\Delta\) = Gini gain.</p>
+        <p>use: pick the split (or threshold) with the lowest weighted Gini / highest \(\Delta\). E.g. Home Owner: \(0.420-0.343=0.077\).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Classification Error</h3>
+        $$\text{Error}(t)=1-\max_c\, p_c$$
+        <p>where: \(\max_c p_c\) = proportion of the majority class at node t.</p>
+        <p>use: an alternative impurity/error measure; less sensitive to class-proportion changes, so usually not preferred for splitting.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Split Information</h3>
+        $$\text{SplitInfo}(S,A)=-\sum_{v\in\text{Values}(A)}\frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}$$
+        <p>where: it is the entropy of S with respect to the values of A; for n equally-sized subsets it equals \(\log_2 n\).</p>
+        <p>use: denominator that penalizes many-valued attributes in the gain ratio.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Gain Ratio</h3>
+        $$\text{GainRatio}(S,A)=\frac{\text{Gain}(S,A)}{\text{SplitInfo}(S,A)}$$
+        <p>where: Gain(S,A) = information gain, SplitInfo(S,A) = split information of A.</p>
+        <p>use: choose splits while correcting information gain's bias toward high-cardinality attributes (e.g. CustomerID).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Continuous-Attribute Threshold</h3>
+        $$A_c=\begin{cases}\text{True}&A<c\\ \text{False}&A\ge c\end{cases},\qquad c=\frac{v_i+v_{i+1}}{2}$$
+        <p>where: \(v_i,v_{i+1}\) = adjacent sorted values (candidate midpoints, especially where the class label changes).</p>
+        <p>use: turn a continuous attribute into a boolean test; pick the c with least impurity. E.g. Temperature → (48+60)/2 = 54, (80+90)/2 = 85.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>MDL Code Lengths</h3>
+        $$L_{C1}(h)=-\log_2 P(h),\qquad L_{C2}(D\mid h)=-\log_2 P(D\mid h)$$
+        <p>where: \(L_{C1}\) = bits to encode the hypothesis (tree), \(L_{C2}\) = bits to encode the data/misclassifications given h.</p>
+        <p>use: choose \(h_{MDL}=\arg\min\big[L_{C1}(h)+L_{C2}(D\mid h)\big]\); if h classifies D perfectly, \(L_{C2}=0\).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Optimal Code Length (Information Theory)</h3>
+        $$\ell(\text{event})=-\log_2 p$$
+        <p>where: p = probability of the event; a more probable event needs fewer bits.</p>
+        <p>use: the basis for MDL — frequent (probable) structures/outcomes are cheaper to encode.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Error Rate (Confusion Matrix)</h3>
+        $$\text{Error rate}=\frac{FP+FN}{TP+TN+FP+FN}=\frac{\#\text{misclassified tuples}}{\#\text{tuples}}$$
+        <p>where: \(CM_{i,j}\) = number of class-i tuples predicted as class j; TP, TN, FP, FN read off the matrix.</p>
+        <p>use: evaluate a tree on validation/test data and compare keep-vs-prune during post-pruning.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
       </div>
 
     </div>

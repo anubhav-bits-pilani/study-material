@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Glossary for Introduction to Statistical Methods (AIMLZC418), grouped by source deck: descriptive statistics, probability, conditional/total probability, Bayes/Naïve Bayes, random variables & distributions, and inference/forecasting terms.</p>
+  <p class="intro">Glossary for Introduction to Statistical Methods (AIMLZC418), grouped by source deck: descriptive statistics, probability, conditional/total probability, Bayes/Naïve Bayes, random variables & distributions, probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square), and inference/forecasting terms.</p>
 
   <details class="module" open>
     <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
@@ -492,6 +492,133 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Independent random variables</h3>
         <p>Random variables whose joint distribution factorises into the product of their marginals.</p>
         <span class="src">ISM CS-5 · p40</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-6 — Probability Distributions (Bernoulli, Binomial, Poisson, Normal, t, F, Chi-Square) <small>· source: ISM_CS-6_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Bernoulli trial</h3>
+        <p>A random experiment with exactly two possible outcomes, conventionally labelled success (1) and failure (0).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Bernoulli distribution</h3>
+        <p>The discrete distribution of a single Bernoulli trial: \(P(X=1)=p\), \(P(X=0)=q=1-p\), with mean \(p\) and variance \(pq\). It is the binomial with \(n=1\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Binomial distribution</h3>
+        <p>The discrete distribution of the number of successes in \(n\) independent Bernoulli trials with constant success probability \(p\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Binomial coefficient</h3>
+        <p>\(\binom{n}{x}=\dfrac{n!}{x!\,(n-x)!}\), the number of ways to choose \(x\) successes among \(n\) trials; the counting factor in the binomial pmf.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Poisson distribution</h3>
+        <p>The discrete distribution of the number of rare, independent events occurring in a fixed interval, with a single rate parameter \(\lambda\) equal to both its mean and variance.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Rate parameter (λ)</h3>
+        <p>The expected number of events per interval in a Poisson process; over an interval of length \(t\) the parameter scales to \(\lambda t\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Normal (Gaussian) distribution</h3>
+        <p>A continuous, symmetric, bell-shaped distribution with parameters mean \(\mu\) and variance \(\sigma^2\); mean, median and mode coincide.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Standard normal distribution</h3>
+        <p>The normal distribution with mean 0 and variance 1, denoted \(N(0,1)\); tabulated values give \(F(z)=P(Z\le z)\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Z-score (standard score)</h3>
+        <p>The standardised value \(z=(x-\mu)/\sigma\), measuring how many standard deviations a value lies from the mean.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Empirical rule (68–95–99.7)</h3>
+        <p>For a normal distribution, approximately 68%, 95% and 99.7% of values fall within one, two and three standard deviations of the mean respectively.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Normal approximation to the binomial</h3>
+        <p>Approximating a binomial by a normal with \(\mu=np\) and \(\sigma=\sqrt{npq}\), valid when \(np\ge 15\) and \(nq\ge 15\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Continuity correction</h3>
+        <p>A \(\pm0.5\) adjustment applied when approximating a discrete distribution by a continuous one, e.g. \(P(X\le k)\to P(X\le k+0.5)\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Chi-square distribution</h3>
+        <p>The distribution of a sum of \(k\) squared independent standard normal variables; a right-skewed distribution on \((0,\infty)\) with \(k\) degrees of freedom.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Degrees of freedom</h3>
+        <p>The parameter (number of independent quantities free to vary) that determines the shape of the t, chi-square and F distributions.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Student's t-distribution</h3>
+        <p>The distribution of \(z/\sqrt{\chi^2_k/k}\); bell-shaped like the normal but with heavier tails, used for means of small samples when \(\sigma\) is unknown.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>F-distribution</h3>
+        <p>The distribution of a ratio of two independent scaled chi-square variables, used to compare two variances; parameterised by two degrees of freedom \((\vartheta_1,\vartheta_2)\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Sampling distribution</h3>
+        <p>The probability distribution of a sample statistic (e.g. sample mean or variance) over repeated samples; the t, chi-square and F arise here.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Sample standard deviation (s)</h3>
+        <p>\(s=\sqrt{\frac{1}{n-1}\sum(x_i-\bar x)^2}\); the estimate of \(\sigma\) used in the t-statistic when the population SD is unknown.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Goodness of fit</h3>
+        <p>A test of how well observed data match a hypothesised distribution, commonly assessed with a chi-square statistic.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card def" data-src="CS-6 · Distributions">
+        <h3>Parameter of a distribution</h3>
+        <p>A constant that indexes a distribution's shape/location — e.g. \(p\) (Bernoulli/binomial), \(\lambda\) (Poisson), \((\mu,\sigma^2)\) (normal), or degrees of freedom (t, chi-square, F).</p>
+        <span class="src">CS-6 · Distributions</span>
       </div>
 
     </div>

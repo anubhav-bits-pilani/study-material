@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Concepts for Introduction to Statistical Methods (AIMLZC418) — descriptive statistics, probability, conditional & total probability, Bayes/Naïve Bayes, random variables & distributions, and inference/forecasting. Sources: ISM CS-1…CS-5 decks, Webinar 1, and EC-2/EC-3 exam sheets.</p>
+  <p class="intro">Concepts for Introduction to Statistical Methods (AIMLZC418) — descriptive statistics, probability, conditional & total probability, Bayes/Naïve Bayes, random variables & distributions, probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square), and inference/forecasting. Sources: ISM CS-1…CS-6 decks, Webinar 1, and EC-2/EC-3 exam sheets.</p>
 
   <details class="module" open>
     <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
@@ -372,6 +372,121 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Independent random variables</h3>
         <p>\(X\) and \(Y\) are independent iff the joint factorises: \(f(x,y)=f_X(x)f_Y(y)\) for all \(x,y\). Then \(E[XY]=E[X]E[Y]\).</p>
         <span class="src">ISM CS-5 · p40,50</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-6 — Probability Distributions (Bernoulli, Binomial, Poisson, Normal, t, F, Chi-Square) <small>· source: ISM_CS-6_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Bernoulli distribution</h3>
+        <p>Models a single trial with exactly two outcomes — success (\(X=1\), probability \(p\)) or failure (\(X=0\), probability \(q=1-p\)). It is the simplest discrete distribution and the building block of the binomial (which is \(n\) independent Bernoulli trials). Example: a basketball player who scores with \(p=0.6\) misses with \(q=1-0.6=0.4\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Binomial distribution</h3>
+        <p>Counts the number of successes \(X\) in \(n\) independent Bernoulli trials, \(P(X=x)=\binom{n}{x}p^x q^{\,n-x}\). Used whenever the same success/failure trial is repeated a fixed number of times — e.g. heads in 10 coin tosses, correct answers on a multiple-choice test, defectives in a sample.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Conditions for a binomial experiment</h3>
+        <p>Four requirements: (1) a fixed, finite number of trials \(n\); (2) trials are independent; (3) the probability of success \(p\) is constant across trials; (4) each trial has only two mutually exclusive outcomes (success/failure). If any fails, the count is not binomial.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>When a count is NOT binomial</h3>
+        <p>Independence and constant \(p\) are the usual failures. E.g. the number of people catching Corona among 30 is not binomial (infections are not independent). Selecting 3 projectors from 20 where 2 are defective is not binomial either — once the two defectives are found the third outcome is determined, so draws are dependent (sampling without replacement).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Mean &amp; variance of Bernoulli / Binomial</h3>
+        <p>For a Bernoulli variable \(E[X]=p\) and \(\operatorname{Var}(X)=pq\) (since \(E[X^2]=p\), \(\operatorname{Var}=p-p^2=pq\)). A binomial is a sum of \(n\) independent Bernoullis, so by linearity \(E[X]=np\) and \(\operatorname{Var}(X)=npq\). These let you recover \(n\) and \(p\) from a stated mean and variance.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Poisson distribution</h3>
+        <p>Models the number of rare events in a fixed interval of time, space or volume, \(P(X=x)=\dfrac{e^{-\lambda}\lambda^x}{x!}\). Suitable when \(p\) is very small and \(n\) very large. Classic uses: arrivals at a queue (bank, airport, file server), calls at a switchboard, defects per length of wire, blemishes per square foot, typing errors per page.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Binomial → Poisson approximation</h3>
+        <p>When \(n\) is large and \(p\) small, the binomial is well approximated by a Poisson with \(\lambda=np\), saving computation. A common rule of thumb is that the approximation is accurate when \(n\ge 100\) and \(np\le 10\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Poisson: mean equals variance</h3>
+        <p>A distinguishing property of the Poisson is that its mean and variance are both equal to the rate parameter: \(E[X]=\operatorname{Var}(X)=\lambda\), so \(\text{SD}=\sqrt\lambda\). Over an interval of length \(t\) with rate \(\lambda\) per unit, the parameter becomes \(\lambda t\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Normal distribution</h3>
+        <p>The continuous "bell curve" that describes many natural measurements (heights, weights, errors) especially with large samples. Its pdf \(f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/2\sigma^2}\) has two parameters: the mean \(\mu\) (location) and variance \(\sigma^2\) (spread). Changing \(\mu\) shifts the curve left/right; changing \(\sigma\) makes it wider or narrower.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Properties of the normal curve</h3>
+        <p>Bell-shaped and symmetric about \(\mu\); mean = median = mode; total area under the curve is 1; it extends over \((-\infty,\infty)\), approaching but never touching the \(x\)-axis. Symmetry means the area to the left of \(\mu\) equals the area to the right (each 0.5).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Standard normal &amp; z-score</h3>
+        <p>Standardising \(Z=\dfrac{X-\mu}{\sigma}\) converts any \(N(\mu,\sigma^2)\) value to the standard normal \(N(0,1)\), with \(E[Z]=0\) and \(\operatorname{Var}(Z)=1\). Probabilities are then read from the standard-normal table via the cdf \(F(z)=P(Z\le z)\); by symmetry \(F(-z)=1-F(z)\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Empirical (68–95–99.7) rule</h3>
+        <p>For a normal distribution about 68% of values lie within \(\pm1\sigma\) of the mean, about 95% within \(\pm2\sigma\), and about 99.7% within \(\pm3\sigma\). A quick sanity check for normal probabilities without a table.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Linear transforms of a normal RV</h3>
+        <p>Any linear function of a normal variable is again normal: if \(X\sim N(\mu,\sigma^2)\) then \(Y=aX+b\sim N(a\mu+b,\;a^2\sigma^2)\). The z-transform is the special case \(a=1/\sigma,\ b=-\mu/\sigma\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Normal approximation to the binomial</h3>
+        <p>When \(np\ge 15\) and \(nq\ge 15\), a binomial can be approximated by a normal with \(\mu=np\) and \(\sigma=\sqrt{npq}\). Because the binomial is discrete but the normal continuous, apply a <em>continuity correction</em> of \(\pm0.5\): e.g. \(P(X\le k)\to P(X\le k+0.5)\), \(P(X\ge k)\to P(X\ge k-0.5)\).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Chi-square distribution</h3>
+        <p>If \(z_1,\dots,z_k\) are independent \(N(0,1)\), then \(Y=z_1^2+\cdots+z_k^2\) follows a chi-square distribution with \(k\) degrees of freedom. It is not symmetric, lies entirely in the first quadrant (\(x>0\)), and its shape depends only on \(k\). Used for the sampling distribution of a sample variance, ANOVA, and goodness-of-fit testing.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Student's t-distribution</h3>
+        <p>If \(z\sim N(0,1)\) and \(\chi^2_k\) are independent, then \(t_k=\dfrac{z}{\sqrt{\chi^2_k/k}}\) follows a t-distribution with \(k\) degrees of freedom. It is bell-shaped like the normal but has heavier tails; it is used to estimate a population mean from small samples when the population SD \(\sigma\) is unknown (using the sample SD \(s\)).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>F-distribution</h3>
+        <p>The ratio of two independent (scaled) chi-square variables, developed by Fisher to compare two population variances. If \(S_1^2,S_2^2\) are variances of independent samples of sizes \(n_1,n_2\) from normal populations, \(F=\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\) follows an F-distribution with \(\vartheta_1=n_1-1\) and \(\vartheta_2=n_2-1\) degrees of freedom. The curve lies in the first quadrant and depends on both parameters and the order in which they are stated.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Choosing the right distribution</h3>
+        <p>Discrete counts of successes in fixed trials → binomial (Bernoulli if one trial); rare-event counts over an interval → Poisson; continuous bell-shaped measurements → normal. The t, chi-square and F are sampling distributions used in inference: t for means with unknown \(\sigma\), chi-square for variances / goodness of fit, F for comparing two variances (and ANOVA).</p>
+        <span class="src">CS-6 · Distributions</span>
       </div>
 
     </div>

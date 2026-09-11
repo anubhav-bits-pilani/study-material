@@ -45,6 +45,7 @@ main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
 .badge.medium{background:#78350f;color:#fcd34d}
 .badge.hard{background:#7f1d1d;color:#fca5a5}
 .badge.mixed{background:#3730a3;color:#c7d2fe}
+.badge.adv{background:#4c1d95;color:#ddd6fe}
 details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
 details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
 details.ans>summary::-webkit-details-marker{display:none}
@@ -888,6 +889,167 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </details>
 
   <details class="module" open>
+    <summary>Lecture 8 — Taylor's Theorem, Remainder &amp; the Hessian <small>· 12 formulas · 13 concepts</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: Taylor polynomial with remainder · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q1.</b> Write the degree-2 Taylor polynomial of \(f(x)=e^x\) about \(a=0\) and state the Lagrange remainder \(R_3\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(f^{(k)}(x)=e^x\), so \(f^{(k)}(0)=1\).<br>
+          \(T_2(x)=1+x+\tfrac{x^2}{2}\).<br>
+          Remainder: \(R_3=\dfrac{f^{(3)}(c)}{3!}x^3=\dfrac{e^c}{6}x^3\) for some \(c\) between \(0\) and \(x\).
+        </div></details>
+        <span class="src">tests: Taylor polynomial with remainder · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: mean-value theorem · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q2.</b> For \(f(x)=x^2\) on \([1,3]\), find the point \(c\) guaranteed by the mean-value theorem. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\dfrac{f(3)-f(1)}{3-1}=\dfrac{9-1}{2}=4\). Set \(f'(c)=2c=4\Rightarrow c=2\in(1,3)\). ✓
+        </div></details>
+        <span class="src">tests: mean-value theorem · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: Rolle's theorem · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q3.</b> Verify Rolle's theorem for \(f(x)=x^2-3x+2\) on \([1,2]\) and find \(c\). [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(f(1)=0\), \(f(2)=0\); \(f\) is a polynomial (continuous & differentiable). So Rolle applies.<br>
+          \(f'(x)=2x-3=0\Rightarrow c=1.5\in(1,2)\). ✓
+        </div></details>
+        <span class="src">tests: Rolle's theorem · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: Hessian of a scalar function · Easy">
+        <span class="badge easy">Easy</span>
+        <p><b>Q4.</b> Compute the Hessian of \(f(x,y)=x^2+3xy+2y^2\). [1 Mark]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(f_x=2x+3y,\ f_y=3x+4y\). Second partials: \(f_{xx}=2,\ f_{yy}=4,\ f_{xy}=3\).<br>
+          $$H=\begin{bmatrix}2&3\\3&4\end{bmatrix}$$ (constant — \(f\) is quadratic).
+        </div></details>
+        <span class="src">tests: Hessian of a scalar function · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: remainder error bound · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q5.</b> Use the Lagrange remainder to bound the error of approximating \(e^{0.1}\) by \(T_2(x)=1+x+\tfrac{x^2}{2}\) at \(x=0.1\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(R_3=\dfrac{e^c}{6}(0.1)^3\) for \(c\in(0,0.1)\). Bound \(e^c\le e^{0.1}<1.2\).<br>
+          \(|R_3|\le\dfrac{1.2}{6}(0.001)=2\times10^{-4}\).<br>
+          (Actual: \(T_2=1.105\), \(e^{0.1}\approx1.10517\), error \(\approx1.7\times10^{-4}\le2\times10^{-4}\). ✓)
+        </div></details>
+        <span class="src">tests: remainder error bound · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: two-variable second-order Taylor expansion · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q6.</b> Find the second-order Taylor expansion of \(f(x,y)=e^{x}\cos y\) about \((0,0)\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(f(0,0)=1\). First partials: \(f_x=e^x\cos y,\ f_y=-e^x\sin y\Rightarrow f_x(0,0)=1,\ f_y(0,0)=0\).<br>
+          Second partials at \((0,0)\): \(f_{xx}=e^x\cos y=1\), \(f_{yy}=-e^x\cos y=-1\), \(f_{xy}=-e^x\sin y=0\).<br>
+          \(f(h,k)\approx 1+h+\tfrac12(h^2\cdot1+2hk\cdot0+k^2\cdot(-1))=1+h+\tfrac12 h^2-\tfrac12 k^2\).
+        </div></details>
+        <span class="src">tests: two-variable second-order Taylor expansion · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: critical points + Hessian classification · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q7.</b> Find and classify the critical points of \(f(x,y)=x^2+y^2-4x-6y+13\). [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\nabla f=(2x-4,\ 2y-6)=0\Rightarrow(x,y)=(2,3)\).<br>
+          \(H=\begin{bmatrix}2&0\\0&2\end{bmatrix}\); \(f_{xx}=2>0\), \(\det H=4>0\Rightarrow\) positive-definite.<br>
+          So \((2,3)\) is a <b>local (and global) minimum</b>, with \(f(2,3)=0\).
+        </div></details>
+        <span class="src">tests: critical points + Hessian classification · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: saddle point via discriminant · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q8.</b> Show that \(f(x,y)=x^2-y^2\) has a saddle point at the origin using the second-derivative test. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\nabla f=(2x,-2y)=0\Rightarrow(0,0)\) is the only critical point.<br>
+          \(f_{xx}=2,\ f_{yy}=-2,\ f_{xy}=0\Rightarrow D=f_{xx}f_{yy}-f_{xy}^2=(2)(-2)-0=-4<0\).<br>
+          \(D<0\Rightarrow\) <b>saddle point</b> at the origin.
+        </div></details>
+        <span class="src">tests: saddle point via discriminant · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: Sylvester's criterion / positive-definiteness · Medium">
+        <span class="badge medium">Medium</span>
+        <p><b>Q9.</b> Use Sylvester's criterion to decide whether \(H=\begin{bmatrix}3&1\\1&2\end{bmatrix}\) is positive-definite, and state what this implies if \(H\) is a Hessian at a critical point. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Leading minors: \(3>0\) and \(\det H=3\cdot2-1\cdot1=5>0\). Both positive ⇒ <b>positive-definite</b>.<br>
+          As a Hessian this means the critical point is a <b>local minimum</b> (equivalently \(H\) has all positive eigenvalues).
+        </div></details>
+        <span class="src">tests: Sylvester's criterion / positive-definiteness · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: multiple critical points classification · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q10.</b> Locate and classify all critical points of \(f(x,y)=x^3-3x+y^2\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\nabla f=(3x^2-3,\ 2y)=0\Rightarrow y=0\) and \(x^2=1\Rightarrow x=\pm1\). Critical points \((1,0)\) and \((-1,0)\).<br>
+          \(f_{xx}=6x,\ f_{yy}=2,\ f_{xy}=0\Rightarrow D=12x\).<br>
+          At \((1,0)\): \(D=12>0\), \(f_{xx}=6>0\Rightarrow\) <b>local minimum</b>.<br>
+          At \((-1,0)\): \(D=-12<0\Rightarrow\) <b>saddle point</b>.
+        </div></details>
+        <span class="src">tests: multiple critical points classification · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: derive two-variable Taylor via F(t) · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q11.</b> Starting from \(F(t)=f(a+th,b+tk)\), derive \(F'(t)\) and \(F''(t)\), and hence write the second-order Taylor expansion of \(f\) about \((a,b)\). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          With \(x=a+th,\ y=b+tk\): \(\frac{dx}{dt}=h,\ \frac{dy}{dt}=k\).<br>
+          Chain rule: \(F'(t)=f_x\frac{dx}{dt}+f_y\frac{dy}{dt}=hf_x+kf_y\).<br>
+          Differentiate again: \(F''(t)=\frac{\partial F'}{\partial x}h+\frac{\partial F'}{\partial y}k=h(hf_{xx}+kf_{xy})+k(hf_{xy}+kf_{yy})=h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\).<br>
+          Apply the 1-variable Taylor \(F(1)=F(0)+F'(0)+\tfrac12 F''(c)\):<br>
+          \(f(a+h,b+k)=f(a,b)+hf_x+kf_y+\tfrac12(h^2f_{xx}+2hkf_{xy}+k^2f_{yy})\big|_{a+ch,b+ck}\). \(\blacksquare\)
+        </div></details>
+        <span class="src">tests: derive two-variable Taylor via F(t) · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: completing the square + Hessian definiteness proof · Hard">
+        <span class="badge hard">Hard</span>
+        <p><b>Q12.</b> Show that \(f_{xx}\,Q(0)=(hf_{xx}+kf_{xy})^2+(f_{xx}f_{yy}-f_{xy}^2)k^2\), and use it to prove that \(f_{xx}>0\) with \(f_{xx}f_{yy}-f_{xy}^2>0\) implies a local minimum. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(Q(0)=h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\). Multiply by \(f_{xx}\):<br>
+          \(f_{xx}Q(0)=h^2f_{xx}^2+2hkf_{xx}f_{xy}+k^2f_{xx}f_{yy}\).<br>
+          Group the first two terms as a square: \((hf_{xx}+kf_{xy})^2=h^2f_{xx}^2+2hkf_{xx}f_{xy}+k^2f_{xy}^2\).<br>
+          So \(f_{xx}Q(0)=(hf_{xx}+kf_{xy})^2+k^2(f_{xx}f_{yy}-f_{xy}^2)\). ✓<br>
+          If \(f_{xx}>0\) and \(f_{xx}f_{yy}-f_{xy}^2>0\), the RHS is \(\ge0\) and \(=0\) only when \(h=k=0\); hence \(Q(0)>0\) for all small non-zero \((h,k)\). Then \(f(a+h,b+k)-f(a,b)=\tfrac12 Q>0\), so \((a,b)\) is a local minimum. \(\blacksquare\)
+        </div></details>
+        <span class="src">tests: completing the square + Hessian definiteness proof · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: Hessian eigenvalues ↔ definiteness ↔ classification · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q13.</b> For \(f(x,y)=x^2+xy+y^2\): (a) find the critical point; (b) compute the Hessian and its eigenvalues; (c) classify the point via both Sylvester's criterion and the eigenvalue signs, and describe the level sets \(f=\text{const}\). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\nabla f=(2x+y,\ x+2y)=0\Rightarrow x=y=0\); critical point \((0,0)\).<br>
+          (b) \(H=\begin{bmatrix}2&1\\1&2\end{bmatrix}\). Eigenvalues: \((2-\lambda)^2-1=0\Rightarrow\lambda=1,3\).<br>
+          (c) Sylvester: \(2>0\), \(\det H=3>0\Rightarrow\) positive-definite. Eigenvalues \(1,3>0\) agree. So \((0,0)\) is a <b>local minimum</b>. Since \(H\succ0\), the level sets \(f=c>0\) are ellipses with axes along the eigenvectors \((1,1)^T\) and \((1,-1)^T\).
+        </div></details>
+        <span class="src">tests: Hessian eigenvalues ↔ definiteness ↔ classification · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: Hessian in gradient-descent / Newton context · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q14.</b> A loss \(L(\theta)=\tfrac12\theta^TH\theta-b^T\theta\) has constant Hessian \(H=\begin{bmatrix}4&0\\0&1\end{bmatrix}\), \(b=(8,2)^T\). (a) Find the minimizer. (b) Explain, using the eigenvalues of \(H\), why gradient descent converges at different rates along the two axes, and how Newton's method (which uses \(H^{-1}\)) removes this. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\nabla L=H\theta-b=0\Rightarrow\theta^*=H^{-1}b=(8/4,\ 2/1)^T=(2,2)^T\). \(H\succ0\) so it is a minimum.<br>
+          (b) Eigenvalues of \(H\) are \(4\) and \(1\) (condition number \(\kappa=4\)). Gradient descent scales each eigen-direction by \((1-\eta\lambda_i)\); the step size \(\eta\) is limited by the largest eigenvalue (\(\eta<2/4\)) yet the small-eigenvalue direction (\(\lambda=1\)) then contracts slowly — so convergence is fast along the steep axis, slow along the shallow one.<br>
+          Newton's step \(\theta\leftarrow\theta-H^{-1}\nabla L\) preconditions by \(H^{-1}\), making the effective Hessian the identity; all directions are rescaled equally and the quadratic is solved in one step. This is exactly why the Hessian "plays a huge role in cost-function minimization."
+        </div></details>
+        <span class="src">tests: Hessian in gradient-descent / Newton context · Advanced</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
     <summary>Combined / Exam-style — mixed-topic questions <small>· weaves multiple lectures</small></summary>
     <div class="cards">
 
@@ -983,6 +1145,220 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
           (d) Char. poly \(\lambda^2-5\lambda+2\Rightarrow\prod\lambda=2=\det(A)\). ✓
         </div></details>
         <span class="src">tests: multi-part matrix (det, inverse, solve) · Combined</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Advanced Questions — Multi-Concept Synthesis <small>· merges linear algebra, calculus, probability &amp; optimization, numerical + conceptual</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: data covariance + eigen-decomposition + PCA variance explained · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q1.</b> Three data points in \(\mathbb{R}^2\) are \(x_1=(4,2)^T\), \(x_2=(2,4)^T\), \(x_3=(6,6)^T\). (a) Compute the mean and the sample covariance matrix \(S=\tfrac{1}{N-1}\sum(x_i-\bar x)(x_i-\bar x)^T\). (b) Find its eigenvalues and eigenvectors. (c) State the first principal-component direction and the fraction of total variance it explains. [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\bar x=\tfrac13(4+2+6,\ 2+4+6)^T=(4,4)^T\). Centred: \((0,-2)^T,(-2,0)^T,(2,2)^T\).<br>
+          \(\sum cc^T=\begin{bmatrix}0&0\\0&4\end{bmatrix}+\begin{bmatrix}4&0\\0&0\end{bmatrix}+\begin{bmatrix}4&4\\4&4\end{bmatrix}=\begin{bmatrix}8&4\\4&8\end{bmatrix}\). With \(N-1=2\): \(S=\begin{bmatrix}4&2\\2&4\end{bmatrix}\).<br>
+          (b) \(\det(S-\lambda I)=(4-\lambda)^2-4=\lambda^2-8\lambda+12=(\lambda-6)(\lambda-2)\Rightarrow\lambda_1=6,\ \lambda_2=2\).<br>
+          \(\lambda_1=6\): \((4-6)x+2y=0\Rightarrow x=y\Rightarrow v_1=(1,1)^T\). \(\lambda_2=2\): \(v_2=(1,-1)^T\). (Check \(Sv_1=(6,6)^T=6v_1\). ✓)<br>
+          (c) First PC direction \(\tfrac{1}{\sqrt2}(1,1)^T\); variance explained \(=\dfrac{6}{6+2}=\dfrac{6}{8}=\mathbf{75\%}\). The data spreads most along \((1,1)^T\), reflecting the positive covariance \(S_{12}=2\).
+        </div></details>
+        <span class="src">tests: data covariance + eigen-decomposition + PCA variance explained · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: SVD + eigenvalues of AᵀA + low-rank approximation (Eckart–Young) + energy · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q2.</b> A \(3\times3\) matrix \(A\) has singular values \(\sigma_1=6,\ \sigma_2=3,\ \sigma_3=2\). (a) State the eigenvalues of \(A^TA\). (b) Give the spectral-norm and Frobenius-norm errors of the best rank-2 approximation \(\hat A\). (c) What fraction of the Frobenius "energy" \(\lVert A\rVert_F^2\) is retained by \(\hat A\)? Justify using the Eckart–Young theorem. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(A^TA\) is symmetric PSD with eigenvalues \(\sigma_i^2\): \(\{36,\ 9,\ 4\}\).<br>
+          (b) By Eckart–Young the best rank-2 approximation drops the smallest term \(\sigma_3u_3v_3^T\).<br>
+          Spectral error \(=\lVert A-\hat A\rVert_2=\sigma_3=\mathbf{2}\); Frobenius error \(=\sqrt{\sum_{k>2}\sigma_k^2}=\sqrt{2^2}=\mathbf{2}\).<br>
+          (c) \(\lVert A\rVert_F^2=\sum\sigma_i^2=36+9+4=49\); retained \(=\dfrac{36+9}{49}=\dfrac{45}{49}\approx\mathbf{91.8\%}\).<br>
+          Eckart–Young guarantees truncating the SVD at the top-\(k\) singular values is the optimal rank-\(k\) approximation in both norms.
+        </div></details>
+        <span class="src">tests: SVD + eigenvalues of AᵀA + low-rank approximation (Eckart–Young) + energy · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: determinant + inverse + solving Ax=b + geometric meaning · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q3.</b> Let \(A=\begin{bmatrix}2&1\\1&3\end{bmatrix}\), \(b=(5,10)^T\). (a) Compute \(\det(A)\) and give its geometric meaning. (b) Find \(A^{-1}\). (c) Solve \(Ax=b\) and verify. (d) What does \(\det(A)\neq0\) tell you about the number of solutions? [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\det(A)=2\cdot3-1\cdot1=5\). Geometrically \(|\det A|=5\) is the factor by which \(A\) scales areas: the unit square maps to a parallelogram of area 5.<br>
+          (b) \(A^{-1}=\dfrac{1}{5}\begin{bmatrix}3&-1\\-1&2\end{bmatrix}\).<br>
+          (c) \(x=A^{-1}b=\dfrac{1}{5}\begin{bmatrix}3&-1\\-1&2\end{bmatrix}\begin{bmatrix}5\\10\end{bmatrix}=\dfrac{1}{5}\begin{bmatrix}15-10\\-5+20\end{bmatrix}=\begin{bmatrix}1\\3\end{bmatrix}\).<br>
+          Check \(A(1,3)^T=(2+3,\ 1+9)^T=(5,10)^T\). ✓<br>
+          (d) \(\det(A)\neq0\Rightarrow A\) is invertible \(\Rightarrow\) the columns are independent (full rank) \(\Rightarrow\) the system has exactly one solution for every \(b\).
+        </div></details>
+        <span class="src">tests: determinant + inverse + solving Ax=b + geometric meaning · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: positive-definiteness (minors) + quadratic form + convexity + minimiser · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q4.</b> Consider \(f(x)=\tfrac12 x^TAx-b^Tx\) with \(A=\begin{bmatrix}4&2\\2&3\end{bmatrix}\), \(b=(8,8)^T\). (a) Show \(A\) is positive-definite (leading minors) and rewrite the quadratic form by completing the square. (b) Explain why \(f\) is strictly convex. (c) Find the unique minimiser and the minimum value. [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Leading minors \(4>0\) and \(\det A=12-4=8>0\Rightarrow\) positive-definite (Sylvester). Completing the square: \(x^TAx=4x_1^2+4x_1x_2+3x_2^2=(2x_1+x_2)^2+2x_2^2>0\) for \(x\neq0\).<br>
+          (b) The Hessian of \(f\) is \(A\), which is positive-definite everywhere \(\Rightarrow f\) is strictly convex, so any critical point is the unique global minimum.<br>
+          (c) \(\nabla f=Ax-b=0\Rightarrow x^\star=A^{-1}b\). Solve \(4x_1+2x_2=8,\ 2x_1+3x_2=8\): subtracting gives \(2x_2=4\Rightarrow x_2=2,\ x_1=1\). So \(x^\star=(1,2)^T\).<br>
+          Minimum value: \(Ax^\star=(8,8)^T\), \(f(x^\star)=\tfrac12(1,2)\!\cdot\!(8,8)-(8,8)\!\cdot\!(1,2)=12-24=\mathbf{-12}\).
+        </div></details>
+        <span class="src">tests: positive-definiteness (minors) + quadratic form + convexity + minimiser · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: gradient + Hessian + convexity + one Newton step · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q5.</b> Let \(f(x,y)=2x^2+2y^2-2xy-6x\). (a) Compute \(\nabla f\) and the Hessian \(H\). (b) Show \(f\) is convex. (c) Take one Newton step \(x_1=x_0-H^{-1}\nabla f(x_0)\) from \(x_0=(0,0)^T\) and explain why it lands exactly at the minimum. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\nabla f=(4x-2y-6,\ 4y-2x)\); \(H=\begin{bmatrix}4&-2\\-2&4\end{bmatrix}\) (constant).<br>
+          (b) Leading minors \(4>0\), \(\det H=16-4=12>0\Rightarrow H\) positive-definite \(\Rightarrow f\) strictly convex.<br>
+          (c) \(\nabla f(0,0)=(-6,0)^T\), \(H^{-1}=\dfrac{1}{12}\begin{bmatrix}4&2\\2&4\end{bmatrix}\). \(H^{-1}\nabla f=\dfrac{1}{12}(-24,-12)^T=(-2,-1)^T\).<br>
+          \(x_1=(0,0)^T-(-2,-1)^T=(2,1)^T\). Verify \(\nabla f(2,1)=(8-2-6,\ 4-4)=(0,0)^T\). ✓<br>
+          For a quadratic \(f\) the second-order Taylor model is exact, so Newton's method reaches the minimiser in a single step regardless of \(x_0\).
+        </div></details>
+        <span class="src">tests: gradient + Hessian + convexity + one Newton step · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: gradient-descent step + eigenvalues + convergence (step-size) condition · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q6.</b> Minimise \(f(x)=\tfrac12 x^TAx\) with \(A=\begin{bmatrix}3&0\\0&1\end{bmatrix}\) by gradient descent, \(x_{k+1}=x_k-\eta\nabla f(x_k)\). (a) Take one step from \(x_0=(1,1)^T\) with \(\eta=0.5\). (b) Using the eigenvalues of \(A\), state the range of \(\eta\) for which the iteration converges, and check whether \(\eta=0.5\) qualifies. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\nabla f=Ax\), so \(\nabla f(x_0)=(3,1)^T\). \(x_1=(1,1)^T-0.5(3,1)^T=(-0.5,\ 0.5)^T\).<br>
+          (b) The update is \(x_{k+1}=(I-\eta A)x_k\); it converges iff every eigenvalue of \(I-\eta A\) has magnitude \(<1\), i.e. \(|1-\eta\lambda_i|<1\) for the eigenvalues \(\lambda=3,1\). This requires \(0<\eta<\dfrac{2}{\lambda_{\max}}=\dfrac{2}{3}\).<br>
+          \(\eta=0.5<\tfrac23\): \(|1-1.5|=0.5<1\) and \(|1-0.5|=0.5<1\), so it converges. ✓ (The largest eigenvalue caps the safe step size.)
+        </div></details>
+        <span class="src">tests: gradient-descent step + eigenvalues + convergence (step-size) condition · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: Lagrange multipliers (constrained optimisation) + projection interpretation + sensitivity · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q7.</b> Minimise \(f(x,y)=x^2+y^2\) subject to \(x+y=1\) using Lagrange multipliers. (a) Find the minimiser, the minimum value, and \(\lambda\). (b) Interpret \(\lambda\) as a sensitivity and connect the answer to the distance from the origin to the line. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\mathcal L=x^2+y^2-\lambda(x+y-1)\). Stationarity: \(2x=\lambda,\ 2y=\lambda\Rightarrow x=y\); the constraint gives \(x=y=\tfrac12\). Minimum value \(f^\star=\tfrac14+\tfrac14=\tfrac12\), with \(\lambda=2x=1\).<br>
+          (b) If the constraint is \(x+y=c\), then \(f^\star(c)=c^2/2\) and \(\dfrac{df^\star}{dc}=c=1\) at \(c=1\) — exactly \(\lambda\). So \(\lambda\) is the marginal change of the optimum per unit relaxation of the constraint.<br>
+          Geometrically \((\tfrac12,\tfrac12)^T\) is the orthogonal projection of the origin onto the line; the distance is \(\sqrt{f^\star}=\tfrac{1}{\sqrt2}\), matching \(\dfrac{|0+0-1|}{\sqrt{1^2+1^2}}=\dfrac{1}{\sqrt2}\). ✓
+        </div></details>
+        <span class="src">tests: Lagrange multipliers (constrained optimisation) + projection interpretation + sensitivity · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: inner product + orthogonal projection + norms + Pythagoras · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q8.</b> Let \(v=(4,2)^T\) and \(u=(1,1)^T\). (a) Compute the orthogonal projection of \(v\) onto the line spanned by \(u\), and the orthogonal component. (b) Verify the two components are orthogonal and that \(\lVert v\rVert^2\) splits by Pythagoras. (c) Give the distance from \(v\) to the line. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\text{proj}_u v=\dfrac{\langle v,u\rangle}{\langle u,u\rangle}u=\dfrac{4+2}{2}(1,1)^T=3(1,1)^T=(3,3)^T\). Orthogonal part \(v_\perp=v-(3,3)^T=(1,-1)^T\).<br>
+          (b) \(\langle v_\perp,u\rangle=1-1=0\) ✓ (orthogonal). \(\lVert v\rVert^2=16+4=20\); \(\lVert\text{proj}\rVert^2=9+9=18\); \(\lVert v_\perp\rVert^2=1+1=2\); \(18+2=20\). ✓ (Pythagoras.)<br>
+          (c) Distance \(=\lVert v_\perp\rVert=\sqrt2\).
+        </div></details>
+        <span class="src">tests: inner product + orthogonal projection + norms + Pythagoras · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: second-order Taylor + Hessian + definiteness (local quadratic model) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q9.</b> For \(f(x,y)=\ln(1+x+2y)\): (a) compute the gradient and Hessian at the origin. (b) Write the second-order Taylor (local quadratic) model \(T_2(x,y)\) about \((0,0)\). (c) Classify the curvature of the model using the definiteness of \(H\). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Let \(D=1+x+2y\). \(f_x=1/D,\ f_y=2/D\); at \((0,0)\), \(D=1\Rightarrow\nabla f(0,0)=(1,2)\).<br>
+          Second derivatives: \(f_{xx}=-1/D^2=-1\), \(f_{xy}=-2/D^2=-2\), \(f_{yy}=-4/D^2=-4\) at the origin, so \(H=\begin{bmatrix}-1&-2\\-2&-4\end{bmatrix}\).<br>
+          (b) \(T_2=f(0,0)+\nabla f\cdot(x,y)^T+\tfrac12(x,y)H(x,y)^T=x+2y-\tfrac12(x^2+4xy+4y^2)=x+2y-\tfrac12(x+2y)^2\).<br>
+          (This matches \(\ln(1+t)\approx t-\tfrac12 t^2\) with \(t=x+2y\).)<br>
+          (c) \(\det H=(-1)(-4)-(-2)^2=0\) and \(\text{tr}\,H=-5\Rightarrow\) eigenvalues \(0\) and \(-5\): \(H\) is negative semi-definite, so the quadratic model is concave (curving downward, flat along the \(x+2y=\text{const}\) direction).
+        </div></details>
+        <span class="src">tests: second-order Taylor + Hessian + definiteness (local quadratic model) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: multivariate chain rule as transposed-Jacobian product (backprop link) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q10.</b> Let \(L=u^2+v^2\) where \(u=x+2y\), \(v=2x-y\). (a) Write the Jacobian \(J=\partial(u,v)/\partial(x,y)\). (b) Using the chain rule \(\nabla_{x,y}L=J^T\nabla_{u,v}L\), compute \(\nabla_{x,y}L\) at \((x,y)=(1,1)\). (c) State how this mirrors backpropagation. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(J=\begin{bmatrix}\partial u/\partial x&\partial u/\partial y\\\partial v/\partial x&\partial v/\partial y\end{bmatrix}=\begin{bmatrix}1&2\\2&-1\end{bmatrix}\).<br>
+          (b) At \((1,1)\): \(u=3,\ v=1\), so \(\nabla_{u,v}L=(2u,2v)=(6,2)^T\).<br>
+          \(\nabla_{x,y}L=J^T(6,2)^T=\begin{bmatrix}1&2\\2&-1\end{bmatrix}\begin{bmatrix}6\\2\end{bmatrix}=\begin{bmatrix}6+4\\12-2\end{bmatrix}=(10,10)^T\).<br>
+          Direct check: \(\partial L/\partial x=2u+4v=10\), \(\partial L/\partial y=4u-2v=10\). ✓<br>
+          (c) Backprop is exactly this: the upstream gradient \(\nabla_{u,v}L\) is pulled back through each layer by multiplying by the transposed layer Jacobian \(J^T\).
+        </div></details>
+        <span class="src">tests: multivariate chain rule as transposed-Jacobian product (backprop link) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes' theorem + law of total probability + expectation · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q11.</b> A disease has prevalence \(P(D)=0.01\). A test has sensitivity \(P(+\mid D)=0.99\) and specificity \(0.95\) (so \(P(+\mid\neg D)=0.05\)). (a) Use the law of total probability to find \(P(+)\). (b) Apply Bayes' theorem for \(P(D\mid +)\). (c) In a population of 10,000, find the expected numbers of true and false positives and confirm they reproduce \(P(D\mid+)\). [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(P(+)=P(+\mid D)P(D)+P(+\mid\neg D)P(\neg D)=0.99(0.01)+0.05(0.99)=0.0099+0.0495=0.0594\).<br>
+          (b) \(P(D\mid+)=\dfrac{P(+\mid D)P(D)}{P(+)}=\dfrac{0.0099}{0.0594}=\dfrac16\approx\mathbf{16.7\%}\).<br>
+          (c) Expected true positives \(=10000(0.01)(0.99)=99\); false positives \(=10000(0.99)(0.05)=495\); total positives \(=594\). Fraction diseased among positives \(=99/594=1/6\). ✓<br>
+          Despite 99% sensitivity, most positives are false because the disease is rare — the base rate dominates.
+        </div></details>
+        <span class="src">tests: Bayes' theorem + law of total probability + expectation · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: covariance transform Cov(Ax)=AΣAᵀ + eigenvalues + total variance (trace) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q12.</b> A random vector \(x\) has covariance \(\Sigma=\begin{bmatrix}4&0\\0&1\end{bmatrix}\). Let \(y=Ax\) with \(A=\begin{bmatrix}1&1\\1&-1\end{bmatrix}\). (a) Compute \(\text{Cov}(y)=A\Sigma A^T\). (b) Find its eigenvalues. (c) Compare the total variance (trace) before and after, and explain the change. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(A\Sigma=\begin{bmatrix}4&1\\4&-1\end{bmatrix}\), then \(A\Sigma A^T=\begin{bmatrix}4&1\\4&-1\end{bmatrix}\begin{bmatrix}1&1\\1&-1\end{bmatrix}=\begin{bmatrix}5&3\\3&5\end{bmatrix}\).<br>
+          (b) \((5-\lambda)^2-9=\lambda^2-10\lambda+16=(\lambda-8)(\lambda-2)\Rightarrow\lambda=8,\ 2\).<br>
+          (c) Total variance before \(=\text{tr}(\Sigma)=5\); after \(=\text{tr}(\text{Cov}(y))=10\). It changed because \(A\) is <em>not</em> orthogonal (\(\det A=-2\), so it stretches). An orthonormal transform would preserve total variance; a general linear map need not.
+        </div></details>
+        <span class="src">tests: covariance transform Cov(Ax)=AΣAᵀ + eigenvalues + total variance (trace) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: positive-definiteness + Cholesky + Gaussian sampling interpretation + eigenvalue positivity · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q13.</b> Let \(\Sigma=\begin{bmatrix}9&3\\3&5\end{bmatrix}\) be a target covariance. (a) Show it is symmetric positive-definite. (b) Compute the Cholesky factor \(L\) with \(\Sigma=LL^T\). (c) Explain how \(L\) is used to sample from \(\mathcal N(0,\Sigma)\) given a standard sample \(z\sim\mathcal N(0,I)\), and confirm the eigenvalues of \(\Sigma\) are consistent with positive-definiteness. [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Symmetric, and leading minors \(9>0\), \(\det\Sigma=45-9=36>0\Rightarrow\) positive-definite (Sylvester).<br>
+          (b) \(l_{11}=\sqrt9=3\); \(l_{21}=3/3=1\); \(l_{22}=\sqrt{5-1^2}=\sqrt4=2\). So \(L=\begin{bmatrix}3&0\\1&2\end{bmatrix}\), and \(LL^T=\begin{bmatrix}9&3\\3&5\end{bmatrix}=\Sigma\). ✓<br>
+          (c) Take \(x=Lz\); then \(\text{Cov}(x)=L\,\text{Cov}(z)\,L^T=L I L^T=\Sigma\), so \(x\sim\mathcal N(0,\Sigma)\).<br>
+          Eigenvalues: \(\text{tr}=14,\ \det=36\Rightarrow\lambda=7\pm\sqrt{13}\approx10.6,\ 3.4\) — both positive, as required for an SPD covariance (and their product \(36=\det\Sigma\)). ✓
+        </div></details>
+        <span class="src">tests: positive-definiteness + Cholesky + Gaussian sampling interpretation + eigenvalue positivity · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: eigen-decomposition + definiteness + quadratic-form geometry (ellipse axes) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q14.</b> Let \(A=\begin{bmatrix}2&-1\\-1&2\end{bmatrix}\) and \(q(x)=x^TAx\). (a) Find the eigenvalues and eigenvectors. (b) Show \(A\) is positive-definite. (c) Describe the level set \(q(x)=1\) geometrically, giving the directions and lengths of the ellipse's semi-axes. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\det(A-\lambda I)=(2-\lambda)^2-1=\lambda^2-4\lambda+3=(\lambda-1)(\lambda-3)\Rightarrow\lambda=1,3\).<br>
+          \(\lambda=1\): \((2-1)x-y=0\Rightarrow v_1=(1,1)^T\); \(\lambda=3\): \(v_2=(1,-1)^T\) (orthogonal, as \(A\) is symmetric).<br>
+          (b) Both eigenvalues positive (equivalently minors \(2>0\), \(\det=3>0\)) \(\Rightarrow\) positive-definite, so \(q(x)>0\) for \(x\neq0\).<br>
+          (c) \(q(x)=1\) is an ellipse whose axes lie along the eigenvectors. The semi-axis length along \(v_i\) is \(1/\sqrt{\lambda_i}\): length \(1\) along \(\tfrac{1}{\sqrt2}(1,1)^T\) (small \(\lambda\)) and \(1/\sqrt3\approx0.58\) along \(\tfrac{1}{\sqrt2}(1,-1)^T\) (large \(\lambda\)). Large eigenvalue \(\Rightarrow\) short axis.
+        </div></details>
+        <span class="src">tests: eigen-decomposition + definiteness + quadratic-form geometry (ellipse axes) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: backprop weight gradient (outer product) + matrix calculus + Jacobian of linear map · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q15.</b> A linear layer computes \(z=Wx\) with squared loss \(L=\tfrac12\lVert z-y\rVert^2\). Take \(x=(1,2)^T\), \(W=\begin{bmatrix}1&0\\0&1\end{bmatrix}\), \(y=(2,2)^T\). (a) Derive \(\partial L/\partial W\) and \(\partial L/\partial x\) in terms of the residual \(r=z-y\). (b) Evaluate both numerically. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          By the chain rule with \(\partial L/\partial z=r=z-y\) and \(z=Wx\):<br>
+          \(\dfrac{\partial L}{\partial W}=r\,x^T\) (outer product — the matrix-calculus rule for a linear map's weights) and \(\dfrac{\partial L}{\partial x}=W^T r\).<br>
+          Numerically: \(z=Wx=(1,2)^T\), \(r=z-y=(-1,0)^T\).<br>
+          \(\dfrac{\partial L}{\partial W}=(-1,0)^T(1,2)=\begin{bmatrix}-1&-2\\0&0\end{bmatrix}\); \(\dfrac{\partial L}{\partial x}=W^T r=(-1,0)^T\).<br>
+          (The zero second row of \(\partial L/\partial W\) reflects that output 2 already matches its target, so its weights get no update.)
+        </div></details>
+        <span class="src">tests: backprop weight gradient (outer product) + matrix calculus + Jacobian of linear map · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: expectation + variance of linear combination + independence + covariance quadratic form · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q16.</b> Independent random variables satisfy \(E[X]=2,\ \text{Var}(X)=3\) and \(E[Y]=-1,\ \text{Var}(Y)=4\). Let \(Z=2X+3Y\). (a) Compute \(E[Z]\) and \(\text{Var}(Z)\). (b) Reproduce \(\text{Var}(Z)\) as the quadratic form \(a^T\Sigma a\) using the covariance matrix \(\Sigma\) of \((X,Y)\), and explain why the cross term vanishes. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(E[Z]=2E[X]+3E[Y]=2(2)+3(-1)=1\).<br>
+          \(\text{Var}(Z)=2^2\text{Var}(X)+3^2\text{Var}(Y)=4(3)+9(4)=12+36=48\) (no covariance term since \(X,Y\) independent).<br>
+          (b) With \(a=(2,3)^T\) and \(\Sigma=\begin{bmatrix}3&0\\0&4\end{bmatrix}\) (off-diagonals \(=\text{Cov}(X,Y)=0\)):<br>
+          \(a^T\Sigma a=\begin{bmatrix}2&3\end{bmatrix}\begin{bmatrix}3&0\\0&4\end{bmatrix}\begin{bmatrix}2\\3\end{bmatrix}=4(3)+9(4)=48\). ✓<br>
+          The cross term \(2\cdot2\cdot3\cdot\text{Cov}(X,Y)\) vanishes because independence forces \(\text{Cov}(X,Y)=0\), making \(\Sigma\) diagonal.
+        </div></details>
+        <span class="src">tests: expectation + variance of linear combination + independence + covariance quadratic form · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: diagonalization + eigenbasis expansion + matrix powers + dominant eigenvector (asymptotics) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><b>Q17.</b> A dynamical system iterates \(x_{k+1}=Ax_k\) with \(A=\begin{bmatrix}1.5&0.5\\0.5&1.5\end{bmatrix}\) and \(x_0=(2,0)^T\). (a) Diagonalize \(A\). (b) Expand \(x_0\) in the eigenbasis and give a closed form for \(x_k=A^kx_0\). (c) Compute \(x_1\) and state the asymptotic direction of \(x_k\). [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(\text{tr}=3,\ \det=2.25-0.25=2\Rightarrow\lambda^2-3\lambda+2=(\lambda-1)(\lambda-2)\), so \(\lambda=2,1\). Eigenvectors: \(\lambda=2\!:v_1=(1,1)^T\); \(\lambda=1\!:v_2=(1,-1)^T\).<br>
+          (b) Write \(x_0=(2,0)^T=a v_1+b v_2\): \(a+b=2,\ a-b=0\Rightarrow a=b=1\). Then \(x_k=A^kx_0=2^k v_1+1^k v_2=2^k(1,1)^T+(1,-1)^T\).<br>
+          (c) \(x_1=2(1,1)^T+(1,-1)^T=(3,1)^T\) (check \(A(2,0)^T=(3,1)^T\) ✓). As \(k\to\infty\) the \(2^k\) term dominates, so \(x_k\) aligns with the dominant eigenvector \((1,1)^T\).
+        </div></details>
+        <span class="src">tests: diagonalization + eigenbasis expansion + matrix powers + dominant eigenvector (asymptotics) · Advanced</span>
       </div>
 
     </div>

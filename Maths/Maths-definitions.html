@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Precise definitions of terms from AIMLZC416, grouped by lecture: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, and backpropagation. Use the filter to find a term fast.</p>
+  <p class="intro">Precise definitions of terms from AIMLZC416, grouped by lecture: linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation, backpropagation, and Taylor's theorem &amp; the Hessian. Use the filter to find a term fast.</p>
 
   <details class="module" open>
     <summary>Lecture 1 — Linear Algebra: Systems &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
@@ -518,6 +518,79 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Hadamard product</h3>
         <p>The element-wise product \(\odot\) of two equal-sized vectors or matrices, multiplying corresponding entries.</p>
         <span class="src">Lecture 7 · p21</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Lecture 8 — Taylor's Theorem, the Remainder Term &amp; the Hessian <small>· source: Lecture-8.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="Lecture 8 · p3">
+        <h3>Taylor's theorem</h3>
+        <p>For \(f\) that is \(n\)-times differentiable on \((a,b)\) with \(f,\dots,f^{(n-1)}\) continuous on \([a,b]\), there exists \(c\in(a,b)\) such that \(f(b)=\sum_{k=0}^{n-1}\frac{f^{(k)}(a)}{k!}(b-a)^k+\frac{f^{(n)}(c)}{n!}(b-a)^n\): a Taylor polynomial plus an exact remainder.</p>
+        <span class="src">Lecture 8 · p3</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p3, p10">
+        <h3>Remainder term (Lagrange form)</h3>
+        <p>The final term \(R_n=\frac{f^{(n)}(c)}{n!}(b-a)^n\) of a Taylor expansion, evaluated at an unknown \(c\in(a,b)\); it is the exact error incurred when the series is truncated after \(n-1\) terms.</p>
+        <span class="src">Lecture 8 · p3, p10</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p4">
+        <h3>Mean-value theorem</h3>
+        <p>If \(f\) is continuous on \([a,b]\) and differentiable on \((a,b)\), then there exists \(c\in(a,b)\) with \(f'(c)=\frac{f(b)-f(a)}{b-a}\); the \(n=1\) case of Taylor's theorem.</p>
+        <span class="src">Lecture 8 · p4</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p6">
+        <h3>Rolle's theorem</h3>
+        <p>If \(f\) is continuous on \([a,b]\), differentiable on \((a,b)\), and \(f(a)=f(b)=0\), then \(f'(c)=0\) for some \(c\in(a,b)\); its repeated application generates the Taylor series.</p>
+        <span class="src">Lecture 8 · p6</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p11-12">
+        <h3>Taylor's series in two variables</h3>
+        <p>The expansion of \(f(x,y)\) about \((a,b)\) obtained by restricting \(f\) to the line \(x=a+th,\,y=b+tk\) and applying the single-variable theorem to \(F(t)=f(a+th,b+tk)\).</p>
+        <span class="src">Lecture 8 · p11-12</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p13">
+        <h3>Quadratic form Q</h3>
+        <p>The second-order term \(Q(c)=(h^2f_{xx}+2hkf_{xy}+k^2f_{yy})\big|_{a+ch,b+ck}\) whose sign determines the nature of a critical point of \(f(x,y)\).</p>
+        <span class="src">Lecture 8 · p13</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p16">
+        <h3>Hessian matrix</h3>
+        <p>The matrix \(H=\nabla^2_{x,y}f=\begin{bmatrix}f_{xx}&f_{xy}\\f_{xy}&f_{yy}\end{bmatrix}\) collecting all second-order partial derivatives of \(f\); symmetric for twice-continuously-differentiable functions.</p>
+        <span class="src">Lecture 8 · p16, p18</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p14-15">
+        <h3>Positive-/negative-definite matrix</h3>
+        <p>A symmetric matrix \(H\) is positive-definite if \(v^THv>0\) for all \(v\neq0\) (all eigenvalues positive), and negative-definite if \(v^THv<0\) for all \(v\neq0\) (all eigenvalues negative). Definiteness of the Hessian classifies critical points.</p>
+        <span class="src">Lecture 8 · p14-15</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p17">
+        <h3>Sylvester's criterion</h3>
+        <p>A Hermitian (e.g. symmetric) matrix is positive-definite iff the determinant of every upper-left \(m\times m\) submatrix is positive; for the \(2\times2\) Hessian this is \(f_{xx}>0\) and \(f_{xx}f_{yy}-f_{xy}^2>0\).</p>
+        <span class="src">Lecture 8 · p17</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p15">
+        <h3>Saddle point</h3>
+        <p>A critical point at which \(f\) is neither a maximum nor a minimum: the discriminant \(f_{xx}f_{yy}-f_{xy}^2<0\), so \(Q(0)\) is positive for some directions and negative for others.</p>
+        <span class="src">Lecture 8 · p15</span>
+      </div>
+
+      <div class="card def" data-src="Lecture 8 · p18">
+        <h3>Symmetry of second partials (Schwarz/Clairaut)</h3>
+        <p>For a twice-continuously-differentiable \(f\), the order of partial differentiation does not matter: \(\frac{\partial^2 f}{\partial x\partial y}=\frac{\partial^2 f}{\partial y\partial x}\); hence the Hessian is symmetric.</p>
+        <span class="src">Lecture 8 · p18</span>
       </div>
 
     </div>

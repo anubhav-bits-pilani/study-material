@@ -653,6 +653,109 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
     </div>
   </details>
 
+  <details class="module" open>
+    <summary>Lecture 8 — Taylor's Theorem, Remainder Term &amp; the Hessian <small>· source: Lecture-8.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Lecture 8 · p3">
+        <h3>Taylor's theorem with remainder</h3>
+        $$f(b)=\sum_{k=0}^{n-1}\frac{f^{(k)}(a)}{k!}(b-a)^k+\frac{f^{(n)}(c)}{n!}(b-a)^n$$
+        <p>where: \(f\) is \(n\)-times differentiable on \((a,b)\); \(c\in(a,b)\) is some interior point; the sum is the degree-\((n-1)\) Taylor polynomial.</p>
+        <p>use: exact finite Taylor expansion; the last term is the truncation error.</p>
+        <span class="src">Lecture 8 · p3</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p3, p10">
+        <h3>Lagrange remainder term</h3>
+        $$R_n=\frac{f^{(n)}(c)}{n!}(b-a)^n,\qquad |R_n|\le\frac{\max_{[a,b]}|f^{(n)}|}{n!}\,|b-a|^n$$
+        <p>where: \(c\in(a,b)\) unknown; the bound replaces \(f^{(n)}(c)\) by its maximum on the interval.</p>
+        <p>use: certifying the accuracy of a truncated Taylor (linear/quadratic) approximation.</p>
+        <span class="src">Lecture 8 · p3, p10</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p4">
+        <h3>Mean-value theorem (n = 1)</h3>
+        $$\exists\,c\in(a,b):\quad f'(c)=\frac{f(b)-f(a)}{b-a}$$
+        <p>where: \(f\) continuous on \([a,b]\), differentiable on \((a,b)\).</p>
+        <p>use: the base case of Taylor's theorem; instantaneous slope equals average slope somewhere.</p>
+        <span class="src">Lecture 8 · p4</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p6">
+        <h3>Rolle's theorem</h3>
+        $$f(a)=f(b)=0\ \Rightarrow\ \exists\,c\in(a,b):\ f'(c)=0$$
+        <p>where: \(f\) continuous on \([a,b]\), differentiable on \((a,b)\).</p>
+        <p>use: applied \(n\) times (to \(F,F',\dots\)) it produces the Taylor remainder.</p>
+        <span class="src">Lecture 8 · p6</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p8-9">
+        <h3>Taylor coefficients</h3>
+        $$a_k=\frac{f^{(k)}(a)}{k!}\ \ (k=0,\dots,n-1),\qquad a_n=\frac{1}{(b-a)^n}\Big(f(b)-\sum_{k=0}^{n-1}\tfrac{f^{(k)}(a)}{k!}(b-a)^k\Big)$$
+        <p>where: coefficients of \(P(x)=\sum_k a_k(x-a)^k\) chosen so \(F=f-P\) satisfies Proposition P.</p>
+        <p>use: shows why the Taylor polynomial coefficients are the scaled derivatives.</p>
+        <span class="src">Lecture 8 · p8-9</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p11">
+        <h3>First derivative along the segment</h3>
+        $$F(t)=f(a+th,\,b+tk),\qquad F'(t)=h\,f_x+k\,f_y$$
+        <p>where: \(x=a+th,\ y=b+tk,\ t\in[0,1]\); \(f_x,f_y\) are first partials.</p>
+        <p>use: reduces a two-variable expansion to one variable via the chain rule.</p>
+        <span class="src">Lecture 8 · p11</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p12">
+        <h3>Second derivative along the segment</h3>
+        $$F''(t)=h^2 f_{xx}+2hk\,f_{xy}+k^2 f_{yy}$$
+        <p>where: \(f_{xx},f_{xy},f_{yy}\) are second partials evaluated along the segment.</p>
+        <p>use: supplies the quadratic term of the two-variable Taylor expansion.</p>
+        <span class="src">Lecture 8 · p12</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p12-13">
+        <h3>Second-order Taylor expansion (two variables)</h3>
+        $$f(a+h,b+k)=f(a,b)+hf_x+kf_y+\tfrac12\big(h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\big)\big|_{a+ch,\,b+ck}$$
+        <p>where: \(c\in(0,1)\); at a critical point \(f_x=f_y=0\) so the linear term drops out.</p>
+        <p>use: local quadratic model of \(f\) near a point; basis of the second-derivative test.</p>
+        <span class="src">Lecture 8 · p12-13</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p13-14">
+        <h3>Quadratic form &amp; completed square</h3>
+        $$Q(0)=h^2f_{xx}+2hkf_{xy}+k^2f_{yy},\qquad f_{xx}\,Q(0)=(hf_{xx}+kf_{xy})^2+(f_{xx}f_{yy}-f_{xy}^2)k^2$$
+        <p>where: all partials at the critical point \((a,b)\); the sign of \(Q(c)\) follows that of \(Q(0)\) for small \(h,k\).</p>
+        <p>use: reduces classifying a critical point to the signs of \(f_{xx}\) and the discriminant \(f_{xx}f_{yy}-f_{xy}^2\).</p>
+        <span class="src">Lecture 8 · p13-14</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p15">
+        <h3>Second-derivative (discriminant) test</h3>
+        $$D=f_{xx}f_{yy}-f_{xy}^2:\quad \begin{cases}D>0,\ f_{xx}>0 &\text{min}\\ D>0,\ f_{xx}<0 &\text{max}\\ D<0 &\text{saddle}\\ D=0 &\text{inconclusive}\end{cases}$$
+        <p>where: \(D=\det H\) is the Hessian determinant at the critical point.</p>
+        <p>use: classify critical points of a function of two variables.</p>
+        <span class="src">Lecture 8 · p15</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p16">
+        <h3>Hessian matrix</h3>
+        $$H=\nabla^2_{x,y}f=\begin{bmatrix}f_{xx}&f_{xy}\\ f_{xy}&f_{yy}\end{bmatrix},\qquad f_{xy}=f_{yx}$$
+        <p>where: symmetric matrix of second partials (symmetry from Schwarz's theorem for \(C^2\) functions).</p>
+        <p>use: encodes local curvature; its definiteness classifies critical points.</p>
+        <span class="src">Lecture 8 · p16, p18</span>
+      </div>
+
+      <div class="card" data-src="Lecture 8 · p17">
+        <h3>Sylvester's criterion (positive-definiteness)</h3>
+        $$H\succ0\iff f_{xx}>0\ \text{and}\ \det H=f_{xx}f_{yy}-f_{xy}^2>0\iff \text{all eigenvalues }>0$$
+        <p>where: every upper-left \(m\times m\) minor positive; the local-minimum condition.</p>
+        <p>use: test a symmetric Hessian for positive-definiteness; negative-definite (max) flips the minor signs by parity of \(m\).</p>
+        <span class="src">Lecture 8 · p17</span>
+      </div>
+
+    </div>
+  </details>
+
 </main>
 <script>
 const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');

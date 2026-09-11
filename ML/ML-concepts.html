@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Machine Learning (AIMLZG565) exam-prep concept sweep across the four session decks — CS1 (Introduction), CS2 (ML Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Classification Evaluation) — plus exam-referenced topics harvested from the EC2/EC3 instruction sheets.</p>
+  <p class="intro">Machine Learning (AIMLZG565) exam-prep concept sweep across the four session decks — CS1 (Introduction), CS2 (ML Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Classification Evaluation), CS7-8 (Decision Tree Classifier) — plus exam-referenced topics harvested from the EC2/EC3 instruction sheets.</p>
 
   <details class="module" open>
     <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
@@ -588,6 +588,169 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Ensemble Learning — Bagging, Random Forest, Boosting</h3>
         <p><b>Bagging</b>: train models on bootstrap samples and average/vote; unused rows form the Out-Of-Bag set for validation. <b>Random Forest</b>: bagged trees that also randomly subsample features at each split (extra decorrelation). <b>AdaBoost</b>: sequentially reweights instances — up-weighting misclassified ones — and combines weak learners by weight α; final label = sign(Σ αₜ·predictionₜ).</p>
         <p class="src">EC3 · Q6</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>What is a Decision Tree</h3>
+        <p>A hierarchical, tree-based algorithm that classifies or predicts an outcome by applying a sequence of decision <b>rules</b>. It repeatedly splits the data into purer subsets based on feature values, at each node selecting the best feature to split on. The structure starts at a <b>root node</b> (the whole dataset) and branches into possibilities until a decision is reached. It is a supervised, model-based learner that is highly interpretable for small trees.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>How a Decision Tree Works</h3>
+        <p>Each internal node poses a question about one attribute; the answer routes the record down a branch. The <b>root node</b> asks the first question; intermediate <b>branching</b> nodes ask yes/no (or multi-way) questions that split the data; a <b>leaf node</b> gives the final decision (class label). To classify a new record you start at the root and follow the branches dictated by its attribute values until you reach a leaf.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Tree Structure — Root, Internal &amp; Leaf Nodes</h3>
+        <p><b>Root node:</b> no incoming edges, ≥0 outgoing edges. <b>Internal (test) node:</b> exactly one incoming edge and ≥2 outgoing edges; contains a test condition on one attribute. <b>Leaf / terminal node:</b> exactly one incoming edge, no outgoing edges; assigned a class label. The whole tree is equivalent to a set of <b>decision rules</b> (root-to-leaf paths).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Classification Tree vs Regression Tree</h3>
+        <p><b>Classification tree:</b> the leaf outputs a class/category (discrete label). <b>Regression tree:</b> the leaf outputs a numerical/continuous value. Both share the same recursive splitting idea; they differ in the leaf output and the impurity/error criterion used to choose splits.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Hunt's Algorithm (Recursive Construction)</h3>
+        <p>The generic recipe most decision-tree learners follow: grow the tree by recursively partitioning training records into purer subsets. <b>Step 1:</b> if all records at a node belong to the same class, make it a leaf labelled with that class. <b>Step 2:</b> if records span more than one class, choose the best attribute test condition, create a child node for each outcome, distribute the records among the children, and apply Hunt's algorithm recursively to each child.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Play Tennis Example</h3>
+        <p>Classify whether to play tennis by asking weather questions. First ask <b>Outlook?</b> — Overcast → Yes; Sunny → ask <b>Humidity</b> (High → No, Normal → Yes); Rain → ask <b>Wind</b> (Strong → No, Weak → Yes). This sequence of questions classifies any new day. It illustrates how a small tree encodes intuitive rules.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Representation / Expressiveness</h3>
+        <p>A decision tree represents a <b>disjunction of conjunctions</b> of attribute constraints — each root-to-leaf path is a conjunction (AND), and the set of positive paths is joined by disjunction (OR). E.g. the Play-Tennis "Yes" concept = (Outlook=Sunny ∧ Humidity=Normal) ∨ (Outlook=Overcast) ∨ (Outlook=Rain ∧ Wind=Weak).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Design Issues — How to Split &amp; When to Stop</h3>
+        <p><b>How to split:</b> at each step choose an attribute test condition; define appropriate test conditions for categorical (multi-way or binary) and continuous (threshold) attributes. <b>When to stop:</b> stopping criteria prevent unbounded growth — stop when all records share a class, all records have identical attribute values, or a limit (max depth / min records per node) is reached (to avoid overfitting).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Measuring Impurity</h3>
+        <p><b>Impurity</b> quantifies how mixed the class labels are at a node. A <b>pure</b> node (all one class) has impurity 0; a maximally <b>impure</b> node (classes evenly split) has the highest impurity. Three common measures: <b>Entropy</b>, <b>Gini Index</b>, and <b>Classification Error</b>. The best split is the one that most reduces impurity in the children.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Entropy</h3>
+        <p>A measure of impurity / uncertainty / disorder. Entropy = 0 when a node is pure and is maximal when classes are evenly distributed. Binary case: \(\text{Entropy}(S)=-p_+\log_2 p_+ - p_-\log_2 p_-\), with \(0 \le \text{Entropy} \le 1\). For \(k\) classes: \(-\sum_c p(c)\log_2 p(c)\), ranging from 0 to \(\log_2 k\).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Information Gain</h3>
+        <p>The expected reduction in entropy from partitioning on attribute A: \(\text{Gain}(S,A)=\text{Entropy}(S)-\sum_{v}\frac{|S_v|}{|S|}\text{Entropy}(S_v)\). The attribute with the <b>highest</b> gain is chosen — maximizing gain is equivalent to minimizing the weighted-average impurity of the children. ID3 uses information gain as its splitting criterion.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Play Tennis — Root &amp; Subtree Selection (Worked)</h3>
+        <p>Parent entropy \(E(9,5)=0.940\). Gains at the root: Outlook 0.247, Humidity 0.151, Wind 0.048, Temperature 0.029 → <b>Outlook</b> wins. At the Outlook=Sunny node: Humidity 0.971, Temperature 0.571, Wind 0.020 → <b>Humidity</b> wins. Final subtrees: {D1,D2,D8}→No, {D9,D11}→Yes, {D4,D5,D10}→Yes, {D6,D14}→No.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>ID3 Algorithm</h3>
+        <p>ID3(X, T, Attrs): create Root. If all X are + return Root labelled +; if all − return −; if Attrs is empty return Root with the most common value of T. Else A ← best attribute (highest info gain); for each value \(v_i\) of A add a branch with subset \(X_i\); if \(X_i\) is empty add a leaf with the most common T, else add subtree ID3(\(X_i\), T, Attrs−{A}); return Root. <b>Convergence:</b> all samples same class, no remaining attributes (majority vote), or no samples left.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>EnjoySport — Worked Example</h3>
+        <p>4 records, Yes=3, No=1. Decision entropy E(3,1) ≈ 0.94 (deck value). Attribute entropies after splitting: <b>Sky</b>=0 (Sunny→3/0, Rainy→0/1, both pure), <b>AirTemp</b>=0, <b>Humidity</b>=0.68, <b>Wind</b>=0.94, <b>Forecast</b>=0.5. Sky and AirTemp both give entropy 0 → highest information gain, so both are equally correct root splits. Prediction: a new instance with Sky=Rainy follows Sky→Rainy→leaf <b>No</b>.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Gini Index (CART)</h3>
+        <p>An impurity measure used by CART: \(\text{Gini}(node)=1-\sum_c p_c^2\). To score a split, take the weighted Gini of the children; the split with the lowest weighted Gini (largest Gini reduction) is chosen. CART uses <b>binary</b> splits, so nominal attributes are split into two groups. Worked (Home Owner, 10 rows, Yes=3/No=7): parent 0.420, child N1=0, N2=0.490, weighted 0.343, gain = 0.420−0.343 = 0.077.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Classification Error</h3>
+        <p>A third impurity measure: \(\text{Error}=1-\max_c p_c\). It is 0 for a pure node and 0.5 for an even two-class split. In practice <b>Gini or Entropy is preferred</b> over classification error when growing a tree, because classification error is less sensitive to changes in the class proportions and can miss splits that improve node purity.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Gain Ratio (Fixing Information Gain's Bias)</h3>
+        <p>Information gain is <b>biased toward attributes with many values</b> (e.g. CustomerID, Date), which produce many tiny pure subsets. <b>Split information</b> \(=-\sum_v \frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}\) measures how broadly A disperses the data (larger for more uniform, many-valued splits). <b>Gain ratio</b> = Gain / SplitInformation penalizes such attributes. Even though CustomerID has the highest info gain, its gain ratio is lower than a sensible attribute like Car Type.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Splitting on Continuous Attributes</h3>
+        <p>For a continuous attribute A, dynamically create a boolean test \(A_c\) = (A &lt; c). Choosing threshold c: <b>Way 1 (candidate thresholds):</b> sort values and average consecutive values where the class label changes (e.g. Temperature 40,48,60,72,80,90 with changes → (48+60)/2=54 and (80+90)/2=85). <b>Way 2 (binary scan):</b> sort by the attribute (e.g. Annual Income), linearly scan all midpoints of adjacent values (e.g. 55, 65, 72) and pick the split with least impurity.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Overfitting vs Underfitting in Trees</h3>
+        <p><b>Underfitting:</b> model too simple — both training and test errors are large. <b>Overfitting:</b> model too complex — training error is small but test error is large. In trees, a noisy example triggers extra splitting; the tree fits the noise and looks perfect on training data but its accuracy drops on unseen data. Cause: too many branches reflecting noise/outliers.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Tackling Overfitting — Pruning &amp; Constraints</h3>
+        <p>Three levers: <b>pruning</b>, constrain the tree <b>depth</b>, and constrain the <b>minimum records per leaf</b>. Pruning comes in two flavours — <b>pre-pruning</b> (stop growth early) and <b>post-pruning</b> (grow fully, then cut back). All reduce the tree's tendency to memorise training noise and improve generalization.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Pre-Pruning (Early Stopping)</h3>
+        <p>Stop growing before the tree perfectly classifies the training data, using stopping conditions: gain (or Gini gain) below a threshold; node has fewer than a minimum number of samples; depth exceeds a maximum; or no significant accuracy/generalization improvement. The threshold is tricky — too strict → shallow → underfit; too loose → overfit. Worked (threshold Gain ≤ 0.85): Square node Size gain 0.811 &lt; 0.85 → do not split (leaf via majority vote); Oval node Colour gain 0.918 ≥ 0.85 → split on Colour.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Post-Pruning</h3>
+        <p>Grow the tree fully (split until pure or minimal samples), then scan <b>bottom-up</b>. At each decision node: (1) retain the node and estimate its error on a separate <b>prune/validation set</b>; (2) remove the node (make it a leaf) and re-evaluate on the same set. If pruning <b>reduces</b> the error, prune; otherwise keep the node. Repeat across branches. Error rate = percentage of tuples misclassified. The prune set compares "keep vs prune" predictions.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Minimum Description Length (MDL) Principle</h3>
+        <p>From information theory, the optimal code length of an event of probability p is \(-\log_2 p\) bits. Prefer the hypothesis h minimizing \(\text{length}(h)+\text{length}(\text{misclassifications})\), i.e. \(L_{C1}(h)=-\log_2 P(h)\) (encode the tree structure) plus \(L_{C2}(D|h)=-\log_2 P(D|h)\) (encode the errors/exceptions). If examples are classified perfectly, \(L_{C2}(D|h)=0\). MDL trades tree complexity against training errors — a method for handling overfitting, embodying <b>Occam's razor</b> (prefer the shortest hypothesis that fits reasonably well).</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Prediction &amp; Evaluation</h3>
+        <p>To predict a new instance, follow the tree from the root by applying each attribute test until a leaf is reached; output the leaf's class. Evaluate with a <b>confusion matrix</b> where \(CM_{i,j}\) = number of class-i tuples labelled class j, yielding TP/FN/FP/TN. By default predictive quality is measured on unseen validation/test instances; training instances are used only when training performance is needed for comparison.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Advantages &amp; Disadvantages</h3>
+        <p><b>Advantages:</b> inexpensive to construct; extremely fast at classifying; easy to interpret for small trees; handles redundant/irrelevant attributes. <b>Disadvantages:</b> the space of possible trees is exponentially large; greedy top-down construction may miss the globally best tree; it does not account for attribute interactions; and each decision boundary tests a single attribute, giving <b>axis-parallel</b> boundaries only.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
+      </div>
+
+      <div class="card" data-src="Session 7-8 · Decision Trees">
+        <h3>Applications</h3>
+        <p>Decision trees suit problems where instances are attribute–value pairs, the target function has discrete output values, disjunctive descriptions may be required, and the training data may contain missing attribute values. Real-world uses include biomedical diagnosis, manufacturing quality control, banking/credit scoring, and make-vs-buy decisions. References: Mitchell Ch. 3; Tan/Steinbach/Kumar, <i>Introduction to Data Mining</i>, Ch. 3.</p>
+        <p class="src">Session 7-8 · Decision Trees</p>
       </div>
 
     </div>

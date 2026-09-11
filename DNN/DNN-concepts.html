@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Conceptual walkthrough of Deep Neural Networks (AIML ZG511): intro to deep learning, artificial neurons & the perceptron, linear NN for regression and classification, deep feed-forward networks with backpropagation, worked numerical methods, and the two lab notebooks. Sources: DNN_M1–M5 decks, DFNN numerical decks, Weight/Bias/Cost pptx, L1-Perceptron & L2-Linear Regression notebooks.</p>
+  <p class="intro">Conceptual walkthrough of Deep Neural Networks (AIML ZG511): intro to deep learning, artificial neurons & the perceptron, linear NN for regression and classification, deep feed-forward networks with backpropagation, convolutional neural networks (CNNs) for computer vision, worked numerical methods, and the two lab notebooks. Sources: DNN_M1–M6 decks, DFNN numerical decks, Weight/Bias/Cost pptx, L1-Perceptron & L2-Linear Regression notebooks.</p>
 
   <details class="module" open>
     <summary>Module 1 — Introduction to Deep Learning <small>· source: DNN_M1_Introduction.pdf</small></summary>
@@ -534,6 +534,157 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <h3>Diagnosing Training Issues</h3>
         <p>NaN/Inf → decrease \(\eta\), normalize; loss flat → \(\eta\) too small or bug; oscillating → \(\eta\) too large; train↓/val↑ → overfitting; both high → underfitting (bigger net); gradients→0 vanishing (ReLU/better init); gradients→∞ exploding (clip, lower \(\eta\)).</p>
         <span class="src">DNN_M5 · p59</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Convolutional Neural Networks (CNN) <small>· source: DNN_M6_CNN.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="M6 · CNN">
+        <h3>Computer Vision Tasks</h3>
+        <p>CNNs power the core vision tasks: <em>image classification</em> (assign one label to an image), <em>face detection</em>, <em>object recognition/detection</em> (what + where), and <em>image captioning</em> (describe an image in words). All rely on learning spatial features directly from pixels.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · image basics">
+        <h3>How Images Are Represented</h3>
+        <p>A grayscale image is a 2-D array of pixel intensities \(I(x,y)\) (one channel); a colour image stacks 3 channels (RGB) → shape \(H\times W\times 3\). Flattening for a dense net is wasteful: a 50×50 image → 2500 inputs, and HD 1920×1080 ≈ 2 million inputs, before any hidden layer.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · classification challenges">
+        <h3>Why Image Classification Is Hard</h3>
+        <p>The same object looks different under viewpoint change, illumination, deformation, occlusion, background clutter, and intra-class variation. Add extreme <em>dimensionality</em> (millions of pixels) and the need for <em>invariance</em> (recognise an object anywhere in the frame) and <em>equivariance</em> (feature moves when the object moves). Hand-crafted features can't cover all of this.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · why CNN">
+        <h3>Why CNNs (Motivation)</h3>
+        <p>CNNs exploit image structure for: <em>translation invariance</em> (a pattern is recognised anywhere), <em>locality</em> (a neuron need not see the whole image), <em>scale invariance</em> (sub-sampling doesn't change the object), <em>hierarchical features</em> (low→mid→high), and <em>parameter/compute efficiency</em>. Sharing one small filter across the image replaces the millions of independent weights a dense net would need.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · three principles">
+        <h3>Three Key Principles</h3>
+        <p>(1) <strong>Local connectivity / sparse interactions</strong> — each neuron connects only to a small input region (its receptive field). (2) <strong>Parameter sharing</strong> — the same filter (weights) is reused at every position, drastically reducing parameters. (3) <strong>Equivariant representations</strong> — shifting the input shifts the output the same way. Together they give efficient, translation-aware feature detectors.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · hierarchy">
+        <h3>Hierarchical Feature Learning</h3>
+        <p>Depth builds features in layers: <em>Layer 1</em> low-level (edges, corners, colours) → <em>Layer 2</em> mid-level (textures, patterns, object parts) → <em>Layer 3</em> high-level (whole objects, faces, scenes). For a face: edges → facial features (eyes, nose) → complete face. Later layers combine earlier ones.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · architecture pattern">
+        <h3>CNN Architecture Pattern</h3>
+        <p>Canonical stack: <code>INPUT → [CONV → ACTIVATION → POOL]×N → FC → OUTPUT</code>. Example: Input 32×32×3 → Conv1 28×28×6 → Pool1 14×14×6 → Conv2 10×10×16 → Pool2 5×5×16 → FC 120 → Output 10. Stages: feature extraction (conv) → spatial reduction (pool) → feature combination + decision (FC) → softmax probabilities.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · convolution">
+        <h3>2-D Convolution (Cross-Correlation)</h3>
+        <p>The core operation slides a small learnable kernel over the input, taking an element-wise product then a sum: \((I\star K)(i,j)=\sum_m\sum_n I(i+m,j+n)K(m,n)\). Deep learning actually implements <em>cross-correlation</em> but calls it convolution. Kernel values are weights learned by backprop; the filter must fully overlap the input (no partial windows). A 6×6 input with a 3×3 filter (stride 1) gives a 4×4 feature map.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · feature maps">
+        <h3>Feature Maps</h3>
+        <p>A feature map is the output of one filter: \(\text{FM}_k(i,j)=\sum_m\sum_n I(i+m,j+n)K_k(m,n)+b_k\); a high value = strong presence of that filter's pattern. Different filters detect different things (e.g. a vertical-edge kernel \([[-1,0,1],[-1,0,1],[-1,0,1]]\) vs a horizontal-edge kernel). #filters = #output feature maps; stacked they form a 3-D volume \(H\times W\times C\).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · channels">
+        <h3>Multiple Channels &amp; Filters</h3>
+        <p>A filter's depth always equals the input depth: for a \(C_{in}\)-channel input, one filter is \(k\times k\times C_{in}\) and produces <em>one</em> output channel by summing over all channels. \(C_{out}\) filters give \(C_{out}\) output channels. Example: input 32×32×3 with 64 filters of 3×3 → output 30×30×64. Networks typically increase channels (64→128→256→512) while shrinking spatial dims, keeping \(H\times W\times C\) roughly constant.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · receptive field">
+        <h3>Receptive Field</h3>
+        <p>The region of the input that influences one neuron's activation. It grows with depth: small in early layers, large deep in the network. \(RF_l = RF_{l-1} + (K_l-1)\prod_{i=1}^{l-1}S_i\). For stacked 3×3 stride-1 convs the RF grows 3→5→7→9. Stacking small kernels reaches a target RF with fewer parameters and more non-linearity than one large kernel.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · padding">
+        <h3>Padding</h3>
+        <p>Without padding, output size = input − kernel + 1, so borders are under-sampled and deep nets shrink fast. Types: <em>Valid</em> (no padding), <em>Same</em> (pad so output = input; for stride 1 use \(p=(k-1)/2\)), and <em>Full</em> (maximum overlap). Padding preserves spatial size and border information.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · stride">
+        <h3>Stride</h3>
+        <p>How far the kernel jumps between positions. \(s=1\) is standard; \(s=2\) downsamples; \(s>1\) shrinks the output: \(\text{out}=\lfloor(n+2p-k)/s\rfloor+1\). A 6×6 input with a 3×3 kernel gives 2×2 at stride 2 or 3. Strided convolution is used for learnable downsampling (replacing pooling), efficiency, and a larger receptive field.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · dilated conv">
+        <h3>Dilated (Atrous) Convolution</h3>
+        <p>Inserts gaps between kernel elements to enlarge the receptive field without extra parameters. Dilation rate \(r\) (\(r=1\) standard, \(r=2\) one-pixel gaps) gives effective size \(k_{eff}=k+(k-1)(r-1)\); a 3×3 with \(r=2\) covers 5×5 using the same 9 weights. <em>Strided vs dilated:</em> strided downsamples and loses resolution (classification); dilated preserves resolution (segmentation, WaveNet). Both grow the RF; watch for gridding artifacts.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · pooling">
+        <h3>Pooling</h3>
+        <p>Spatial downsampling that keeps channel depth, adds translation invariance, cuts computation, and regularises. It is <em>parameter-free</em> (only hyperparameters \(k,s\)). <em>Max pooling</em> takes the window maximum; <em>average pooling</em> the mean. <em>Global Average Pooling (GAP)</em> collapses each feature map to one number and can replace the FC classifier.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · 1x1 conv">
+        <h3>1×1 Convolution</h3>
+        <p>A 1×1×\(C_{in}\) kernel takes a learned weighted sum across channels at each pixel (Network-in-Network): \(O(i,j)=\sum_c I(i,j,c)w_c+b\) — like an FC layer applied per position. Uses: (1) channel/dimensionality reduction (256→64, keeping spatial size); (2) added non-linearity via a following ReLU; (3) efficiency as a bottleneck before 3×3/5×5 convs. A 256→64→(5×5)→64→256 bottleneck costs ~11× fewer params than a direct 256→(5×5)→256.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · ReLU">
+        <h3>ReLU in CNNs</h3>
+        <p>\(\text{ReLU}(x)=\max(0,x)\) is the default activation after convolution: non-linear, cheap, sparse, and non-saturating (derivative 0 or 1), which fights vanishing gradients and is scale-invariant \(\text{ReLU}(\alpha x)=\alpha\,\text{ReLU}(x)\) for \(\alpha>0\). Downsides: dying ReLU (neurons stuck at 0), not zero-centred, non-differentiable at 0. A Conv→ReLU→MaxPool block detects a pattern, discards negatives, then keeps the strongest response.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · FC + softmax">
+        <h3>Fully Connected Head &amp; Softmax</h3>
+        <p>After feature extraction the volume is flattened (\(H\times W\times C\to\) vector) and passed through dense layers \(y=f(Wx+b)\) that combine features for classification. The final softmax \(\text{softmax}(z_i)=e^{z_i}/\sum_j e^{z_j}\) turns logits into a probability distribution over \(K\) classes. Modern nets often replace big FC layers with GAP or 1×1 convs to save parameters.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · parameter counting">
+        <h3>Parameter Counting</h3>
+        <p>A conv layer has \((k\cdot k\cdot C_{in}+1)\cdot C_{out}\) parameters — independent of spatial size, quadratic in kernel size, linear in #filters. Examples: 5×5, 64 filters on ×3 input → \(76\times64=4864\); 3×3, 256 filters on ×128 input → \(1153\times256=295{,}168\). Pooling layers have <strong>zero</strong> learnable parameters (only \(k,s\)).</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · design patterns">
+        <h3>Architecture Design Patterns</h3>
+        <p>Recurring building blocks: (1) <em>spatial reduction + channel expansion</em> (halve H×W, double channels); (2) <em>repetitive blocks</em> (VGG: stacked 3×3 + pool); (3) <em>skip / residual connections</em> \(y=F(x)+x\) for gradient flow and 100+ layers; (4) <em>bottlenecks</em> (1×1 reduce → 3×3 → 1×1 expand, ~8× fewer params); (5) <em>multi-scale</em> (Inception: parallel 1×1/3×3/5×5/pool then concat). Deeper = richer features/larger RF but harder to train; wider = easier training but quadratic params.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · architecture evolution">
+        <h3>Evolution of CNN Architectures</h3>
+        <p><em>LeNet-5</em> (1998, 60K params, MNIST, tanh + avg-pool) → <em>AlexNet</em> (2012, 60M, ReLU + dropout + GPU, won ImageNet) → <em>VGG</em> (2014, 138M, only 3×3 convs, 16–19 layers) → <em>NiN</em> (1×1 convs + GAP) → <em>GoogLeNet/Inception</em> (2014, 5M, parallel modules, 1×1 reductions) → <em>ResNet</em> (2015, residual blocks, 50–152 layers, solved the degradation problem). Key innovations: ReLU, dropout, batch norm, residual connections.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · ResNet">
+        <h3>Residual Learning (ResNet)</h3>
+        <p>Very deep plain nets suffer the <em>degradation problem</em>: more layers gave <em>higher</em> training error (an optimization issue, not overfitting). A residual block learns \(F(x)=H(x)-x\) so the output is \(H(x)=F(x)+x\); if identity is optimal, just push \(F\to0\). The skip creates a gradient highway (\(\partial L/\partial x=\partial L/\partial y\,(1+\partial F/\partial x)\) — the "1" is a direct path), enabling 100+ layer training. Bottleneck blocks (1×1→3×3→1×1) cut params ~8×.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · transfer learning">
+        <h3>Transfer Learning</h3>
+        <p>Reuse a model pre-trained on a large dataset (e.g. ImageNet, 1.2M images / 1000 classes) for a related task — useful with limited data, less compute, and transferable low-level features. Strategies by dataset size × similarity: small+similar → <em>feature extraction</em> (freeze backbone, train classifier); medium+similar → <em>fine-tune</em> whole net at a low LR; medium+different → <em>selective fine-tuning</em> (freeze early layers); large+different → train from scratch.</p>
+        <span class="src">M6 · CNN</span>
+      </div>
+
+      <div class="card" data-src="M6 · applications">
+        <h3>CNN Applications</h3>
+        <p><em>Classification</em> (cross-entropy, top-k accuracy, augmentation); <em>object detection</em> (boxes + labels: two-stage R-CNN/Faster R-CNN, one-stage YOLO/SSD); <em>semantic segmentation</em> (pixel-wise: FCN, U-Net encoder–decoder with skips, DeepLab atrous); plus face recognition, style transfer, image generation (GANs/VAEs), and super-resolution. Beyond vision: 1-D convs for text/audio/time-series and graph neural networks.</p>
+        <span class="src">M6 · CNN</span>
       </div>
 
     </div>

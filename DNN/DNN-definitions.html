@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Key-term glossary for AIML ZG511 — precise one/two-sentence definitions grouped by module: deep-learning fundamentals, neurons & perceptrons, regression, classification, deep feed-forward networks, and terms from the numerical & lab material. Sources: DNN_M1–M5 decks, DFNN numericals, lab notebooks.</p>
+  <p class="intro">Key-term glossary for AIML ZG511 — precise one/two-sentence definitions grouped by module: deep-learning fundamentals, neurons & perceptrons, regression, classification, deep feed-forward networks, convolutional neural networks (CNNs), and terms from the numerical & lab material. Sources: DNN_M1–M6 decks, DFNN numericals, lab notebooks.</p>
 
   <details class="module" open>
     <summary>Module 1 — Deep Learning Fundamentals <small>· source: DNN_M1_Introduction.pdf</small></summary>
@@ -253,6 +253,59 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
       <div class="card def"><h3>Underfitting</h3><p>When a model is too simple to capture the data's structure, giving high loss on both training and validation sets.</p><span class="src">DNN_M5 · p59</span></div>
 
       <div class="card def"><h3>Funnel Architecture</h3><p>A network whose hidden layers decrease in width (\(n_1&gt;n_2&gt;\dots\)), compressing representations — often preferred when data is limited.</p><span class="src">DNN_M5 · p51 · EC-2 Q5</span></div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Convolutional Neural Networks (CNN) <small>· source: DNN_M6_CNN.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card def" data-src="M6 · CNN"><h3>Convolutional Neural Network (CNN)</h3><p>A neural network for grid-like data (images) built from convolutional layers, pooling, and non-linear activations, using local connectivity and parameter sharing to learn hierarchical spatial features.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · convolution"><h3>Convolution (Cross-Correlation)</h3><p>Sliding a small kernel over an input, computing an element-wise product then a sum at each position: \((I\star K)(i,j)=\sum_m\sum_n I(i+m,j+n)K(m,n)\). Deep learning implements cross-correlation but calls it convolution.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · kernel"><h3>Kernel / Filter</h3><p>A small array of learnable weights (e.g. 3×3×\(C_{in}\)) that detects a specific pattern; slid across the input to produce a feature map. Weights are learned by backprop.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · feature map"><h3>Feature Map (Activation Map)</h3><p>The 2-D output of applying one filter across the input; a high value indicates strong presence of that filter's pattern at that location. One filter → one feature map.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · receptive field"><h3>Receptive Field</h3><p>The region of the input that affects a given neuron's activation; it grows with depth and depends on kernel size, stride, and pooling.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · local connectivity"><h3>Local Connectivity (Sparse Interactions)</h3><p>Each convolutional neuron connects only to a small local region of the input rather than the whole image, giving far fewer connections than a dense layer.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · parameter sharing"><h3>Parameter Sharing</h3><p>Reusing the same filter weights at every spatial position, so one small set of weights detects a pattern anywhere — the key to CNNs' parameter efficiency.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · equivariance"><h3>Equivariance</h3><p>A property where shifting the input shifts the output correspondingly: convolution is translation-equivariant, so a moved pattern produces a moved response.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · invariance"><h3>Invariance</h3><p>Producing the same output despite transformations of the input (e.g. an object recognised regardless of position); pooling contributes translation invariance.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · stride"><h3>Stride</h3><p>The step size by which a kernel moves across the input; stride >1 downsamples the output. Output size \(=\lfloor(n+2p-k)/s\rfloor+1\).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · padding"><h3>Padding</h3><p>Adding border pixels (usually zeros) around the input so the kernel can cover edges. Valid = none, Same = output equals input (stride 1: \(p=(k-1)/2\)), Full = maximum overlap.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · dilated conv"><h3>Dilated (Atrous) Convolution</h3><p>Convolution with gaps inserted between kernel elements (dilation rate \(r\)) to enlarge the receptive field without more parameters; effective size \(k_{eff}=k+(k-1)(r-1)\).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · pooling"><h3>Pooling</h3><p>A parameter-free downsampling operation over local windows — max pooling takes the maximum, average pooling the mean — that reduces spatial size and adds translation invariance while preserving channel depth.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · GAP"><h3>Global Average Pooling (GAP)</h3><p>Averaging each entire feature map to a single value, \(\text{Out}_c=\frac{1}{HW}\sum_i\sum_j \text{FM}_c(i,j)\); a parameter-free replacement for fully connected classifier layers.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · 1x1 conv"><h3>1×1 Convolution</h3><p>A convolution with a 1×1×\(C_{in}\) kernel that takes a learned weighted combination across channels at each pixel; used for channel reduction, added non-linearity, and bottlenecks (Network-in-Network).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · channel"><h3>Channel (Depth)</h3><p>One of the stacked 2-D slices of a tensor: RGB inputs have 3 channels; intermediate feature volumes commonly have 64/128/256/512 channels. A filter's depth always matches its input's depth.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · bottleneck"><h3>Bottleneck Block</h3><p>A 1×1 (reduce) → 3×3 → 1×1 (expand) sequence that shrinks channels before the expensive convolution, giving large parameter savings (≈8× in ResNet).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · residual"><h3>Residual / Skip Connection</h3><p>A shortcut that adds a block's input to its output, \(y=F(x)+x\), so the layer learns a residual; it eases gradient flow and enables very deep networks (ResNet).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · degradation"><h3>Degradation Problem</h3><p>The observation that stacking more layers in a plain network can increase training error — an optimization difficulty, not overfitting — which residual connections address.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · inception"><h3>Inception Module</h3><p>A block that applies 1×1, 3×3, 5×5 convolutions and pooling in parallel and concatenates the results, capturing multi-scale features efficiently (GoogLeNet).</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · transfer learning"><h3>Transfer Learning</h3><p>Reusing a model pre-trained on a large dataset as the starting point for a related task, exploiting transferable low-level features when data or compute is limited.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · fine-tuning"><h3>Fine-Tuning</h3><p>Initialising with pre-trained weights and continuing to train (often the whole network at a low learning rate, or only later layers) to adapt to a new task.</p><span class="src">M6 · CNN</span></div>
+
+      <div class="card def" data-src="M6 · segmentation"><h3>Semantic Segmentation</h3><p>Assigning a class label to every pixel of an image; handled by fully convolutional encoder–decoder networks (FCN, U-Net) and atrous/multi-scale methods (DeepLab).</p><span class="src">M6 · CNN</span></div>
 
     </div>
   </details>

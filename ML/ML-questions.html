@@ -45,6 +45,7 @@ main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
 .badge.medium{background:#78350f;color:#fcd34d}
 .badge.hard{background:#7f1d1d;color:#fca5a5}
 .badge.mixed{background:#3730a3;color:#c7d2fe}
+.badge.adv{background:#4c1d95;color:#ddd6fe}
 details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
 details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
 details.ans>summary::-webkit-details-marker{display:none}
@@ -72,7 +73,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Practice problems for ML (AIMLZG565) — every formula in the Formulas tab gets Easy / Medium / Hard problems and every concept in the Concepts tab is exercised, organised by module (M1 Introduction → M2 Preprocessing → M3 Linear Regression → M4 Logistic Regression &amp; Metrics → M5 Exam-Referenced Prerequisites → Combined / Exam-style). Difficulty: <b>Easy</b> = direct plug-in · <b>Medium</b> = multi-step / pick the right tool · <b>Hard</b> = multi-part / derivation. Format mirrors the EC2/EC3 past papers. Click <i>show answer</i> for a full worked solution.</p>
+  <p class="intro">Practice problems for ML (AIMLZG565) — every formula in the Formulas tab gets Easy / Medium / Hard problems and every concept in the Concepts tab is exercised, organised by module (M1 Introduction → M2 Preprocessing → M3 Linear Regression → M4 Logistic Regression &amp; Metrics → M5 Exam-Referenced Prerequisites → M6 Decision Tree Classifier → Combined / Exam-style). Difficulty: <b>Easy</b> = direct plug-in · <b>Medium</b> = multi-step / pick the right tool · <b>Hard</b> = multi-part / derivation. Format mirrors the EC2/EC3 past papers. Click <i>show answer</i> for a full worked solution.</p>
 
   <details class="module" open>
     <summary>Module 1 — Introduction &amp; ML Fundamentals <small>· conceptual · source: ML_CS 1</small></summary>
@@ -2193,6 +2194,448 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
           <b>(D)</b> \(SS_{res}=0\) (perfect fit) ⇒ \(R^2=1-0/SS_{tot}=\mathbf{1}\) (100% of variance explained).
         </div></details>
         <p class="src">tests: MSE cost + GD + convergence + R² · Mixed</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: entropy plug-in · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q1. Entropy of a node</h3>
+        <p>A node contains 6 positive and 2 negative examples. Compute its entropy. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(p_{+}=6/8=0.75,\ p_{-}=2/8=0.25.\)<br>
+          \(\text{Entropy}=-0.75\log_2 0.75-0.25\log_2 0.25=-0.75(-0.415)-0.25(-2)\)<br>
+          \(=0.311+0.5=\mathbf{0.811}.\)
+        </div></details>
+        <p class="src">tests: entropy plug-in · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini plug-in · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q2. Gini index of a node</h3>
+        <p>A node has 3 records of class Yes and 7 of class No. Compute the Gini index. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(p_{\text{Yes}}=3/10=0.3,\ p_{\text{No}}=7/10=0.7.\)<br>
+          \(\text{Gini}=1-(0.3)^2-(0.7)^2=1-0.09-0.49=\mathbf{0.42}.\)
+        </div></details>
+        <p class="src">tests: Gini plug-in · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: classification error plug-in · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q3. Classification error of a node</h3>
+        <p>A node contains 8 records of class A and 2 of class B. Compute the classification-error impurity. [2 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{Error}=1-\max_c p_c=1-\max(0.8,\ 0.2)=1-0.8=\mathbf{0.2}.\)<br>
+          (A pure node would give 0; a 50/50 node would give 0.5.)
+        </div></details>
+        <p class="src">tests: classification error plug-in · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: tree structure / node types · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q4. Identify the node types</h3>
+        <p>Describe, in terms of incoming and outgoing edges, the three kinds of nodes in a decision tree, and state what each non-leaf and leaf node holds. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Root node:</b> no incoming edges, ≥0 outgoing edges — represents the whole dataset and holds the first attribute test.<br>
+          <b>Internal (test) node:</b> exactly one incoming edge, ≥2 outgoing edges — holds a test condition on one attribute.<br>
+          <b>Leaf (terminal) node:</b> exactly one incoming edge, no outgoing edges — holds a class label (the final decision).<br>
+          Each non-leaf node = a test on an attribute; each leaf = a class. The full set of root-to-leaf paths is the tree's set of decision rules.
+        </div></details>
+        <p class="src">tests: tree structure / node types · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: classification vs regression tree; representation · Easy">
+        <span class="badge easy">Easy</span>
+        <h3>Q5. Tree types &amp; expressiveness</h3>
+        <p>(a) Distinguish a classification tree from a regression tree. (b) Write the Play-Tennis "Yes" concept as a disjunction of conjunctions. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) A <b>classification tree</b> outputs a discrete class/category at each leaf; a <b>regression tree</b> outputs a numerical/continuous value.<br>
+          (b) A tree = a disjunction of conjunctions of attribute constraints:<br>
+          (Outlook=Sunny ∧ Humidity=Normal) ∨ (Outlook=Overcast) ∨ (Outlook=Rain ∧ Wind=Weak).
+        </div></details>
+        <p class="src">tests: classification vs regression tree; representation · Easy</p>
+      </div>
+
+      <div class="card q" data-src="tests: information gain of a split · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q6. Information gain of a split</h3>
+        <p>At the Play-Tennis root, \(S\) has 9 Yes and 5 No, so \(\text{Entropy}(S)=0.940\). Splitting on <b>Wind</b> gives Weak = {6 Yes, 2 No} (8 records) and Strong = {3 Yes, 3 No} (6 records). Compute Gain(S, Wind). [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Child entropies: \(E(\text{Weak})=E(6,2)=0.811\); \(E(\text{Strong})=E(3,3)=1.0\).<br>
+          Weighted child entropy \(=\frac{8}{14}(0.811)+\frac{6}{14}(1.0)=0.463+0.429=0.892.\)<br>
+          \(\text{Gain}(S,\text{Wind})=0.940-0.892=\mathbf{0.048}.\)<br>
+          (Low gain — Wind is a weak splitter; the deck reports Outlook 0.247 as the best root attribute.)
+        </div></details>
+        <p class="src">tests: information gain of a split · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini gain of a binary split · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q7. Gini gain of a binary split</h3>
+        <p>A dataset of 10 records (3 Yes, 7 No) has parent Gini 0.42. Splitting on <b>Home Owner</b> gives Yes = {0 Yes, 3 No} (3 records) and No = {3 Yes, 4 No} (7 records). Compute the weighted Gini of the split and the Gini gain. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Child N1 (Home Owner=Yes): \(1-(0/3)^2-(3/3)^2=0\) (pure).<br>
+          Child N2 (Home Owner=No): \(1-(3/7)^2-(4/7)^2=1-0.184-0.327=0.490.\)<br>
+          Weighted Gini \(=\frac{3}{10}(0)+\frac{7}{10}(0.490)=\mathbf{0.343}.\)<br>
+          Gini gain \(=0.420-0.343=\mathbf{0.077}.\)
+        </div></details>
+        <p class="src">tests: Gini gain of a binary split · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: continuous attribute thresholds · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q8. Candidate thresholds for a continuous attribute</h3>
+        <p>Temperature values, sorted, are 40, 48, 60, 72, 80, 90, with the class label changing between 48→60 and between 80→90. Give the candidate split thresholds and explain how the final threshold is chosen. [3 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Place candidate thresholds at the midpoints of adjacent values <b>where the class changes</b>:<br>
+          \(c_1=\frac{48+60}{2}=\mathbf{54}\); \(c_2=\frac{80+90}{2}=\mathbf{85}.\)<br>
+          Each defines a boolean test \(A_c = (\text{Temperature} &lt; c)\). Evaluate the impurity (entropy or Gini) of the split each candidate produces and pick the threshold with the <b>least impurity</b> (highest gain). Scanning only class-change boundaries avoids testing every midpoint.
+        </div></details>
+        <p class="src">tests: continuous attribute thresholds · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: gain ratio vs information gain · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q9. Why gain ratio beats information gain here</h3>
+        <p>For 10 records with entropy 0.971: <b>CustomerID</b> (10 unique values) gives info gain 0.971; <b>CarType</b> (Family=4, Sports=3, Luxury=3) gives info gain 0.500. Compute each attribute's split information and gain ratio, and say which the tree should prefer. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>CustomerID:</b> 10 subsets of size 1 ⇒ \(\text{SplitInfo}=-\sum \frac{1}{10}\log_2\frac{1}{10}=\log_2 10=3.322.\)<br>
+          GainRatio \(=0.971/3.322=\mathbf{0.292}.\)<br>
+          <b>CarType:</b> \(\text{SplitInfo}=-\frac{4}{10}\log_2 0.4-\frac{3}{10}\log_2 0.3-\frac{3}{10}\log_2 0.3=0.529+0.521+0.521=1.571.\)<br>
+          GainRatio \(=0.500/1.571=\mathbf{0.318}.\)<br>
+          Although CustomerID has the higher <b>information gain</b> (0.971), its huge split information penalizes it, so its gain ratio (0.292) is lower than CarType's (0.318). The tree should split on <b>CarType</b> — gain ratio corrects information gain's bias toward many-valued attributes.
+        </div></details>
+        <p class="src">tests: gain ratio vs information gain · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: pre-pruning threshold decision · Medium">
+        <span class="badge medium">Medium</span>
+        <h3>Q10. Apply a pre-pruning threshold</h3>
+        <p>A pre-pruning rule stops splitting a node when the best attribute's gain ≤ 0.85. At a "Square" node the best attribute Size has gain 0.811; at an "Oval" node the best attribute Colour has gain 0.918. State the action at each node and the effect of setting the threshold too strict or too loose. [4 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>Square node:</b> Size gain 0.811 &lt; 0.85 ⇒ <b>do not split</b> — make it a leaf, labelled by majority vote.<br>
+          <b>Oval node:</b> Colour gain 0.918 ≥ 0.85 ⇒ <b>split</b> on Colour.<br>
+          Threshold effect: <b>too strict</b> (high threshold) → the tree stops early and stays shallow → <b>underfitting</b>; <b>too loose</b> (low threshold) → almost every node splits → the tree grows large and <b>overfits</b>. The threshold must be tuned for good generalization.
+        </div></details>
+        <p class="src">tests: pre-pruning threshold decision · Medium</p>
+      </div>
+
+      <div class="card q" data-src="tests: PlayTennis full root + subtree selection · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q11. Build the first two levels of the Play-Tennis tree</h3>
+        <p>Root gains are: Outlook 0.247, Humidity 0.151, Wind 0.048, Temperature 0.029. At the Outlook=Sunny node the gains are: Humidity 0.971, Temperature 0.571, Wind 0.020. (a) Choose the root attribute and the Sunny-branch attribute. (b) Why is Outlook=Overcast a leaf immediately? (c) Give the final Sunny-branch leaves. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Pick the highest gain at each node. Root ⇒ <b>Outlook</b> (0.247, the largest). Outlook=Sunny node ⇒ <b>Humidity</b> (0.971, the largest).<br>
+          (b) All Overcast days are "Yes" — the subset is pure, so by Hunt's algorithm/ID3 it becomes a <b>leaf = Yes</b> with no further splitting (entropy 0, gain from any further split is 0).<br>
+          (c) Under Sunny → Humidity: <b>High → No</b> ({D1,D2,D8}); <b>Normal → Yes</b> ({D9,D11}). (The Rain branch, split on Wind, gives Weak → Yes {D4,D5,D10} and Strong → No {D6,D14}.)
+        </div></details>
+        <p class="src">tests: PlayTennis full root + subtree selection · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: EnjoySport worked example + prediction · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q12. EnjoySport — choose the root and predict</h3>
+        <p>The EnjoySport data has 4 records (3 Yes, 1 No). After splitting, attribute entropies are: Sky 0, AirTemp 0, Humidity 0.68, Wind 0.94, Forecast 0.5 (parent decision entropy ≈ 0.94). (a) Which attribute(s) give the highest information gain and why? (b) Can two different attributes be equally correct roots? (c) Predict the label for a new instance with Sky = Rainy. [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Information gain = parent entropy − weighted child entropy. The largest gain comes from the smallest child entropy, so <b>Sky</b> and <b>AirTemp</b> (both 0) give the maximum gain (≈ 0.94 − 0 = 0.94). Their splits are perfectly pure.<br>
+          (b) <b>Yes</b> — when two attributes both drive child entropy to 0, they tie for highest gain, so either produces an equally correct tree.<br>
+          (c) Following the Sky tree: Sky=Sunny → 3 Yes / 0 No (pure Yes), Sky=Rainy → 0 Yes / 1 No (pure No). A new instance with <b>Sky = Rainy → leaf = No</b>.
+        </div></details>
+        <p class="src">tests: EnjoySport worked example + prediction · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: post-pruning with a prune set · Hard">
+        <span class="badge hard">Hard</span>
+        <h3>Q13. Post-pruning decision</h3>
+        <p>A fully grown tree has a decision node whose subtree misclassifies 8 of 100 prune-set tuples (error 8%). If that node is replaced by a single leaf (majority class), it misclassifies 6 of the 100 prune-set tuples. (a) Describe the post-pruning procedure. (b) Should this node be pruned? (c) Why use a separate prune set rather than the training set? [5 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) <b>Post-pruning:</b> grow the tree fully (split until pure/minimal samples), then scan <b>bottom-up</b>. At each decision node estimate the error with the subtree kept, then re-estimate with the node collapsed to a leaf, using the same prune/validation set. If pruning reduces error, prune; else keep. Repeat over all branches.<br>
+          (b) Kept subtree error = 8/100 = 8%; pruned (leaf) error = 6/100 = 6%. Pruning <b>reduces</b> the error (8% → 6%), so <b>yes, prune the node</b> into a leaf.<br>
+          (c) The tree was fit to minimise training error, so training-set error is optimistically biased and would rarely favour pruning (it always looks "perfect"). A separate prune/validation set estimates <b>generalization</b> error, giving an honest keep-vs-prune comparison and countering overfitting.
+        </div></details>
+        <p class="src">tests: post-pruning with a prune set · Hard</p>
+      </div>
+
+      <div class="card q" data-src="tests: Gini vs classification error sensitivity · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q14. Why prefer Gini over classification error?</h3>
+        <p>A parent node has 8 A and 8 B (16 records). Compare two binary splits.<br>
+        <b>Split P:</b> N1={8 A, 4 B} (12), N2={0 A, 4 B} (4).<br>
+        <b>Split Q:</b> N1={6 A, 2 B} (8), N2={2 A, 6 B} (8).<br>
+        Evaluate both by weighted classification error and by weighted Gini, and explain what this reveals. [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          Parent: error 0.5, Gini 0.5.<br>
+          <b>Classification error:</b><br>
+          Split P: N1 error = 4/12 = 0.333, N2 = 0 ⇒ weighted = \(\frac{12}{16}(0.333)+\frac{4}{16}(0)=\mathbf{0.25}.\)<br>
+          Split Q: N1 = 2/8 = 0.25, N2 = 0.25 ⇒ weighted = \(\frac{8}{16}(0.25)+\frac{8}{16}(0.25)=\mathbf{0.25}.\)<br>
+          By classification error the two splits are <b>tied</b> (both 0.25).<br>
+          <b>Gini:</b><br>
+          Split P: N1 = \(1-(8/12)^2-(4/12)^2=0.444\), N2 = 0 ⇒ weighted = \(\frac{12}{16}(0.444)=\mathbf{0.333}.\)<br>
+          Split Q: N1 = \(1-(6/8)^2-(2/8)^2=0.375\), N2 = 0.375 ⇒ weighted = \(\mathbf{0.375}.\)<br>
+          Gini prefers <b>Split P</b> (0.333 &lt; 0.375). <b>Insight:</b> classification error is <b>insensitive</b> to how pure the children are beyond the majority count, so it cannot distinguish the two splits; Gini (and entropy) reward the purer child (N2 is perfectly pure in P), which is why Gini/entropy are preferred for growing a tree.
+        </div></details>
+        <p class="src">tests: Gini vs classification error sensitivity · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: MDL principle model selection · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q15. MDL model selection</h3>
+        <p>Two trees are candidates for the same data. <b>Tree A</b> (grown fully): description length 50 bits, 0 misclassifications. <b>Tree B</b> (pruned): description length 12 bits, 5 misclassifications, each costing 6 bits to encode. (a) State the MDL objective. (b) Compute each total length and choose h. (c) What overfitting behaviour does MDL thereby control, and which principle does it embody? [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) MDL prefers \(h_{MDL}=\arg\min_h\big[L_{C1}(h)+L_{C2}(D\mid h)\big]\), where \(L_{C1}(h)=-\log_2 P(h)\) encodes the tree and \(L_{C2}(D\mid h)=-\log_2 P(D\mid h)\) encodes the misclassifications/exceptions.<br>
+          (b) <b>Tree A:</b> \(50 + 0 = \mathbf{50}\) bits (a perfect classifier costs \(L_{C2}=0\)).<br>
+          <b>Tree B:</b> \(12 + 5\times 6 = 12 + 30 = \mathbf{42}\) bits.<br>
+          \(42 &lt; 50\) ⇒ choose <b>Tree B</b>.<br>
+          (c) MDL trades hypothesis complexity against training errors, so it may prefer a <b>shorter tree with a few errors</b> over a larger perfect one — this discourages growing extra branches to fit noise, i.e. it <b>controls overfitting</b>. It embodies <b>Occam's razor</b>: prefer the shortest hypothesis that classifies the data reasonably well.
+        </div></details>
+        <p class="src">tests: MDL principle model selection · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: overfitting + greedy + axis-parallel synthesis · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q16. Strengths, limits &amp; overfitting — synthesis</h3>
+        <p>A decision tree achieves 100% accuracy on training data but only 72% on the test set. (a) Diagnose the problem and name the likely cause in tree terms. (b) Give three distinct remedies. (c) State two structural limitations of decision trees that no amount of pruning fixes. [6 Marks]</p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) The large train–test gap (100% vs 72%) is <b>overfitting</b>: the tree is too complex and has grown extra branches that fit noise/outliers in the training data, so it fails to generalize to unseen records.<br>
+          (b) Remedies: (1) <b>pruning</b> — pre-pruning (stop early via a gain/sample/depth threshold) or post-pruning (grow fully, then cut back using a prune set); (2) <b>constrain the tree depth</b> (max depth); (3) <b>constrain the minimum records per leaf</b>. (More/cleaner training data also helps.)<br>
+          (c) Structural limits independent of pruning: (i) construction is <b>greedy</b> — top-down local choices may miss the globally best tree, and the tree space is exponentially large; (ii) each test uses a <b>single attribute</b>, so boundaries are <b>axis-parallel</b> and the tree cannot naturally capture attribute interactions / oblique boundaries.
+        </div></details>
+        <p class="src">tests: overfitting + greedy + axis-parallel synthesis · Advanced</p>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Advanced Questions — Multi-Concept Synthesis <small>· merges topics across the course, numerical + conceptual</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: bias-variance + regularization + validation model selection · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q1. Regularization strength, bias–variance &amp; validation-based selection</h3>
+        <p>A ridge-regularized polynomial regressor is fit at three penalty strengths, giving these mean-squared errors (features scaled, bias term unpenalized):<br>
+        \(\lambda=0.01\): train MSE 1.0, validation MSE 5.0. \(\lambda=1\): train 2.5, validation 2.8. \(\lambda=100\): train 7.0, validation 7.2.<br>
+        (A) Diagnose each setting as under-/over-fitting using bias–variance language. (B) Which \(\lambda\) do you deploy and why? (C) State what happens to the fitted weights and to bias/variance as \(\lambda\to0\) and \(\lambda\to\infty\), and why the test set must not be used to pick \(\lambda\). <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\lambda=0.01\): very low train but much higher validation error (big gap) ⇒ <b>overfitting</b> (low bias, high variance) — weak penalty lets the model fit noise. \(\lambda=1\): train and validation low and close ⇒ <b>good fit</b> (balanced bias/variance). \(\lambda=100\): both errors high and close ⇒ <b>underfitting</b> (high bias, low variance) — the strong penalty over-shrinks the weights.<br>
+          <b>(B)</b> Deploy <b>\(\lambda=1\)</b>: it has the lowest <b>validation</b> error (2.8), i.e. the best expected generalization; it captures the signal without fitting noise.<br>
+          <b>(C)</b> As \(\lambda\to0\) the penalty vanishes ⇒ ordinary least squares (weights free, low bias, high variance). As \(\lambda\to\infty\) the weights are driven toward 0 ⇒ the model collapses toward a constant (very high bias, near-zero variance). \(\lambda\) is a hyperparameter chosen on the <b>validation</b> set; using the <b>test</b> set to choose it causes <b>data leakage</b> — the test error would be optimistically biased and no longer an unbiased estimate of generalization.
+        </div></details>
+        <p class="src">tests: bias-variance + regularization + validation model selection · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: decision tree information gain + Gini + overfitting/pruning · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q2. Decision-tree split: information gain, Gini &amp; overfitting</h3>
+        <p>A node has 10 instances: 6 "Yes", 4 "No". A candidate attribute \(A\) splits them into \(A{=}1\to\{5\text{Y},1\text{N}\}\) (6 instances) and \(A{=}0\to\{1\text{Y},3\text{N}\}\) (4 instances). (A) Compute the parent entropy \(H(S)\) and the information gain \(IG(A)\) (log base 2). (B) Compute the weighted Gini index of the same split. (C) If the tree is grown until every leaf is pure, what problem arises and what two remedies control it? <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(H(S)=-\tfrac{6}{10}\log_2\tfrac{6}{10}-\tfrac{4}{10}\log_2\tfrac{4}{10}=0.6(0.737)+0.4(1.322)=0.442+0.529=\mathbf{0.971}.\)<br>
+          \(H(A{=}1)=-\tfrac56\log_2\tfrac56-\tfrac16\log_2\tfrac16=0.833(0.263)+0.167(2.585)=0.219+0.431=0.650.\)<br>
+          \(H(A{=}0)=-\tfrac14\log_2\tfrac14-\tfrac34\log_2\tfrac34=0.25(2)+0.75(0.415)=0.5+0.311=0.811.\)<br>
+          Weighted child entropy \(=\tfrac{6}{10}(0.650)+\tfrac{4}{10}(0.811)=0.390+0.324=0.715.\)<br>
+          \(IG(A)=0.971-0.715=\mathbf{0.256}.\)<br>
+          <b>(B)</b> \(\text{Gini}(A{=}1)=1-(\tfrac56)^2-(\tfrac16)^2=1-0.694-0.028=0.278;\) \(\text{Gini}(A{=}0)=1-(\tfrac14)^2-(\tfrac34)^2=1-0.0625-0.5625=0.375.\)<br>
+          Weighted Gini \(=\tfrac{6}{10}(0.278)+\tfrac{4}{10}(0.375)=0.167+0.150=\mathbf{0.317}.\)<br>
+          <b>(C)</b> Growing to pure leaves <b>overfits</b>: the tree memorizes training noise (very deep, one-off leaves), giving near-zero training error but poor test error (high variance). Remedies: <b>pre-pruning</b> (limit max depth / min samples per leaf / min impurity decrease) and <b>post-pruning</b> (grow fully then prune weak branches using a validation set). Both simplify the tree, raising bias slightly but lowering variance.
+        </div></details>
+        <p class="src">tests: decision tree information gain + Gini + overfitting/pruning · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: Naive Bayes posterior + zero-frequency + independence critique · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q3. Naive Bayes, the zero-frequency problem &amp; the independence assumption</h3>
+        <p>A "Buy?" classifier is trained on 10 rows: class Yes (5 rows) has feature Colour counts Red 2, Green 3, Blue 0; class No (5 rows) has Red 1, Green 1, Blue 3. A test instance has Colour = Blue. (A) Using \(\hat y=\arg\max_c P(c)\prod_j P(x_j\mid c)\) with the raw frequencies, what posterior does Naive Bayes assign to "Yes", and what goes wrong? (B) Re-classify using add-one (Laplace) smoothing \(P(x_j\mid c)=\frac{\text{count}+1}{N_c+k}\) with \(k=3\) colours. (C) State the core independence assumption and one way it is violated in practice. <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Priors \(P(\text{Yes})=P(\text{No})=\tfrac{5}{10}=0.5.\)<br>
+          <b>(A)</b> Raw: \(P(\text{Blue}\mid\text{Yes})=\tfrac05=0\), so the Yes score \(=0.5\times0=\mathbf0\) — <b>zero posterior for Yes regardless of any other evidence</b>. This is the <b>zero-frequency problem</b>: one unseen feature value nullifies the whole product. (No score \(=0.5\times\tfrac35=0.3\), so it predicts No, but only because Yes was forced to 0.)<br>
+          <b>(B)</b> Smoothed: \(P(\text{Blue}\mid\text{Yes})=\tfrac{0+1}{5+3}=\tfrac18=0.125;\) \(P(\text{Blue}\mid\text{No})=\tfrac{3+1}{5+3}=\tfrac48=0.5.\)<br>
+          Yes score \(=0.5(0.125)=0.0625;\) No score \(=0.5(0.5)=0.25.\) Normalized \(P(\text{Yes}\mid\text{Blue})=\tfrac{0.0625}{0.0625+0.25}=\mathbf{0.20}\), \(P(\text{No}\mid\text{Blue})=0.80\) ⇒ predict <b>No</b> (now Yes has a small non-zero probability).<br>
+          <b>(C)</b> Naive Bayes assumes the features are <b>conditionally independent given the class</b>. In practice they are often correlated (e.g. the words "New" and "York" co-occur), so the model <b>double-counts</b> correlated evidence and produces over-confident posteriors — yet it still classifies well because only the argmax matters.
+        </div></details>
+        <p class="src">tests: Naive Bayes posterior + zero-frequency + independence critique · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: logistic gradient step + L2 weight decay + odds ratio · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q4. Regularized logistic-regression step and its effect on the odds ratio</h3>
+        <p>A logistic model has weights \(w_0=0\) (bias) and \(w_1=2\). One training example is \(x=(x_0,x_1)=(1,3)\) with label \(y=0\). Using the L2 (ridge) GD update \(w_1:=w_1(1-\alpha\lambda)-\alpha\,g\) where \(g=(h-y)x_1\), with \(\alpha=0.1,\ \lambda=0.5\): (A) compute \(h=\sigma(z)\) and the data gradient \(g\). (B) Update \(w_1\), and update the un-penalized bias \(w_0\). (C) Report the odds ratio for feature \(x_1\) before and after the step and interpret the change. <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(z=w_0+w_1x_1=0+2(3)=6;\) \(h=\sigma(6)=\dfrac{1}{1+e^{-6}}=\dfrac{1}{1.00248}\approx0.9975.\)<br>
+          Data gradient \(g=(h-y)x_1=(0.9975-0)(3)=2.9925.\)<br>
+          <b>(B)</b> Shrink factor \(1-\alpha\lambda=1-0.1(0.5)=0.95.\) \(w_1:=2(0.95)-0.1(2.9925)=1.9-0.2993=\mathbf{1.601}.\)<br>
+          Bias (no penalty): \(g_0=(h-y)x_0=0.9975;\) \(w_0:=0-0.1(0.9975)=\mathbf{-0.0998}.\)<br>
+          <b>(C)</b> Odds ratio \(=e^{w_1}\): before \(e^{2}\approx\mathbf{7.39}\), after \(e^{1.601}\approx\mathbf{4.96}.\) The ridge penalty <b>shrank the weight toward 0</b>, pulling the odds ratio toward 1 (a less extreme multiplicative effect per unit of \(x_1\)) — reducing variance/over-confidence. The bias is deliberately left un-shrunk so predictions are not arbitrarily offset.
+        </div></details>
+        <p class="src">tests: logistic gradient step + L2 weight decay + odds ratio · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: SVM weight/bias from support vectors + margin + kernel · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q5. SVM: hyperplane from support vectors, margin width &amp; kernels</h3>
+        <p>A hard-margin linear SVM in 2-D has exactly two support vectors: \(x^{+}=(3,3)\) with \(y=+1\) and \(x^{-}=(1,1)\) with \(y=-1\). The weight vector is parallel to \(x^{+}-x^{-}\), so \(w=(a,a)\). (A) Solve the two margin equations \(y_i(w\cdot x_i+b)=1\) for \(a\) and \(b\). (B) Compute the margin width \(2/\lVert w\rVert\) and classify the new point \((4,2)\) via \(\operatorname{sign}(w\cdot x+b)\). (C) The classes later turn out to be one circle inside another (not linearly separable) — how does the kernel trick let the same SVM machinery work? <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(y^{+}\): \(+1(3a+3a+b)=1\Rightarrow 6a+b=1.\) \(y^{-}\): \(-1(a+a+b)=1\Rightarrow 2a+b=-1.\)<br>
+          Subtract: \(4a=2\Rightarrow a=0.5\); then \(2(0.5)+b=-1\Rightarrow b=-2.\) So \(w=(0.5,0.5),\ b=-2.\) (Check: \(x^{+}\!:0.5(3)+0.5(3)-2=1\) ✓; \(x^{-}\!:0.5+0.5-2=-1\) ✓.)<br>
+          <b>(B)</b> \(\lVert w\rVert=\sqrt{0.5^2+0.5^2}=\sqrt{0.5}=0.707\); margin \(=\dfrac{2}{0.707}=2\sqrt2\approx\mathbf{2.83}.\)<br>
+          \(w\cdot(4,2)+b=0.5(4)+0.5(2)-2=2+1-2=1\gt0\Rightarrow\operatorname{sign}=+1\) ⇒ <b>positive class</b>.<br>
+          <b>(C)</b> Map the data with \(\phi\) (e.g. add \(x_1^2+x_2^2\), the squared radius) so the inner circle and outer circle differ in the new coordinate and become linearly separable. The SVM only needs inner products, so a <b>kernel</b> \(K(u,v)=\phi(u)\cdot\phi(v)\) (e.g. \((u\cdot v+1)^2\) or RBF) computes them <b>without ever forming \(\phi\) explicitly</b> — a linear max-margin hyperplane in feature space becomes a non-linear boundary in the original space.
+        </div></details>
+        <p class="src">tests: SVM weight/bias from support vectors + margin + kernel · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: k-means iteration + within-cluster SSE + elbow choice of k · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q6. K-means: one iteration, SSE objective &amp; choosing k</h3>
+        <p>Points: A(1,1), B(1,2), C(2,1), D(8,8), E(8,9), F(9,8). Initial centroids \(\mu_1=(1,1),\ \mu_2=(9,8)\). (A) Do one assignment + centroid-update cycle (Euclidean). (B) Compute the within-cluster SSE of the left cluster after the update, and state the objective \(J\) that k-means minimizes. (C) With \(k{=}1\) the total SSE is ≈149.7 and with \(k{=}2\) it drops to ≈2.67; adding a third cluster reduces it only marginally. What value of \(k\) does the elbow method choose and why? <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> A, B, C are far nearer \(\mu_1\); D, E, F far nearer \(\mu_2\) ⇒ clusters \(C_1=\{A,B,C\}\), \(C_2=\{D,E,F\}\).<br>
+          Update: \(\mu_1=\big(\tfrac{1+1+2}{3},\tfrac{1+2+1}{3}\big)=(\mathbf{1.333,\,1.333});\) \(\mu_2=\big(\tfrac{8+8+9}{3},\tfrac{8+9+8}{3}\big)=(\mathbf{8.333,\,8.333}).\)<br>
+          <b>(B)</b> \(\lVert A-\mu_1\rVert^2=0.333^2+0.333^2=0.222;\) \(\lVert B-\mu_1\rVert^2=0.333^2+0.667^2=0.556;\) \(\lVert C-\mu_1\rVert^2=0.667^2+0.333^2=0.556.\) SSE\(_{C_1}=0.222+0.556+0.556\approx\mathbf{1.33}.\)<br>
+          Objective: \(J=\sum_{k}\sum_{x\in C_k}\lVert x-\mu_k\rVert^2\) (total within-cluster squared distance), minimized by alternating assignment and mean-update, which never increases \(J\).<br>
+          <b>(C)</b> The elbow is at <b>\(k=2\)</b>: SSE plunges from 149.7 to 2.67 (going 1→2) but barely improves beyond that. The "elbow" is the \(k\) after which extra clusters give diminishing returns — matching the two obvious well-separated groups.
+        </div></details>
+        <p class="src">tests: k-means iteration + within-cluster SSE + elbow choice of k · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: MLE + log-likelihood + cross-entropy equivalence · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q7. MLE, log-likelihood and its equivalence to logistic cross-entropy</h3>
+        <p>A coin is tossed 8 times giving 5 heads. (A) State the binomial MLE \(\hat p\) and evaluate the log-likelihood \(\ell(p)=5\ln p+3\ln(1-p)\) at \(\hat p\) (natural log). (B) A logistic classifier is trained on 8 examples whose predicted probability of class 1 is fixed at \(h=0.625\); 5 have label \(y=1\) and 3 have \(y=0\). Compute the total cross-entropy \(-\sum[y\ln h+(1-y)\ln(1-h)]\). (C) Explain the exact relationship you observe between (A) and (B). <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\hat p=\dfrac{h}{n}=\dfrac58=\mathbf{0.625}.\) \(\ell(0.625)=5\ln 0.625+3\ln 0.375=5(-0.4700)+3(-0.9808)=-2.350-2.942=\mathbf{-5.292}.\)<br>
+          <b>(B)</b> Each \(y=1\) example contributes \(-\ln h=-\ln 0.625=0.470\); each \(y=0\) contributes \(-\ln(1-h)=-\ln 0.375=0.981.\)<br>
+          Total \(=5(0.470)+3(0.981)=2.350+2.942=\mathbf{5.292}.\)<br>
+          <b>(C)</b> The cross-entropy is <b>exactly the negative log-likelihood</b> of the same Bernoulli model: \(5.292=-\ell(0.625)\). Minimizing logistic cross-entropy is therefore identical to <b>maximum-likelihood estimation</b> of the class probabilities — the log-loss is the principled cost precisely because it is the negative log-likelihood (and it is convex in the parameters, so GD reaches the global optimum).
+        </div></details>
+        <p class="src">tests: MLE + log-likelihood + cross-entropy equivalence · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: confusion matrix + threshold + cost-sensitive selection + ROC · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q8. Threshold selection under asymmetric error costs</h3>
+        <p>A classifier scores six test instances (score, true label): (0.90,1), (0.80,0), (0.60,1), (0.45,1), (0.30,0), (0.20,0). A false negative costs 10 and a false positive costs 1. (A) At threshold 0.5 build TP/FP/FN/TN and compute precision, recall, F1 and the ROC point (FPR, TPR). (B) Compute the total expected cost at threshold 0.5 and at threshold 0.4. (C) Which threshold is better and how does this relate to the precision–recall trade-off? <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Positives (y=1): 0.90, 0.60, 0.45. Negatives: 0.80, 0.30, 0.20.<br>
+          <b>(A)</b> Threshold 0.5 ⇒ predict 1 for 0.90, 0.80, 0.60. TP=2 (0.90,0.60), FP=1 (0.80), FN=1 (0.45), TN=2 (0.30,0.20).<br>
+          Precision \(=\tfrac{2}{3}=0.667\); Recall \(=\tfrac{2}{3}=0.667\); \(F_1=\tfrac{2(0.667)(0.667)}{1.333}=\mathbf{0.667}.\) ROC point: FPR \(=\tfrac13=0.333\), TPR \(=0.667\) ⇒ \((0.333,\,0.667).\)<br>
+          <b>(B)</b> Cost(0.5) \(=10(\text{FN})+1(\text{FP})=10(1)+1(1)=\mathbf{11}.\)<br>
+          Threshold 0.4 ⇒ predict 1 for 0.90, 0.80, 0.60, 0.45. TP=3, FP=1 (0.80), FN=0, TN=2. Cost \(=10(0)+1(1)=\mathbf{1}.\)<br>
+          <b>(C)</b> <b>Threshold 0.4</b> is far better (cost 1 vs 11). Lowering the threshold raised <b>recall</b> \(0.667\to1.0\) (caught the missed positive) at a small precision cost \(0.667\to0.75\) here; because a false negative is 10× as costly as a false positive, trading recall up is worth it. Threshold choice should follow the FP/FN cost structure, not accuracy.
+        </div></details>
+        <p class="src">tests: confusion matrix + threshold + cost-sensitive selection + ROC · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: gradient descent learning rate + feature scaling + convergence · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q9. Feature scaling, gradient magnitudes &amp; learning-rate stability</h3>
+        <p>A one-example linear-regression problem has \(x=(x_1,x_2)=(1,1000)\), \(y=1\), weights \(w=(0,0)\), and gradient \(g_j=(h-y)x_j\). (A) Compute \(h\), then the two gradients \(g_1,g_2\); with \(\alpha=0.001\) give the two weight updates and explain why the surface is badly conditioned. (B) What single preprocessing step fixes this, and what does it do to the cost contours? (C) For the toy cost \(J(\theta)=\theta^2\) the update is \(\theta:=\theta(1-2\alpha)\); state the condition on \(\alpha\) for convergence and what happens if \(\alpha=1\). <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(h=w_1x_1+w_2x_2=0\); error \(h-y=-1.\) \(g_1=(-1)(1)=-1;\) \(g_2=(-1)(1000)=-1000.\)<br>
+          Updates: \(w_1:=0-0.001(-1)=0.001;\) \(w_2:=0-0.001(-1000)=1.0.\) The \(w_2\) step is 1000× the \(w_1\) step purely because \(x_2\) is on a far larger scale ⇒ the cost contours are <b>highly elongated ellipses</b> and GD <b>zig-zags</b> and converges slowly (ill-conditioned).<br>
+          <b>(B)</b> <b>Feature scaling</b> (min-max or z-score, fit on the training set) puts both features on a comparable range, making the contours near-<b>circular</b> so the negative gradient points almost straight at the minimum ⇒ fast convergence.<br>
+          <b>(C)</b> \(\theta:=\theta(1-2\alpha)\) converges iff \(|1-2\alpha|\lt1\), i.e. \(0\lt\alpha\lt1.\) At \(\alpha=1\): \(\theta:=\theta(1-2)=-\theta\) — it flips sign and oscillates forever with the same magnitude (no decrease); larger \(\alpha\) diverges.
+        </div></details>
+        <p class="src">tests: gradient descent learning rate + feature scaling + convergence · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: AdaBoost alpha + weighted vote + bagging vs boosting bias-variance · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q10. AdaBoost weights, weighted vote &amp; bagging vs boosting</h3>
+        <p>Two AdaBoost rounds give weighted errors \(\varepsilon_1=0.25\) and \(\varepsilon_2=0.20\). (A) Compute the learner weights \(\alpha_t=\tfrac12\ln\frac{1-\varepsilon_t}{\varepsilon_t}\). (B) On a test point the two learners predict \(h_1=+1,\ h_2=-1\); compute the ensemble output \(H=\operatorname{sign}(\sum_t\alpha_t h_t)\). (C) Contrast bagging and boosting by how learners are trained and which of bias/variance each mainly reduces. <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\alpha_1=\tfrac12\ln\tfrac{0.75}{0.25}=\tfrac12\ln3=\tfrac12(1.0986)=\mathbf{0.549};\) \(\alpha_2=\tfrac12\ln\tfrac{0.80}{0.20}=\tfrac12\ln4=\tfrac12(1.3863)=\mathbf{0.693}.\) (Lower error ⇒ larger weight.)<br>
+          <b>(B)</b> \(\sum\alpha_t h_t=0.549(+1)+0.693(-1)=-0.144;\) \(\operatorname{sign}(-0.144)=\mathbf{-1}\) ⇒ the more-trusted round-2 learner wins.<br>
+          <b>(C)</b> <b>Bagging</b> trains learners <b>independently/in parallel</b> on bootstrap samples and averages/votes — mainly <b>reduces variance</b> (e.g. Random Forest). <b>Boosting</b> (AdaBoost) trains learners <b>sequentially</b>, each re-weighting the previous one's errors — mainly <b>reduces bias</b> (turns weak learners into a strong one), combining them by the \(\alpha_t\) weights above.
+        </div></details>
+        <p class="src">tests: AdaBoost alpha + weighted vote + bagging vs boosting bias-variance · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: z-score standardization + kNN + curse of dimensionality · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q11. How feature scaling changes a k-NN decision</h3>
+        <p>Feature \(F_1\) has \(\mu=5,\ \sigma=2\); feature \(F_2\) has \(\mu=500,\ \sigma=100\). Training points: \(A=(9,480)\to\)Class 1, \(B=(1,520)\to\)Class 2. Query \(Q=(8,505)\), \(k=1\), Euclidean distance. (A) Classify \(Q\) using the <b>raw</b> features. (B) Classify \(Q\) after <b>z-score standardizing</b> both features. (C) Explain the difference and how the curse of dimensionality worsens the raw-distance problem. <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Raw: \(d(Q,A)=\sqrt{(8-9)^2+(505-480)^2}=\sqrt{1+625}=\sqrt{626}\approx25.0;\) \(d(Q,B)=\sqrt{(8-1)^2+(505-520)^2}=\sqrt{49+225}=\sqrt{274}\approx16.6.\) Nearer is \(B\) ⇒ predict <b>Class 2</b> — but the distance is dominated by \(F_2\)'s large scale.<br>
+          <b>(B)</b> Standardize: \(A'=(\tfrac{9-5}{2},\tfrac{480-500}{100})=(2,-0.2);\) \(B'=(-2,0.2);\) \(Q'=(\tfrac{8-5}{2},\tfrac{505-500}{100})=(1.5,0.05).\)<br>
+          \(d(Q',A')=\sqrt{(1.5-2)^2+(0.05+0.2)^2}=\sqrt{0.25+0.0625}=\sqrt{0.3125}\approx0.56;\) \(d(Q',B')=\sqrt{(1.5+2)^2+(0.05-0.2)^2}=\sqrt{12.25+0.0225}\approx3.50.\) Nearer is \(A'\) ⇒ predict <b>Class 1</b>.<br>
+          <b>(C)</b> The decision <b>flipped</b> because, unscaled, \(F_2\) (range in the hundreds) dominates the Euclidean distance and \(F_1\) is effectively ignored; standardizing gives each feature equal weight (mean 0, variance 1). In high dimensions the <b>curse of dimensionality</b> makes this worse: distances become large and nearly equal for all points, so any single mis-scaled feature can swamp the metric and "nearest" loses meaning — hence scaling (and often dimensionality reduction) before distance-based methods.
+        </div></details>
+        <p class="src">tests: z-score standardization + kNN + curse of dimensionality · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: OLS fit + R-squared + RMSE + MAE + residuals · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q12. End-to-end OLS: fit, predict, and evaluate with three metrics</h3>
+        <p>Fit \(\hat y=\theta_0+\theta_1x\) by ordinary least squares to \((x,y)=(1,2),(2,3),(3,5),(4,4),(5,6)\). (A) Find \(\theta_0,\theta_1\). (B) Compute the residuals and then \(R^2\). (C) Compute RMSE and MAE, and explain why RMSE \(\ge\) MAE here. <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\bar x=3,\ \bar y=4.\) \(\sum(x-\bar x)(y-\bar y)=(-2)(-2)+(-1)(-1)+0(1)+1(0)+2(2)=4+1+0+0+4=9;\) \(\sum(x-\bar x)^2=4+1+0+1+4=10.\)<br>
+          \(\theta_1=\tfrac{9}{10}=\mathbf{0.9};\) \(\theta_0=4-0.9(3)=\mathbf{1.3}.\) Line \(\hat y=1.3+0.9x.\)<br>
+          <b>(B)</b> Predictions: \(2.2,\,3.1,\,4.0,\,4.9,\,5.8.\) Residuals \((y-\hat y)\): \(-0.2,\,-0.1,\,1.0,\,-0.9,\,0.2.\)<br>
+          \(SS_{res}=0.04+0.01+1.0+0.81+0.04=1.90;\) \(SS_{tot}=(-2)^2+(-1)^2+1^2+0^2+2^2=10.\)<br>
+          \(R^2=1-\tfrac{1.90}{10}=\mathbf{0.81}\) (81% of the variance in \(y\) explained).<br>
+          <b>(C)</b> \(\text{RMSE}=\sqrt{\tfrac{1.90}{5}}=\sqrt{0.38}\approx\mathbf{0.62};\) \(\text{MAE}=\tfrac{0.2+0.1+1.0+0.9+0.2}{5}=\tfrac{2.4}{5}=\mathbf{0.48}.\)<br>
+          RMSE \(\ge\) MAE always (equality only if all \(|{\rm residual}|\) are equal); here squaring inflates the two larger residuals (1.0 and 0.9), so RMSE (0.62) exceeds MAE (0.48). RMSE is thus more sensitive to large errors.
+        </div></details>
+        <p class="src">tests: OLS fit + R-squared + RMSE + MAE + residuals · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: Bayes posterior = precision + prevalence effect + confusion matrix · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q13. Bayes' posterior is the precision — and why prevalence changes it</h3>
+        <p>A test has sensitivity \(P(T{+}\mid D{+})=0.95\) and specificity \(P(T{-}\mid D{-})=0.90\) (so \(P(T{+}\mid D{-})=0.10\)). (A) For prevalence 1%, build the confusion matrix on 10,000 people and compute precision and recall of the "positive" prediction. (B) Show these equal the Bayesian \(P(D{+}\mid T{+})\) and sensitivity respectively. (C) Recompute precision at 20% prevalence and explain why recall stayed the same but precision jumped. <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Prevalence 1% of 10,000: \(D{+}=100,\ D{-}=9900.\) TP \(=0.95(100)=95\), FN \(=5\); FP \(=0.10(9900)=990\), TN \(=8910.\)<br>
+          Precision \(=\tfrac{TP}{TP+FP}=\tfrac{95}{95+990}=\tfrac{95}{1085}\approx\mathbf{0.088};\) Recall \(=\tfrac{95}{100}=\mathbf{0.95}.\)<br>
+          <b>(B)</b> By Bayes, \(P(T{+})=0.95(0.01)+0.10(0.99)=0.0095+0.099=0.1085\) and \(P(D{+}\mid T{+})=\tfrac{0.0095}{0.1085}\approx0.088\) — <b>identical to precision</b>. And <b>recall = sensitivity</b> \(=P(T{+}\mid D{+})=0.95\) (specificity = TNR). So the confusion-matrix metrics and Bayes' theorem are the same computation.<br>
+          <b>(C)</b> At 20%: \(D{+}=2000,\ D{-}=8000.\) TP \(=1900\), FP \(=0.10(8000)=800.\) Precision \(=\tfrac{1900}{1900+800}=\tfrac{1900}{2700}\approx\mathbf{0.70}.\) <b>Recall is unchanged (0.95)</b> because it depends only on \(P(T{+}\mid D{+})\), a property of the test, not of prevalence. <b>Precision jumped (0.088→0.70)</b> because a higher base rate means more true positives per false positive — precision (like the posterior) depends on the prior/prevalence (the base-rate effect).
+        </div></details>
+        <p class="src">tests: Bayes posterior = precision + prevalence effect + confusion matrix · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: cross-entropy loss + decision boundary + why not MSE · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q14. Log loss, the decision boundary, and why not MSE</h3>
+        <p>A logistic model has \(z=w_0+w_1x_1+w_2x_2\) with \((w_0,w_1,w_2)=(-2,1,0.5)\). Two points both have true label \(y=1\): \(P=(4,2)\) and \(Q=(1,0)\). (A) Compute \(\sigma(z)\) and the cross-entropy loss for each point (natural log), then the mean loss. (B) Write the decision-boundary equation in \((x_1,x_2)\) and give \(x_2\) as a function of \(x_1\). (C) Why is cross-entropy, not MSE, used to train logistic regression? <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(P\): \(z=-2+1(4)+0.5(2)=3;\) \(h=\sigma(3)=\dfrac{1}{1+e^{-3}}\approx0.953;\) loss \(=-\ln 0.953\approx\mathbf{0.049}.\)<br>
+          \(Q\): \(z=-2+1(1)+0.5(0)=-1;\) \(h=\sigma(-1)=\dfrac{1}{1+e^{1}}\approx0.269;\) loss \(=-\ln 0.269\approx\mathbf{1.313}\) (confident-wrong ⇒ large loss).<br>
+          Mean loss \(=\tfrac{0.049+1.313}{2}\approx\mathbf{0.681}.\)<br>
+          <b>(B)</b> Boundary at \(z=0\): \(-2+x_1+0.5x_2=0\Rightarrow x_2=\dfrac{2-x_1}{0.5}=\mathbf{4-2x_1}.\) (\(P\) with \(z=3\gt0\) is on the class-1 side; \(Q\) with \(z=-1\lt0\) is on the class-0 side, so \(Q\) is misclassified — hence its large loss.)<br>
+          <b>(C)</b> Substituting the sigmoid into MSE gives a <b>non-convex</b> cost with local minima, so GD may not reach the global optimum. <b>Cross-entropy</b> (negative log-likelihood) is <b>convex</b> in the weights and penalizes confident wrong predictions without bound (\(-\ln h\to\infty\) as \(h\to0\) when \(y=1\)), giving well-behaved gradients.
+        </div></details>
+        <p class="src">tests: cross-entropy loss + decision boundary + why not MSE · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: OOB error + bootstrap fraction + bagging variance + random forest · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q15. Out-of-bag estimation, bootstrap coverage &amp; Random Forest</h3>
+        <p>(A) For a bootstrap sample of size \(n=5\) drawn with replacement from 5 items, compute the probability a given item is never selected, and state its limit as \(n\to\infty\). (B) A bagged ensemble is scored on its out-of-bag instances: of 20 OOB predictions, 4 are wrong — compute the OOB error and say why it is a valid generalization estimate. (C) If a single tree has prediction variance \(\sigma^2\) and we average \(B\) trees, what is the variance under independence, and how does a Random Forest push real ensembles toward that ideal? <em>(9 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> Each of the 5 draws misses a fixed item with probability \(\tfrac45\), so \(P(\text{never picked})=(1-\tfrac15)^5=0.8^5\approx\mathbf{0.328}.\) As \(n\to\infty\), \((1-\tfrac1n)^n\to e^{-1}\approx\mathbf{0.368}\) — about a third of the data is out-of-bag per tree.<br>
+          <b>(B)</b> OOB error \(=\tfrac{4}{20}=\mathbf{0.20}.\) The OOB instances were <b>not used to train that tree</b>, so they act as an unseen validation set — giving an unbiased generalization estimate <b>without a separate hold-out split</b>.<br>
+          <b>(C)</b> For \(B\) independent trees, \(\operatorname{Var}=\dfrac{\sigma^2}{B}\) — averaging shrinks variance. Real bagged trees are correlated (they see similar data), so the reduction is limited. A <b>Random Forest</b> also samples a random subset of features at each split, <b>decorrelating</b> the trees so their average behaves closer to the independent ideal ⇒ lower variance.
+        </div></details>
+        <p class="src">tests: OOB error + bootstrap fraction + bagging variance + random forest · Advanced</p>
+      </div>
+
+      <div class="card q" data-src="tests: L1/L2/Elastic Net penalties + correlated features + p>n singularity · Advanced">
+        <span class="badge adv">Advanced</span>
+        <h3>Q16. Choosing a regularizer for high-dimensional, correlated data</h3>
+        <p>A model has fitted weights \((w_1,w_2,w_3,w_4)=(3,\,0.5,\,-2,\,0.1)\), and features \(x_1,x_3\) are known to be highly correlated. Use \(\lambda=1\) and mix ratio \(r=0.5\). (A) Compute the L2 (ridge) penalty \(\lambda\sum w_j^2\), the L1 (lasso) penalty \(\lambda\sum|w_j|\), and the Elastic-Net penalty \(r\lambda\sum|w_j|+\tfrac{1-r}{2}\lambda\sum w_j^2\). (B) With far more features than examples (\(d\gg n\)), why does the plain normal equation fail, and how does adding an L2 term rescue it? (C) Which regularizer best suits selecting features when predictors are correlated, and what happens to bias/variance as \(\lambda\to\infty\)? <em>(10 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <b>(A)</b> \(\sum w_j^2=9+0.25+4+0.01=13.26\Rightarrow\) L2 penalty \(=1(13.26)=\mathbf{13.26}.\)<br>
+          \(\sum|w_j|=3+0.5+2+0.1=5.6\Rightarrow\) L1 penalty \(=\mathbf{5.6}.\)<br>
+          Elastic Net \(=0.5(1)(5.6)+\tfrac{0.5}{2}(1)(13.26)=2.8+0.25(13.26)=2.8+3.315=\mathbf{6.115}.\)<br>
+          <b>(B)</b> With \(d\gg n\), \(X^{\top}X\) is <b>singular</b> (not full rank), so \((X^{\top}X)^{-1}\) does not exist and OLS is undefined/unstable. Ridge solves \((X^{\top}X+\lambda I)^{-1}X^{\top}y\): adding \(\lambda I\) makes the matrix <b>invertible</b> (positive-definite), stabilizing the solution (equivalently, use the pseudo-inverse).<br>
+          <b>(C)</b> <b>Elastic Net</b> — pure Lasso tends to arbitrarily keep one of a correlated group and zero the rest (unstable); Elastic Net's L2 part shares weight across correlated features (grouping effect) while its L1 part still gives sparsity/selection. As \(\lambda\to\infty\), all weights are driven toward 0 ⇒ <b>bias increases and variance decreases</b> (the model collapses toward a constant).
+        </div></details>
+        <p class="src">tests: L1/L2/Elastic Net penalties + correlated features + p>n singularity · Advanced</p>
       </div>
 
     </div>

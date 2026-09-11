@@ -45,6 +45,7 @@ main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
 .badge.medium{background:#78350f;color:#fcd34d}
 .badge.hard{background:#7f1d1d;color:#fca5a5}
 .badge.mixed{background:#3730a3;color:#c7d2fe}
+.badge.adv{background:#4c1d95;color:#ddd6fe}
 details.ans{margin-top:.5rem;border-top:1px dashed var(--border);padding-top:.4rem}
 details.ans>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600;list-style:none}
 details.ans>summary::-webkit-details-marker{display:none}
@@ -72,7 +73,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Practice problems for AIML ZG511 — every formula in the Formulas guide gets an Easy (single eval), Medium (one forward/gradient step), and Hard (full forward+backward pass or derivation) problem, and every concept is exercised. Questions mirror the past-paper style ("Consider the network… / Given weights… / Compute… / Perform one step… / Derive…") with marks in brackets. Click "show answer" for a full worked solution. Modules follow the course order (M1–M5, Numerical Methods, Lab Notebooks, Recovered slides) and a final Combined / Exam-style set. Sources: DNN_M1–M5 decks, DFNN numericals, lab notebooks, and EC-2/EC-3 past papers.</p>
+  <p class="intro">Practice problems for AIML ZG511 — every formula in the Formulas guide gets an Easy (single eval), Medium (one forward/gradient step), and Hard (full forward+backward pass or derivation) problem, and every concept is exercised. Questions mirror the past-paper style ("Consider the network… / Given weights… / Compute… / Perform one step… / Derive…") with marks in brackets. Click "show answer" for a full worked solution. Modules follow the course order (M1–M6 incl. convolutional neural networks, Numerical Methods, Lab Notebooks, Recovered slides) and a final Combined / Exam-style set. Sources: DNN_M1–M6 decks, DFNN numericals, lab notebooks, and EC-2/EC-3 past papers.</p>
 
   <details class="module" open>
     <summary>Module 1 — Introduction to Deep Learning <small>· source: DNN_M1_Introduction.pdf</small></summary>
@@ -746,6 +747,203 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </details>
 
   <details class="module" open>
+    <summary>Module 6 — Convolutional Neural Networks (CNN) <small>· source: DNN_M6_CNN.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="tests: conv output spatial size · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q1.</strong> A convolution uses a 3×3 kernel with no padding. Compute the output size using \(\lfloor(n+2p-k)/s\rfloor+1\) for a 6×6 input at (a) stride 1 and (b) stride 2. <em>(01+01 = 02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) \(s=1:\ \lfloor(6+0-3)/1\rfloor+1=3+1=\mathbf{4}\Rightarrow 4\times4\).<br>
+          (b) \(s=2:\ \lfloor(6-3)/2\rfloor+1=\lfloor1.5\rfloor+1=1+1=\mathbf{2}\Rightarrow 2\times2\).
+        </div></details>
+        <span class="src">tests: conv output spatial size · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: conv layer parameter count · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q2.</strong> A conv layer applies 32 filters of size 3×3 to a 3-channel input (with bias). Using \((k\cdot k\cdot C_{in}+1)\cdot C_{out}\), how many learnable parameters does it have? <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Per filter: \(3\cdot3\cdot3+1=27+1=28\) weights.<br>
+          Total: \(28\times32=\mathbf{896}\) parameters (independent of the input's spatial size).
+        </div></details>
+        <span class="src">tests: conv layer parameter count · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: max vs average pooling · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q3.</strong> Apply 2×2 pooling with stride 2 to \(\begin{bmatrix}2&amp;4&amp;7&amp;4\\6&amp;6&amp;9&amp;8\\3&amp;4&amp;8&amp;3\\7&amp;5&amp;3&amp;6\end{bmatrix}\). Give both the max-pool and average-pool outputs. <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Four 2×2 windows: TL\(\{2,4,6,6\}\), TR\(\{7,4,9,8\}\), BL\(\{3,4,7,5\}\), BR\(\{8,3,3,6\}\).<br>
+          <strong>Max</strong>: \(\begin{bmatrix}6&amp;9\\7&amp;8\end{bmatrix}\).<br>
+          <strong>Average</strong>: \(\begin{bmatrix}4.5&amp;7\\4.75&amp;5\end{bmatrix}\) (e.g. TL \(=18/4=4.5\), BL \(=19/4=4.75\)).
+        </div></details>
+        <span class="src">tests: max vs average pooling · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: pooling output size + zero params · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q4.</strong> A max-pooling layer (2×2, stride 2) is applied to a 56×56×128 feature volume. Give the output shape and the number of learnable parameters. <em>(01+01 = 02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Spatial: \(\lfloor(56-2)/2\rfloor+1=27+1=28\), depth unchanged → output \(\mathbf{28\times28\times128}\).<br>
+          Learnable parameters: \(\mathbf{0}\) — pooling only has hyperparameters \(k,s\).
+        </div></details>
+        <span class="src">tests: pooling output size + zero params · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: ReLU on a feature map · Easy">
+        <span class="badge easy">Easy</span>
+        <p><strong>Q5.</strong> Apply ReLU element-wise to the feature-map row \([-3,\ 2,\ 0,\ -0.5,\ 4]\), and state the derivative \(\text{ReLU}'\) at \(x=2\) and \(x=-3\). <em>(02 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(\text{ReLU}(x)=\max(0,x)\Rightarrow[\mathbf{0,\ 2,\ 0,\ 0,\ 4}]\) (negatives → 0).<br>
+          \(\text{ReLU}'(2)=\mathbf{1}\) (since \(x>0\)); \(\text{ReLU}'(-3)=\mathbf{0}\) (since \(x<0\)).
+        </div></details>
+        <span class="src">tests: ReLU on a feature map · Easy</span>
+      </div>
+
+      <div class="card q" data-src="tests: multi-channel conv output shape + params · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q6.</strong> An input volume is 32×32×3. A conv layer uses 64 filters of size 3×3 with <em>same</em> padding and stride 1 (bias included). Give (a) the output shape and (b) the number of parameters. <em>(01+02 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Same padding + stride 1 keeps spatial size; depth = #filters → \(\mathbf{32\times32\times64}\).<br>
+          (b) Each filter is \(3\times3\times3\): \((9\cdot3+1)=28\) weights; total \(28\times64=\mathbf{1792}\) parameters.
+        </div></details>
+        <span class="src">tests: multi-channel conv output shape + params · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: same padding value · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q7.</strong> What padding \(p\) gives "same" output (output size = input size) for a 7×7 kernel at stride 1? State the general rule and verify on a 20×20 input. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Rule (stride 1, odd \(k\)): \(p=\dfrac{k-1}{2}=\dfrac{7-1}{2}=\mathbf{3}\).<br>
+          Check: \(\lfloor(20+2\cdot3-7)/1\rfloor+1=\lfloor19\rfloor+1=20\) → output \(20\times20\), same as input ✓.
+        </div></details>
+        <span class="src">tests: same padding value · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: receptive field of stacked convs · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q8.</strong> Using \(RF_l=RF_{l-1}+(K_l-1)\prod_{i<l}S_i\) with \(RF_0=1\), compute the receptive field after four stacked 3×3 stride-1 convolutions. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          All strides = 1, so the product term is 1 and each layer adds \(K-1=2\).<br>
+          \(RF_1=1+2=3\); \(RF_2=3+2=5\); \(RF_3=5+2=7\); \(RF_4=7+2=\mathbf{9}\).<br>
+          Four 3×3 layers "see" a 9×9 region — the same as one 9×9 kernel but with far fewer parameters.
+        </div></details>
+        <span class="src">tests: receptive field of stacked convs · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: dilated effective kernel · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q9.</strong> A 3×3 kernel is used with dilation rate \(r=3\). Compute the effective kernel size \(k_{eff}=k+(k-1)(r-1)\), and state how many learnable weights it has and why dilation is useful. <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(k_{eff}=3+(3-1)(3-1)=3+4=\mathbf{7}\) → covers a 7×7 region.<br>
+          It still has only \(3\times3=\mathbf{9}\) weights. Dilation enlarges the receptive field <strong>without adding parameters</strong> and without downsampling, which preserves resolution — ideal for semantic segmentation and dense prediction.
+        </div></details>
+        <span class="src">tests: dilated effective kernel · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: 1x1 conv channel reduction · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q10.</strong> A 1×1 convolution reduces a 28×28×256 volume to 28×28×64 (bias included). (a) How many parameters? (b) What happens to the spatial dimensions and why use this? <em>(02+01 = 03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) Each 1×1 filter spans all 256 channels: \((1\cdot1\cdot256+1)=257\) weights; with 64 filters, \(257\times64=\mathbf{16{,}448}\) parameters.<br>
+          (b) Spatial dims are <strong>unchanged</strong> (28×28); a 1×1 conv only mixes channels per position. It is used to cheaply reduce channels (a bottleneck) before an expensive 3×3/5×5 conv, and to add non-linearity via a following ReLU.
+        </div></details>
+        <span class="src">tests: 1x1 conv channel reduction · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: softmax evaluation (CNN head) · Medium">
+        <span class="badge medium">Medium</span>
+        <p><strong>Q11.</strong> A CNN's final logits are \(z=[1,2,3]\). Compute the softmax output. <em>(03 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          \(e^{1}=2.718,\ e^{2}=7.389,\ e^{3}=20.086\); sum \(=30.193\).<br>
+          \(\sigma=\big[\tfrac{2.718}{30.193},\tfrac{7.389}{30.193},\tfrac{20.086}{30.193}\big]=\mathbf{[0.090,\ 0.245,\ 0.665]}\) (sums to 1; class 3 is predicted).
+        </div></details>
+        <span class="src">tests: softmax evaluation (CNN head) · Medium</span>
+      </div>
+
+      <div class="card q" data-src="tests: Conv→ReLU→MaxPool pipeline · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q12.</strong> A convolution produces the pre-activation feature map
+        \(\begin{bmatrix}-2&amp;1&amp;-1&amp;0\\3&amp;-1&amp;2&amp;-3\\-1&amp;-2&amp;0&amp;1\\1&amp;-1&amp;3&amp;-2\end{bmatrix}\).
+        Apply (a) ReLU, then (b) 2×2 max-pooling with stride 2. Show both intermediate results. <em>(02+02 = 04 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          (a) ReLU zeros negatives: \(\begin{bmatrix}0&amp;1&amp;0&amp;0\\3&amp;0&amp;2&amp;0\\0&amp;0&amp;0&amp;1\\1&amp;0&amp;3&amp;0\end{bmatrix}\).<br>
+          (b) 2×2 windows, take the max of each: TL\(\{0,1,3,0\}=3\), TR\(\{0,0,2,0\}=2\), BL\(\{0,0,1,0\}=1\), BR\(\{0,1,3,0\}=3\).<br>
+          Output \(=\mathbf{\begin{bmatrix}3&amp;2\\1&amp;3\end{bmatrix}}\). This Conv→ReLU→Pool block detects a pattern, discards non-matches, then keeps the strongest response in each region.
+        </div></details>
+        <span class="src">tests: Conv→ReLU→MaxPool pipeline · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: multi-channel convolution numerical · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q13.</strong> A filter is applied to a 2-channel input. The top-left 3×3 windows and the two 3×3 kernels are:
+        \(W_1=\begin{bmatrix}1&amp;2&amp;0\\0&amp;1&amp;1\\2&amp;0&amp;1\end{bmatrix}\), \(K_1=\begin{bmatrix}1&amp;0&amp;1\\0&amp;1&amp;0\\1&amp;0&amp;0\end{bmatrix}\);
+        \(W_2=\begin{bmatrix}0&amp;1&amp;2\\1&amp;1&amp;0\\0&amp;2&amp;1\end{bmatrix}\), \(K_2=\begin{bmatrix}0&amp;1&amp;0\\1&amp;0&amp;1\\0&amp;1&amp;0\end{bmatrix}\).
+        With bias \(b=1\), compute the output value \(O(0,0)=\sum_c\sum_{m,n}W_c\odot K_c+b\). <em>(02+02+01 = 05 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>Channel 1</strong> (\(W_1\odot K_1\) summed): \(1\!\cdot\!1+2\!\cdot\!0+0\!\cdot\!1+0\!\cdot\!0+1\!\cdot\!1+1\!\cdot\!0+2\!\cdot\!1+0\!\cdot\!0+1\!\cdot\!0=1+1+2=4\).<br>
+          <strong>Channel 2</strong> (\(W_2\odot K_2\) summed): \(0+1\!\cdot\!1+0+1\!\cdot\!1+0+0+0+2\!\cdot\!1+0=1+1+2=4\).<br>
+          Sum channels + bias: \(O(0,0)=4+4+1=\mathbf{9}\). Note a single multi-channel filter sums across <em>all</em> input channels to give <strong>one</strong> output channel.
+        </div></details>
+        <span class="src">tests: multi-channel convolution numerical · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: 1x1 bottleneck param savings · Hard">
+        <span class="badge hard">Hard</span>
+        <p><strong>Q14.</strong> Compare, ignoring biases, the parameters of (a) a direct 5×5 convolution 256→256 channels, versus (b) a bottleneck 256→64 (1×1) → 64 (5×5) → 256 (1×1). State the reduction factor. <em>(02+03+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Direct: \(5\cdot5\cdot256\cdot256=25\cdot65536=\mathbf{1{,}638{,}400}\) params.<br>
+          <strong>(b)</strong> Bottleneck three stages:<br>
+          &nbsp;1×1 reduce: \(1\cdot1\cdot256\cdot64=16{,}384\);<br>
+          &nbsp;5×5 core: \(5\cdot5\cdot64\cdot64=25\cdot4096=102{,}400\);<br>
+          &nbsp;1×1 expand: \(1\cdot1\cdot64\cdot256=16{,}384\).<br>
+          &nbsp;Total \(=16{,}384+102{,}400+16{,}384=\mathbf{135{,}168}\) params.<br>
+          <strong>Reduction</strong> \(\approx1{,}638{,}400/135{,}168\approx\mathbf{12\times}\) fewer parameters — this is why 1×1 bottlenecks make deep nets (ResNet, GoogLeNet) affordable.
+        </div></details>
+        <span class="src">tests: 1x1 bottleneck param savings · Hard</span>
+      </div>
+
+      <div class="card q" data-src="tests: full CNN spatial + param trace · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q15.</strong> Consider a LeNet-style feature extractor on a 32×32×3 input: Conv1 = 6 filters 5×5 (valid, stride 1) → MaxPool 2×2 s2 → Conv2 = 16 filters 5×5 (valid, stride 1) → MaxPool 2×2 s2.
+        (a) Trace the spatial dimensions after each layer. (b) Compute the parameters of Conv1 and Conv2 (with bias). (c) How many parameters do the two pooling layers contribute? <em>(03+03+01 = 07 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Conv1: \(32-5+1=28\) → 28×28×6. Pool1: \(28/2=14\) → 14×14×6. Conv2: \(14-5+1=10\) → 10×10×16. Pool2: \(10/2=5\) → <strong>5×5×16</strong>.<br>
+          <strong>(b)</strong> Conv1: \((5\cdot5\cdot3+1)\cdot6=76\cdot6=\mathbf{456}\). Conv2: \((5\cdot5\cdot6+1)\cdot16=151\cdot16=\mathbf{2416}\).<br>
+          <strong>(c)</strong> Pooling layers have \(\mathbf{0}\) learnable parameters. Note conv params are tiny because filters are shared across all spatial positions.
+        </div></details>
+        <span class="src">tests: full CNN spatial + param trace · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: two 3×3 vs one 5×5 (RF + params) · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q16.</strong> Compare two stacked 3×3 convolutions against one 5×5 convolution, where every layer has \(C\) input and \(C\) output channels (ignore biases).
+        (a) Show both have the same receptive field. (b) Compare their parameter counts and give the percentage saving. (c) Give one further advantage of the two-layer design. <em>(02+03+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> RF of one 3×3 (stride 1) = 3; stacking a second adds \(3-1=2\) → RF \(=5\), identical to a single 5×5 kernel.<br>
+          <strong>(b)</strong> One 5×5: \(5\cdot5\cdot C\cdot C=25C^2\). Two 3×3: \(2\cdot(3\cdot3\cdot C\cdot C)=18C^2\).<br>
+          &nbsp;Saving \(=(25-18)/25=7/25=\mathbf{28\%}\) fewer parameters.<br>
+          <strong>(c)</strong> The two-layer stack inserts an extra non-linearity (ReLU between the convs), making the function <strong>more expressive</strong> for the same receptive field — the core VGG insight.
+        </div></details>
+        <span class="src">tests: two 3×3 vs one 5×5 (RF + params) · Advanced</span>
+      </div>
+
+      <div class="card q" data-src="tests: residual connections / degradation · Advanced">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q17.</strong> (a) What is the "degradation problem" observed in very deep plain networks, and why is it not overfitting? (b) Write a residual block's output in terms of \(F(x)\) and \(x\), and show via the gradient why the skip connection helps training. (c) If the identity map is optimal, what must the block learn? <em>(02+03+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Adding more layers to a plain network <em>increased</em> the <strong>training</strong> error (not just test error). Since even training accuracy worsens, it is an <strong>optimization/difficulty</strong> problem, not overfitting (overfitting would show low train error, high test error).<br>
+          <strong>(b)</strong> Output \(y=F(x)+x\). Backprop gives \(\dfrac{\partial L}{\partial x}=\dfrac{\partial L}{\partial y}\Big(1+\dfrac{\partial F}{\partial x}\Big)\). The "\(+1\)" is a <strong>gradient highway</strong> that passes the gradient straight through even if \(\partial F/\partial x\to0\), preventing vanishing gradients and enabling 100+ layer training.<br>
+          <strong>(c)</strong> The block only needs to learn \(F(x)=0\) (push the residual weights toward zero), which is far easier than learning an exact identity mapping with a stack of non-linear layers.
+        </div></details>
+        <span class="src">tests: residual connections / degradation · Advanced</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
     <summary>Numerical Methods — Activations, Loss Derivatives &amp; Gradient Flow <small>· source: DNN_M5_DFNN_Numerical.pdf</small></summary>
     <div class="cards">
 
@@ -1028,6 +1226,239 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
           <strong>(c)</strong> Hidden neuron 1: inputs \(x_1,x_2\), weights \([1,1]\), bias \(-1.5\) (AND). Hidden neuron 2: inputs \(x_3,x_4\), weights \([1,1]\), bias \(-1.5\) (AND). Output neuron: inputs \(h_1,h_2\), weights \([1,1]\), bias \(-0.5\) (OR). This 2-layer perceptron realises \(F\) — a non-linearly-separable function a single perceptron cannot.
         </div></details>
         <span class="src">tests: 2-layer perceptron for Boolean function · Mixed</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>Advanced Questions — Multi-Concept Synthesis <small>· merges concepts across M1–M5, numerical + conceptual</small></summary>
+    <div class="cards">
+
+      <div class="card q" data-src="merges: forward prop + softmax + CCE + backprop + SGD update">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q1.</strong> A full 2-layer classifier is \(2\to2\ (\text{ReLU})\to3\ (\text{softmax})\) with categorical cross-entropy, \(\eta=0.1\), all biases 0.
+        \(W^{[1]}=\begin{bmatrix}0.4&amp;0.3\\0.6&amp;0.7\end{bmatrix}\) (rows = hidden units), \(W^{[2]}=\begin{bmatrix}0.5&amp;0.5\\1.0&amp;0.5\\0.5&amp;0.0\end{bmatrix}\) (rows = the 3 classes). Input \(x=[1,2]^\top\), one-hot target \(y=[0,1,0]^\top\) (true class 2).
+        (a) Forward pass: \(z^{[1]},a^{[1]},z^{[2]},\hat y\). (b) CCE loss. (c) Output error \(\delta^{[2]}\) and \(dW^{[2]}\). (d) Backprop \(\delta^{[1]},dW^{[1]}\). (e) One SGD update of \(W^{[2]}\) and \(W^{[1]}\). <em>(02+01+02+02+02 = 09 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(z^{[1]}=W^{[1]}x=[0.4(1)+0.3(2),\ 0.6(1)+0.7(2)]=[1.0,\ 2.0]\). Both \(&gt;0\Rightarrow a^{[1]}=\text{ReLU}=[1.0,\ 2.0]\).<br>
+          \(z^{[2]}=W^{[2]}a^{[1]}=[0.5(1)+0.5(2),\ 1.0(1)+0.5(2),\ 0.5(1)+0(2)]=[1.5,\ 2.0,\ 0.5]\).<br>
+          \(e^{1.5}=4.4817,\ e^{2.0}=7.3891,\ e^{0.5}=1.6487\); sum \(=13.5195\).<br>
+          \(\hat y=[0.3315,\ 0.5466,\ 0.1220]\) (sums to 1).<br>
+          <strong>(b)</strong> CCE \(=-\log\hat y_2=-\log(0.5466)=\mathbf{0.604}\) (only true class contributes).<br>
+          <strong>(c)</strong> \(\delta^{[2]}=\hat y-y=[0.3315,\ 0.5466-1,\ 0.1220]=\mathbf{[0.3315,\,-0.4534,\,0.1220]}\).<br>
+          \(dW^{[2]}=\delta^{[2]}(a^{[1]})^\top\) (outer product with \(a^{[1]}=[1,2]\)):
+          \(\begin{bmatrix}0.3315&amp;0.6630\\-0.4534&amp;-0.9069\\0.1220&amp;0.2439\end{bmatrix}\).<br>
+          <strong>(d)</strong> \(W^{[2]\top}\delta^{[2]}\): hidden-1 \(=0.5(0.3315)+1.0(-0.4534)+0.5(0.1220)=-0.2267\); hidden-2 \(=0.5(0.3315)+0.5(-0.4534)+0(0.1220)=-0.0610\).<br>
+          \(\text{ReLU}'(z^{[1]})=[1,1]\Rightarrow\delta^{[1]}=\mathbf{[-0.2267,\,-0.0610]}\).<br>
+          \(dW^{[1]}=\delta^{[1]}x^\top=\begin{bmatrix}-0.2267&amp;-0.4534\\-0.0610&amp;-0.1219\end{bmatrix}\).<br>
+          <strong>(e)</strong> \(W^{[2]}\leftarrow W^{[2]}-0.1\,dW^{[2]}=\begin{bmatrix}0.4669&amp;0.4337\\1.0453&amp;0.5907\\0.4878&amp;-0.0244\end{bmatrix}\);
+          \(W^{[1]}\leftarrow W^{[1]}-0.1\,dW^{[1]}=\begin{bmatrix}0.4227&amp;0.3453\\0.6061&amp;0.7122\end{bmatrix}\). The true-class weights (row 2 of \(W^{[2]}\)) grow, the others shrink.
+        </div></details>
+        <span class="src">merges: forward prop + softmax + CCE + backprop + SGD update</span>
+      </div>
+
+      <div class="card q" data-src="merges: gradient-flow recursion + activation derivative cap + init/architecture fix">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q2.</strong> Two 6-layer nets are trained (5 backward hops from output to first layer). Net A uses sigmoid activations with \(\lVert W\rVert=1.0\); Net B uses ReLU with \(\lVert W\rVert=1.5\). Assume the worst-case per-hop factor \(\lVert W\rVert\cdot g'\) with sigmoid \(g'=0.25\) (its maximum) and ReLU \(g'=1\).
+        (a) Starting from \(|\delta^{[L]}|=1\), compute \(|\delta^{[1]}|\) for each net. (b) Name each pathology. (c) Give one initialisation fix and one architectural fix that make the ReLU net stable, and explain why ReLU helps the sigmoid case. <em>(03+01+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Net A factor \(=1.0\times0.25=0.25\) per hop \(\Rightarrow|\delta^{[1]}|=0.25^{5}=1/1024=\mathbf{9.77\times10^{-4}}\). Net B factor \(=1.5\times1=1.5\Rightarrow|\delta^{[1]}|=1.5^{5}=\mathbf{7.594}\).<br>
+          <strong>(b)</strong> Net A: <strong>vanishing gradients</strong> (the \(0.25\) sigmoid cap forces the signal to decay ~1000× — early layers barely learn). Net B: <strong>exploding gradients</strong> (factor \(&gt;1\) compounds).<br>
+          <strong>(c)</strong> Init fix: <strong>He initialisation</strong> \((\text{Var}=2/n_\text{in})\) so weight norms stay near 1 rather than 1.5. Architectural fix: <strong>batch normalization</strong> (or residual/skip connections) to keep per-layer signal magnitude stable. ReLU cures the sigmoid vanishing case because its derivative is \(1\) for \(z&gt;0\) (vs the \(\le0.25\) sigmoid cap), so the per-hop factor is no longer forced below 1.
+        </div></details>
+        <span class="src">merges: gradient-flow recursion + activation derivative cap + init/architecture fix</span>
+      </div>
+
+      <div class="card q" data-src="merges: feature standardisation + GD gradient structure + weight interpretation">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q3.</strong> A regression model uses \(x_1\) = floor area (≈1000–2000 sq ft) and \(x_2\) = #bedrooms (≈1–4). For one example the residual is \((\hat y-y)=5\), with \(x_1=1000,\ x_2=2\).
+        (a) Using the gradient structure \(\partial J/\partial w_j=(\hat y-y)x_j\), compute the two raw gradient components and the ratio; explain the effect on batch-GD convergence. (b) \(x_1\) has mean \(1500\), std \(500\); standardise \(x_1=2000\). (c) After training on standardised features, \(\hat w_1=+8.0\) (area) and \(\hat w_2=-1.2\) (bedrooms). Interpret the signs/magnitudes — why is comparing weights only valid after standardisation? <em>(03+01+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(\partial J/\partial w_1=5(1000)=\mathbf{5000}\); \(\partial J/\partial w_2=5(2)=\mathbf{10}\); ratio \(=\mathbf{500{:}1}\). The \(w_1\) axis has a vastly steeper gradient, so a single \(\eta\) either overshoots along \(w_1\) or crawls along \(w_2\) — the loss contours are highly elongated and GD zig-zags, converging slowly.<br>
+          <strong>(b)</strong> \(z\text{-score}=\dfrac{2000-1500}{500}=\mathbf{+1.0}\).<br>
+          <strong>(c)</strong> \(\hat w_1=+8.0\): larger area \(\to\) higher price; \(\hat w_2=-1.2\): more bedrooms (for fixed area) \(\to\) slightly lower price (smaller rooms). Because both features are now zero-mean/unit-variance, a one-std change in each moves the input comparably, so \(|\hat w_1|&gt;|\hat w_2|\) genuinely means area matters more. On raw features the weights carry the units (per-sq-ft vs per-room), so their magnitudes are not comparable.
+        </div></details>
+        <span class="src">merges: feature standardisation + GD gradient structure + weight interpretation</span>
+      </div>
+
+      <div class="card q" data-src="merges: parameter counting + capacity vs data + design heuristics + regularisation">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q4.</strong> Design a classifier for \(M=8000\) samples, \(d=100\) features, \(c=4\) classes with architecture \(100\to128\to64\to4\) (softmax output).
+        (a) Total parameters (weights + biases). (b) Check the depth heuristic \(L\le\log_2(M/(d\cdot c))+1\). (c) Compare the parameter count to the capacity budget \(\text{Params}\le M/5\) and diagnose. (d) Name two regularisation choices consistent with the diagnosis. <em>(02+01+01+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(128(100+1)=12{,}928\); \(64(128+1)=8{,}256\); \(4(64+1)=260\). Total \(=\mathbf{21{,}444}\).<br>
+          <strong>(b)</strong> \(\log_2\!\big(\tfrac{8000}{100\cdot4}\big)+1=\log_2(20)+1=4.32+1=5.32\Rightarrow L\le5\). The design has 3 weight layers \(\Rightarrow\) within the depth limit ✓.<br>
+          <strong>(c)</strong> Budget \(=M/5=\mathbf{1600}\) parameters, but the net has \(21{,}444\) — \(\sim13\times\) over budget \(\Rightarrow\) high capacity relative to data, <strong>overfitting risk</strong>.<br>
+          <strong>(d)</strong> Any two: <strong>L2 weight decay</strong>, <strong>dropout</strong>, early stopping, or reduce width (fewer units) / get more data. Depth is fine; the excess is in width.
+        </div></details>
+        <span class="src">merges: parameter counting + capacity vs data + design heuristics + regularisation</span>
+      </div>
+
+      <div class="card q" data-src="merges: logistic prediction + threshold + confusion matrix + F1 + BCE gradient">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q5.</strong> A logistic model \(w=[1,-1],\ b=0\) (predict class 1 if \(\hat y\ge t\)) is applied to 5 points:
+        \(x^{(1)}{=}[2,1],y{=}1;\ x^{(2)}{=}[3,1],y{=}1;\ x^{(3)}{=}[1,2],y{=}0;\ x^{(4)}{=}[2,2],y{=}0;\ x^{(5)}{=}[1,3],y{=}0\).
+        (a) Compute \(\hat y=\sigma(w^\top x)\) for each. (b) At \(t=0.5\) build the confusion matrix and compute Precision, Recall, \(F_1\). (c) The single error is a false positive; compute its BCE gradient \((\hat y-y)x\) and explain the clean \((\hat y-y)\) form. (d) Show that raising \(t\) to \(0.7\) removes the error, and say what metric this trades. <em>(02+02+01+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(z=x_1-x_2\): \(z^{(1)}{=}1\to\hat y{=}0.731\); \(z^{(2)}{=}2\to0.881\); \(z^{(3)}{=}{-1}\to0.269\); \(z^{(4)}{=}0\to0.500\); \(z^{(5)}{=}{-2}\to0.119\).<br>
+          <strong>(b)</strong> At \(t=0.5\) predict 1 for pts 1,2,4. Labels: 1✓(TP),2✓(TP),4→pred1 but \(y{=}0\) (FP). Pts 3,5 predict 0, \(y{=}0\) (TN). So <strong>TP=2, FP=1, FN=0, TN=2</strong>.<br>
+          Prec \(=\tfrac{2}{3}=0.667\); Rec \(=\tfrac{2}{2}=1.00\); \(F_1=\dfrac{2(0.667)(1)}{1.667}=\mathbf{0.80}\).<br>
+          <strong>(c)</strong> Point 4: \(\hat y=0.5,\ y=0\Rightarrow(\hat y-y)=0.5\); gradient \(=0.5\,[2,2]=\mathbf{[1,\ 1]}\). The \((\hat y-y)\) form arises because the sigmoid derivative \(\hat y(1-\hat y)\) cancels the \(1/[\hat y(1-\hat y)]\) in \(\partial\ell/\partial\hat y\) (sigmoid+BCE pairing).<br>
+          <strong>(d)</strong> At \(t=0.7\): pts 1 (0.731) and 2 (0.881) still predict 1, but pt 4 (0.500) now predicts 0 \(\Rightarrow\) FP\(\to\)TN. Now Prec \(=1.0\), Rec \(=1.0\). Raising the threshold trades away <strong>recall</strong> in general (here recall stays 1.0 only because there were no borderline positives) to gain precision — the right move when false positives are costly.
+        </div></details>
+        <span class="src">merges: logistic prediction + threshold + confusion matrix + F1 + BCE gradient</span>
+      </div>
+
+      <div class="card q" data-src="merges: batch vs mini-batch vs SGD iteration counting + BCE cost">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q6.</strong> A dataset has \(N=1000\) examples; you train for 50 epochs.
+        (a) Compute the total number of weight updates for (i) batch GD, (ii) mini-batch GD with \(B=100\), (iii) SGD. (b) For a mini-batch with predictions \(\hat y=[0.9,0.2,0.7,0.4]\) and labels \(y=[1,0,1,0]\), compute the average BCE cost. (c) State one advantage of mini-batch over each of batch and SGD. <em>(03+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Iterations/epoch \(=\lceil N/B\rceil\), updates \(=50\times\) that. (i) Batch \(B{=}N\): \(1\times50=\mathbf{50}\). (ii) \(B{=}100\): \(\lceil1000/100\rceil=10\Rightarrow10\times50=\mathbf{500}\). (iii) SGD \(B{=}1\): \(1000\times50=\mathbf{50{,}000}\).<br>
+          <strong>(b)</strong> Per-example: \(-\log0.9=0.105\); \(-\log(1-0.2)=-\log0.8=0.223\); \(-\log0.7=0.357\); \(-\log(1-0.4)=-\log0.6=0.511\).<br>
+          \(J=\tfrac14(0.105+0.223+0.357+0.511)=\tfrac{1.196}{4}=\mathbf{0.299}\).<br>
+          <strong>(c)</strong> Vs batch: mini-batch updates far more often (500 vs 50) and needs less memory per step. Vs SGD: mini-batch gives smoother, lower-variance gradients and is GPU-vectorisable, so it is faster/more stable than one-example-at-a-time SGD.
+        </div></details>
+        <span class="src">merges: batch vs mini-batch vs SGD iteration counting + BCE cost</span>
+      </div>
+
+      <div class="card q" data-src="merges: perceptron gate construction + linear separability + XOR">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q7.</strong> Build XOR with step perceptrons (fire iff \(z\ge0\), output \(\{0,1\}\)) using the decomposition \(x_1\oplus x_2=(x_1\vee x_2)\wedge\overline{(x_1\wedge x_2)}\), i.e. OR AND NAND.
+        (a) Give weights/bias for an OR, a NAND, and an AND gate. (b) Wire them into a 2-hidden-neuron network and verify the full XOR truth table. (c) Why is a 2-layer network necessary — reference linear separability. <em>(03+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> OR: \(w=[1,1],\ b=-0.5\) (fires if any input 1). NAND: \(w=[-1,-1],\ b=1.5\) (fires unless both 1). AND: \(w=[1,1],\ b=-1.5\) (fires only if both 1).<br>
+          <strong>(b)</strong> Hidden \(h_1=\text{OR}(x_1,x_2)\), \(h_2=\text{NAND}(x_1,x_2)\); output \(=\text{AND}(h_1,h_2)\).<br>
+          \((0,0)\): OR\(=0\), NAND\(=1\), AND\((0,1)=0\). XOR\(=0\) ✓.<br>
+          \((0,1)\): OR\(=1\), NAND\(=1\), AND\((1,1)=1\). ✓ \((1,0)\): same \(\Rightarrow1\) ✓.<br>
+          \((1,1)\): OR\(=1\), NAND\(=0\), AND\((1,0)=0\). ✓ All four match XOR.<br>
+          <strong>(c)</strong> XOR's two classes cannot be split by any single line \(w_1x_1+w_2x_2+b=0\) (not linearly separable), so a single perceptron fails. The hidden layer (OR, NAND) re-maps the inputs into a space where the output AND is linearly separable — depth + non-linearity is what makes XOR representable.
+        </div></details>
+        <span class="src">merges: perceptron gate construction + linear separability + XOR</span>
+      </div>
+
+      <div class="card q" data-src="merges: sigmoid+BCE vs sigmoid+MSE gradient + saturation/vanishing">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q8.</strong> A saturated sigmoid output has \(z=4\) but the true label is \(y=0\) (a confident mistake).
+        (a) Compute \(\hat y=\sigma(4)\) and \(\sigma'(4)\). (b) Compute the per-unit-input gradient magnitude under <em>sigmoid+MSE</em> \(\big|(\hat y-y)\sigma'(z)\big|\) and under <em>sigmoid+BCE</em> \(\big|\hat y-y\big|\). (c) Take the ratio and explain why BCE (not MSE) is used with sigmoid for classification. <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(\hat y=\sigma(4)=\dfrac{1}{1+e^{-4}}=\dfrac{1}{1+0.0183}=\mathbf{0.982}\). \(\sigma'(4)=0.982(1-0.982)=0.982(0.018)=\mathbf{0.01767}\).<br>
+          <strong>(b)</strong> Error \((\hat y-y)=0.982\). MSE gradient factor \(=(\hat y-y)\sigma'=0.982(0.01767)=\mathbf{0.01735}\). BCE gradient factor \(=(\hat y-y)=\mathbf{0.982}\).<br>
+          <strong>(c)</strong> Ratio \(=0.982/0.01735\approx\mathbf{57\times}\). With MSE the extra \(\sigma'\) factor collapses to \(\approx0\) exactly when the neuron is confidently wrong (saturated), so learning stalls. BCE cancels \(\sigma'\) (giving the clean \(\hat y-y\)), so a confident mistake produces a large corrective gradient — this is why sigmoid pairs with BCE, not MSE, for classification.
+        </div></details>
+        <span class="src">merges: sigmoid+BCE vs sigmoid+MSE gradient + saturation/vanishing</span>
+      </div>
+
+      <div class="card q" data-src="merges: normal equation + R² + closed-form vs GD reasoning">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q9.</strong> Fit \(\hat y=w_0+w_1x\) to \((0,1),(1,2),(2,5)\).
+        (a) Solve by the normal equation \(w^*=(X^\top X)^{-1}X^\top y\). (b) Compute \(R^2\) of the fit. (c) When would you prefer batch GD over the normal equation for the same model — give the numerical/computational reason. <em>(03+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(X=\begin{bmatrix}1&amp;0\\1&amp;1\\1&amp;2\end{bmatrix}\). \(\Sigma x=3,\ \Sigma x^2=5,\ \Sigma y=8,\ \Sigma xy=0+2+10=12\).<br>
+          \(X^\top X=\begin{bmatrix}3&amp;3\\3&amp;5\end{bmatrix}\), \(\det=15-9=6\); \(X^\top y=\begin{bmatrix}8\\12\end{bmatrix}\).<br>
+          \(w_0=\dfrac{5(8)-3(12)}{6}=\dfrac{4}{6}=\mathbf{0.667}\); \(w_1=\dfrac{-3(8)+3(12)}{6}=\dfrac{12}{6}=\mathbf{2}\). So \(\hat y=0.667+2x\).<br>
+          <strong>(b)</strong> \(\hat y=[0.667,2.667,4.667]\); residuals \([0.333,-0.667,0.333]\Rightarrow SS_\text{res}=0.111+0.444+0.111=0.667\).<br>
+          \(\bar y=2.667\Rightarrow SS_\text{tot}=1.778+0.444+5.444=8.667\). \(R^2=1-\dfrac{0.667}{8.667}=\mathbf{0.923}\).<br>
+          <strong>(c)</strong> The normal equation inverts \(X^\top X\) (a \((d{+}1)\times(d{+}1)\) matrix), costing \(O(d^3)\) and failing when \(X^\top X\) is singular/ill-conditioned. For a very high-dimensional \(d\) (or huge \(N\)), batch/mini-batch GD is preferred — it avoids the matrix inversion and scales better.
+        </div></details>
+        <span class="src">merges: normal equation + R² + closed-form vs GD reasoning</span>
+      </div>
+
+      <div class="card q" data-src="merges: multi-class logits + softmax + argmax + top-K + CCE + gradient">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q10.</strong> A 4-class model produces logits \(z=[2,1,3,0]\) for one example whose true class is index 0.
+        (a) Compute the softmax \(\hat y\) and the top-1 predicted class. (b) Is the prediction correct at top-1? At top-2? (c) Compute the CCE loss. (d) Compute the logit gradient \(\partial\ell/\partial z=\hat y-y\) and say which logit is pushed up. <em>(02+01+01+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(e^{2}=7.389,\ e^{1}=2.718,\ e^{3}=20.086,\ e^{0}=1\); sum \(=31.193\).<br>
+          \(\hat y=[0.2369,\ 0.0871,\ 0.6439,\ 0.0321]\). Top-1 \(=\arg\max=\) <strong>class 2</strong>.<br>
+          <strong>(b)</strong> True class is 0. Top-1 predicts class 2 \(\Rightarrow\) <strong>wrong at top-1</strong>. Top-2 \(=\{2,0\}\) (next-largest is class 0 at 0.2369), which <strong>includes the true class</strong> \(\Rightarrow\) top-2 correct.<br>
+          <strong>(c)</strong> CCE \(=-\log\hat y_0=-\log(0.2369)=\mathbf{1.440}\).<br>
+          <strong>(d)</strong> \(y=[1,0,0,0]\Rightarrow\partial\ell/\partial z=\hat y-y=[-0.7631,\ 0.0871,\ 0.6439,\ 0.0321]\). The true-class logit (index 0) has a <strong>negative</strong> gradient, so descent <strong>raises</strong> it; the other logits are pushed down.
+        </div></details>
+        <span class="src">merges: multi-class logits + softmax + argmax + top-K + CCE + gradient</span>
+      </div>
+
+      <div class="card q" data-src="merges: designed regression net + param count + design heuristic + activation/loss + regularisation">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q11.</strong> Design a DFNN to predict a continuous target from \(d=8\) features with \(M=400\) samples, using a funnel \(8\to16\to8\to1\).
+        (a) State the output activation and loss and justify. (b) Total parameter count. (c) Compare to the budget \(M/5\) and to the depth heuristic \(L\le\log_2(M/(d\cdot c))+1\) (regression \(\Rightarrow c=1\)). (d) Recommend one action given (c). <em>(01+02+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Output: <strong>identity</strong> activation + <strong>MSE</strong> loss — the target is continuous over \((-\infty,\infty)\); hidden layers use ReLU.<br>
+          <strong>(b)</strong> \(16(8+1)=144\); \(8(16+1)=136\); \(1(8+1)=9\). Total \(=\mathbf{289}\) parameters.<br>
+          <strong>(c)</strong> Budget \(=M/5=\mathbf{80}\) — the net (289) is \(\sim3.6\times\) over. Depth: \(\log_2(400/(8\cdot1))+1=\log_2(50)+1=5.64+1=6.64\Rightarrow L\le6\); the design's 3 weight layers are well within depth.<br>
+          <strong>(d)</strong> Depth is fine but capacity is over budget \(\Rightarrow\) add regularisation (L2 weight decay / early stopping) or narrow the hidden layers to curb overfitting on only 400 samples.
+        </div></details>
+        <span class="src">merges: designed regression net + param count + design heuristic + activation/loss + regularisation</span>
+      </div>
+
+      <div class="card q" data-src="merges: backprop recursion + tanh vs sigmoid derivative + gradient strength">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q12.</strong> Backprop enters a hidden layer with downstream error \(\delta^{[\ell+1]}=[0.5,-0.5]\) and \(W^{[\ell+1]}=\begin{bmatrix}0.5&amp;1.0\\-0.5&amp;0.5\end{bmatrix}\) (rows = this layer's units, columns = next layer's units). The layer's pre-activations are \(z^{[\ell]}=[0,\ 0.5]\).
+        (a) Compute the back-propagated signal \(W^{[\ell+1]}\delta^{[\ell+1]}\) into the two units. (b) Compute \(\delta^{[\ell]}\) if the layer uses <em>tanh</em>. (c) Recompute if it used <em>sigmoid</em>, and give the ratio — what does this say about choosing tanh over sigmoid? <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Unit 1: \(0.5(0.5)+1.0(-0.5)=0.25-0.5=-0.25\). Unit 2: \(-0.5(0.5)+0.5(-0.5)=-0.25-0.25=-0.5\). Signal \(=[-0.25,\ -0.5]\).<br>
+          <strong>(b)</strong> \(\tanh'(0)=1\); \(\tanh(0.5)=0.4621\Rightarrow\tanh'(0.5)=1-0.4621^2=0.786\). \(\delta^{[\ell]}=[-0.25(1),\ -0.5(0.786)]=\mathbf{[-0.250,\ -0.393]}\).<br>
+          <strong>(c)</strong> \(\sigma'(0)=0.25\); \(\sigma(0.5)=0.6225\Rightarrow\sigma'(0.5)=0.6225(0.3775)=0.235\). \(\delta^{[\ell]}=[-0.25(0.25),\ -0.5(0.235)]=[-0.0625,\ -0.1175]\).<br>
+          Ratio (tanh:sigmoid) \(=\dfrac{0.250}{0.0625}=4\times\) for unit 1 and \(\dfrac{0.393}{0.1175}\approx3.3\times\) for unit 2. Tanh's derivative peaks at \(1\) (vs sigmoid's \(0.25\)), so it passes back a several-times-stronger gradient and (being zero-centred) is preferred over sigmoid in hidden layers, mitigating vanishing gradients.
+        </div></details>
+        <span class="src">merges: backprop recursion + tanh vs sigmoid derivative + gradient strength</span>
+      </div>
+
+      <div class="card q" data-src="merges: multi-class confusion matrix + per-class precision/recall + macro vs weighted">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q13.</strong> A 3-class model is evaluated on 6 samples. (true, predicted) pairs are:
+        \((A,A),(A,A),(A,B),(B,B),(B,C),(C,C)\).
+        (a) Compute overall accuracy. (b) Compute per-class precision. (c) Compute macro-average and support-weighted-average precision, and explain why they differ. <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          Correct (true = pred): samples 1,2 (A), 4 (B), 6 (C) \(\Rightarrow4/6\).<br>
+          <strong>(a)</strong> Accuracy \(=\mathbf{0.667}\).<br>
+          <strong>(b)</strong> Predicted A = samples 1,2 (both true A) \(\Rightarrow\) Prec\(_A=2/2=\mathbf{1.0}\). Predicted B = samples 3,4 (true A, true B) \(\Rightarrow\) Prec\(_B=1/2=\mathbf{0.5}\). Predicted C = samples 5,6 (true B, true C) \(\Rightarrow\) Prec\(_C=1/2=\mathbf{0.5}\).<br>
+          <strong>(c)</strong> Macro \(=\tfrac13(1.0+0.5+0.5)=\mathbf{0.667}\) (each class equal). Supports (by true label) are \(A{=}3,B{=}2,C{=}1\); weighted \(=\dfrac{3(1.0)+2(0.5)+1(0.5)}{6}=\dfrac{4.5}{6}=\mathbf{0.75}\). They differ because the well-classified majority class \(A\) has the largest support, so weighting by frequency pulls the average up; macro treats the poorly-served rare classes equally.
+        </div></details>
+        <span class="src">merges: multi-class confusion matrix + per-class precision/recall + macro vs weighted</span>
+      </div>
+
+      <div class="card q" data-src="merges: batch vs SGD gradient direction + BCE gradient (ŷ−y)x">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q14.</strong> A logistic model starts at \(w=[0,0],\ b=0\) with two examples \(x^{(1)}=[1,0],y{=}1\) and \(x^{(2)}=[0,1],y{=}0\); \(\eta=1\), BCE loss.
+        (a) Compute \(\hat y\) for both. (b) Compute the full-batch gradient \(\tfrac1N\sum(\hat y-y)x\) (and bias) and the resulting update. (c) Compute the SGD update using only \(x^{(1)}\). (d) Contrast the two update directions and what this illustrates. <em>(01+02+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> \(z=0\) for both \(\Rightarrow\hat y=\sigma(0)=0.5\) each.<br>
+          <strong>(b)</strong> Errors: \((0.5-1)=-0.5\) and \((0.5-0)=+0.5\). \(\nabla_w=\tfrac12\big[(-0.5)[1,0]+(0.5)[0,1]\big]=\tfrac12[-0.5,0.5]=[-0.25,0.25]\); bias grad \(=\tfrac12(-0.5+0.5)=0\).<br>
+          Update: \(w\leftarrow[0,0]-1\cdot[-0.25,0.25]=\mathbf{[0.25,-0.25]}\), \(b=0\).<br>
+          <strong>(c)</strong> SGD on \(x^{(1)}\): grad \(=(-0.5)[1,0]=[-0.5,0]\), bias \(=-0.5\). Update: \(w\leftarrow[0,0]-[-0.5,0]=\mathbf{[0.5,0]}\), \(b=\mathbf{0.5}\).<br>
+          <strong>(d)</strong> Batch moves symmetrically in both weights (averaging the two opposing examples) with zero bias change; SGD lurches toward satisfying only \(x^{(1)}\) (raising \(w_1\) and \(b\)). This illustrates SGD's noisier, higher-variance path vs batch GD's smoother averaged descent.
+        </div></details>
+        <span class="src">merges: batch vs SGD gradient direction + BCE gradient (ŷ−y)x</span>
+      </div>
+
+      <div class="card q" data-src="merges: vectorized batch forward + softmax rows + batch CCE + output error (1/B)">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q15.</strong> A single softmax layer (3 classes) processes a mini-batch of \(B=2\) via \(Z=XW\) (bias 0).
+        \(X=\begin{bmatrix}1&amp;0\\0&amp;2\end{bmatrix}\), \(W=\begin{bmatrix}1&amp;0&amp;2\\0&amp;1&amp;1\end{bmatrix}\) (2 features \(\times\) 3 classes). Labels: example 1 true class 3, example 2 true class 2.
+        (a) Compute the logits \(Z\) and the row-wise softmax \(\hat Y\). (b) Compute the batch CCE \(J=\tfrac1B\sum\ell\). (c) Compute the output error \(\delta^{(L)}=\tfrac1B(\hat Y-Y)\). <em>(02+02+02 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Row 1: \(Z_1=[1,0,2]\Rightarrow\) softmax with \(e^1{=}2.718,e^0{=}1,e^2{=}7.389\), sum \(11.107\Rightarrow\hat Y_1=[0.2447,\ 0.0900,\ 0.6652]\).<br>
+          Row 2: \(Z_2=[0,2,2]\Rightarrow e^0{=}1,e^2{=}7.389,e^2{=}7.389\), sum \(15.778\Rightarrow\hat Y_2=[0.0634,\ 0.4683,\ 0.4683]\).<br>
+          <strong>(b)</strong> \(Y_1=[0,0,1],\,Y_2=[0,1,0]\). \(\ell_1=-\log(0.6652)=0.408\); \(\ell_2=-\log(0.4683)=0.758\). \(J=\tfrac12(0.408+0.758)=\mathbf{0.583}\).<br>
+          <strong>(c)</strong> \(\hat Y-Y=\begin{bmatrix}0.2447&amp;0.0900&amp;-0.3348\\0.0634&amp;-0.5317&amp;0.4683\end{bmatrix}\); divide by \(B=2\):
+          \(\delta^{(L)}=\begin{bmatrix}\mathbf{0.1224}&amp;\mathbf{0.0450}&amp;\mathbf{-0.1674}\\\mathbf{0.0317}&amp;\mathbf{-0.2659}&amp;\mathbf{0.2342}\end{bmatrix}\). Each true class carries the negative entry.
+        </div></details>
+        <span class="src">merges: vectorized batch forward + softmax rows + batch CCE + output error (1/B)</span>
+      </div>
+
+      <div class="card q" data-src="merges: GD update + learning-rate convergence condition + divergence">
+        <span class="badge adv">Advanced</span>
+        <p><strong>Q16.</strong> Minimise \(J(w)=w^2\) (so \(J'(w)=2w\)) by gradient descent from \(w_0=1\); the update is \(w\leftarrow w-\eta\,(2w)=(1-2\eta)w\).
+        (a) Derive the convergence condition on \(\eta\) from the factor \((1-2\eta)\). (b) Compute \(w_1,w_2,w_3\) for \(\eta=0.1\). (c) Compute \(w_1,w_2,w_3\) for \(\eta=1.5\) and state the behaviour. (d) Relate this to why an over-large learning rate resembles the exploding-gradient failure. <em>(02+01+02+01 = 06 Marks)</em></p>
+        <details class="ans"><summary></summary><div class="sol">
+          <strong>(a)</strong> Each step multiplies \(w\) by \((1-2\eta)\); it converges to 0 iff \(|1-2\eta|&lt;1\Rightarrow\mathbf{0&lt;\eta&lt;1}\) (with \(\eta=0.5\) reaching 0 in one step; \(\eta\ge1\) fails).<br>
+          <strong>(b)</strong> \(\eta=0.1\Rightarrow\) factor \(0.8\): \(w_1=0.8,\ w_2=0.64,\ w_3=0.512\) — steadily approaching 0 (converging).<br>
+          <strong>(c)</strong> \(\eta=1.5\Rightarrow\) factor \((1-3)=-2\): \(w_1=-2,\ w_2=4,\ w_3=-8\) — the magnitude doubles each step and the sign flips: it <strong>diverges</strong> (oscillating explosion).<br>
+          <strong>(d)</strong> With \(|1-2\eta|&gt;1\) the iterate grows geometrically, exactly like an error signal multiplied by a per-layer factor \(&gt;1\) in deep nets — both are runaway multiplicative growth that overshoots the minimum and can overflow to NaN. Remedy: smaller \(\eta\) (and, in deep nets, gradient clipping / normalisation).
+        </div></details>
+        <span class="src">merges: GD update + learning-rate convergence condition + divergence</span>
       </div>
 
     </div>

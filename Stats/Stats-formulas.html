@@ -58,7 +58,7 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
   </div>
 </header>
 <main>
-  <p class="intro">Formula sheet for Introduction to Statistical Methods (AIMLZC418): descriptive statistics, probability rules, Bayes/Naïve Bayes, random variables, discrete & continuous distributions, and inference/forecasting. Each card gives the equation, a symbol legend, and when to use it. Sources: ISM CS-1…CS-5, Webinar 1, EC-2/EC-3.</p>
+  <p class="intro">Formula sheet for Introduction to Statistical Methods (AIMLZC418): descriptive statistics, probability rules, Bayes/Naïve Bayes, random variables, discrete & continuous distributions, probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square), and inference/forecasting. Each card gives the equation, a symbol legend, and when to use it. Sources: ISM CS-1…CS-6, Webinar 1, EC-2/EC-3.</p>
 
   <details class="module" open>
     <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
@@ -387,6 +387,158 @@ a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
         <p>where: joint factorises into the product of marginals.</p>
         <p>use: test independence of RVs; simplify \(E[XY]\).</p>
         <span class="src">ISM CS-5 · p40,50</span>
+      </div>
+
+    </div>
+  </details>
+
+  <details class="module" open>
+    <summary>CS-6 — Probability Distributions (Bernoulli, Binomial, Poisson, Normal, t, F, Chi-Square) <small>· source: ISM_CS-6_PPT.pdf</small></summary>
+    <div class="cards">
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Bernoulli pmf</h3>
+        $$P(X=x)=p^{x}q^{\,1-x},\qquad x\in\{0,1\},\ q=1-p$$
+        <p>where: \(p\) = probability of success, \(q\) = probability of failure.</p>
+        <p>use: single two-outcome trial (pass/fail, hit/miss).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Bernoulli mean &amp; variance</h3>
+        $$E[X]=p,\qquad \operatorname{Var}(X)=pq$$
+        <p>where: from \(E[X]=1\cdot p+0\cdot q\) and \(E[X^2]=p\).</p>
+        <p>use: expected value / spread of one trial.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Binomial pmf</h3>
+        $$P(X=x)=\binom{n}{x}p^{x}q^{\,n-x},\qquad x=0,1,\dots,n$$
+        <p>where: \(n\) = number of trials, \(p\) = success probability, \(q=1-p\).</p>
+        <p>use: number of successes in \(n\) independent identical trials.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Binomial mean &amp; variance</h3>
+        $$E[X]=np,\qquad \operatorname{Var}(X)=npq,\qquad \sigma=\sqrt{npq}$$
+        <p>where: sum of \(n\) independent Bernoulli\((p)\) variables.</p>
+        <p>use: recover \(n,p\) from a given mean and variance (e.g. \(np=6,\ npq=4\Rightarrow q=\tfrac23,\ p=\tfrac13,\ n=18\)).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Poisson pmf</h3>
+        $$P(X=x)=\frac{e^{-\lambda}\lambda^{x}}{x!},\qquad x=0,1,2,\dots$$
+        <p>where: \(\lambda\) = mean number of events per interval.</p>
+        <p>use: rare-event counts (arrivals, defects, calls).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Poisson over an interval of length t</h3>
+        $$P(X=x)=\frac{e^{-\lambda t}(\lambda t)^{x}}{x!}$$
+        <p>where: \(\lambda\) = rate per unit, \(t\) = interval length.</p>
+        <p>use: scale a per-minute/per-foot rate to any interval (e.g. \(0.6\) calls/min over 4 min → \(\lambda t=2.4\)).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Poisson mean &amp; variance</h3>
+        $$E[X]=\lambda,\qquad \operatorname{Var}(X)=\lambda,\qquad \text{SD}=\sqrt{\lambda}$$
+        <p>where: the single parameter \(\lambda\) equals both mean and variance.</p>
+        <p>use: identifying / checking a Poisson model.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Binomial → Poisson approximation</h3>
+        $$\binom{n}{x}p^{x}q^{\,n-x}\approx\frac{e^{-\lambda}\lambda^{x}}{x!},\qquad \lambda=np$$
+        <p>where: valid for large \(n\), small \(p\) (e.g. \(n\ge100,\ np\le10\)).</p>
+        <p>use: replace an awkward binomial by a Poisson (e.g. 3% defective in 200 → \(\lambda=6\)).</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Normal pdf</h3>
+        $$f(x)=\frac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac{(x-\mu)^2}{2\sigma^2}},\qquad -\infty<x<\infty$$
+        <p>where: \(\mu\) = mean, \(\sigma^2\) = variance.</p>
+        <p>use: continuous bell-shaped data; area under the curve gives probability.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Standard-normal transform (z)</h3>
+        $$Z=\frac{X-\mu}{\sigma}\sim N(0,1),\qquad F(z)=P(Z\le z),\ F(-z)=1-F(z)$$
+        <p>where: standardises any normal value; \(E[Z]=0,\ \operatorname{Var}(Z)=1\).</p>
+        <p>use: read normal probabilities from the z-table.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Linear transform of a normal RV</h3>
+        $$X\sim N(\mu,\sigma^2)\ \Rightarrow\ aX+b\sim N\!\left(a\mu+b,\ a^2\sigma^2\right)$$
+        <p>where: \(a,b\) constants.</p>
+        <p>use: rescale/shift a normal variable; derive the z-transform.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Empirical (68–95–99.7) rule</h3>
+        $$P(|X-\mu|\le\sigma)\approx0.68,\ P(|X-\mu|\le2\sigma)\approx0.95,\ P(|X-\mu|\le3\sigma)\approx0.997$$
+        <p>where: for a normal distribution only.</p>
+        <p>use: quick interval estimates without a table.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Normal approximation to the binomial</h3>
+        $$X\approx N\!\left(np,\ npq\right),\qquad \text{valid if } np\ge15 \text{ and } nq\ge15$$
+        <p>where: \(\mu=np,\ \sigma=\sqrt{npq}\).</p>
+        <p>use: probabilities for large-\(n\) binomials via the normal table.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Continuity correction</h3>
+        $$P(X\le k)\to P(X\le k+0.5),\quad P(X<k)\to P(X\le k-0.5)$$
+        $$P(X\ge k)\to P(X\ge k-0.5),\quad P(X>k)\to P(X\ge k+0.5)$$
+        <p>where: \(\pm0.5\) bridges the discrete binomial and continuous normal.</p>
+        <p>use: always apply when approximating binomial by normal.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Chi-square distribution</h3>
+        $$f(x)=\frac{1}{2^{k/2}\,\Gamma(k/2)}\,x^{k/2-1}e^{-x/2},\quad x>0;\qquad Y=\sum_{i=1}^{k} z_i^2$$
+        <p>where: \(k\) = degrees of freedom; \(z_i\sim N(0,1)\) independent.</p>
+        <p>use: sampling distribution of a variance; goodness of fit; ANOVA.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>Student's t-distribution</h3>
+        $$t_k=\frac{z}{\sqrt{\chi^2_k/k}},\qquad z\sim N(0,1)\ \perp\ \chi^2_k$$
+        <p>where: \(k\) = degrees of freedom; heavier tails than the normal.</p>
+        <p>use: inference on a mean when \(\sigma\) is unknown / small samples.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>t-statistic &amp; sample variance</h3>
+        $$t=\frac{\bar x-\mu}{s/\sqrt{n}},\qquad s^2=\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar x)^2$$
+        <p>where: \(\bar x\) = sample mean, \(s\) = sample SD, \(n\) = sample size, \(n-1\) dof.</p>
+        <p>use: test / estimate a population mean from a sample when \(\sigma\) is unknown.</p>
+        <span class="src">CS-6 · Distributions</span>
+      </div>
+
+      <div class="card" data-src="CS-6 · Distributions">
+        <h3>F-distribution (ratio of variances)</h3>
+        $$F=\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2},\qquad \vartheta_1=n_1-1,\ \vartheta_2=n_2-1$$
+        <p>where: \(S_1^2,S_2^2\) sample variances from independent normal populations.</p>
+        <p>use: compare two population variances; test statistic in ANOVA. Order of \((\vartheta_1,\vartheta_2)\) matters.</p>
+        <span class="src">CS-6 · Distributions</span>
       </div>
 
     </div>
