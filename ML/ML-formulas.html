@@ -4,584 +4,917 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ML — Formulas</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>ML</span> · Formulas<span class="count" id="count"></span></h1>
+    <h1><span>ML</span> · Formulas<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab" href="ML-concepts.html">Concepts</a>
-    <a class="tab active" href="ML-formulas.html">Formulas</a>
-    <a class="tab" href="ML-definitions.html">Definitions</a>
-    <a class="tab" href="ML-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab" href="ML-concepts.html">Concepts</a><a class="tab active" href="ML-formulas.html">Formulas</a><a class="tab" href="ML-definitions.html">Definitions</a><a class="tab" href="ML-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">All equations needed to solve ML (AIMLZG565) numerical problems — preprocessing, linear &amp; logistic regression, gradient descent, regularization, evaluation metrics, decision-tree impurity (entropy, Gini, gain ratio) — from the session decks, plus prerequisite formulas (distance, Bayes, entropy/Gini, MLE, SVM, k-Means) implied by the EC2/EC3 exam sheets.</p>
-
-  <details class="module" open>
-    <summary>Module 2 — Data Preprocessing &amp; Scaling <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 2 · p38">
-        <h3>IQR Outlier Bounds</h3>
-        $$\text{IQR}=Q_3-Q_1,\quad \text{Lower}=Q_1-1.5\cdot\text{IQR},\quad \text{Upper}=Q_3+1.5\cdot\text{IQR}$$
-        <p>where: \(Q_1\) = 25th percentile, \(Q_3\) = 75th percentile, IQR = inter-quartile range.</p>
-        <p>use: any value below the lower bound or above the upper bound is a univariate outlier. (Ex: Q1=10, Q3=20 ⇒ bounds −5 and 35.)</p>
-        <p class="src">ML_CS 2 · p38-39</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p40">
-        <h3>3-Sigma (Z-Score) Outlier Bounds</h3>
-        $$\text{Lower}=\mu-3\sigma,\qquad \text{Upper}=\mu+3\sigma$$
-        <p>where: \(\mu\) = mean, \(\sigma\) = standard deviation of the attribute.</p>
-        <p>use: for approximately normal data ~99% of values lie within μ ± 3σ; points outside are outliers. (μ=50, σ=5 ⇒ bounds 35 and 65.)</p>
-        <p class="src">ML_CS 2 · p40</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p48">
-        <h3>Min-Max Normalization</h3>
-        $$v' = \frac{v-\min_A}{\max_A-\min_A}\,(\text{new\_max}_A-\text{new\_min}_A)+\text{new\_min}_A$$
-        <p>where: \(v\) = original value, \(\min_A,\max_A\) = attribute min/max, new range = \([\text{new\_min}_A,\text{new\_max}_A]\) (often [0,1]).</p>
-        <p>use: rescale a feature to a bounded range when its bounds are known / data ≈ uniform. (Ex: income 12k-98k ⇒ 73k maps to 0.716.)</p>
-        <p class="src">ML_CS 2 · p48</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p48">
-        <h3>Z-Score Standardization</h3>
-        $$v' = \frac{v-\mu}{\sigma}$$
-        <p>where: \(\mu\) = attribute mean, \(\sigma\) = attribute standard deviation.</p>
-        <p>use: standardize when an algorithm assumes Gaussian data; not range-bounded, less outlier-sensitive. (Ex: μ=54000, σ=16000 ⇒ 73600 maps to 1.225.)</p>
-        <p class="src">ML_CS 2 · p48</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p48">
-        <h3>Decimal Scaling</h3>
-        $$v' = \frac{v}{10^{\,j}}\quad\text{where } j \text{ is the smallest integer s.t. } \max(|v'|)<1$$
-        <p>where: \(v\) = original value, \(j\) = number of decimal shifts.</p>
-        <p>use: normalize by moving the decimal point based on the maximum absolute value.</p>
-        <p class="src">ML_CS 2 · p48</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p56">
-        <h3>Equal-Width Binning Interval</h3>
-        $$W=\frac{B-A}{N}$$
-        <p>where: \(A\) = lowest value, \(B\) = highest value, \(N\) = number of bins, \(W\) = width of each interval.</p>
-        <p>use: discretize a continuous attribute into N equal-width bins (outliers may dominate; skewed data handled poorly).</p>
-        <p class="src">ML_CS 2 · p56</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 3 — Linear Regression, Gradient Descent &amp; Regularization <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 34 · p8">
-        <h3>Linear Regression Hypothesis</h3>
-        $$h_\theta(x)=\theta_0+\theta_1 x_1+\theta_2 x_2+\dots+\theta_d x_d=\theta^{\top}x$$
-        <p>where: \(h_\theta(x)\) = predicted value, \(\theta_0\) = intercept/bias, \(\theta_j\) = weight of feature \(x_j\).</p>
-        <p>use: the model form for simple (one \(x\)) and multiple (many \(x\)) linear regression; \(x_0=1\) absorbs the intercept in vector form.</p>
-        <p class="src">ML_CS 34 · p8-9</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p16">
-        <h3>Cost Function — Mean Squared Error (Least Squares)</h3>
-        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2$$
-        <p>where: \(n\) = number of training examples, \(h_\theta(x^{(i)})\) = prediction, \(y^{(i)}\) = actual target.</p>
-        <p>use: the convex objective minimized to fit linear regression; the ½ simplifies the derivative.</p>
-        <p class="src">ML_CS 34 · p11-16</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p24">
-        <h3>Normal Equation (Closed-Form Solution)</h3>
-        $$\theta=(X^{\top}X)^{-1}X^{\top}y$$
-        <p>where: \(X\) = design matrix (rows = examples, with a leading 1 column), \(y\) = target vector, \(\theta\) = parameter vector.</p>
-        <p>use: solve for optimal parameters directly without iteration; requires an invertible \(X^{\top}X\) (costly for very many features).</p>
-        <p class="src">ML_CS 34 · p24-30</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p46">
-        <h3>Gradient Descent — General Update</h3>
-        $$\theta_j := \theta_j-\alpha\,\frac{\partial}{\partial \theta_j}J(\theta)\quad(\text{update all } j \text{ simultaneously})$$
-        <p>where: \(\alpha\) = learning rate, \(\partial J/\partial\theta_j\) = gradient of cost w.r.t. \(\theta_j\).</p>
-        <p>use: iteratively step downhill toward the minimum of the cost; repeat until convergence.</p>
-        <p class="src">ML_CS 34 · p46-49</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p55">
-        <h3>Gradient Descent for Linear Regression (per parameter)</h3>
-        $$\theta_0 := \theta_0-\alpha\,\frac{1}{n}\sum(h_\theta(x)-y),\qquad \theta_j := \theta_j-\alpha\,\frac{1}{n}\sum\big((h_\theta(x)-y)\,x_j\big)$$
-        <p>where: \(h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2\), \(n\) = #examples, \(\alpha\) = learning rate, \(x_j\) = j-th feature.</p>
-        <p>use: the concrete batch-GD update for fitting a regression line; drives the "one iteration" numerical problems (e.g. RRCHD from BMI &amp; diastolic pressure).</p>
-        <p class="src">ML_CS 34 · p55, p63</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p74">
-        <h3>R-squared (Coefficient of Determination)</h3>
-        $$R^2 = 1-\frac{SS_{res}}{SS_{tot}}=1-\frac{\sum_i (y_i-\hat y_i)^2}{\sum_i (y_i-\bar y)^2}$$
-        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(\bar y\) = mean of \(y\); \(SS_{res}\) = unexplained variation, \(SS_{tot}\) = total variation.</p>
-        <p>use: fraction of variance in \(y\) explained by the model (1 = perfect fit); compares regression models.</p>
-        <p class="src">ML_CS 34 · p74</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q1">
-        <h3>Root Mean Squared Error (RMSE)</h3>
-        $$\text{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\big(y_i-\hat y_i\big)^2}$$
-        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(n\) = #examples.</p>
-        <p>use: regression error in the target's units, penalizing large errors more; asked directly in EC2 Q1.</p>
-        <p class="src">EC2 · Q1 / ML_CS 34 · p102</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q1">
-        <h3>Mean Absolute Error (MAE)</h3>
-        $$\text{MAE}=\frac{1}{n}\sum_{i=1}^{n}\big|\,y_i-\hat y_i\,\big|$$
-        <p>where: \(y_i\) = actual, \(\hat y_i\) = predicted, \(n\) = #examples.</p>
-        <p>use: average absolute regression error, less sensitive to large outliers than RMSE; asked directly in EC2 Q1.</p>
-        <p class="src">EC2 · Q1</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p78">
-        <h3>Linear Basis Function / Polynomial Model</h3>
-        $$h_w(x)=\sum_{j=0}^{M} w_j\,\phi_j(x),\qquad \phi_j(x)=x^{\,j}\ \ (\phi_0(x)=1)$$
-        <p>where: \(\phi_j\) = basis functions, \(w_j\) = weights, \(M\) = polynomial order; model is linear in \(w\).</p>
-        <p>use: fit non-linear input→output relationships (e.g. quadratic Car Price vs Mileage) while keeping linear-model machinery.</p>
-        <p class="src">ML_CS 34 · p76-79</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p96">
-        <h3>Ridge Regression (L2) Cost</h3>
-        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2+\lambda\sum_{j=1}^{d}\theta_j^{2}$$
-        <p>where: \(\lambda\) = regularization strength, \(\theta_j\) = weights (bias \(\theta_0\) not penalized).</p>
-        <p>use: shrink weights toward zero to reduce variance/overfitting; weights stay small but non-zero.</p>
-        <p class="src">ML_CS 34 · p96</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p97">
-        <h3>Lasso Regression (L1) Cost</h3>
-        $$J(\theta)=\frac{1}{2n}\sum_{i=1}^{n}\big(h_\theta(x^{(i)})-y^{(i)}\big)^2+\lambda\sum_{j=1}^{d}\lvert\theta_j\rvert$$
-        <p>where: \(\lambda\) = regularization strength, \(|\theta_j|\) = absolute value of each weight.</p>
-        <p>use: drives some weights exactly to 0 (sparse model, feature selection); L1 is non-differentiable at 0.</p>
-        <p class="src">ML_CS 34 · p97</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p98">
-        <h3>Elastic Net Cost</h3>
-        $$J(\theta)=\text{MSE}(\theta)+r\,\lambda\sum_{j}\lvert\theta_j\rvert+\frac{(1-r)}{2}\,\lambda\sum_{j}\theta_j^{2}$$
-        <p>where: \(r\) = mix ratio (r=0 ⇒ Ridge, r=1 ⇒ Lasso), \(\lambda\) = strength.</p>
-        <p>use: combine L1 sparsity and L2 stability; preferred for highly correlated features (sklearn: ElasticNet(alpha, l1_ratio)).</p>
-        <p class="src">ML_CS 34 · p98</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p100">
-        <h3>Ridge GD Update (weight decay form)</h3>
-        $$w_j := w_j\,(1-\alpha\lambda)-\alpha\,\frac{1}{n}\sum\big((h_w(x)-y)\,x_j\big)$$
-        <p>where: \(\alpha\) = learning rate, \(\lambda\) = regularization constant, \(w_j\) = weight (bias \(w_0\) updated without the \((1-\alpha\lambda)\) shrink).</p>
-        <p>use: gradient-descent step for ridge regression; the factor \((1-\alpha\lambda)\) shrinks each weight every iteration.</p>
-        <p class="src">ML_CS 34 · p100-101</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p100">
-        <h3>Lasso GD Update</h3>
-        $$w_j := w_j-\alpha\,\frac{1}{n}\sum\big((h_w(x)-y)\,x_j\big)-\alpha\lambda\,\operatorname{sign}(w_j)$$
-        <p>where: \(\alpha\) = learning rate, \(\lambda\) = regularization constant, \(\operatorname{sign}(w_j)\) = +1/−1 sub-gradient of \(|w_j|\).</p>
-        <p>use: GD step for lasso; the fixed \(\alpha\lambda\) penalty pushes weights toward zero faster.</p>
-        <p class="src">ML_CS 34 · p100-101</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 4 — Logistic Regression &amp; Classification Metrics <small>· source: ML_CS 5 6.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 5 · p12">
-        <h3>Sigmoid / Logistic Function</h3>
-        $$\sigma(z)=\frac{1}{1+e^{-z}}$$
-        <p>where: \(z\) = real-valued input (the linear score), \(\sigma(z)\in(0,1)\).</p>
-        <p>use: squashes any real number into a probability; σ(z)≥0.5 ⇔ z≥0.</p>
-        <p class="src">ML_CS 5 · p12</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p7">
-        <h3>Logistic Regression Hypothesis</h3>
-        $$z=w_0x_0+w_1x_1+\dots+w_nx_n,\qquad h_w(x)=\frac{1}{1+e^{-z}}$$
-        <p>where: \(w_i\) = weights, \(x_i\) = features (\(x_0=1\)), \(h_w(x)\) = estimated P(y=1|x).</p>
-        <p>use: predicts class probability; classify as 1 if \(h_w(x)\ge0.5\), else 0.</p>
-        <p class="src">ML_CS 5 · p7</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p9">
-        <h3>Linear Discriminant Decision Rule</h3>
-        $$y=\operatorname{sign}(w_0+w^{\top}x),\qquad \text{boundary: } w_0+w^{\top}x=0$$
-        <p>where: \(w_0\) = bias, \(w\) = weight vector, \(x\) = input vector.</p>
-        <p>use: a linear classifier assigns class by which side of the hyperplane a point lies on.</p>
-        <p class="src">ML_CS 5 · p9</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p20">
-        <h3>Logistic Regression Cost (Cross-Entropy / Log Loss)</h3>
-        $$J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}\Big[y^{(i)}\log h_\theta(x^{(i)})+(1-y^{(i)})\log\big(1-h_\theta(x^{(i)})\big)\Big]$$
-        <p>where: \(m\) = #examples, \(y^{(i)}\in\{0,1\}\) = true label, \(h_\theta(x^{(i)})\) = predicted probability.</p>
-        <p>use: convex classification cost; per-example cost is \(-\log h\) when y=1 and \(-\log(1-h)\) when y=0.</p>
-        <p class="src">ML_CS 5 · p20-22</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p23">
-        <h3>Gradient Descent for Logistic Regression</h3>
-        $$\theta_j := \theta_j-\alpha\,\frac{1}{m}\sum_{i=1}^{m}\big(h_\theta(x^{(i)})-y^{(i)}\big)\,x_j^{(i)}$$
-        <p>where: \(\alpha\) = learning rate, \(h_\theta\) = sigmoid hypothesis, \(x_j^{(i)}\) = j-th feature of example i.</p>
-        <p>use: same update form as linear regression but with the sigmoid hypothesis; drives the logistic-regression numerical exercises.</p>
-        <p class="src">ML_CS 5 · p23-24, p28</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p58">
-        <h3>Logit (Log-Odds) &amp; Odds Ratio</h3>
-        $$\operatorname{logit}(p)=\log\frac{p}{1-p}=w^{\top}x,\qquad \text{odds ratio}=e^{\,w_j}$$
-        <p>where: \(p\) = predicted probability, \(w_j\) = coefficient of feature \(j\).</p>
-        <p>use: logit is the inverse sigmoid; \(e^{w_j}\) is the multiplicative change in odds per unit increase in feature \(j\) (e.g. 1.35× per CGPA point).</p>
-        <p class="src">ML_CS 5 · p29, p58</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p34">
-        <h3>Accuracy</h3>
-        $$\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}$$
-        <p>where: TP/TN = correct positive/negative predictions, FP/FN = false positive/negative.</p>
-        <p>use: overall correctness; misleading under class imbalance — use only when classes are balanced.</p>
-        <p class="src">ML_CS 5 · p34-36</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p44">
-        <h3>Precision, Recall (TPR) &amp; F1-Score</h3>
-        $$\text{Precision}=\frac{TP}{TP+FP},\quad \text{Recall}=\frac{TP}{TP+FN},\quad F_1=\frac{2\cdot\text{Prec}\cdot\text{Rec}}{\text{Prec}+\text{Rec}}$$
-        <p>where: TP = true positives, FP = false positives, FN = false negatives.</p>
-        <p>use: precision = correctness of positive predictions; recall = coverage of actual positives; F1 = harmonic mean balancing both (needed for EC2 per-class metrics).</p>
-        <p class="src">ML_CS 5 · p44 / EC2 · Q3</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p44">
-        <h3>ROC Rates — TPR &amp; FPR</h3>
-        $$\text{TPR}=\frac{TP}{TP+FN},\qquad \text{FPR}=\frac{FP}{FP+TN}$$
-        <p>where: TPR = true positive (detection) rate, FPR = false positive (false alarm) rate.</p>
-        <p>use: the axes of the ROC curve (TPR vs FPR) plotted across thresholds; TNR=1−FPR, FNR=1−TPR.</p>
-        <p class="src">ML_CS 5 · p43-44</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 5 — Exam-Referenced Prerequisite Formulas <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="EC3 · Q1">
-        <h3>Distance Metrics (Euclidean &amp; Manhattan)</h3>
-        $$d_{\text{Euc}}(p,q)=\sqrt{\sum_i (p_i-q_i)^2},\qquad d_{\text{Man}}(p,q)=\sum_i \lvert p_i-q_i\rvert$$
-        <p>where: \(p,q\) = two points, \(p_i,q_i\) = their i-th coordinates.</p>
-        <p>use: proximity measures for kNN and clustering; EC3 Q1 asks a k=3 kNN classification using Manhattan distance.</p>
-        <p class="src">EC3 · Q1</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q2">
-        <h3>Bayes' Theorem</h3>
-        $$P(A\mid B)=\frac{P(B\mid A)\,P(A)}{P(B)},\qquad P(B)=\sum_k P(B\mid A_k)P(A_k)$$
-        <p>where: \(P(A|B)\) = posterior, \(P(B|A)\) = likelihood, \(P(A)\) = prior, \(P(B)\) = evidence (total probability).</p>
-        <p>use: compute posterior class probability (e.g. P(disease | positive test)) from priors and likelihoods.</p>
-        <p class="src">EC3 · Q2</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q3">
-        <h3>Naive Bayes Classifier</h3>
-        $$\hat y=\arg\max_{c}\ P(c)\prod_{j=1}^{d} P(x_j\mid c)$$
-        <p>where: \(c\) = class, \(P(c)\) = prior, \(P(x_j|c)\) = conditional likelihood of feature \(x_j\) (assumed independent given \(c\)).</p>
-        <p>use: predict the class maximizing posterior under the conditional-independence assumption (EC3 "play cricket?" table).</p>
-        <p class="src">EC3 · Q3</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q3">
-        <h3>Likelihood &amp; MLE (Binomial)</h3>
-        $$L(p)=\binom{n}{h}p^{h}(1-p)^{n-h},\qquad \hat p_{\text{MLE}}=\frac{h}{n}$$
-        <p>where: \(n\) = #trials, \(h\) = #successes (heads), \(p\) = success probability.</p>
-        <p>use: estimate a parameter by maximizing (log-)likelihood of i.i.d. data; EC3 Q3 coin-toss MLE.</p>
-        <p class="src">EC3 · Q3</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q6">
-        <h3>Entropy</h3>
-        $$H=-\sum_{i=1}^{K} p_i\log_2 p_i$$
-        <p>where: \(p_i\) = proportion of instances in class \(i\), \(K\) = number of classes.</p>
-        <p>use: measure of class impurity/disorder at a node; 0 = pure, max when classes are equal.</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q6">
-        <h3>Information Gain</h3>
-        $$IG(S,A)=H(S)-\sum_{v\in \text{values}(A)}\frac{|S_v|}{|S|}\,H(S_v)$$
-        <p>where: \(H(S)\) = entropy before split, \(S_v\) = subset with attribute value \(v\), \(|S_v|/|S|\) = weight.</p>
-        <p>use: pick the split attribute with the largest entropy reduction (EC2 Q6: compare a1 vs a2 at the root).</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q6">
-        <h3>Gini Index</h3>
-        $$\text{Gini}=1-\sum_{i=1}^{K} p_i^{2}$$
-        <p>where: \(p_i\) = estimated probability of class \(i\) at the node, \(K\) = number of classes.</p>
-        <p>use: alternative node-impurity measure for decision-tree splits; lower weighted Gini = better split (EC2 Q6c).</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q4">
-        <h3>SVM Hyperplane, Weight Vector &amp; Bias</h3>
-        $$w=\sum_i \alpha_i y_i x_i,\qquad y_i(w\cdot x_i+b)=1\ \text{ for each support vector}$$
-        <p>where: \(\alpha_i\) = Lagrange multipliers, \(y_i\) = class labels (±1), \(x_i\) = support vectors, \(b\) = bias.</p>
-        <p>use: build the SVM decision boundary \(w\cdot x+b=0\); average the \(b\) solved from each support-vector equation (EC3 Q4a).</p>
-        <p class="src">EC3 · Q4</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q4">
-        <h3>Polynomial Kernel</h3>
-        $$K(u,v)=(u\cdot v+1)^{2},\qquad D_{ij}=y_i y_j\,K(x_i,x_j)$$
-        <p>where: \(u,v\) = input vectors, \(y_i,y_j\) = class labels, \(D\) = kernel/Gram matrix of the dual formulation.</p>
-        <p>use: the kernel trick maps points to higher dimensions for non-linear separation; EC3 Q4c computes matrix D.</p>
-        <p class="src">EC3 · Q4</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q5">
-        <h3>K-Means Objective &amp; Centroid Update</h3>
-        $$J=\sum_{k=1}^{K}\sum_{x\in C_k}\lVert x-\mu_k\rVert^2,\qquad \mu_k=\frac{1}{|C_k|}\sum_{x\in C_k} x$$
-        <p>where: \(C_k\) = cluster \(k\), \(\mu_k\) = its centroid, \(K\) = number of clusters.</p>
-        <p>use: assign each point to the nearest centroid then recompute centroids as cluster means; iterate (EC3 Q5a).</p>
-        <p class="src">EC3 · Q5</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q6">
-        <h3>AdaBoost Final Prediction &amp; Weight Update</h3>
-        $$H(x)=\operatorname{sign}\!\Big(\sum_{t} \alpha_t\,h_t(x)\Big),\qquad w_i \leftarrow w_i\,e^{\pm\alpha_t}\ \text{(then normalize)}$$
-        <p>where: \(\alpha_t\) = weight of weak learner \(t\), \(h_t(x)\) = its prediction (±1), \(w_i\) = instance weight (increase if misclassified, decrease if correct).</p>
-        <p>use: combine weak learners by weighted vote; reweight misclassified instances up each round and renormalize to sum to 1 (EC3 Q6c, Q6d).</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q6">
-        <h3>Out-of-Bag (OOB) Error</h3>
-        $$\text{OOB error}=\frac{\#\text{misclassified OOB samples}}{\#\text{OOB samples}}$$
-        <p>where: OOB samples = training rows not drawn in a given bootstrap sample.</p>
-        <p>use: validate a bagged/random-forest model on the ~⅓ of data left out of each bootstrap (EC3 Q6b).</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Entropy (Binary)</h3>
-        $$\text{Entropy}(S)=-p_{+}\log_2 p_{+}-p_{-}\log_2 p_{-}$$
-        <p>where: \(p_{+}\) = proportion of positive examples, \(p_{-}\) = proportion of negative examples in S, with \(0\le\text{Entropy}\le 1\).</p>
-        <p>use: measure impurity of a node in a two-class problem (0 = pure, 1 = 50/50 split).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Entropy (k Classes)</h3>
-        $$\text{Entropy}(S)=-\sum_{c=1}^{k} p(c)\,\log_2 p(c)$$
-        <p>where: \(p(c)\) = proportion of records of class c at the node; the value ranges from 0 to \(\log_2 k\).</p>
-        <p>use: generalise impurity to multi-class nodes.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Information Gain</h3>
-        $$\text{Gain}(S,A)=\text{Entropy}(S)-\sum_{v\in\text{Values}(A)}\frac{|S_v|}{|S|}\,\text{Entropy}(S_v)$$
-        <p>where: \(S_v\) = subset of S with A = v, \(|S_v|/|S|\) = its weight.</p>
-        <p>use: choose the split attribute in ID3 — pick the A with the highest gain.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Gini Index</h3>
-        $$\text{Gini}(t)=1-\sum_{c=1}^{k} p_c^{\,2}$$
-        <p>where: \(p_c\) = fraction of records of class c at node t; 0 = pure, up to \(1-1/k\) at maximum impurity.</p>
-        <p>use: CART's impurity measure for a single node.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Weighted Gini of a Split &amp; Gini Gain</h3>
-        $$\text{Gini}_{\text{split}}=\sum_{i}\frac{n_i}{n}\,\text{Gini}(i),\qquad \Delta=\text{Gini}(\text{parent})-\text{Gini}_{\text{split}}$$
-        <p>where: \(n_i\) = records in child i, n = records at the parent, \(\Delta\) = Gini gain.</p>
-        <p>use: pick the split (or threshold) with the lowest weighted Gini / highest \(\Delta\). E.g. Home Owner: \(0.420-0.343=0.077\).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Classification Error</h3>
-        $$\text{Error}(t)=1-\max_c\, p_c$$
-        <p>where: \(\max_c p_c\) = proportion of the majority class at node t.</p>
-        <p>use: an alternative impurity/error measure; less sensitive to class-proportion changes, so usually not preferred for splitting.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Split Information</h3>
-        $$\text{SplitInfo}(S,A)=-\sum_{v\in\text{Values}(A)}\frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}$$
-        <p>where: it is the entropy of S with respect to the values of A; for n equally-sized subsets it equals \(\log_2 n\).</p>
-        <p>use: denominator that penalizes many-valued attributes in the gain ratio.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Gain Ratio</h3>
-        $$\text{GainRatio}(S,A)=\frac{\text{Gain}(S,A)}{\text{SplitInfo}(S,A)}$$
-        <p>where: Gain(S,A) = information gain, SplitInfo(S,A) = split information of A.</p>
-        <p>use: choose splits while correcting information gain's bias toward high-cardinality attributes (e.g. CustomerID).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Continuous-Attribute Threshold</h3>
-        $$A_c=\begin{cases}\text{True}&A<c\\ \text{False}&A\ge c\end{cases},\qquad c=\frac{v_i+v_{i+1}}{2}$$
-        <p>where: \(v_i,v_{i+1}\) = adjacent sorted values (candidate midpoints, especially where the class label changes).</p>
-        <p>use: turn a continuous attribute into a boolean test; pick the c with least impurity. E.g. Temperature → (48+60)/2 = 54, (80+90)/2 = 85.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>MDL Code Lengths</h3>
-        $$L_{C1}(h)=-\log_2 P(h),\qquad L_{C2}(D\mid h)=-\log_2 P(D\mid h)$$
-        <p>where: \(L_{C1}\) = bits to encode the hypothesis (tree), \(L_{C2}\) = bits to encode the data/misclassifications given h.</p>
-        <p>use: choose \(h_{MDL}=\arg\min\big[L_{C1}(h)+L_{C2}(D\mid h)\big]\); if h classifies D perfectly, \(L_{C2}=0\).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Optimal Code Length (Information Theory)</h3>
-        $$\ell(\text{event})=-\log_2 p$$
-        <p>where: p = probability of the event; a more probable event needs fewer bits.</p>
-        <p>use: the basis for MDL — frequent (probable) structures/outcomes are cheaper to encode.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Error Rate (Confusion Matrix)</h3>
-        $$\text{Error rate}=\frac{FP+FN}{TP+TN+FP+FN}=\frac{\#\text{misclassified tuples}}{\#\text{tuples}}$$
-        <p>where: \(CM_{i,j}\) = number of class-i tuples predicted as class j; TP, TN, FP, FN read off the matrix.</p>
-        <p>use: evaluate a tree on validation/test data and compare keep-vs-prune during post-pruning.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 34 · p14 (image)">
-        <h3>Simple Linear Regression — Slope &amp; Intercept (OLS)</h3>
-        $$\theta_1=\frac{\sum_i (x_i-\bar x)(y_i-\bar y)}{\sum_i (x_i-\bar x)^2},\qquad \theta_0=\bar y-\theta_1\bar x$$
-        <p>where: \(\bar x,\bar y\) = feature/target means, \(\theta_1\) = slope, \(\theta_0\) = intercept.</p>
-        <p>use: direct least-squares fit of a single-predictor line, no iteration. (Worked ex: \(\sum(x_i-\bar x)(y_i-\bar y)=615\), \(\sum(x_i-\bar x)^2=4206\) ⇒ \(\theta_1\approx0.1462\), \(\theta_0=10-0.1462\times74\approx-0.8188\).)</p>
-        <p class="src">ML_CS 34 · p14-16 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p59 (image)">
-        <h3>Vectorized MSE Gradient</h3>
-        $$\nabla J(\mathbf{w})=\frac{1}{N}\mathbf{X}^{\top}\mathbf{e},\qquad \mathbf{e}=\hat{\mathbf{y}}-\mathbf{y}=\mathbf{X}\mathbf{w}-\mathbf{y}$$
-        <p>where: \(\mathbf{X}\) = design matrix (\(N\times(d{+}1)\)), \(\mathbf{e}\) = error/residual vector, \(N\) = #examples.</p>
-        <p>use: one matrix expression for the whole-batch gradient; the GD step is \(\mathbf{w}\leftarrow\mathbf{w}-\eta\,\nabla J(\mathbf{w})\). (Worked ex: loss \(7.5\to1.51\) after one step with \(\eta=0.1\) — an 80% reduction.)</p>
-        <p class="src">ML_CS 34 · p59-61 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p54 (image)">
-        <h3>Gradient-Descent Convergence Criterion (L2 norm)</h3>
-        $$\lVert \boldsymbol{\theta}_{new}-\boldsymbol{\theta}_{old}\rVert_2 \lt \epsilon,\qquad \lVert \mathbf{v}\rVert_2=\sqrt{\textstyle\sum_i v_i^2}=\sqrt{v_1^2+v_2^2+\dots+v_{|v|}^2}$$
-        <p>where: \(\epsilon\) = small tolerance, \(\lVert\cdot\rVert_2\) = Euclidean (L2) norm of the parameter-change vector.</p>
-        <p>use: stop iterating when successive parameter vectors change by less than \(\epsilon\) (equivalently when \(\lVert\nabla J(\boldsymbol{\theta})\rVert\lt\epsilon\) or max iterations reached).</p>
-        <p class="src">ML_CS 34 · p54 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p79 (image)">
-        <h3>Gaussian &amp; Sigmoidal Basis Functions</h3>
-        $$\phi_j(x)=\exp\!\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\},\qquad \phi_j(x)=\sigma\!\left(\frac{x-\mu_j}{s}\right),\ \ \sigma(a)=\frac{1}{1+e^{-a}}$$
-        <p>where: \(\mu_j\) = centre/location, \(s\) = scale/width, \(\sigma\) = logistic sigmoid.</p>
-        <p>use: local basis functions for linear-basis-function regression — \(\mu_j\) and \(s\) control location and width/slope; the polynomial basis \(\phi_j(x)=x^{\,j}\) is the global alternative.</p>
-        <p class="src">ML_CS 34 · p79 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p47 (image)">
-        <h3>AUC via Trapezoidal Rule</h3>
-        $$\text{AUC}=\sum_i \big(\text{FPR}_i-\text{FPR}_{i+1}\big)\cdot\frac{\text{TPR}_i+\text{TPR}_{i+1}}{2}$$
-        <p>where: \((\text{FPR}_i,\text{TPR}_i)\) = successive ROC points taken in decreasing FPR order.</p>
-        <p>use: numerically integrate the area under the ROC curve — each term is a trapezoid (width × average height); vertical steps (width 0) add nothing. (Worked ex: \(0.16+0.12+0.12+0.12+0.08=0.60\).)</p>
-        <p class="src">ML_CS 5 · p45-47 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p49 (image)">
-        <h3>Error Rate (Misclassification Rate)</h3>
-        $$\text{Error rate}=\frac{FP+FN}{TP+TN+FP+FN}=1-\text{Accuracy}$$
-        <p>where: \(FP,FN\) = incorrect predictions, denominator = total instances.</p>
-        <p>use: overall fraction of wrong predictions — the complement of accuracy (asked in the cancer confusion-matrix practice exercise alongside precision/recall/F-score).</p>
-        <p class="src">ML_CS 5 · p49 (image)</p>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">Every formula needed for the ML (AIMLZG565) question bank, module by module, in the slides' notation, with symbols defined and when-to-use notes (slide errata corrected).</p>
+  <nav class="jump"><a href="#m1-introduction-to-machine-learning">M1 · Introduction to Machine Learning</a><a href="#m2-machine-learning-workflow">M2 · Machine Learning Workflow</a><a href="#m3-linear-models-for-regression">M3 · Linear Models for Regression</a><a href="#m4-linear-models-for-classification-logistic-regression">M4 · Linear Models for Classification (Logistic Regression)</a><a href="#m5-decision-tree-classifier">M5 · Decision Tree Classifier</a><a href="#m6-instance-based-learning-k-nearest-neighbour">M6 · Instance-Based Learning (K-Nearest Neighbour)</a><a href="#m7-support-vector-machines">M7 · Support Vector Machines</a><a href="#m8-bayesian-learning">M8 · Bayesian Learning</a><a href="#m9-ensemble-learning">M9 · Ensemble Learning</a><a href="#m10-unsupervised-learning">M10 · Unsupervised Learning</a><a href="#m11-ml-model-evaluation-comparison-facct-ml">M11 · ML Model Evaluation, Comparison &amp; FAccT ML</a></nav>
+<details class="module" open id="m1-introduction-to-machine-learning"><summary>M1 · Introduction to Machine Learning <small>· 5 items</small></summary><div class="cards"><div class="card f"><h3>Learning as function approximation</h3><p>\[
+\text{find } h \in H \text{ such that } h(x) \approx f(x) \text{ for all } x \in X
+\]</p>
+<p><strong>where:</strong> \(X\) is the instance space, \(f: X \to Y\) the unknown target function, \(H\) the hypothesis space, and the training data \(D = \{\langle x_i, f(x_i) \rangle\}\) is the experience \(E\); the task \(T\) and performance measure \(P\) (e.g. accuracy, MSE) complete Mitchell's \(\langle T, P, E \rangle\).</p>
+<p><strong>use:</strong> state any ML problem by naming \(T\), \(P\) and \(E\). The inductive learning hypothesis says an \(h\) that fits a large enough \(D\) well will also fit unseen \(x\) well. Classification has \(Y = \{c_1, \dots, c_k\}\), regression has \(Y = \mathbb{R}\), probability estimation has \(Y = [0, 1]\).</p><span class="src">1.1.1, 1.4.1, 1.4.3 · slides 15–17, 51–55</span></div><div class="card f"><h3>Size of the instance and hypothesis spaces</h3><p>\[
+\lvert X \rvert = \prod_{j=1}^{d} \lvert V_j \rvert, \qquad \lvert H_{\text{all}} \rvert = 2^{\lvert X \rvert}, \qquad \lvert H_{\text{conj}} \rvert = \prod_{j=1}^{d} \left( \lvert V_j \rvert + 1 \right) + 1
+\]</p>
+<p><strong>where:</strong> \(d\) attributes, \(\lvert V_j \rvert\) values of attribute \(j\); \(H_{\text{all}}\) = every Boolean labelling of \(X\); \(H_{\text{conj}}\) = conjunctions where each attribute is a value or "?" (any), plus the single empty hypothesis \(\varnothing\) that rejects everything.</p>
+<p><strong>use:</strong> shows why an unrestricted \(H\) has no inductive bias (it can memorise any \(D\)) while a restricted \(H\) can generalise. The most specific hypothesis keeps a value only where all positives agree; the most general is \(\langle ?, \dots, ? \rangle\) unless negatives rule it out.</p><span class="src">1.4.2, 1.4.3 · slides 119–123, 130</span></div><div class="card f"><h3>Supervised, unsupervised and reinforcement signals</h3><p>\[
+\text{supervised: } \{(x_i, y_i)\}, \qquad \text{unsupervised: } \{x_i\}, \qquad \text{RL: } G = r_1 + \gamma r_2 + \gamma^2 r_3 + \dots
+\]</p>
+<p><strong>where:</strong> \(y_i\) is a label; in RL an agent in state \(s_t\) takes action \(a_t\), receives reward \(r_{t+1}\), and \(\gamma \in [0, 1]\) discounts future reward (\(\gamma = 1\) is a plain cumulative reward).</p>
+<p><strong>use:</strong> decide the learning type from the feedback signal: labels (supervised), none (unsupervised: group by minimising intra-cluster and maximising inter-cluster distance), delayed reward for a sequence of decisions (RL), few labels plus many unlabelled points (semi-supervised).</p><span class="src">1.2.1, 1.2.2, 1.2.3, 1.2.4 · slides 20–40</span></div><div class="card f"><h3>Batch versus online updating</h3><p>\[
+\text{batch: } \theta \leftarrow \theta - \eta \, \frac{1}{n} \sum_{i=1}^{n} \nabla \ell_i(\theta), \qquad \text{online: } \theta \leftarrow \theta - \eta \, \nabla \ell_t(\theta)
+\]</p>
+<p><strong>where:</strong> \(\ell_i\) is the loss on example \(i\), \(\eta\) the learning rate, \(\ell_t\) the loss on the single example arriving at time \(t\); mini-batch averages over \(b\) examples (\(1 &lt; b &lt; n\)).</p>
+<p><strong>use:</strong> batch retrains on all data at once; online learns incrementally from a stream and can track drift, but a large \(\eta\) makes it forget old data quickly.</p><span class="src">1.3.1 · slides 48–51</span></div><div class="card f"><h3>Instance-based versus model-based cost</h3><p>\[
+\text{instance-based: train } O(1), \ \text{query } O(Nd); \qquad \text{model-based: train } O(\text{fit}), \ \text{query } O(\lvert \theta \rvert)
+\]</p>
+<p><strong>where:</strong> \(N\) stored examples, \(d\) features, \(\lvert \theta \rvert\) number of model parameters (e.g. \(d + 1\) for a linear model).</p>
+<p><strong>use:</strong> lazy (instance-based) learners store the data and pay at query time (one distance per stored point); eager (model-based) learners pay once to fit, then discard the data. Total query cost = queries per day \(\times\, N \times d\).</p><span class="src">1.3.2 · slides 48–49</span></div></div></details>
+<details class="module" open id="m2-machine-learning-workflow"><summary>M2 · Machine Learning Workflow <small>· 14 items</small></summary><div class="cards"><div class="card f"><h3>Measurement levels and the operations they allow</h3><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Allowed operations</th>
+<th>Allowed transformation</th>
+<th>Typical statistics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nominal</td>
+<td>\(=, \ne\)</td>
+<td>any one-to-one relabelling</td>
+<td>mode, entropy, \(\chi^2\)</td>
+</tr>
+<tr>
+<td>Ordinal</td>
+<td>\(=, \ne, &lt;, &gt;\)</td>
+<td>any order-preserving \(x' = g(x)\)</td>
+<td>median, percentiles, rank correlation</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td>\(+, -\) as well</td>
+<td>\(x' = a x + b\), \(a &gt; 0\)</td>
+<td>mean, standard deviation, Pearson \(r\)</td>
+</tr>
+<tr>
+<td>Ratio</td>
+<td>\(\times, \div\) as well</td>
+<td>\(x' = a x\), \(a &gt; 0\)</td>
+<td>geometric mean, coefficient of variation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>where:</strong> each level inherits every operation of the levels above it; a ratio scale has a true zero.</p>
+<p><strong>use:</strong> a ratio claim ("twice as hot") is only meaningful on a ratio scale: \(30\,{}^\circ\text{C}/15\,{}^\circ\text{C} = 2\) but \(303.15\,\text{K}/288.15\,\text{K} \approx 1.05\). Ratios of differences, \(\frac{x_1 - x_2}{x_3 - x_4}\), are invariant on an interval scale.</p><span class="src">2.1.2, 2.1.3 · slides 63–69</span></div><div class="card f"><h3>Density, sparsity and storage</h3><p>\[
+\text{density} = \frac{\text{nnz}}{n \times d}, \qquad \text{sparsity} = 1 - \text{density}, \qquad \text{CSR bytes} \approx \text{nnz} \times (b_v + b_i) + (n + 1) \times b_i
+\]</p>
+<p><strong>where:</strong> nnz = number of non-zero entries in the \(n \times d\) data matrix; \(b_v, b_i\) bytes per stored value and per index. Dense storage needs \(n \times d \times b_v\) bytes.</p>
+<p><strong>use:</strong> document-term matrices are extremely sparse, so only non-zeros (with their column index) are stored; dimensionality \(d\), sparsity and resolution decide which algorithms and distance measures are practical.</p><span class="src">2.1.4 · slides 70–75</span></div><div class="card f"><h3>Aggregation reduces variance</h3><p>\[
+\operatorname{Var}(\bar{x}_m) = \frac{\sigma^2}{m}, \qquad \operatorname{SD}(\bar{x}_m) = \frac{\sigma}{\sqrt{m}}
+\]</p>
+<p><strong>where:</strong> \(\bar{x}_m\) is the mean of \(m\) aggregated values (e.g. 7 daily sales into one weekly average), \(\sigma^2\) the variance of one value, values assumed independent.</p>
+<p><strong>use:</strong> aggregation changes scale (days to weeks, cities to states) and gives more stable data, at the cost of detail. The coefficient of variation \(\sigma/\mu\) drops by the factor \(\sqrt{m}\).</p><span class="src">2.2.3 · slides 88–90</span></div><div class="card f"><h3>Handling missing values</h3><p>\[
+\hat{x}_{ij} = \frac{1}{\lvert O_j \rvert} \sum_{i' \in O_j} x_{i'j} \quad \text{(mean)}, \qquad \hat{x}_{ij} = \operatorname{median}_{i' \in O_j} x_{i'j}, \qquad \hat{x}_{ij} = \frac{1}{\lvert O_{j,c} \rvert} \sum_{i' \in O_{j,c}} x_{i'j}
+\]</p>
+<p><strong>where:</strong> \(O_j\) are the rows where feature \(j\) is observed; \(O_{j,c}\) those that also belong to the same class \(c\) as row \(i\) (class-conditional imputation).</p>
+<p><strong>use:</strong> eliminate rows only when few are missing; otherwise impute (median is robust to skew/outliers; mode for categorical). Compute the imputation statistic on the <strong>training split only</strong> and reuse it on validation and test data, or the test set leaks into training.</p><span class="src">2.2.1, 2.2.2 · slides 81–93</span></div><div class="card f"><h3>IQR outlier fences</h3><p>\[
+\text{IQR} = Q_3 - Q_1, \qquad \text{fences: } \left[ Q_1 - 1.5\,\text{IQR}, \ Q_3 + 1.5\,\text{IQR} \right]
+\]</p>
+<p><strong>where:</strong> \(Q_1, Q_3\) are the lower and upper quartiles of the sorted data. The slides use the <strong>median-of-halves</strong> method: \(Q_1\) = median of the lower half, \(Q_3\) = median of the upper half (for odd \(n\), leave the median out of both halves).</p>
+<p><strong>use:</strong> points outside the fences are flagged as outliers; robust to skew because quartiles ignore the tails. Other conventions (position \(k(n + 1)/4\), NumPy's interpolation at \(p(n - 1)\)) give slightly different quartiles (slide 96 data gives \(Q_3 = 14.5\) by halves, \(14.75\) by position), so state the method used.</p><span class="src">2.3.1 · slides 94–96</span></div><div class="card f"><h3>The 3σ rule</h3><p>\[
+\left[ \bar{x} - 3\sigma, \ \bar{x} + 3\sigma \right], \qquad P(\lvert Z \rvert &gt; 3) \approx 0.27\%, \qquad P(\lvert Z \rvert \le 1, 2, 3) \approx 68\%, 95\%, 99.7\%
+\]</p>
+<p><strong>where:</strong> \(\bar{x}\) is the mean, \(\sigma\) the standard deviation, \(Z \sim N(0, 1)\).</p>
+<p><strong>use:</strong> only for roughly normal data. On skewed data the mean and \(\sigma\) are themselves inflated by the outliers (masking), so the IQR rule is safer. A single extreme point \(x_1\) among \(n\) can never exceed \(\sqrt{n - 1}\) standard deviations from the mean.</p><span class="src">2.3.2 · slides 94, 97</span></div><div class="card f"><h3>Stratified allocation and data partitioning</h3><p>\[
+n_h = n \cdot \frac{N_h}{N}, \qquad n_{\text{train}} : n_{\text{val}} : n_{\text{test}} \approx 60{:}20{:}20 \ \text{or} \ 70{:}15{:}15
+\]</p>
+<p><strong>where:</strong> \(N\) records in total, \(N_h\) in stratum (class) \(h\), \(n\) the size of the sample or split.</p>
+<p><strong>use:</strong> stratified sampling keeps each class's proportion the same in every split, which matters for rare classes; simple random sampling can leave a rare class out of a small split entirely. Fit on train, tune on validation, report once on test.</p><span class="src">2.4.1, 2.4.2 · slides 98–101</span></div><div class="card f"><h3>Class imbalance and resampling arithmetic</h3><p>\[
+\text{IR} = \frac{N_{\text{maj}}}{N_{\text{min}}}, \qquad \text{undersample: keep } N_{\text{min}} \text{ of each}, \qquad \text{oversample: add } N_{\text{maj}} - N_{\text{min}} \text{ minority points}
+\]</p>
+<p><strong>where:</strong> \(N_{\text{maj}}, N_{\text{min}}\) are the majority and minority class counts; IR is the imbalance ratio.</p>
+<p><strong>use:</strong> the all-majority classifier already scores accuracy \(N_{\text{maj}}/N\). Undersampling throws data away; oversampling duplicates or synthesises minority points (risk of overfitting). Resample the <strong>training split only</strong>, after splitting.</p><span class="src">2.4.3 · slide 102</span></div><div class="card f"><h3>SMOTE synthetic point</h3><p>\[
+x_{\text{new}} = x_i + \lambda \left( x_{\text{nn}} - x_i \right), \qquad \lambda \sim U(0, 1)
+\]</p>
+<p><strong>where:</strong> \(x_i\) is a minority example, \(x_{\text{nn}}\) one of its \(k\) nearest minority-class neighbours, \(\lambda\) a random fraction.</p>
+<p><strong>use:</strong> creates a new minority point on the segment between two minority points. It can place points inside majority regions when minority points are scattered or noisy, and must be applied after the train/test split.</p><span class="src">2.4.3 · slide 102</span></div><div class="card f"><h3>Min-max normalisation</h3><p>\[
+x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}} \left( \text{new\_max} - \text{new\_min} \right) + \text{new\_min}
+\]</p>
+<p><strong>where:</strong> \(x_{\min}, x_{\max}\) are the training minimum and maximum of the feature; the default target range is \([0, 1]\).</p>
+<p><strong>use:</strong> for distance- and gradient-based methods (k-NN, k-means, SVM, gradient descent, neural nets). Sensitive to outliers: one extreme value squashes all others. A test value outside the training range maps outside \([0, 1]\) (e.g. \(1.1875\)). Trees do not need scaling; target values are not scaled.</p><span class="src">2.5.1, 6.2.5 · slide 105</span></div><div class="card f"><h3>Z-score, decimal and robust scaling</h3><p>\[
+z = \frac{x - \bar{x}}{\sigma}, \qquad x' = \frac{x}{10^{j}} \ \text{with the smallest } j \text{ such that } \max \lvert x' \rvert &lt; 1, \qquad x' = \frac{x - \text{median}}{\text{IQR}}
+\]</p>
+<p><strong>where:</strong> \(\bar{x}, \sigma\) are the training mean and standard deviation (the course uses the population \(\sigma\), dividing by \(N\), unless told otherwise).</p>
+<p><strong>use:</strong> z-score gives mean 0 and SD 1 and suits roughly normal features; robust scaling resists outliers; decimal scaling just shifts the decimal point. All statistics come from the training split.</p><span class="src">2.5.1, 6.2.5 · slide 105</span></div><div class="card f"><h3>Equal-width and equal-depth binning</h3><p>\[
+W = \frac{x_{\max} - x_{\min}}{k}, \qquad \text{bin } i = \left[ x_{\min} + (i - 1)W, \ x_{\min} + iW \right), \qquad \text{equal-depth: } \frac{N}{k} \text{ values per bin}
+\]</p>
+<p><strong>where:</strong> \(k\) is the number of bins and \(N\) the number of values. Smoothing then replaces each value by its bin mean, median or nearest boundary.</p>
+<p><strong>use:</strong> equal-width is simple but outliers leave most bins empty; equal-depth (equal-frequency) adapts to skew so every bin carries the same number of records.</p><span class="src">2.5.3 · slides 112–113</span></div><div class="card f"><h3>One-hot and label encoding</h3><p>\[
+\text{one-hot: } v \mapsto e_v \in \{0, 1\}^{m}, \qquad \text{label: } v \mapsto \{0, 1, \dots, m - 1\}
+\]</p>
+<p><strong>where:</strong> \(m\) is the number of categories and \(e_v\) the indicator vector with a single 1 in position \(v\).</p>
+<p><strong>use:</strong> label encoding imposes a fake order and fake equal spacing, so a linear model gives category 2 exactly twice the effect of category 1; use it only for ordinal data or tree models. One-hot adds \(m\) columns; with an intercept drop one (\(m - 1\) dummies) to avoid perfect collinearity (the dummy-variable trap).</p><span class="src">2.5.4 · slide 114</span></div><div class="card f"><h3>Curse of dimensionality in the unit cube</h3><p>\[
+e(d) = f^{1/d}, \qquad P(\text{within } \varepsilon \text{ of the boundary}) = 1 - (1 - 2\varepsilon)^{d}, \qquad \text{grid points} = g^{d}
+\]</p>
+<p><strong>where:</strong> points uniform in \([0, 1]^d\); \(e(d)\) is the edge of a sub-cube holding fraction \(f\) of the data; \(\varepsilon\) the boundary width; \(g\) points per axis.</p>
+<p><strong>use:</strong> with \(f = 0.1\), \(e(10) \approx 0.79\), so a "local" neighbourhood spans most of every axis. With \(\varepsilon = 0.05\) the shell fraction is \(1 - 0.9^{d}\), almost 1 for \(d = 50\). Remedies: feature selection and dimensionality reduction (e.g. PCA).</p><span class="src">2.5.5, 6.3.4 · slides 108, 392</span></div></div></details>
+<details class="module" open id="m3-linear-models-for-regression"><summary>M3 · Linear Models for Regression <small>· 20 items</small></summary><div class="cards"><div class="card f"><h3>Linear hypothesis</h3><p>\[
+h_\theta(x) = \theta^\top x = \theta_0 + \theta_1 x_1 + \dots + \theta_d x_d, \qquad \hat{y} = X\theta
+\]</p>
+<p><strong>where:</strong> \(x_0 = 1\) is prepended so \(\theta_0\) is the intercept; \(X\) is the \(n \times (d + 1)\) design matrix (first column all ones), \(\theta\) the weight vector.</p>
+<p><strong>use:</strong> simple regression has \(d = 1\), multiple regression \(d &gt; 1\). \(\theta_j\) is the change in \(\hat{y}\) per unit increase in \(x_j\) with the other features held fixed. "Linear" means linear in \(\theta\), not in \(x\).</p><span class="src">3.1.1 · slides 128–135</span></div><div class="card f"><h3>Squared-error cost function</h3><p>\[
+J(\theta) = \frac{1}{2n} \sum_{i=1}^{n} \left( h_\theta(x_i) - y_i \right)^2 = \frac{1}{2n} \lVert X\theta - y \rVert^2, \qquad \text{SSE} = \sum_i (h_\theta(x_i) - y_i)^2, \qquad \text{MSE} = \frac{\text{SSE}}{n}
+\]</p>
+<p><strong>where:</strong> \(n\) training examples \((x_i, y_i)\).</p>
+<p><strong>use:</strong> the \(\frac{1}{2}\) only cancels the 2 from differentiation; it does not move the minimiser. So \(J = \text{SSE}/(2n)\): with SSE \(= 0.1667\) and \(n = 3\), \(J = 0.0278\). Always check which scaling a question uses.</p><span class="src">3.1.2 · slides 135–144</span></div><div class="card f"><h3>Gradient and Hessian of the cost</h3><p>\[
+\frac{\partial J}{\partial \theta_j} = \frac{1}{n} \sum_{i=1}^{n} \left( h_\theta(x_i) - y_i \right) x_{ij}, \qquad \nabla J = \frac{1}{n} X^\top (X\theta - y), \qquad H = \frac{1}{n} X^\top X
+\]</p>
+<p><strong>where:</strong> \(x_{ij}\) is feature \(j\) of example \(i\) (\(x_{i0} = 1\)); \(H\) is the Hessian.</p>
+<p><strong>use:</strong> \(v^\top H v = \frac{1}{n} \lVert Xv \rVert^2 \ge 0\), so \(H\) is positive semi-definite and \(J\) is <strong>convex</strong>: every local minimum is global and gradient descent with a small enough \(\eta\) converges to it.</p><span class="src">3.1.2, 3.3.5 · slides 156–157, 172–173</span></div><div class="card f"><h3>Matrix-calculus rules</h3><p>\[
+\nabla_\theta (b^\top \theta) = b, \qquad \nabla_\theta (\theta^\top A \theta) = (A + A^\top)\theta = 2A\theta \ (A \text{ symmetric}), \qquad \nabla_\theta \lVert X\theta - y \rVert^2 = 2X^\top (X\theta - y)
+\]</p>
+<p><strong>where:</strong> \(b\) a constant vector, \(A\) a constant square matrix; also \((AB)^\top = B^\top A^\top\) and \((AB)^{-1} = B^{-1}A^{-1}\).</p>
+<p><strong>use:</strong> expand \(\lVert X\theta - y \rVert^2 = \theta^\top X^\top X \theta - 2y^\top X\theta + y^\top y\), differentiate term by term, set to zero: this is the derivation of the normal equations.</p><span class="src">3.2.1, 3.1.2 · slides 149–153</span></div><div class="card f"><h3>Normal equations</h3><p>\[
+X^\top X \theta = X^\top y \quad \Longrightarrow \quad \theta = (X^\top X)^{-1} X^\top y
+\]</p>
+<p><strong>where:</strong> \(X\) is the design matrix with a column of ones, \(y\) the target vector.</p>
+<p><strong>use:</strong> a one-shot exact solution, no learning rate, no iterations and no feature scaling needed. Needs \(X^\top X\) invertible (at least \(d + 1\) examples, no perfectly collinear features); costs about \(O(d^3)\), so gradient descent is preferred for very many features. At the solution the residual \(r = X\theta - y\) satisfies \(X^\top r = 0\).</p><span class="src">3.2.1 · slides 149–153</span></div><div class="card f"><h3>Simple regression in closed form</h3><p>\[
+\theta_1 = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sum_i (x_i - \bar{x})^2} = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{\sum x_i^2 - n\bar{x}^2}, \qquad \theta_0 = \bar{y} - \theta_1 \bar{x}
+\]</p>
+<p><strong>where:</strong> \(\bar{x}, \bar{y}\) are sample means; these solve \(n\theta_0 + \theta_1 \sum x_i = \sum y_i\) and \(\theta_0 \sum x_i + \theta_1 \sum x_i^2 = \sum x_i y_i\).</p>
+<p><strong>use:</strong> the fastest hand route for one feature. The fitted line always passes through \((\bar{x}, \bar{y})\).</p><span class="src">3.2.1 · slides 149–153</span></div><div class="card f"><h3>Inverse of a 2×2 matrix</h3><p>\[
+\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}^{-1} = \frac{1}{ad - bc} \begin{bmatrix} d &amp; -b \\ -c &amp; a \end{bmatrix}
+\]</p>
+<p><strong>where:</strong> \(ad - bc \ne 0\) is the determinant.</p>
+<p><strong>use:</strong> for one-feature normal equations, \(X^\top X = \begin{bmatrix} n &amp; \sum x_i \\ \sum x_i &amp; \sum x_i^2 \end{bmatrix}\). For \(3 \times 3\) systems, solve \(X^\top X \theta = X^\top y\) by elimination rather than inverting.</p><span class="src">3.2.1 · slides 149–153</span></div><div class="card f"><h3>Gradient-descent update</h3><p>\[
+\theta_j \leftarrow \theta_j - \eta \, \frac{\partial J}{\partial \theta_j} = \theta_j - \eta \, \frac{1}{n} \sum_{i=1}^{n} \left( h_\theta(x_i) - y_i \right) x_{ij}
+\]</p>
+<p><strong>where:</strong> \(\eta\) is the learning rate; all \(\theta_j\) are updated <strong>simultaneously</strong> from the same old \(\theta\).</p>
+<p><strong>use:</strong> batch GD uses all \(n\) examples per step. A positive derivative moves \(\theta_j\) down, a negative one moves it up; at the minimum the gradient is 0 and the update stops. Recompute residuals \(h(x_i) - y_i\) after every step.</p><span class="src">3.3.1 · slides 155–171</span></div><div class="card f"><h3>Learning-rate stability</h3><p>\[
+e_{k+1} = (1 - \eta a)\, e_k, \quad e_k = (1 - \eta a)^k e_0, \qquad \text{converges iff } 0 &lt; \eta &lt; \frac{2}{a}; \qquad \text{in general } 0 &lt; \eta &lt; \frac{2}{\lambda_{\max}(H)}
+\]</p>
+<p><strong>where:</strong> for a 1-D quadratic cost \(J'(\theta) = a(\theta - \theta^*)\) with \(a = \frac{1}{n}\sum x_i^2\); \(e_k = \theta_k - \theta^*\); \(\lambda_{\max}(H)\) is the largest eigenvalue of the Hessian.</p>
+<p><strong>use:</strong> \(\eta\) too small: slow, monotone descent; \(\eta a\) between 1 and 2: oscillating but converging; \(\eta &gt; 2/a\): divergence (cost grows). The fastest single-coordinate rate is \(\eta = 1/a\). Diagnose from the cost curve.</p><span class="src">3.3.2, 3.3.5 · slides 161–173</span></div><div class="card f"><h3>Feature scaling and the descent path</h3><p>\[
+e_j \leftarrow (1 - \eta s_j^2)\, e_j, \qquad \kappa = \frac{\lambda_{\max}(H)}{\lambda_{\min}(H)}, \qquad \text{iterations} \propto \kappa
+\]</p>
+<p><strong>where:</strong> for uncorrelated features \(H = \operatorname{diag}(s_1^2, \dots, s_d^2)\) with \(s_j^2 = \frac{1}{n}\sum x_{ij}^2\); \(\kappa\) is the condition number.</p>
+<p><strong>use:</strong> one \(\eta\) must satisfy \(\eta &lt; 2/\max_j s_j^2\), so the small-scale coordinate barely moves: elongated contours, zig-zag path, many iterations (e.g. \(s^2 = 1\) and \(250{,}000\) force \(\eta &lt; 8 \times 10^{-6}\)). Scaling makes \(\kappa \approx 1\) (round contours). The minimiser is the same, only the path changes.</p><span class="src">3.3.3, 2.5.1 · slides 175–176</span></div><div class="card f"><h3>Batch, mini-batch and stochastic gradient descent</h3><p>\[
+\theta \leftarrow \theta - \eta \frac{1}{\lvert B \rvert} \sum_{i \in B} (h_\theta(x_i) - y_i)\, x_i, \qquad B = \{1..n\} \ (\text{batch}), \quad \lvert B \rvert = b \ (\text{mini-batch}), \quad \lvert B \rvert = 1 \ (\text{SGD})
+\]</p>
+<p><strong>where:</strong> \(B\) is the set of examples used for one update; an epoch is one pass over all \(n\) examples.</p>
+<p><strong>use:</strong> one epoch is 1 update in batch GD, \(n/b\) in mini-batch, \(n\) in SGD (the parameters change after each example, so later examples see updated \(\theta\)). SGD is noisy but cheap per step and can escape shallow regions; use a decaying \(\eta\) for it to settle.</p><span class="src">3.3.4, 1.3.1 · slides 145–146, 175, 190</span></div><div class="card f"><h3>Linear basis-function model</h3><p>\[
+y(x, w) = \sum_{j=0}^{M} w_j \phi_j(x), \quad \phi_0(x) = 1, \qquad w = (\Phi^\top \Phi)^{-1} \Phi^\top y, \qquad \Phi_{ij} = \phi_j(x_i)
+\]</p>
+<p><strong>where:</strong> \(\phi_j\) are fixed basis functions; polynomial regression uses \(\phi_j(x) = x^j\), Gaussian bases \(\phi_j(x) = \exp\left(-\frac{(x - \mu_j)^2}{2s^2}\right)\); \(\Phi\) is the design matrix.</p>
+<p><strong>use:</strong> non-linear in \(x\) but still linear in \(w\), so the normal equations and gradient descent work unchanged. Higher degree \(M\) lowers training error but raises variance (overfitting).</p><span class="src">3.4.1 · slides 199–202</span></div><div class="card f"><h3>Bias–variance decomposition</h3><p>\[
+E\left[ (y - \hat{f}(x))^2 \right] = \sigma^2 + \left( E[\hat{f}(x)] - f(x) \right)^2 + \operatorname{Var}\left( \hat{f}(x) \right)
+\]</p>
+<p><strong>where:</strong> \(y = f(x) + \varepsilon\) with noise variance \(\sigma^2\) (irreducible error); the expectation is over training sets; the middle term is \(\text{Bias}^2\).</p>
+<p><strong>use:</strong> underfitting = high bias (train and test error both high, close together); overfitting = high variance (train error low, test error much higher). For least squares with \(p\) parameters, expected train SSE \(= n\,\text{Bias}^2 + \sigma^2(n - p)\) and expected test SSE \(= n\,\text{Bias}^2 + \sigma^2(n + p)\), so the gap grows with \(p\) and shrinks with \(n\).</p><span class="src">3.4.2 · slides 203–213</span></div><div class="card f"><h3>Ridge (L2) regression</h3><p>\[
+J_{\text{ridge}}(w) = J(w) + \frac{\lambda}{2} \sum_{j=1}^{d} w_j^2, \qquad w_j \leftarrow w_j (1 - \eta\lambda) - \eta \frac{\partial J}{\partial w_j}, \qquad w = (X^\top X + \lambda I)^{-1} X^\top y
+\]</p>
+<p><strong>where:</strong> \(\lambda \ge 0\) is the regularisation constant; the intercept \(w_0\) is <strong>not</strong> penalised (its update has no shrink factor); the closed form is for the unscaled cost \(\lVert Xw - y \rVert^2 + \lambda \lVert w \rVert^2\) on centred data.</p>
+<p><strong>use:</strong> every step multiplies each weight by \((1 - \eta\lambda)\) before the usual gradient step (slide example: \(0.9\)). Weights shrink smoothly towards 0 but never exactly to 0. \(X^\top X + \lambda I\) is invertible for every \(\lambda &gt; 0\), which also fixes collinearity.</p><span class="src">3.5.1, 3.5.4 · slides 219, 223</span></div><div class="card f"><h3>Lasso (L1) regression</h3><p>\[
+J_{\text{lasso}}(w) = J(w) + \lambda \sum_{j=1}^{d} \lvert w_j \rvert, \qquad w_j \leftarrow w_j - \eta \frac{\partial J}{\partial w_j} - \eta\lambda \operatorname{sign}(w_j) \quad (w_j \ne 0)
+\]</p>
+<p><strong>where:</strong> \(\operatorname{sign}(w_j) = \pm 1\); at \(w_j = 0\) the penalty has no derivative, only the subgradient interval \([-\lambda, \lambda]\).</p>
+<p><strong>use:</strong> subtracts a fixed amount \(\eta\lambda\) towards 0 each step, so it can set weights exactly to 0 (feature selection). \(w_j = 0\) is optimal exactly when \(\left\lvert \frac{\partial J}{\partial w_j} \right\rvert \le \lambda\) there. <strong>Erratum:</strong> the slide 224 Lasso answer (weights larger than the unregularised ones) is wrong; a correct Lasso step moves each non-zero weight towards 0 relative to the plain step.</p><span class="src">3.5.2, 3.5.4 · slides 220, 222–224</span></div><div class="card f"><h3>Shrinkage versus soft thresholding</h3><p>\[
+w_j^{\text{ridge}} = \frac{z_j}{1 + \lambda}, \qquad w_j^{\text{lasso}} = \operatorname{sign}(z_j) \max\left( \lvert z_j \rvert - \lambda, \ 0 \right)
+\]</p>
+<p><strong>where:</strong> orthonormal design \(\frac{1}{n} X^\top X = I\), \(z_j = \frac{1}{n} x_j^\top y\) the OLS coefficient, cost \(J = \frac{1}{2n} \lVert Xw - y \rVert^2\) plus \(\frac{\lambda}{2}\lVert w \rVert^2\) (ridge) or \(\lambda \lVert w \rVert_1\) (lasso).</p>
+<p><strong>use:</strong> ridge divides every coefficient by the same factor; lasso subtracts \(\lambda\) from every magnitude and zeroes any \(\lvert z_j \rvert \le \lambda\). Example: \(z = 3.0, \lambda = 0.5\): ridge \(2.0\), lasso \(2.5\); \(z = 0.4\): ridge \(0.267\), lasso \(0\).</p><span class="src">3.5.1, 3.5.2 · slides 219–222</span></div><div class="card f"><h3>Elastic Net</h3><p>\[
+J_{\text{EN}}(w) = J(w) + \lambda \left[ r \lVert w \rVert_1 + \frac{1 - r}{2} \lVert w \rVert_2^2 \right], \qquad w_j = \frac{\operatorname{sign}(z_j) \max(\lvert z_j \rvert - \lambda r, 0)}{1 + \lambda(1 - r)} \ \text{(orthonormal)}
+\]</p>
+<p><strong>where:</strong> \(r \in [0, 1]\) is the L1 share (sklearn <code>l1_ratio</code>), \(\lambda\) the overall strength (sklearn <code>alpha</code>).</p>
+<p><strong>use:</strong> \(r = 1\) is Lasso, \(r = 0\) is Ridge (the slide wording swaps these, so always check which penalty \(r\) multiplies). Prefer Elastic Net with groups of highly correlated features: Lasso picks one arbitrarily, the L2 part shares weight across the group. Tune \(\lambda\) (and \(r\)) by cross-validation, never on the test set.</p><span class="src">3.5.3 · slides 221–222</span></div><div class="card f"><h3>Sums of squares and R²</h3><p>\[
+\text{SST} = \sum_i (y_i - \bar{y})^2, \quad \text{SSR} = \sum_i (\hat{y}_i - \bar{y})^2, \quad \text{SSE} = \sum_i (y_i - \hat{y}_i)^2, \qquad R^2 = 1 - \frac{\text{SSE}}{\text{SST}}
+\]</p>
+<p><strong>where:</strong> \(\bar{y}\) is the mean of the observed \(y\) (the test-set mean on a test set), \(\hat{y}_i\) the predictions.</p>
+<p><strong>use:</strong> \(\text{SST} = \text{SSR} + \text{SSE}\) holds only for least squares <strong>with an intercept</strong> on the training data, giving \(R^2 = \text{SSR}/\text{SST} \in [0, 1]\). On test data or without an intercept the identity fails and \(R^2\) can be negative (worse than predicting \(\bar{y}\)).</p><span class="src">3.6.1 · slides 136, 197</span></div><div class="card f"><h3>Adjusted R²</h3><p>\[
+\bar{R}^2 = 1 - (1 - R^2) \, \frac{n - 1}{n - p - 1}
+\]</p>
+<p><strong>where:</strong> \(n\) observations, \(p\) predictors (not counting the intercept).</p>
+<p><strong>use:</strong> training \(R^2\) never falls when a feature is added, even a random one; \(\bar{R}^2\) penalises extra predictors and can fall. A model is better only if it does better on held-out data.</p><span class="src">3.6.1, 3.6.2 · slides 136, 197</span></div><div class="card f"><h3>Train versus test error</h3><p>\[
+\text{MSE}_{\text{train}} = \frac{1}{n} \sum_{i \in \text{train}} (y_i - \hat{y}_i)^2, \qquad \text{MSE}_{\text{test}} = \frac{1}{m} \sum_{i \in \text{test}} (y_i - \hat{y}_i)^2, \qquad E[\text{MSE}_{\text{test}}] - E[\text{MSE}_{\text{train}}] = \frac{2\sigma^2 p}{n}
+\]</p>
+<p><strong>where:</strong> \(n\) training and \(m\) test examples; the last identity is for least squares with \(p\) parameters and noise variance \(\sigma^2\).</p>
+<p><strong>use:</strong> in-sample MSE is optimistic; generalisation is judged on unseen data. As complexity rises, train MSE falls monotonically while test MSE is U-shaped; pick the complexity (degree, \(\lambda\)) at the validation minimum.</p><span class="src">3.6.2, 3.4.2 · slides 205, 225</span></div></div></details>
+<details class="module" open id="m4-linear-models-for-classification-logistic-regression"><summary>M4 · Linear Models for Classification (Logistic Regression) <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Least squares as a classifier</h3><p>\[
+h(x) = w_0 + w_1 x, \qquad \hat{y} = 1 \iff h(x) \ge 0.5, \qquad x^* = \frac{0.5 - w_0}{w_1}
+\]</p>
+<p><strong>where:</strong> \(w_0, w_1\) are fitted by least squares to 0/1 labels; \(x^*\) is the induced decision threshold.</p>
+<p><strong>use:</strong> shows the two defects: \(h(x)\) is unbounded (values below 0 or above 1 are not probabilities), and one far-away but correctly labelled point drags the least-squares line and moves \(x^*\), misclassifying points that were right before.</p><span class="src">4.1.1 · slides 228–235</span></div><div class="card f"><h3>Sigmoid (logistic) function</h3><p>\[
+\sigma(z) = \frac{1}{1 + e^{-z}}, \qquad \sigma(0) = 0.5, \qquad \sigma(-z) = 1 - \sigma(z), \qquad \sigma'(z) = \sigma(z)\left(1 - \sigma(z)\right)
+\]</p>
+<p><strong>where:</strong> \(z = w^\top x = w_0 + w_1 x_1 + \dots + w_d x_d\) is the linear score; \(h_w(x) = \sigma(z) = P(y = 1 \mid x)\).</p>
+<p><strong>use:</strong> squashes any score into \((0, 1)\). Large positive \(z\) gives \(h \to 1\), large negative \(z\) gives \(h \to 0\). The derivative identity makes the log-loss gradient simple.</p><span class="src">4.1.2 · slides 231, 236</span></div><div class="card f"><h3>Decision boundary</h3><p>\[
+\hat{y} = 1 \iff h_w(x) \ge 0.5 \iff w^\top x \ge 0, \qquad \text{boundary: } w_0 + w_1 x_1 + w_2 x_2 = 0
+\]</p>
+<p><strong>where:</strong> the threshold 0.5 can be changed to \(t\), giving the boundary \(w^\top x = \ln\frac{t}{1 - t}\).</p>
+<p><strong>use:</strong> the boundary is a hyperplane (a line in 2-D); solve the boundary equation for one feature to get the cut-off, e.g. \(z = -5 + 0.6x_1 + 0.2x_2\) with \(x_2 = 7\) gives \(x_1 \ge 6\).</p><span class="src">4.1.2 · slides 236–240</span></div><div class="card f"><h3>Cross-entropy (log-loss) cost</h3><p>\[
+\text{Cost}(h, y) = \begin{cases} -\log h &amp; y = 1 \\ -\log(1 - h) &amp; y = 0 \end{cases}, \qquad J(w) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y_i \log h_i + (1 - y_i) \log(1 - h_i) \right]
+\]</p>
+<p><strong>where:</strong> \(h_i = \sigma(w^\top x_i)\), \(m\) training examples, \(\log\) is natural.</p>
+<p><strong>use:</strong> a confident wrong prediction is punished heavily (\(-\ln 0.01 \approx 4.61\)) and a confident right one costs almost nothing. \(J\) is convex in \(w\); squared error with a sigmoid is not convex (flat regions and local minima), which is why it is not used.</p><span class="src">4.2.1 · slides 241–246</span></div><div class="card f"><h3>Logistic-regression gradient-descent update</h3><p>\[
+\frac{\partial J}{\partial w_j} = \frac{1}{m} \sum_{i=1}^{m} \left( h_w(x_i) - y_i \right) x_{ij}, \qquad w_j \leftarrow w_j - \eta \, \frac{1}{m} \sum_{i=1}^{m} \left( h_w(x_i) - y_i \right) x_{ij}
+\]</p>
+<p><strong>where:</strong> \(x_{i0} = 1\); \(h_w(x_i) = \sigma(w^\top x_i)\); updates are simultaneous.</p>
+<p><strong>use:</strong> the same form as linear regression, only \(h\) changes. Per example \(\frac{\partial \ell}{\partial w_j} = (h - y)x_j\) and \(\frac{\partial^2 \ell}{\partial w_j^2} = \sigma(1 - \sigma)x_j^2 \ge 0\) (convex). There is no closed form, so iterate; on perfectly separable data the weights grow without bound unless regularised.</p><span class="src">4.2.2, 8.1.3 · slides 244–246, 264</span></div><div class="card f"><h3>Odds, log-odds and the odds ratio</h3><p>\[
+\text{odds} = \frac{p}{1 - p}, \qquad \ln\frac{p}{1 - p} = w^\top x, \qquad \frac{\text{odds}(x_j + 1)}{\text{odds}(x_j)} = e^{w_j}, \qquad \frac{\partial p}{\partial x_j} = w_j \, p(1 - p)
+\]</p>
+<p><strong>where:</strong> \(p = P(y = 1 \mid x)\); \(w_j\) is the coefficient of feature \(j\), others held fixed.</p>
+<p><strong>use:</strong> each one-unit increase in \(x_j\) multiplies the odds by \(e^{w_j}\) (slide: odds of a job offer rise by a factor 1.35 per CGPA point); a \(\Delta\)-unit change multiplies them by \(e^{w_j \Delta}\). \(e^{w_j} &gt; 1\) raises the odds, \(&lt; 1\) lowers them. The effect on \(p\) itself depends on where \(p\) is.</p><span class="src">4.2.3 · slides 253, 282</span></div><div class="card f"><h3>Regularised logistic regression</h3><p>\[
+J(w) = -\frac{1}{m} \sum_i \left[ y_i \log h_i + (1 - y_i)\log(1 - h_i) \right] + \frac{\lambda}{2m} \sum_{j=1}^{d} w_j^2, \qquad w_j \leftarrow w_j \left( 1 - \frac{\eta\lambda}{m} \right) - \eta \frac{1}{m} \sum_i (h_i - y_i) x_{ij}
+\]</p>
+<p><strong>where:</strong> \(\lambda\) is the regularisation strength, \(w_0\) is not penalised; sklearn uses \(C = 1/\lambda\) (\(1/\alpha\)).</p>
+<p><strong>use:</strong> <strong>larger \(C\) means less regularisation</strong> (fits training data harder, risk of overfitting); smaller \(C\) shrinks weights more. Regularisation keeps weights finite on separable data and can flip a borderline prediction. Choose \(C\) by validation.</p><span class="src">4.3, 3.5.4 · slides 252, 254–255</span></div><div class="card f"><h3>Confusion-matrix metrics</h3><p>\[
+\text{Acc} = \frac{TP + TN}{TP + TN + FP + FN}, \quad P = \frac{TP}{TP + FP}, \quad R = TPR = \frac{TP}{TP + FN}, \quad F_1 = \frac{2PR}{P + R}
+\]</p>
+<p><strong>where:</strong> TP, FP, FN, TN count true/false positives/negatives for the positive class (the class of interest); specificity \(= TNR = \frac{TN}{TN + FP}\), \(FPR = \frac{FP}{FP + TN} = 1 - TNR\).</p>
+<p><strong>use:</strong> precision answers "of the flagged, how many are real?", recall "of the real, how many were caught?". \(F_1\) is the harmonic mean, so it is dragged towards the smaller of \(P\) and \(R\) (\(P = 1, R = 0.1\) gives \(F_1 \approx 0.18\)). \(F_\beta = \frac{(1 + \beta^2)PR}{\beta^2 P + R}\) weights recall \(\beta\) times as much.</p><span class="src">4.4.1, 11.1.2 · slides 257–260, 733</span></div><div class="card f"><h3>Accuracy paradox baseline</h3><p>\[
+\text{Acc}_{\text{baseline}} = \frac{N_{\text{maj}}}{N}, \qquad \text{balanced accuracy} = \frac{TPR + TNR}{2}
+\]</p>
+<p><strong>where:</strong> \(N_{\text{maj}}\) is the majority-class count among \(N\) cases.</p>
+<p><strong>use:</strong> a model that always predicts the majority class gets high accuracy (e.g. 98%) with recall 0 on the rare class. Compare any model with this baseline and report recall, precision, \(F_1\), balanced accuracy or ROC-AUC under imbalance.</p><span class="src">4.4.2, 4.4.4 · slides 274–275</span></div><div class="card f"><h3>ROC curve and AUC</h3><p>\[
+\text{ROC point at threshold } t: \ \left( FPR(t), \ TPR(t) \right), \qquad \text{AUC} = \frac{\#\{(i, j): s_i &gt; s_j\} + \tfrac{1}{2}\#\{(i, j): s_i = s_j\}}{n_+ \, n_-}
+\]</p>
+<p><strong>where:</strong> \(i\) ranges over the \(n_+\) positives, \(j\) over the \(n_-\) negatives, \(s\) is the classifier score.</p>
+<p><strong>use:</strong> sort by score descending and lower the threshold one case at a time: each positive steps up by \(1/n_+\), each negative steps right by \(1/n_-\), and a tie of mixed labels is one diagonal step. AUC is the area under this staircase (trapezoid rule), equal to the probability that a random positive outscores a random negative. 0.5 = random, 1 = perfect; \((0, 0)\) predicts all negative, \((1, 1)\) all positive, \((0, 1)\) is perfect.</p><span class="src">4.4.3 · slides 265–272</span></div><div class="card f"><h3>Choosing a threshold by expected cost</h3><p>\[
+\text{Cost}(t) = c_{FN} \cdot FN(t) + c_{FP} \cdot FP(t), \qquad t^* = \arg\min_t \text{Cost}(t)
+\]</p>
+<p><strong>where:</strong> \(c_{FN}, c_{FP}\) are the costs of a missed positive and a false alarm; \(FN(t), FP(t)\) are the counts at threshold \(t\).</p>
+<p><strong>use:</strong> when misses are expensive (disease, fraud) lower the threshold to raise recall. With probabilities that are calibrated, predict positive when \(p \ge \frac{c_{FP}}{c_{FP} + c_{FN}}\).</p><span class="src">4.4.3, 4.4.4 · slides 270–275</span></div><div class="card f"><h3>One-vs-All and One-vs-One</h3><p>\[
+\text{OvA: } K \text{ classifiers}, \ \hat{y} = \arg\max_k f_k(x); \qquad \text{OvO: } \frac{K(K - 1)}{2} \text{ classifiers}, \ \hat{y} = \text{majority vote}
+\]</p>
+<p><strong>where:</strong> \(K\) classes; \(f_k\) is the score of "class \(k\) vs the rest"; each OvO model is trained only on the two classes it separates (about \(2n\) examples when each class has \(n\)).</p>
+<p><strong>use:</strong> OvA trains few models on all \(Kn\) examples (imbalanced, rest-heavy); OvO trains many small models, total training examples \((K - 1)n\). For a learner with cost \(\propto N^2\) (e.g. kernel SVM), OvO is cheaper: OvA \(K^3 n^2\) vs OvO \(2K(K - 1)n^2\). Break OvO vote ties by summed scores.</p><span class="src">4.5, 7.5 · slides 280–281, 481</span></div></div></details>
+<details class="module" open id="m5-decision-tree-classifier"><summary>M5 · Decision Tree Classifier <small>· 13 items</small></summary><div class="cards"><div class="card f"><h3>A tree as a disjunction of conjunctions</h3><p>\[
+\text{class} = \text{Yes} \iff (A_1 = a \land A_2 = b) \lor (A_1 = c) \lor \dots
+\]</p>
+<p><strong>where:</strong> each conjunction is one root-to-leaf path ending in a "Yes" leaf; each test \(A = v\) is an internal node, and the leaf holds the majority class of its records.</p>
+<p><strong>use:</strong> read rules off a tree, or build a tree for a Boolean function. Hunt's algorithm/ID3 recursively splits on the best attribute until a node is pure, attributes run out (majority vote), or no records remain (parent's majority). XOR has zero gain on every single attribute at the root, so greedy ID3 can stall on it.</p><span class="src">5.1.1, 5.1.2 · slides 286–293, 315</span></div><div class="card f"><h3>Entropy</h3><p>\[
+\text{Entropy}(S) = -\sum_{i=1}^{k} p_i \log_2 p_i, \qquad 0 \le \text{Entropy}(S) \le \log_2 k
+\]</p>
+<p><strong>where:</strong> \(p_i\) is the fraction of records in node \(S\) belonging to class \(i\), \(k\) classes, \(0 \log_2 0 = 0\); units are bits.</p>
+<p><strong>use:</strong> 0 for a pure node, maximum \(\log_2 k\) for a uniform one (1 bit for two classes). For two classes with fraction \(p\): \(H(p) = -p\log_2 p - (1 - p)\log_2(1 - p)\), concave with maximum at \(p = 0.5\). Use \(\log_2 x = \ln x / \ln 2\).</p><span class="src">5.2.1 · slides 301–306</span></div><div class="card f"><h3>Handy binary-entropy values</h3><table>
+<thead>
+<tr>
+<th>Minority share \(p\)</th>
+<th>\(H(p)\)</th>
+<th>Minority share \(p\)</th>
+<th>\(H(p)\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(1/2\)</td>
+<td>1.000</td>
+<td>\(1/7\)</td>
+<td>0.592</td>
+</tr>
+<tr>
+<td>\(1/3\)</td>
+<td>0.918</td>
+<td>\(1/8\)</td>
+<td>0.544</td>
+</tr>
+<tr>
+<td>\(1/4\)</td>
+<td>0.811</td>
+<td>\(2/5\)</td>
+<td>0.971</td>
+</tr>
+<tr>
+<td>\(1/5\)</td>
+<td>0.722</td>
+<td>\(3/7\)</td>
+<td>0.985</td>
+</tr>
+<tr>
+<td>\(1/6\)</td>
+<td>0.650</td>
+<td>\(2/7\)</td>
+<td>0.863</td>
+</tr>
+<tr>
+<td>\(3/10\)</td>
+<td>0.881</td>
+<td>\(5/12\)</td>
+<td>0.980</td>
+</tr>
+</tbody>
+</table>
+<p><strong>where:</strong> \(H(p) = H(1 - p)\), so the table covers both class orders.</p>
+<p><strong>use:</strong> speeds up hand computation of information gain; keep three decimals and round only the final gain.</p><span class="src">5.2.1, 10.4.1 · slides 301–306</span></div><div class="card f"><h3>Information gain</h3><p>\[
+\text{Gain}(S, A) = \text{Entropy}(S) - \sum_{v \in \text{Values}(A)} \frac{\lvert S_v \rvert}{\lvert S \rvert} \, \text{Entropy}(S_v)
+\]</p>
+<p><strong>where:</strong> \(S_v\) is the subset of \(S\) with \(A = v\); the sum is the weighted average child entropy.</p>
+<p><strong>use:</strong> ID3 splits on the attribute with the largest gain and recurses on each child with the remaining attributes. Gain is never negative. It is biased towards many-valued attributes: an ID attribute makes every child pure, so its gain equals \(\text{Entropy}(S)\).</p><span class="src">5.2.1, 5.1.2 · slides 317–321</span></div><div class="card f"><h3>Gini index and Gini gain</h3><p>\[
+\text{Gini}(S) = 1 - \sum_{i=1}^{k} p_i^2, \qquad \text{Gini}_{\text{split}} = \sum_{v} \frac{\lvert S_v \rvert}{\lvert S \rvert} \text{Gini}(S_v), \qquad \Delta\text{Gini} = \text{Gini}(S) - \text{Gini}_{\text{split}}
+\]</p>
+<p><strong>where:</strong> \(p_i\) class fractions in the node; \(0 \le \text{Gini} \le 1 - \frac{1}{k}\) (at most 0.5 for two classes).</p>
+<p><strong>use:</strong> CART chooses the split with the smallest weighted Gini (largest \(\Delta\)Gini). Cheaper than entropy (no logs) and usually picks the same split, though they can disagree.</p><span class="src">5.2.2, 5.4 · slides 327, 330–332</span></div><div class="card f"><h3>Binary splits of a nominal attribute</h3><p>\[
+\text{number of binary partitions of } k \text{ values} = 2^{k - 1} - 1
+\]</p>
+<p><strong>where:</strong> \(k\) distinct values of the attribute; each partition sends a subset of values left and the rest right.</p>
+<p><strong>use:</strong> CART considers only binary splits: a 3-valued attribute has 3 candidate groupings ({A} vs {B, C}, {B} vs {A, C}, {C} vs {A, B}). Evaluate the weighted Gini of each and keep the best.</p><span class="src">5.2.2, 5.4 · slides 327–328</span></div><div class="card f"><h3>Classification error as impurity</h3><p>\[
+\text{Error}(S) = 1 - \max_i p_i, \qquad 0 \le \text{Error}(S) \le 1 - \frac{1}{k}
+\]</p>
+<p><strong>where:</strong> \(p_i\) class fractions; \(\max_i p_i\) is the majority-class share.</p>
+<p><strong>use:</strong> the least sensitive impurity: if the majority class is the same in every child, the weighted child error equals the parent error and the error gain is exactly 0, even when entropy and Gini show a real improvement. Fine for pruning, poor for growing.</p><span class="src">5.2.3 · slides 301, 338</span></div><div class="card f"><h3>Split information and gain ratio</h3><p>\[
+\text{SplitInfo}(S, A) = -\sum_{v} \frac{\lvert S_v \rvert}{\lvert S \rvert} \log_2 \frac{\lvert S_v \rvert}{\lvert S \rvert}, \qquad \text{GainRatio}(S, A) = \frac{\text{Gain}(S, A)}{\text{SplitInfo}(S, A)}
+\]</p>
+<p><strong>where:</strong> SplitInfo is the entropy of the partition sizes themselves (ignores the classes).</p>
+<p><strong>use:</strong> C4.5 divides by SplitInfo to penalise many-valued attributes: an ID attribute over \(n\) records has \(\text{SplitInfo} = \log_2 n\) (\(\log_2 12 = 3.585\)). Undefined or unstable when SplitInfo \(\approx 0\) (one value holds almost all records), so it is usually applied only among attributes with at least average gain.</p><span class="src">5.2.4 · slides 339–343</span></div><div class="card f"><h3>Candidate thresholds for a continuous attribute</h3><p>\[
+t_j = \frac{v_{(j)} + v_{(j+1)}}{2}, \qquad \text{test: } A \le t_j
+\]</p>
+<p><strong>where:</strong> \(v_{(1)} \le \dots \le v_{(n)}\) are the sorted distinct values of attribute \(A\).</p>
+<p><strong>use:</strong> sort, then place candidate thresholds at midpoints between adjacent values (at most \(n - 1\)); only midpoints where the class label changes can be optimal. Evaluate the gain (or Gini) of each binary split and keep the best. Tied values cannot be separated.</p><span class="src">5.2.5 · slides 333–337</span></div><div class="card f"><h3>Pre-pruning (stopping) rules</h3><p>\[
+\text{stop splitting node } S \text{ if } \ \text{Gain}(S, A^*) \le \tau \ \text{ or } \ \lvert S \rvert &lt; n_{\min} \ \text{ or } \ \text{depth}(S) \ge D_{\max}
+\]</p>
+<p><strong>where:</strong> \(A^*\) the best attribute at \(S\), \(\tau\) the gain threshold, \(n_{\min}\) the minimum node size, \(D_{\max}\) the maximum depth. The stopped node becomes a leaf with the majority class.</p>
+<p><strong>use:</strong> too strict a rule gives a shallow, underfitting tree; too loose leaves overfitting. A gain of 0 at a node does not prove later splits are useless (XOR), which is the weakness of pre-pruning.</p><span class="src">5.3.2, 5.3.1 · slides 353–356</span></div><div class="card f"><h3>Reduced-error post-pruning</h3><p>\[
+\text{prune subtree } T_v \text{ into a leaf if } \ \text{Err}_{\text{val}}(\text{leaf}) \le \text{Err}_{\text{val}}(T_v), \qquad \text{Err} = \frac{\#\text{misclassified}}{\#\text{records}}
+\]</p>
+<p><strong>where:</strong> \(\text{Err}_{\text{val}}\) is measured on a separate prune (validation) set; the new leaf predicts the training-majority class of the records reaching \(v\).</p>
+<p><strong>use:</strong> grow the tree fully, then scan bottom-up and prune any node whose removal does not increase validation error. Training error rises a little; test error usually falls. Overfitting shows as training error falling while validation error rises with tree size.</p><span class="src">5.3.3, 5.3.1 · slides 357–359</span></div><div class="card f"><h3>Minimum description length</h3><p>\[
+h_{\text{MDL}} = \arg\min_h \left[ L_{C_1}(h) + L_{C_2}(D \mid h) \right], \qquad L(\text{event}) = -\log_2 p \ \text{bits}, \qquad h_{\text{MAP}} = \arg\min_h \left[ -\log_2 P(h) - \log_2 P(D \mid h) \right]
+\]</p>
+<p><strong>where:</strong> \(L_{C_1}(h)\) = bits to describe the tree; \(L_{C_2}(D \mid h)\) = bits to describe the exceptions (0 if \(h\) is perfect). A typical code: each internal node \(\log_2 m\) bits (\(m\) attributes), each leaf \(\log_2 k\) bits (\(k\) classes), each misclassified record \(\log_2 n\) bits.</p>
+<p><strong>use:</strong> trades tree size against training errors (Occam's razor): a smaller tree with a few errors can beat a large perfect one. With optimal codes, MDL and MAP pick the same hypothesis.</p><span class="src">5.3.4 · slides 360–365</span></div><div class="card f"><h3>Regression-tree split by variance reduction</h3><p>\[
+\text{SSE}(S) = \sum_{i \in S} (y_i - \bar{y}_S)^2, \qquad \Delta = \operatorname{Var}(S) - \sum_{v} \frac{\lvert S_v \rvert}{\lvert S \rvert} \operatorname{Var}(S_v), \qquad \hat{y}_{\text{leaf}} = \bar{y}_{\text{leaf}}
+\]</p>
+<p><strong>where:</strong> \(\bar{y}_S\) is the mean target in node \(S\); \(\operatorname{Var}(S) = \text{SSE}(S)/\lvert S \rvert\).</p>
+<p><strong>use:</strong> CART for numeric targets chooses the binary split with the largest variance reduction (equivalently the smallest total child SSE) and predicts the leaf mean. The fit is piecewise constant; boundaries are always axis-parallel, so a diagonal border needs many splits.</p><span class="src">5.4 · slides 327–328</span></div></div></details>
+<details class="module" open id="m6-instance-based-learning-k-nearest-neighbour"><summary>M6 · Instance-Based Learning (K-Nearest Neighbour) <small>· 13 items</small></summary><div class="cards"><div class="card f"><h3>Minkowski distance family</h3><p>\[
+d_h(i, j) = \left( \sum_{f=1}^{d} \lvert x_{if} - x_{jf} \rvert^{h} \right)^{1/h}, \qquad h = 1: \sum_f \lvert x_{if} - x_{jf} \rvert, \quad h = 2: \sqrt{\sum_f (x_{if} - x_{jf})^2}, \quad h \to \infty: \max_f \lvert x_{if} - x_{jf} \rvert
+\]</p>
+<p><strong>where:</strong> \(x_{if}\) is feature \(f\) of object \(i\), \(d\) numeric features; \(h = 1\) Manhattan (city block, \(L_1\)), \(h = 2\) Euclidean (\(L_2\)), \(h \to \infty\) supremum (Chebyshev, \(L_\infty\)).</p>
+<p><strong>use:</strong> for \(h \ge 1\) it is a metric (non-negative, symmetric, triangle inequality); for \(h &lt; 1\) the triangle inequality fails. Always \(d_\infty \le d_2 \le d_1\), and the nearest neighbour can change with \(h\). Scale features first.</p><span class="src">6.2.1 · slides 376, 382–384</span></div><div class="card f"><h3>Nominal attributes: simple matching</h3><p>\[
+d(i, j) = \frac{p - m}{p}
+\]</p>
+<p><strong>where:</strong> \(p\) is the number of nominal attributes, \(m\) the number on which \(i\) and \(j\) match.</p>
+<p><strong>use:</strong> the fraction of mismatching attributes, in \([0, 1]\). Alternatively one-hot encode each nominal attribute and use a binary measure.</p><span class="src">6.2.2 · slide 379</span></div><div class="card f"><h3>Binary attributes: symmetric and asymmetric</h3><p>\[
+d_{\text{sym}}(i, j) = \frac{r + s}{q + r + s + t}, \qquad d_{\text{asym}}(i, j) = \frac{r + s}{q + r + s}, \qquad \text{sim}_{\text{Jaccard}} = \frac{q}{q + r + s}
+\]</p>
+<p><strong>where:</strong> \(q\) = attributes that are 1 for both, \(r\) = 1 for \(i\) only, \(s\) = 1 for \(j\) only, \(t\) = 0 for both.</p>
+<p><strong>use:</strong> symmetric when both states are equally informative (gender); asymmetric when only the 1s matter (test positive, item bought), so the uninformative 0–0 matches \(t\) are ignored. \(d_{\text{asym}} = 1 - \text{sim}_{\text{Jaccard}}\).</p><span class="src">6.2.2 · slides 380–381</span></div><div class="card f"><h3>Ordinal attributes: rank normalisation</h3><p>\[
+z_{if} = \frac{r_{if} - 1}{M_f - 1}
+\]</p>
+<p><strong>where:</strong> \(r_{if} \in \{1, \dots, M_f\}\) is the rank of object \(i\)'s value in the ordered list of the \(M_f\) states of attribute \(f\).</p>
+<p><strong>use:</strong> maps ranks to \([0, 1]\) with equal spacing, then treat \(z_{if}\) as numeric (e.g. Village, Small Town, Suburban, Metropolitan become \(0, \tfrac{1}{3}, \tfrac{2}{3}, 1\)).</p><span class="src">6.2.3 · slides 386, 389–390</span></div><div class="card f"><h3>Gower distance for mixed attribute types</h3><p>\[
+d(i, j) = \frac{\sum_{f=1}^{p} \delta_{ij}^{(f)} d_{ij}^{(f)}}{\sum_{f=1}^{p} \delta_{ij}^{(f)}}, \qquad d_{ij}^{(f)} = \begin{cases} \dfrac{\lvert x_{if} - x_{jf} \rvert}{\max_f - \min_f} &amp; \text{numeric} \\ 0 \text{ if equal, else } 1 &amp; \text{nominal or binary} \\ \lvert z_{if} - z_{jf} \rvert &amp; \text{ordinal (rank-normalised)} \end{cases}
+\]</p>
+<p><strong>where:</strong> \(\delta_{ij}^{(f)} = 0\) if \(x_{if}\) or \(x_{jf}\) is missing, or if \(f\) is asymmetric binary and both values are 0; otherwise \(\delta_{ij}^{(f)} = 1\). A weighted version multiplies each term by a weight \(w_f\) in numerator and denominator.</p>
+<p><strong>use:</strong> every per-attribute contribution lies in \([0, 1]\), so no single type dominates. Use the range over the whole data set for numeric attributes.</p><span class="src">6.2.4 · slides 387–388</span></div><div class="card f"><h3>Standardised Euclidean distance</h3><p>\[
+d(i, j) = \sqrt{ \sum_{f} \left( \frac{x_{if} - x_{jf}}{s_f} \right)^2 }
+\]</p>
+<p><strong>where:</strong> \(s_f\) is the training standard deviation of feature \(f\) (z-score) or its range (min-max).</p>
+<p><strong>use:</strong> without scaling the feature with the largest numeric range (income in rupees vs age in years) decides every distance, so the neighbour set can flip after scaling. Scale query points with the training statistics.</p><span class="src">6.2.5, 2.5.1 · slides 385, 391</span></div><div class="card f"><h3>k-NN prediction</h3><p>\[
+\hat{f}(x_q) = \arg\max_{c} \sum_{i=1}^{k} \mathbf{1}\left[ f(x_i) = c \right] \ \ \text{(classification)}, \qquad \hat{f}(x_q) = \frac{1}{k} \sum_{i=1}^{k} f(x_i) \ \ \text{(regression)}
+\]</p>
+<p><strong>where:</strong> \(x_1, \dots, x_k\) are the \(k\) training points nearest to the query \(x_q\); \(\mathbf{1}[\cdot]\) is the indicator.</p>
+<p><strong>use:</strong> no training step; all work happens at query time. The median of the neighbours is a robust alternative for regression. Use an odd \(k\) for two classes to avoid ties. 1-NN has zero training error, which says nothing about test error.</p><span class="src">6.3.1 · slides 392–398</span></div><div class="card f"><h3>Choosing k</h3><p>\[
+k \approx \sqrt{N}, \qquad k^* = \arg\min_k \ \text{CV error}(k)
+\]</p>
+<p><strong>where:</strong> \(N\) training examples; CV error is the validation or cross-validated error for each candidate \(k\).</p>
+<p><strong>use:</strong> \(\sqrt{N}\) is a starting point (round to an odd number). Small \(k\): low bias, high variance (follows noise); large \(k\): high bias (\(k = N\) always predicts the global majority). Plot error against \(k\) and pick the elbow or minimum, using validation data, never the test set.</p><span class="src">6.3.2, 6.5.2 · slides 394–396, 417–418</span></div><div class="card f"><h3>Distance-weighted k-NN</h3><p>\[
+w_i = \frac{1}{d(x_q, x_i)^2}, \qquad \hat{f}(x_q) = \arg\max_c \sum_{i=1}^{k} w_i \mathbf{1}[f(x_i) = c], \qquad \hat{f}(x_q) = \frac{\sum_{i=1}^{k} w_i f(x_i)}{\sum_{i=1}^{k} w_i}
+\]</p>
+<p><strong>where:</strong> \(w_i\) is the kernel weight of neighbour \(i\); alternatives are \(w_i = \frac{1}{(d_0 + d_i)^2}\) and the Gaussian kernel \(w_i = \exp\left( -\left( d_i / \sigma_0 \right)^2 \right)\).</p>
+<p><strong>use:</strong> close neighbours count more, so a few very close points can overturn the plain majority. If \(d = 0\), \(1/d^2\) is infinite: return that point's label (or use \(d_0 &gt; 0\) or a Gaussian kernel, which cap the weight). A large \(\sigma_0\) makes all weights equal (plain k-NN).</p><span class="src">6.3.3 · slides 397–401</span></div><div class="card f"><h3>Distance concentration in high dimensions</h3><p>\[
+E\left[ \lVert X - Y \rVert^2 \right] = \frac{d}{6}, \qquad \operatorname{SD}\left[ \lVert X - Y \rVert^2 \right] = \sqrt{\frac{7d}{180}}, \qquad \frac{\text{SD}}{\text{mean}} = \sqrt{\frac{7}{5d}} \to 0
+\]</p>
+<p><strong>where:</strong> \(X, Y\) independent uniform points in \([0, 1]^d\).</p>
+<p><strong>use:</strong> as \(d\) grows all pairwise distances become nearly equal (\(d_{\min}/d_{\max} \to 1\)), so "nearest" loses meaning and k-NN degrades. Irrelevant features make it worse; use feature selection or dimensionality reduction.</p><span class="src">6.3.4, 2.5.5 · slides 108, 392</span></div><div class="card f"><h3>Locally weighted regression: error criterion</h3><p>\[
+E(x_q) = \frac{1}{2} \sum_{x \in k\text{NN}(x_q)} K\left( d(x_q, x) \right) \left( f(x) - \hat{f}(x) \right)^2, \qquad \hat{f}(x) = w_0 + w_1 a_1(x) + \dots + w_n a_n(x)
+\]</p>
+<p><strong>where:</strong> \(K\) is a kernel that decreases with distance from the query \(x_q\); \(a_j(x)\) is feature \(j\) of \(x\), \(a_0(x) = 1\).</p>
+<p><strong>use:</strong> a fresh local linear model is fitted for each query and discarded after predicting \(\hat{f}(x_q)\). Mitchell also lists weighting all training points, or using the \(k\) nearest without a kernel.</p><span class="src">6.4.1 · slides 402–407</span></div><div class="card f"><h3>Locally weighted regression: gradient update</h3><p>\[
+w_j \leftarrow w_j + \eta \sum_{x \in k\text{NN}(x_q)} K\left( d(x_q, x) \right) \left( f(x) - \hat{f}(x) \right) a_j(x)
+\]</p>
+<p><strong>where:</strong> \(\eta\) is the learning rate; note the sign: \(f(x) - \hat{f}(x)\) (target minus prediction) with a plus.</p>
+<p><strong>use:</strong> the same as the linear-regression delta rule with every residual multiplied by its kernel weight. With a constant model \(\hat{f} = w_0\) the minimiser is the kernel-weighted mean \(w_0 = \frac{\sum K_x f(x)}{\sum K_x}\); with \(K \equiv 1\) it is ordinary least squares on the neighbours.</p><span class="src">6.4.2 · slides 404–407</span></div><div class="card f"><h3>k-fold and leave-one-out cross-validation</h3><p>\[
+\text{CV}_{(k)} = \frac{1}{k} \sum_{i=1}^{k} \text{Err}_i, \qquad \text{fold size} = \frac{n}{k}, \qquad \text{training size per fold} = \frac{(k - 1)n}{k}, \qquad \text{LOOCV: } k = n
+\]</p>
+<p><strong>where:</strong> \(\text{Err}_i\) is the error (MSE or misclassification rate) on fold \(i\) when the model is trained on the other \(k - 1\) folds; stratified k-fold keeps class proportions in every fold.</p>
+<p><strong>use:</strong> estimates generalisation error for tuning hyper-parameters (\(k\), \(\lambda\), \(C\), depth). It costs \(k\) fits per candidate; for a lazy learner LOOCV is cheap (just drop each point from its own neighbour list). The test set is held out of all of this and used once.</p><span class="src">6.5.1, 6.5.2, 11.1.1 · slides 420–424, 730</span></div></div></details>
+<details class="module" open id="m7-support-vector-machines"><summary>M7 · Support Vector Machines <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>Linear classifier</h3><p>\[
+f(x) = \operatorname{sign}\left( w^\top x + b \right), \qquad g(x) = w^\top x + b
+\]</p>
+<p><strong>where:</strong> \(w\) is the normal vector of the hyperplane \(g(x) = 0\), \(b\) the offset, labels \(y_i \in \{-1, +1\}\); \(g(x)\) is the raw score.</p>
+<p><strong>use:</strong> many hyperplanes separate separable data; the SVM picks the one with the largest margin. A point is correctly classified iff \(y_i\, g(x_i) &gt; 0\).</p><span class="src">7.1.1 · slides 431–438</span></div><div class="card f"><h3>Distance from a point to the hyperplane</h3><p>\[
+\text{dist}(x_0) = \frac{\lvert w^\top x_0 + b \rvert}{\lVert w \rVert}, \qquad \text{functional margin} = y_i\, g(x_i), \qquad \text{geometric margin} = \frac{y_i\, g(x_i)}{\lVert w \rVert}
+\]</p>
+<p><strong>where:</strong> \(\lVert w \rVert = \sqrt{w^\top w}\).</p>
+<p><strong>use:</strong> the geometric margin is the signed distance (positive on the correct side) and does not change if \(w, b\) are rescaled; the functional margin does. Canonical form rescales so the closest points have \(y_i\, g(x_i) = 1\).</p><span class="src">7.1.2, 7.2.1 · slides 436–438</span></div><div class="card f"><h3>Margin width</h3><p>\[
+\text{width} = \frac{2}{\lVert w \rVert}, \qquad \text{margin hyperplanes: } w^\top x + b = \pm 1
+\]</p>
+<p><strong>where:</strong> \(w, b\) in canonical form.</p>
+<p><strong>use:</strong> maximising the width is the same as minimising \(\lVert w \rVert\). Support vectors lie exactly on \(w^\top x + b = \pm 1\). Example: \(w = (1, 1)\) gives width \(2/\sqrt{2} = \sqrt{2}\).</p><span class="src">7.1.2 · slides 436–438</span></div><div class="card f"><h3>Hard-margin primal problem</h3><p>\[
+\min_{w, b} \ \frac{1}{2} \lVert w \rVert^2 \quad \text{subject to} \quad y_i (w^\top x_i + b) \ge 1, \quad i = 1, \dots, N
+\]</p>
+<p><strong>where:</strong> \(N\) training points \((x_i, y_i)\).</p>
+<p><strong>use:</strong> a convex quadratic program with a unique solution when the data are linearly separable; it has no solution otherwise (use the soft margin). To check a proposed \((w, b)\): every constraint must hold, and no feasible hyperplane may have smaller \(\lVert w \rVert\).</p><span class="src">7.2.1 · slides 438–443</span></div><div class="card f"><h3>Lagrangian and stationarity conditions</h3><p>\[
+L(w, b, \alpha) = \frac{1}{2} \lVert w \rVert^2 - \sum_i \alpha_i \left[ y_i (w^\top x_i + b) - 1 \right], \qquad \frac{\partial L}{\partial w} = 0 \Rightarrow w = \sum_i \alpha_i y_i x_i, \qquad \frac{\partial L}{\partial b} = 0 \Rightarrow \sum_i \alpha_i y_i = 0
+\]</p>
+<p><strong>where:</strong> \(\alpha_i \ge 0\) is the Lagrange multiplier of constraint \(i\).</p>
+<p><strong>use:</strong> \(w\) is a weighted sum of training points, and only points with \(\alpha_i &gt; 0\) (the support vectors) contribute. Any valid solution must satisfy \(\alpha_i \ge 0\) and \(\sum_i \alpha_i y_i = 0\).</p><span class="src">7.2.2 · slides 443–444</span></div><div class="card f"><h3>Dual problem</h3><p>\[
+\max_{\alpha} \ W(\alpha) = \sum_i \alpha_i - \frac{1}{2} \sum_i \sum_j \alpha_i \alpha_j y_i y_j \, x_i^\top x_j \quad \text{subject to} \quad \alpha_i \ge 0, \ \ \sum_i \alpha_i y_i = 0
+\]</p>
+<p><strong>where:</strong> obtained by substituting the stationarity conditions back into \(L\); the data enter only through inner products \(x_i^\top x_j\).</p>
+<p><strong>use:</strong> solve for \(\alpha\), then recover \(w\) and \(b\). Because only inner products appear, any kernel \(K(x_i, x_j)\) can replace \(x_i^\top x_j\).</p><span class="src">7.2.2 · slides 443–451</span></div><div class="card f"><h3>KKT conditions and recovering b</h3><p>\[
+\alpha_i \left[ y_i (w^\top x_i + b) - 1 \right] = 0, \qquad b = y_s - w^\top x_s \ \text{ for any support vector } x_s \ (\alpha_s &gt; 0)
+\]</p>
+<p><strong>where:</strong> complementary slackness: either \(\alpha_i = 0\) (point beyond the margin) or the point lies exactly on its margin hyperplane.</p>
+<p><strong>use:</strong> average \(b\) over all support vectors for numerical stability. <strong>Erratum (slides 447–452):</strong> solving "\(w \cdot x_i + b = y_i\)" through guessed support vectors as a plain linear system can give a negative \(\alpha_i\) (the slide's \(\alpha_1 = -3.5\), with \(\sum \alpha_i y_i = 5 \ne 0\)); that is not a valid dual solution. Check \(\alpha_i \ge 0\), \(\sum \alpha_i y_i = 0\) and all margin constraints before accepting an answer.</p><span class="src">7.2.2 · slides 444, 447–452, 464</span></div><div class="card f"><h3>Two-point SVM in closed form</h3><p>\[
+\alpha = \frac{2}{\lVert x_+ - x_- \rVert^2}, \qquad w = \alpha (x_+ - x_-) = \frac{2(x_+ - x_-)}{\lVert x_+ - x_- \rVert^2}, \qquad b = 1 - w^\top x_+
+\]</p>
+<p><strong>where:</strong> one positive point \(x_+\) and one negative point \(x_-\), both support vectors with equal \(\alpha\).</p>
+<p><strong>use:</strong> the boundary is the perpendicular bisector of the segment, with width \(\lVert x_+ - x_- \rVert\). A quick check for small hand problems (e.g. \(x_+ = (3, 3)\), \(x_- = (1, 1)\) gives \(\alpha = 0.25\), \(w = (0.5, 0.5)\), \(b = -2\)).</p><span class="src">7.2.2, 7.1.2 · slides 443–451</span></div><div class="card f"><h3>SVM decision function in dual form</h3><p>\[
+f(x) = \operatorname{sign}\left( \sum_{i \in SV} \alpha_i y_i \, K(x_i, x) + b \right)
+\]</p>
+<p><strong>where:</strong> the sum runs over support vectors only; \(K(x_i, x) = x_i^\top x\) for a linear SVM.</p>
+<p><strong>use:</strong> prediction costs one kernel evaluation per support vector, so a sparse solution (few support vectors) is fast. Removing a non-support vector from the training set leaves the solution unchanged.</p><span class="src">7.2.2, 7.4.1 · slides 464–475</span></div><div class="card f"><h3>Soft-margin primal with slack variables</h3><p>\[
+\min_{w, b, \xi} \ \frac{1}{2} \lVert w \rVert^2 + C \sum_i \xi_i \quad \text{subject to} \quad y_i (w^\top x_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0
+\]</p>
+<p><strong>where:</strong> \(\xi_i\) is the slack of point \(i\); \(C &gt; 0\) the penalty on margin violations.</p>
+<p><strong>use:</strong> <strong>large \(C\)</strong>: violations are expensive, narrow margin, fits training data hard (low bias, high variance, approaches the hard margin); <strong>small \(C\)</strong>: wide, tolerant margin (more bias, less variance). Compare candidate hyperplanes by evaluating this objective for the given \(C\). Tune \(C\) by cross-validation.</p><span class="src">7.3.1, 7.3.2 · slides 456–459, 466</span></div><div class="card f"><h3>Slack values and hinge loss</h3><p>\[
+\xi_i = \max\left( 0, \ 1 - y_i (w^\top x_i + b) \right), \qquad \min_{w, b} \ \frac{1}{2} \lVert w \rVert^2 + C \sum_i \max\left( 0, 1 - y_i f(x_i) \right)
+\]</p>
+<p><strong>where:</strong> \(f(x_i) = w^\top x_i + b\); \(\max(0, 1 - yf)\) is the hinge loss.</p>
+<p><strong>use:</strong> \(\xi_i = 0\): on or outside the correct margin; \(0 &lt; \xi_i \le 1\): inside the margin but correctly classified; \(\xi_i &gt; 1\): misclassified. \(\sum_i \xi_i\) bounds the number of training errors. Dividing by \(C\) gives hinge loss plus \(\lambda \lVert w \rVert^2\) with \(\lambda = \frac{1}{2C}\), a regularised loss like ridge.</p><span class="src">7.3.1 · slides 456–459</span></div><div class="card f"><h3>Soft-margin dual and the multiplier cases</h3><p>\[
+\max_\alpha \ \sum_i \alpha_i - \frac{1}{2} \sum_{i, j} \alpha_i \alpha_j y_i y_j K(x_i, x_j) \quad \text{s.t.} \quad 0 \le \alpha_i \le C, \ \ \sum_i \alpha_i y_i = 0
+\]</p>
+<p><strong>where:</strong> the only change from the hard-margin dual is the upper bound \(C\) (box constraint).</p>
+<p><strong>use:</strong> read a solution through its multipliers: \(\alpha_i = 0 \Rightarrow y_i g(x_i) \ge 1\) (not a support vector); \(0 &lt; \alpha_i &lt; C \Rightarrow y_i g(x_i) = 1\) (on the margin, use these to compute \(b\)); \(\alpha_i = C \Rightarrow y_i g(x_i) \le 1\) (inside the margin or misclassified).</p><span class="src">7.3.1, 7.3.2 · slides 457–466</span></div><div class="card f"><h3>The kernel trick</h3><p>\[
+K(x, z) = \phi(x)^\top \phi(z), \qquad \text{degree 2: } (1 + x^\top z)^2 = \phi(x)^\top \phi(z), \ \ \phi(x) = \left( 1, \sqrt{2}x_1, \sqrt{2}x_2, x_1^2, x_2^2, \sqrt{2}x_1 x_2 \right)
+\]</p>
+<p><strong>where:</strong> \(\phi\) maps the input to a higher-dimensional feature space; \(x, z \in \mathbb{R}^2\) in the example.</p>
+<p><strong>use:</strong> compute inner products in feature space without building \(\phi(x)\): data that are not linearly separable in input space (e.g. 1-D classes inside/outside an interval, separable after \(\phi(x) = (x, x^2)\)) become separable. A valid kernel must give a symmetric positive semi-definite Gram matrix (Mercer).</p><span class="src">7.4.1 · slides 465–475</span></div><div class="card f"><h3>Common kernels</h3><p>\[
+K_{\text{lin}} = x^\top z, \qquad K_{\text{poly}} = (1 + x^\top z)^{p}, \qquad K_{\text{RBF}} = \exp\left( -\gamma \lVert x - z \rVert^2 \right) = \exp\left( -\frac{\lVert x - z \rVert^2}{2\sigma^2} \right), \qquad K_{\text{sig}} = \tanh\left( \beta_0 x^\top z + \beta_1 \right)
+\]</p>
+<p><strong>where:</strong> \(p\) the degree, \(\gamma = \frac{1}{2\sigma^2} &gt; 0\) the RBF width parameter, \(\beta_0, \beta_1\) sigmoid parameters.</p>
+<p><strong>use:</strong> RBF values lie in \((0, 1]\) and equal 1 only at \(x = z\); large \(\gamma\) (small \(\sigma\)) makes very local, wiggly boundaries (overfitting risk), small \(\gamma\) smooth ones. RBF corresponds to an infinite-dimensional \(\phi\). The sigmoid kernel is not PSD for all parameters.</p><span class="src">7.4.2 · slides 476–480</span></div><div class="card f"><h3>Size of the polynomial feature space</h3><p>\[
+\dim \phi = \binom{d + p}{p} \quad \text{for } K(x, z) = (1 + x^\top z)^p
+\]</p>
+<p><strong>where:</strong> \(d\) input features, \(p\) the polynomial degree (counts all monomials of degree \(\le p\)).</p>
+<p><strong>use:</strong> \(d = 100\): \(\binom{102}{2} = 5{,}151\), \(\binom{105}{5} \approx 9.7 \times 10^7\), yet the kernel costs only \(O(d)\) per evaluation. The trick saves feature-space cost, not the \(O(N^2)\) Gram-matrix cost in the number of training points.</p><span class="src">7.4.1, 7.5 · slides 474–475, 482–483</span></div></div></details>
+<details class="module" open id="m8-bayesian-learning"><summary>M8 · Bayesian Learning <small>· 19 items</small></summary><div class="cards"><div class="card f"><h3>Likelihood and the MLE recipe</h3><p>\[
+L(\theta) = \prod_{i=1}^{n} f(x_i \mid \theta), \qquad LL(\theta) = \sum_{i=1}^{n} \log f(x_i \mid \theta), \qquad \hat{\theta}_{\text{MLE}} = \arg\max_\theta LL(\theta)
+\]</p>
+<p><strong>where:</strong> \(f(x \mid \theta)\) is the PMF or PDF, data i.i.d., \(\log\) natural.</p>
+<p><strong>use:</strong> write \(L\), take logs (products become sums), differentiate with respect to each parameter, set to 0, solve, and check it is a maximum. Constants not involving \(\theta\) can be dropped. A likelihood ratio \(L(\theta_1)/L(\theta_2) = e^{LL_1 - LL_2}\).</p><span class="src">8.1.1 · slides 487–497</span></div><div class="card f"><h3>Bernoulli and binomial MLE</h3><p>\[
+L(p) = p^{k} (1 - p)^{n - k}, \qquad \frac{dLL}{dp} = \frac{k}{p} - \frac{n - k}{1 - p} = 0 \ \Rightarrow \ \hat{p} = \frac{k}{n}
+\]</p>
+<p><strong>where:</strong> \(k\) successes in \(n\) independent trials.</p>
+<p><strong>use:</strong> the MLE is the observed proportion (3 heads in 10 tosses gives 0.3). With \(k = 0\) it gives \(\hat{p} = 0\), the zero-frequency problem that smoothing fixes.</p><span class="src">8.1.1 · slides 493–497</span></div><div class="card f"><h3>Poisson and exponential MLE</h3><p>\[
+P(X = x) = \frac{e^{-\lambda} \lambda^{x}}{x!} \Rightarrow \hat{\lambda} = \bar{x}, \qquad f(t) = \lambda e^{-\lambda t} \Rightarrow \hat{\lambda} = \frac{n}{\sum t_i} = \frac{1}{\bar{t}}
+\]</p>
+<p><strong>where:</strong> \(x_i\) counts per interval (Poisson), \(t_i \ge 0\) lifetimes (exponential); \(LL_{\text{Pois}} = (\sum x_i)\log\lambda - n\lambda - \sum \log x_i!\).</p>
+<p><strong>use:</strong> the same recipe for any distribution, including a home-made PMF such as \(P(0) = \theta/2, P(1) = 1/2, P(2) = (1 - \theta)/2\) (count each outcome, then maximise). Plug \(\hat{\lambda}\) back in for probabilities, e.g. \(P(X \le 1) = e^{-\lambda}(1 + \lambda)\).</p><span class="src">8.1.1 · slides 493–497</span></div><div class="card f"><h3>Gaussian density and its MLE</h3><p>\[
+\mathcal{N}(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right), \qquad \hat{\mu} = \bar{x}, \qquad \hat{\sigma}^2_{\text{MLE}} = \frac{1}{n} \sum_{i=1}^{n} (x_i - \bar{x})^2
+\]</p>
+<p><strong>where:</strong> \(LL(\mu, \sigma^2) = -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum (x_i - \mu)^2\).</p>
+<p><strong>use:</strong> the MLE variance divides by \(n\) and is biased low; the unbiased sample variance divides by \(n - 1\). A density value can exceed 1 when \(\sigma\) is small; only areas are probabilities.</p><span class="src">8.1.1, 8.3.4 · slides 498, 540–546</span></div><div class="card f"><h3>Least squares is the Gaussian-noise MLE</h3><p>\[
+y^{(i)} = \theta^\top x^{(i)} + \varepsilon_i, \ \varepsilon_i \sim N(0, \sigma^2) \ \Rightarrow \ LL(\theta) = -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2} \sum_i \left( y^{(i)} - \theta^\top x^{(i)} \right)^2
+\]</p>
+<p><strong>where:</strong> noise i.i.d. Gaussian with constant variance.</p>
+<p><strong>use:</strong> maximising \(LL\) over \(\theta\) is exactly minimising the sum of squared errors, so \(\hat{\theta}_{\text{MLE}}\) solves the normal equations, and \(\hat{\sigma}^2 = \frac{1}{n}\sum (y^{(i)} - \hat{\theta}^\top x^{(i)})^2\). A different noise model gives a different loss (Laplace noise gives absolute error).</p><span class="src">8.1.2, 3.1.2 · slides 498, 515</span></div><div class="card f"><h3>Logistic-regression log-likelihood</h3><p>\[
+LL(\theta) = \sum_{i} \left[ y_i \log \sigma_i + (1 - y_i) \log(1 - \sigma_i) \right], \qquad \frac{\partial LL}{\partial \theta_j} = \sum_i (y_i - \sigma_i)\, x_{ij}, \qquad \theta_j \leftarrow \theta_j + \eta \sum_i (y_i - \sigma_i)\, x_{ij}
+\]</p>
+<p><strong>where:</strong> \(\sigma_i = \sigma(\theta^\top x_i)\), labels \(y_i \in \{0, 1\}\) (Bernoulli).</p>
+<p><strong>use:</strong> \(-LL/m\) is the cross-entropy cost, so gradient ascent on \(LL\) equals gradient descent on log-loss. Setting the gradient to 0 gives equations that are non-linear in \(\theta\) (no closed form), hence iterative optimisation.</p><span class="src">8.1.3, 4.2.2 · slides 499–500, 516</span></div><div class="card f"><h3>MAP estimation</h3><p>\[
+\hat{\theta}_{\text{MAP}} = \arg\max_\theta P(D \mid \theta)\, P(\theta), \qquad \text{Beta}(a, b) \text{ prior on a coin: } \hat{p}_{\text{MAP}} = \frac{k + a - 1}{n + a + b - 2}
+\]</p>
+<p><strong>where:</strong> \(P(\theta)\) is the prior; Beta prior \(f(p) \propto p^{a - 1}(1 - p)^{b - 1}\); \(k\) heads in \(n\) tosses.</p>
+<p><strong>use:</strong> the prior acts like \(a - 1\) extra heads and \(b - 1\) extra tails. With a uniform prior (\(a = b = 1\)) MAP equals MLE exactly; as \(n\) grows the data dominate and MAP tends to the MLE.</p><span class="src">8.1.4 · slides 502–504</span></div><div class="card f"><h3>Bayes' theorem</h3><p>\[
+P(h \mid D) = \frac{P(D \mid h)\, P(h)}{P(D)}, \qquad P(D) = \sum_{h'} P(D \mid h')\, P(h')
+\]</p>
+<p><strong>where:</strong> \(P(h)\) prior, \(P(D \mid h)\) likelihood, \(P(h \mid D)\) posterior, \(P(D)\) evidence (law of total probability).</p>
+<p><strong>use:</strong> \(P(\text{class} \mid \text{evidence}) \ne P(\text{evidence} \mid \text{class})\); with a rare class the posterior stays small even for a sensitive test (prior 0.002, detection 0.95, false alarm 0.03 gives \(P(\text{fraud} \mid A) \approx 0.06\)). For a second independent alarm, reuse the posterior as the new prior.</p><span class="src">8.2.1 · slides 490–492, 502</span></div><div class="card f"><h3>Bayes optimal classifier</h3><p>\[
+v^* = \arg\max_{v \in V} \sum_{h \in H} P(v \mid h)\, P(h \mid D), \qquad h_{\text{MAP}} = \arg\max_h P(h \mid D)
+\]</p>
+<p><strong>where:</strong> \(V\) is the set of class labels, \(P(v \mid h)\) the probability hypothesis \(h\) assigns to label \(v\).</p>
+<p><strong>use:</strong> votes over all hypotheses weighted by their posterior; no other classifier using the same \(H\) and prior does better on average. It can disagree with \(h_{\text{MAP}}\) when several less probable hypotheses together outweigh the MAP one.</p><span class="src">8.2.2 · slides 505–507</span></div><div class="card f"><h3>Gibbs classifier</h3><p>\[
+h \sim P(h \mid D), \quad \hat{v} = h(x); \qquad E[\text{error}_{\text{Gibbs}}] \le 2 \, E[\text{error}_{\text{Bayes optimal}}]
+\]</p>
+<p><strong>where:</strong> one hypothesis is drawn at random from the posterior and used alone.</p>
+<p><strong>use:</strong> much cheaper than the Bayes optimal vote. For two classes with posterior \(q\) for the true class, Gibbs errs with probability \(2q(1 - q) \le 2\min(q, 1 - q)\), which is at most twice the Bayes-optimal error.</p><span class="src">8.2.3 · slide 508</span></div><div class="card f"><h3>Naïve Bayes classifier</h3><p>\[
+P(X_1, \dots, X_n \mid Y) = \prod_{i=1}^{n} P(X_i \mid Y), \qquad \hat{y} = \arg\max_{y} \ P(Y = y) \prod_{i=1}^{n} P(X_i = x_i \mid Y = y)
+\]</p>
+<p><strong>where:</strong> \(X_i\) are features assumed conditionally independent given the class \(Y\); priors and likelihoods are relative frequencies from the training table.</p>
+<p><strong>use:</strong> compute a score per class, pick the largest; the posterior is a score divided by the sum of scores. The independence assumption is often violated, yet the \(\arg\max\) is often still right. Correlated (duplicated) features count the same evidence twice and push probabilities to extremes.</p><span class="src">8.3.1, 8.3.2 · slides 520–531</span></div><div class="card f"><h3>Why independence is needed: parameter count</h3><p>\[
+\text{full joint (binary } X_i, \text{ binary } Y\text{): } 2(2^n - 1) + 1, \qquad \text{Naïve Bayes: } 2n + 1
+\]</p>
+<p><strong>where:</strong> \(n\) binary features; the \(+1\) is the class prior \(P(Y = 1)\).</p>
+<p><strong>use:</strong> the full class-conditional joint grows exponentially (\(n = 30\) needs over \(2 \times 10^9\) numbers) and could never be estimated from realistic data; Naïve Bayes grows linearly.</p><span class="src">8.3.1 · slides 523–527</span></div><div class="card f"><h3>Laplace smoothing</h3><p>\[
+P(A_i = v \mid c) = \frac{N_{vc} + 1}{N_c + d}
+\]</p>
+<p><strong>where:</strong> \(N_{vc}\) records of class \(c\) with \(A_i = v\), \(N_c\) records of class \(c\), \(d\) distinct values of \(A_i\).</p>
+<p><strong>use:</strong> one zero count makes the whole product 0 regardless of other evidence (the zero-frequency problem); adding 1 to every count fixes it while the smoothed probabilities still sum to 1. Class priors are not smoothed.</p><span class="src">8.3.3 · slides 532–535</span></div><div class="card f"><h3>m-estimate of probability</h3><p>\[
+P(A_i \mid c) = \frac{N_{ic} + m\,p}{N_c + m}
+\]</p>
+<p><strong>where:</strong> \(p\) is a prior estimate of the probability (e.g. \(1/d\) uniform, or overall frequencies), \(m\) the equivalent sample size (how many virtual examples the prior is worth).</p>
+<p><strong>use:</strong> Laplace smoothing is the special case \(m = d\), \(p = 1/d\). Large \(m\) pulls estimates towards \(p\); \(m = 0\) gives the raw frequency.</p><span class="src">8.3.3 · slide 535</span></div><div class="card f"><h3>Gaussian Naïve Bayes</h3><p>\[
+P(X_i = x \mid Y = y_k) = \frac{1}{\sqrt{2\pi\sigma_{ik}^2}} \exp\left( -\frac{(x - \mu_{ik})^2}{2\sigma_{ik}^2} \right), \qquad \sigma_{ik}^2 = \frac{1}{N_k - 1} \sum_{j \in k} (x_{ij} - \mu_{ik})^2
+\]</p>
+<p><strong>where:</strong> \(\mu_{ik}, \sigma_{ik}^2\) are the mean and (sample, divide by \(N_k - 1\) as in the slides) variance of feature \(i\) within class \(k\), one pair per (feature, class).</p>
+<p><strong>use:</strong> for continuous features; multiply the density values with the prior (and with discrete likelihoods for mixed data) and compare scores. Density values are not probabilities but the ratio between classes is what matters.</p><span class="src">8.3.4 · slides 540–546</span></div><div class="card f"><h3>Multinomial Naïve Bayes for text</h3><p>\[
+P(w \mid c) = \frac{\text{count}(w, c) + 1}{\sum_{w'} \text{count}(w', c) + \lvert V \rvert}, \qquad \text{Score}(c) = P(c) \prod_{w \in d} P(w \mid c)^{n_w}
+\]</p>
+<p><strong>where:</strong> \(\text{count}(w, c)\) occurrences of word \(w\) in class-\(c\) documents, \(\lvert V \rvert\) vocabulary size, \(n_w\) occurrences of \(w\) in document \(d\) (bag of words: order ignored).</p>
+<p><strong>use:</strong> models word counts, so a repeated word counts repeatedly; absent words contribute nothing. Words not in the vocabulary are dropped.</p><span class="src">8.3.5 · slides 550–565</span></div><div class="card f"><h3>Bernoulli Naïve Bayes for text</h3><p>\[
+P(w \mid c) = \frac{\text{docs of } c \text{ containing } w + 1}{N_c + 2}, \qquad \text{Score}(c) = P(c) \prod_{w \in V} P(w \mid c)^{b_w} \left( 1 - P(w \mid c) \right)^{1 - b_w}
+\]</p>
+<p><strong>where:</strong> \(b_w = 1\) if word \(w\) occurs in the document, else 0; \(N_c\) documents of class \(c\).</p>
+<p><strong>use:</strong> models presence/absence: every vocabulary word contributes, so <strong>absent words count</strong> through \(1 - P(w \mid c)\), and repetitions are ignored. Better for short documents.</p><span class="src">8.3.5 · slides 550–565</span></div><div class="card f"><h3>Scoring in log space</h3><p>\[
+\log \text{Score}(c) = \log P(c) + \sum_i \log P(x_i \mid c), \qquad P(c \mid x) = \frac{e^{\ell_c - m}}{\sum_{c'} e^{\ell_{c'} - m}}, \ \ m = \max_{c'} \ell_{c'}
+\]</p>
+<p><strong>where:</strong> \(\ell_c = \log \text{Score}(c)\); subtracting the maximum \(m\) is the log-sum-exp trick.</p>
+<p><strong>use:</strong> products of thousands of small probabilities underflow to 0 in floating point; sums of logs do not, and the \(\arg\max\) is unchanged. Two classes: \(P(A \mid x) = \frac{1}{1 + e^{\ell_B - \ell_A}}\).</p><span class="src">8.3.5, 8.3.2 · slides 550–565</span></div><div class="card f"><h3>Gaussian Naïve Bayes gives a logistic form</h3><p>\[
+P(Y = 1 \mid X) = \frac{1}{1 + \exp\left( -\left( w_0 + \sum_i w_i X_i \right) \right)}, \qquad w_i = \frac{\mu_{i1} - \mu_{i0}}{\sigma_i^2}, \qquad w_0 = \log\frac{\pi}{1 - \pi} + \sum_i \frac{\mu_{i0}^2 - \mu_{i1}^2}{2\sigma_i^2}
+\]</p>
+<p><strong>where:</strong> \(\pi = P(Y = 1)\); Gaussian class-conditionals with <strong>shared</strong> variance \(\sigma_i^2\) per feature (not per class).</p>
+<p><strong>use:</strong> GNB (generative: models \(P(X \mid Y)P(Y)\)) and logistic regression (discriminative: models \(P(Y \mid X)\) directly) share the same functional form but fit it differently; LR is more robust when the GNB assumptions fail, GNB converges faster with little data. Class-specific variances add \(X_i^2\) terms (a quadratic boundary).</p><span class="src">8.4 · slides 566–574</span></div></div></details>
+<details class="module" open id="m9-ensemble-learning"><summary>M9 · Ensemble Learning <small>· 14 items</small></summary><div class="cards"><div class="card f"><h3>Majority vote of independent classifiers</h3><p>\[
+P(\text{ensemble correct}) = A_n = \sum_{k = (n+1)/2}^{n} \binom{n}{k} p^{k} (1 - p)^{n - k}
+\]</p>
+<p><strong>where:</strong> \(n\) (odd) independent classifiers, each correct with probability \(p\); \(\binom{n}{k} = \frac{n!}{k!(n - k)!}\).</p>
+<p><strong>use:</strong> if \(p &gt; 0.5\) and errors are independent, \(A_n\) rises towards 1 as \(n\) grows (\(p = 0.7\): \(A_3 = 0.784\), \(A_5 = 0.837\)); if \(p &lt; 0.5\) voting makes it worse. Real base learners are correlated, so the gain is smaller: diversity is what makes ensembles work.</p><span class="src">9.1.1, 9.1.2 · slides 582–587</span></div><div class="card f"><h3>Bootstrap sampling</h3><p>\[
+P(\text{record not drawn}) = \left( 1 - \frac{1}{n} \right)^{n} \to e^{-1} \approx 0.368, \qquad E[\text{distinct records}] = n \left[ 1 - \left( 1 - \tfrac{1}{n} \right)^{n} \right] \approx 0.632\,n
+\]</p>
+<p><strong>where:</strong> a bootstrap sample is \(n\) draws with replacement from \(n\) training records.</p>
+<p><strong>use:</strong> each bag contains about 63.2% of the distinct records (some repeated); the other ~36.8% are that bag's out-of-bag (OOB) records. With \(n = 8\): \((7/8)^8 = 0.344\), 5.25 distinct records expected.</p><span class="src">9.2.1 · slides 589–596</span></div><div class="card f"><h3>Bagging aggregation</h3><p>\[
+\hat{y}_{\text{reg}} = \frac{1}{B} \sum_{b=1}^{B} \hat{f}_b(x), \qquad \hat{y}_{\text{hard}} = \text{mode}\{\hat{f}_b(x)\}, \qquad \hat{y}_{\text{soft}} = \arg\max_c \frac{1}{B} \sum_{b=1}^{B} \hat{p}_b(c \mid x)
+\]</p>
+<p><strong>where:</strong> \(B\) base models trained in parallel on \(B\) bootstrap samples; \(\hat{p}_b(c \mid x)\) the class probability from model \(b\).</p>
+<p><strong>use:</strong> averaging reduces variance, so bagging suits high-variance, low-bias learners (deep trees); it cannot fix a high-bias learner. Hard and soft votes can disagree: soft voting uses how confident each model is (three weak "yes" at 0.55 can lose to two strong "no").</p><span class="src">9.2.1 · slides 597–602, 641</span></div><div class="card f"><h3>Out-of-bag error</h3><p>\[
+\text{OOB error} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}\left[ \hat{y}_{\text{OOB}}(x_i) \ne y_i \right], \qquad \hat{y}_{\text{OOB}}(x_i) = \text{vote of the models whose bootstrap sample excludes } i
+\]</p>
+<p><strong>where:</strong> each record is predicted only by the trees that did not see it in training.</p>
+<p><strong>use:</strong> a free validation estimate of generalisation error, with no separate hold-out set. Records that appear in every bag have no OOB prediction and are skipped.</p><span class="src">9.2.1, 9.2.2 · slides 603, 613</span></div><div class="card f"><h3>Variance of an average of correlated learners</h3><p>\[
+\operatorname{Var}(\bar{f}) = \rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2
+\]</p>
+<p><strong>where:</strong> \(B\) learners each with variance \(\sigma^2\) and pairwise correlation \(\rho\).</p>
+<p><strong>use:</strong> as \(B \to \infty\) the variance falls only to \(\rho\sigma^2\), so correlation sets the floor. Random Forest's random feature subsets lower \(\rho\) between trees, which is why it beats plain bagging (\(\rho = 0.2\), \(\sigma^2 = 4.5\), \(B = 100\): \(0.936\)).</p><span class="src">9.2.2, 9.1.2 · slides 603, 611–612</span></div><div class="card f"><h3>Random-forest feature subsampling</h3><p>\[
+m = \lfloor \sqrt{p} \rfloor \ \text{(classification)}, \quad m = \lfloor p/3 \rfloor \ \text{(regression)}, \qquad P(\text{given feature is a candidate}) = \frac{m}{p}, \qquad P(\text{none of } s \text{ chosen}) = \frac{\binom{p - s}{m}}{\binom{p}{m}}
+\]</p>
+<p><strong>where:</strong> \(p\) features in total, \(m\) drawn without replacement at every split, \(s\) particular (e.g. strong) features.</p>
+<p><strong>use:</strong> a dominant feature is unavailable at a split with probability \(1 - m/p\), so other features get used and the trees decorrelate. \(m = p\) is plain bagging of trees.</p><span class="src">9.2.2 · slides 603, 611–612</span></div><div class="card f"><h3>AdaBoost weighted error</h3><p>\[
+w_i^{(1)} = \frac{1}{n}, \qquad \varepsilon_t = \sum_{i:\ h_t(x_i) \ne y_i} w_i^{(t)}
+\]</p>
+<p><strong>where:</strong> \(n\) training records, labels \(y_i \in \{-1, +1\}\), weights summing to 1, \(h_t\) the weak learner (usually a stump) of round \(t\).</p>
+<p><strong>use:</strong> the total error is the sum of the weights of the misclassified records (not the count). Each round picks the stump with the lowest weighted error.</p><span class="src">9.3.1, 9.3.2 · slides 618–622</span></div><div class="card f"><h3>AdaBoost stump performance</h3><p>\[
+\alpha_t = \frac{1}{2} \ln\frac{1 - \varepsilon_t}{\varepsilon_t}
+\]</p>
+<p><strong>where:</strong> \(\varepsilon_t\) is the weighted error of \(h_t\); \(\ln\) natural.</p>
+<p><strong>use:</strong> \(\alpha = 0\) at \(\varepsilon = 0.5\) (a coin flip gets no say), large for small \(\varepsilon\), negative for \(\varepsilon &gt; 0.5\) (the vote is flipped, \(\alpha' h' = \alpha h\)). Keep \(\varepsilon\) exact: \(\varepsilon = 2/7\) gives \(\alpha = \frac{1}{2}\ln 2.5 = 0.458\); rounding \(\varepsilon\) to 0.28 first gives 0.472.</p><span class="src">9.3.2 · slides 622–626</span></div><div class="card f"><h3>AdaBoost weight update</h3><p>\[
+w_i \leftarrow \frac{w_i \, e^{-\alpha_t y_i h_t(x_i)}}{Z_t}, \qquad Z_t = \sum_i w_i \, e^{-\alpha_t y_i h_t(x_i)} = 2\sqrt{\varepsilon_t (1 - \varepsilon_t)}
+\]</p>
+<p><strong>where:</strong> \(y_i h_t(x_i) = +1\) if correct (weight multiplied by \(e^{-\alpha_t}\)), \(-1\) if wrong (multiplied by \(e^{\alpha_t}\)); \(Z_t\) renormalises the weights to sum to 1.</p>
+<p><strong>use:</strong> after renormalising, the misclassified records always hold exactly half the total weight, so the next stump must focus on them. A record misclassified by every stump has its weight grow geometrically, which is why boosting overfits noisy labels.</p><span class="src">9.3.2 · slides 626–629</span></div><div class="card f"><h3>AdaBoost final classifier</h3><p>\[
+H(x) = \operatorname{sign}\left( \sum_{t=1}^{T} \alpha_t h_t(x) \right)
+\]</p>
+<p><strong>where:</strong> \(T\) rounds, \(\alpha_t\) the performance of stump \(t\).</p>
+<p><strong>use:</strong> a weighted vote: one confident stump can outvote two weak ones. Boosting trains sequentially and reduces <strong>bias</strong>, so it suits high-bias, low-variance base learners (stumps); the training error is bounded by \(\prod_t Z_t\), which shrinks every round with \(\varepsilon_t &lt; 0.5\).</p><span class="src">9.3.2 · slides 626–629</span></div><div class="card f"><h3>Gradient boosting for regression</h3><p>\[
+F_0(x) = \bar{y}, \qquad r_i^{(m)} = y_i - F_{m-1}(x_i), \qquad F_m(x) = F_{m-1}(x) + \eta \, h_m(x)
+\]</p>
+<p><strong>where:</strong> \(h_m\) is a small regression tree fitted to the residuals \(r_i^{(m)}\) (each leaf predicts the mean residual of its records), \(\eta \in (0, 1]\) the learning rate (shrinkage).</p>
+<p><strong>use:</strong> the residual is the negative gradient of the squared loss, \(-\frac{\partial}{\partial F}\frac{1}{2}(y - F)^2 = y - F\), so each tree is a step of functional gradient descent. A small \(\eta\) needs more trees but generalises better; MSE on the training set falls every round.</p><span class="src">9.3.3 · slides 615–616, 631–637</span></div><div class="card f"><h3>XGBoost regularised objective</h3><p>\[
+\text{Obj} = \sum_{i} \ell\left( y_i, \hat{y}_i \right) + \sum_{k} \Omega(f_k), \qquad \Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^{T} w_j^2
+\]</p>
+<p><strong>where:</strong> \(f_k\) the \(k\)-th tree, \(T\) its number of leaves, \(w_j\) its leaf values, \(\gamma\) the cost per leaf, \(\lambda\) the L2 penalty on leaf values.</p>
+<p><strong>use:</strong> regularisation is part of the tree-growing objective itself. Other XGBoost features: shrinkage \(\eta\), column subsampling, level-wise growth then pruning of negative-gain splits, sparsity-aware handling of missing values, cache-aware parallel computation.</p><span class="src">9.3.4 · slides 630–643</span></div><div class="card f"><h3>XGBoost leaf value and split gain</h3><p>\[
+w^* = -\frac{G}{H + \lambda}, \qquad \text{Gain} = \frac{1}{2} \left[ \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda} \right] - \gamma
+\]</p>
+<p><strong>where:</strong> \(g_i = \frac{\partial \ell}{\partial F}\), \(h_i = \frac{\partial^2 \ell}{\partial F^2}\) at the current prediction; \(G = \sum g_i\), \(H = \sum h_i\) over a leaf. For squared loss \(\ell = \frac{1}{2}(y - F)^2\): \(g_i = F - y_i\) (minus the residual), \(h_i = 1\).</p>
+<p><strong>use:</strong> split only if Gain \(&gt; 0\); \(\lambda\) shrinks leaf values (most in small leaves), \(\gamma\) demands a minimum gain per split (pruning). For missing values, compute the gain with all missing records sent left and then right, and keep the better direction as the default.</p><span class="src">9.3.4 · slides 632–643</span></div><div class="card f"><h3>Stacking</h3><p>\[
+\hat{y} = g\left( h_1(x), h_2(x), \dots, h_M(x) \right), \qquad \text{e.g. } \hat{p} = \sigma\left( \beta_0 + \sum_{m=1}^{M} \beta_m \hat{p}_m(x) \right)
+\]</p>
+<p><strong>where:</strong> \(h_m\) are heterogeneous base learners (e.g. logistic regression, random forest, k-NN), \(g\) the meta-model (often logistic regression) with weights \(\beta_m\).</p>
+<p><strong>use:</strong> train the meta-model on <strong>out-of-fold</strong> predictions of the base learners (cross-validation), never on their in-sample predictions, or it learns to trust the overfit learner. The meta-model weights show which base model it trusts.</p><span class="src">9.4, 9.1.2 · slides 644–648</span></div></div></details>
+<details class="module" open id="m10-unsupervised-learning"><summary>M10 · Unsupervised Learning <small>· 17 items</small></summary><div class="cards"><div class="card f"><h3>Cohesion and separation</h3><p>\[
+\text{SSE} = \text{WSS} = \sum_{i=1}^{K} \sum_{x \in C_i} \lVert x - m_i \rVert^2, \qquad \text{BSS} = \sum_{i=1}^{K} \lvert C_i \rvert \, \lVert m_i - m \rVert^2, \qquad \text{TSS} = \text{WSS} + \text{BSS}
+\]</p>
+<p><strong>where:</strong> \(C_i\) cluster \(i\) with centroid \(m_i\), \(m\) the overall mean, \(\lvert C_i \rvert\) the cluster size.</p>
+<p><strong>use:</strong> a good clustering has small WSS (cohesion, intra-cluster) and large BSS (separation, inter-cluster). TSS is fixed by the data, so lowering WSS raises BSS. SSE always falls as \(K\) grows, so it cannot choose \(K\) alone.</p><span class="src">10.1.1, 10.4.1 · slides 718–721</span></div><div class="card f"><h3>K-means objective</h3><p>\[
+J(r, \mu) = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \lVert x_n - \mu_k \rVert^2, \qquad r_{nk} \in \{0, 1\}, \quad \sum_k r_{nk} = 1
+\]</p>
+<p><strong>where:</strong> \(r_{nk} = 1\) if point \(x_n\) is assigned to cluster \(k\) (1-of-\(K\) coding, hard assignment), \(\mu_k\) the centroid of cluster \(k\).</p>
+<p><strong>use:</strong> \(J\) is the SSE of the clustering. K-means minimises it by coordinate descent over \(r\) and \(\mu\).</p><span class="src">10.2.2 · slides 657, 660, 663</span></div><div class="card f"><h3>K-means E-step and M-step</h3><p>\[
+\text{E-step: } r_{nk} = \begin{cases} 1 &amp; k = \arg\min_j \lVert x_n - \mu_j \rVert^2 \\ 0 &amp; \text{otherwise} \end{cases}, \qquad \text{M-step: } \mu_k = \frac{\sum_n r_{nk} \, x_n}{\sum_n r_{nk}}
+\]</p>
+<p><strong>where:</strong> the M-step centroid is the mean of the points currently assigned to cluster \(k\).</p>
+<p><strong>use:</strong> alternate assign and recompute until no assignment changes. Recompute all distances with the new centroids each iteration. Scale features first, since Euclidean distance is scale-dependent.</p><span class="src">10.2.1 · slides 655–663, 705–706</span></div><div class="card f"><h3>K-means convergence</h3><p>\[
+J\left( r^{(t)}, \mu^{(t)} \right) \ge J\left( r^{(t+1)}, \mu^{(t)} \right) \ge J\left( r^{(t+1)}, \mu^{(t+1)} \right)
+\]</p>
+<p><strong>where:</strong> the first inequality is the E-step (each point moves to its nearest centroid), the second the M-step (the mean minimises squared distance).</p>
+<p><strong>use:</strong> \(J\) never increases and there are finitely many assignments, so K-means always converges, but only to a <strong>local</strong> minimum that depends on the initial centroids. Run several initialisations (or k-means++) and keep the lowest \(J\).</p><span class="src">10.2.2 · slides 660, 663</span></div><div class="card f"><h3>The mean minimises squared distance</h3><p>\[
+\sum_{i=1}^{n} \lVert x_i - c \rVert^2 = \sum_{i=1}^{n} \lVert x_i - \bar{x} \rVert^2 + n \lVert c - \bar{x} \rVert^2
+\]</p>
+<p><strong>where:</strong> \(c\) is any candidate centre, \(\bar{x}\) the mean of the points.</p>
+<p><strong>use:</strong> the centroid is the best centre for SSE; any other point (including the medoid) costs an extra \(n\lVert c - \bar{x} \rVert^2\). For the sum of absolute (\(L_1\)) distances the median is optimal instead, which is why medoids resist outliers.</p><span class="src">10.2.2, 10.3 · slides 660, 711–713</span></div><div class="card f"><h3>Elbow method for K</h3><p>\[
+\Delta \text{SSE}(K) = \text{SSE}(K - 1) - \text{SSE}(K), \qquad \hat{K} = \text{the } K \text{ after which } \Delta \text{SSE} \text{ drops sharply}
+\]</p>
+<p><strong>where:</strong> \(\text{SSE}(K)\) is the best SSE found with \(K\) clusters.</p>
+<p><strong>use:</strong> SSE falls with every extra cluster (to 0 at \(K = N\)); pick the bend where adding clusters stops paying. If the decreases shrink smoothly there is no clear elbow: use the silhouette or BIC as well.</p><span class="src">10.2.3 · slides 670, 707, 720</span></div><div class="card f"><h3>K-medoids cost and swap</h3><p>\[
+\text{Cost} = \sum_{k=1}^{K} \sum_{x \in C_k} d(x, m_k), \quad m_k \in C_k, \qquad \text{swap } (m, o) \text{ if } \text{Cost}_{\text{new}} - \text{Cost}_{\text{old}} &lt; 0
+\]</p>
+<p><strong>where:</strong> \(m_k\) is the medoid (an actual data point) of cluster \(k\), \(d\) any dissimilarity (often Manhattan or Euclidean, not squared).</p>
+<p><strong>use:</strong> PAM tries replacing a medoid \(m\) by a non-medoid \(o\), reassigns every point to its nearest medoid, and keeps the swap if total cost falls. An outlier drags a centroid far away (\((1,1),(2,1),(1,2),(2,3),(9,8)\): centroid \((3, 3)\)) but cannot pull a medoid off the data. Costs \(O(K(N - K)^2)\) per iteration.</p><span class="src">10.3, 10.2.4 · slides 669, 711–715</span></div><div class="card f"><h3>Silhouette coefficient</h3><p>\[
+s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}} = \begin{cases} 1 - \dfrac{a(i)}{b(i)} &amp; a(i) &lt; b(i) \\ \dfrac{b(i)}{a(i)} - 1 &amp; a(i) \ge b(i) \end{cases}, \qquad \bar{s} = \frac{1}{N} \sum_i s(i)
+\]</p>
+<p><strong>where:</strong> \(a(i)\) = average distance from \(i\) to the other points of its own cluster (cohesion); \(b(i)\) = the minimum over other clusters of the average distance from \(i\) to that cluster's points (separation).</p>
+<p><strong>use:</strong> \(s \in [-1, 1]\): near 1 well placed, near 0 on a border, negative probably in the wrong cluster. Compare clusterings (or values of \(K\)) by the mean \(\bar{s}\). A singleton cluster is conventionally given \(s = 0\).</p><span class="src">10.4.2 · slide 722</span></div><div class="card f"><h3>Entropy and purity against known labels</h3><p>\[
+e_j = -\sum_{i} p_{ij} \log_2 p_{ij}, \qquad e = \sum_{j} \frac{n_j}{n} \, e_j, \qquad \text{purity} = \sum_j \frac{n_j}{n} \max_i p_{ij} = \frac{1}{n} \sum_j \max_i n_{ij}
+\]</p>
+<p><strong>where:</strong> \(p_{ij} = n_{ij}/n_j\) is the fraction of cluster \(j\) that belongs to class \(i\); \(n_j\) the size of cluster \(j\), \(n\) the total.</p>
+<p><strong>use:</strong> external indices: low entropy and high purity mean clusters match the classes. Both improve trivially as clusters get smaller (singletons are perfectly pure), so compare at equal \(K\).</p><span class="src">10.4.1 · slides 717–718</span></div><div class="card f"><h3>Hierarchical clustering linkages</h3><p>\[
+d_{\text{single}}(A, B) = \min_{a \in A, b \in B} d(a, b), \quad d_{\text{complete}}(A, B) = \max_{a, b} d(a, b), \quad d_{\text{average}}(A, B) = \frac{1}{\lvert A \rvert \lvert B \rvert} \sum_{a \in A} \sum_{b \in B} d(a, b), \quad d_{\text{centroid}} = \lVert \bar{a} - \bar{b} \rVert
+\]</p>
+<p><strong>where:</strong> \(A, B\) are clusters; Ward's method merges the pair whose merge increases total SSE least, \(\Delta = \frac{\lvert A \rvert \lvert B \rvert}{\lvert A \rvert + \lvert B \rvert} \lVert \bar{a} - \bar{b} \rVert^2\).</p>
+<p><strong>use:</strong> agglomerative clustering starts from singletons and repeatedly merges the two closest clusters, recording the merge heights in a dendrogram; cut it at a height to get \(K\) clusters. Single link chains along elongated shapes; complete link favours compact clusters. (The slides only define hierarchical clustering; these are the standard linkages.)</p><span class="src">10.1.2 · slide 704</span></div><div class="card f"><h3>Gaussian mixture density</h3><p>\[
+p(x) = \sum_{k=1}^{K} \pi_k \, \mathcal{N}(x \mid \mu_k, \Sigma_k), \qquad \pi_k \ge 0, \quad \sum_{k=1}^{K} \pi_k = 1, \qquad \pi_k = p(z_k = 1)
+\]</p>
+<p><strong>where:</strong> \(\pi_k\) the mixing weight (prior) of component \(k\), \(\mu_k, \Sigma_k\) its mean and covariance, \(z\) the latent 1-of-\(K\) component indicator.</p>
+<p><strong>use:</strong> a soft, probabilistic clustering: \(p(x) = \sum_k p(z_k = 1)\,p(x \mid z_k = 1)\). Evaluate each component density at \(x\), weight by \(\pi_k\), and add.</p><span class="src">10.5.1, 10.5.2 · slides 672, 680–684</span></div><div class="card f"><h3>Multivariate Gaussian density</h3><p>\[
+\mathcal{N}(x \mid \mu, \Sigma) = \frac{1}{(2\pi)^{d/2} \lvert \Sigma \rvert^{1/2}} \exp\left( -\frac{1}{2} (x - \mu)^\top \Sigma^{-1} (x - \mu) \right)
+\]</p>
+<p><strong>where:</strong> \(d\) dimensions, \(\lvert \Sigma \rvert\) the determinant of the covariance matrix; for \(\Sigma = \sigma^2 I\), \(\ln \mathcal{N} = -\frac{d}{2}\ln(2\pi\sigma^2) - \frac{\lVert x - \mu \rVert^2}{2\sigma^2}\).</p>
+<p><strong>use:</strong> reduces to the 1-D formula \(\frac{1}{\sqrt{2\pi\sigma^2}} e^{-(x - \mu)^2/2\sigma^2}\) when \(d = 1\). The contours are ellipses shaped by \(\Sigma\).</p><span class="src">10.5.2, 10.5.4 · slides 679, 688</span></div><div class="card f"><h3>EM E-step: responsibilities</h3><p>\[
+\gamma(z_{nk}) = \frac{\pi_k \, \mathcal{N}(x_n \mid \mu_k, \Sigma_k)}{\sum_{j=1}^{K} \pi_j \, \mathcal{N}(x_n \mid \mu_j, \Sigma_j)}
+\]</p>
+<p><strong>where:</strong> \(\gamma(z_{nk}) = P(z_k = 1 \mid x_n)\) is the posterior probability that component \(k\) generated \(x_n\).</p>
+<p><strong>use:</strong> Bayes' theorem with the mixing weights as priors; for each point the responsibilities sum to 1 across components. A hard label, if needed, is \(\arg\max_k \gamma(z_{nk})\), and the boundary between two components is where \(\pi_1\mathcal{N}_1(x) = \pi_2\mathcal{N}_2(x)\). (Slide erratum: the second document responsibility 0.994 belongs to Cluster 2, not Cluster 1.)</p><span class="src">10.5.3, 8.2.1 · slides 690–693</span></div><div class="card f"><h3>EM M-step: weighted re-estimation</h3><p>\[
+N_k = \sum_{n} \gamma(z_{nk}), \quad \pi_k = \frac{N_k}{N}, \quad \mu_k = \frac{1}{N_k} \sum_{n} \gamma(z_{nk}) \, x_n, \quad \Sigma_k = \frac{1}{N_k} \sum_{n} \gamma(z_{nk}) (x_n - \mu_k)(x_n - \mu_k)^\top
+\]</p>
+<p><strong>where:</strong> \(N_k\) is the effective number of points in component \(k\); in 1-D \(\Sigma_k = \sigma_k^2 = \frac{1}{N_k}\sum_n \gamma(z_{nk})(x_n - \mu_k)^2\) using the <strong>new</strong> \(\mu_k\).</p>
+<p><strong>use:</strong> weighted MLE, the soft version of the K-means M-step. Alternate E and M until the log-likelihood stops increasing.</p><span class="src">10.5.3 · slides 693–699</span></div><div class="card f"><h3>GMM log-likelihood</h3><p>\[
+\ln L = \sum_{n=1}^{N} \ln \left( \sum_{k=1}^{K} \pi_k \, \mathcal{N}(x_n \mid \mu_k, \Sigma_k) \right)
+\]</p>
+<p><strong>where:</strong> the inner sum is the mixture density \(p(x_n)\) at each data point.</p>
+<p><strong>use:</strong> EM never decreases \(\ln L\) (check after each iteration), but converges only to a local maximum that depends on initialisation. \(\ln L\) is unbounded: a component collapsing onto one point with \(\sigma \to 0\) sends it to \(\infty\) (singularity), so floor the variances or restart.</p><span class="src">10.5.3, 10.5.4 · slides 691–699</span></div><div class="card f"><h3>Covariance options and BIC</h3><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Covariance parameters</th>
+<th>Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spherical</td>
+<td>\(K\)</td>
+<td>circles, one variance per component</td>
+</tr>
+<tr>
+<td>diagonal</td>
+<td>\(Kd\)</td>
+<td>axis-aligned ellipses</td>
+</tr>
+<tr>
+<td>tied</td>
+<td>\(\frac{d(d + 1)}{2}\)</td>
+<td>one shared ellipse for all components</td>
+</tr>
+<tr>
+<td>full</td>
+<td>\(K\frac{d(d + 1)}{2}\)</td>
+<td>any ellipse per component</td>
+</tr>
+</tbody>
+</table>
+<p>\[
+p = \text{cov. params} + Kd + (K - 1), \qquad \text{BIC} = -2\ln L + p \ln N
+\]</p>
+<p><strong>where:</strong> \(d\) features, \(K\) components; \(Kd\) means and \(K - 1\) free mixing weights. A full 2-D GMM has \(p = 6K - 1\).</p>
+<p><strong>use:</strong> choose \(K\) and the covariance type by the lowest BIC; \(\ln L\) keeps rising with \(K\) but the \(p \ln N\) penalty eventually wins. Full covariance is the most flexible and the most prone to overfitting and singularities on small data.</p><span class="src">10.5.4 · slides 699–701</span></div><div class="card f"><h3>K-means as a limit of the GMM</h3><p>\[
+\Sigma_k = \sigma^2 I, \ \sigma \to 0: \quad \gamma(z_{nk}) = \frac{\pi_k \exp\left( -\lVert x_n - \mu_k \rVert^2 / 2\sigma^2 \right)}{\sum_j \pi_j \exp\left( -\lVert x_n - \mu_j \rVert^2 / 2\sigma^2 \right)} \to r_{nk} \in \{0, 1\}
+\]</p>
+<p><strong>where:</strong> all components share the spherical covariance \(\sigma^2 I\).</p>
+<p><strong>use:</strong> as \(\sigma \to 0\) the nearest centroid takes responsibility 1 and the E-step becomes K-means assignment; the M-step becomes the plain centroid. So K-means is hard-assignment EM with equal spherical clusters, which explains its bias towards equal-sized round clusters.</p><span class="src">10.5.1 · slides 672–675</span></div></div></details>
+<details class="module" open id="m11-ml-model-evaluation-comparison-facct-ml"><summary>M11 · ML Model Evaluation, Comparison &amp; FAccT ML <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Regression metrics</h3><p>\[
+\text{MSE} = \frac{1}{n} \sum_i (y_i - \hat{y}_i)^2, \quad \text{RMSE} = \sqrt{\text{MSE}}, \quad \text{MAD} = \text{MAE} = \frac{1}{n} \sum_i \lvert y_i - \hat{y}_i \rvert, \quad \text{MAPE} = \frac{100\%}{n} \sum_i \frac{\lvert y_i - \hat{y}_i \rvert}{\lvert y_i \rvert}, \quad R^2 = 1 - \frac{\text{SSE}}{\text{SST}}
+\]</p>
+<p><strong>where:</strong> \(y_i\) actual, \(\hat{y}_i\) predicted, \(n\) test cases; the slides call MAE "MAD" (mean absolute deviation).</p>
+<p><strong>use:</strong> MSE/RMSE punish large errors most (sensitive to outliers); MAE treats all errors linearly; MAPE is scale-free but undefined at \(y_i = 0\) and inflated by small \(y_i\); \(R^2\) compares with predicting the mean and is negative on test data for a model worse than that. Different metrics can rank models differently, so pick the one that matches the business cost.</p><span class="src">11.1.2, 3.6.1 · slides 730, 733</span></div><div class="card f"><h3>Cross-validation mean and its standard error</h3><p>\[
+\bar{a} = \frac{1}{k} \sum_{i=1}^{k} a_i, \qquad s = \sqrt{\frac{1}{k - 1} \sum_{i=1}^{k} (a_i - \bar{a})^2}, \qquad \text{SE} = \frac{s}{\sqrt{k}}
+\]</p>
+<p><strong>where:</strong> \(a_i\) is the score on fold \(i\) of \(k\).</p>
+<p><strong>use:</strong> report \(\bar{a} \pm \text{SE}\) to show how stable the estimate is (folds overlap in training data, so this SE is only approximate). Picking the best of many settings on one test set inflates the score: the expected maximum of 20 equal models is about \(1.867\) SEs above the truth.</p><span class="src">11.1.1, 6.5.2 · slides 730, 733</span></div><div class="card f"><h3>Standard error of an accuracy</h3><p>\[
+\operatorname{Var}(\hat{p}) = \frac{1}{n^2} \sum_{i=1}^{n} \operatorname{Var}(X_i) = \frac{p(1 - p)}{n}, \qquad \text{SE}(\hat{p}) = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}
+\]</p>
+<p><strong>where:</strong> \(X_i \in \{0, 1\}\) indicates a correct prediction on test case \(i\) (Bernoulli), \(\hat{p}\) the test accuracy, \(n\) test cases.</p>
+<p><strong>use:</strong> test accuracy is a sample mean, so its uncertainty shrinks like \(1/\sqrt{n}\). The same formula gives the SE of a TPR or FPR, with \(n\) the number of positives or negatives, which is why per-group rates on small groups are noisy.</p><span class="src">11.2.1 · slide 734</span></div><div class="card f"><h3>Confidence interval for an accuracy</h3><p>\[
+\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}, \qquad n \ge \frac{z_{\alpha/2}^2 \, \hat{p}(1 - \hat{p})}{E^2}
+\]</p>
+<p><strong>where:</strong> \(z_{0.025} = 1.96\) (95%), \(z_{0.005} = 2.576\) (99%); \(E\) the desired half-width (margin of error).</p>
+<p><strong>use:</strong> the normal (Wald) interval, fine when \(n\hat{p}\) and \(n(1 - \hat{p})\) are both at least about 10. Example: \(0.85\) on 1000 cases gives \([0.828, 0.872]\). For the sample size, use \(\hat{p} = 0.5\) if nothing is known (worst case), and round \(n\) <strong>up</strong>.</p><span class="src">11.2.1 · slide 734</span></div><div class="card f"><h3>Standard-normal and chi-square critical values</h3><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>One-sided \(z\)</th>
+<th>Two-sided \(z\)</th>
+<th>\(\chi^2_1\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10%</td>
+<td>1.282</td>
+<td>1.645</td>
+<td>2.706</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>1.645</td>
+<td>1.960</td>
+<td>3.841</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>2.326</td>
+<td>2.576</td>
+<td>6.635</td>
+</tr>
+</tbody>
+</table>
+<p><strong>where:</strong> \(z\) from \(N(0, 1)\); \(\chi^2_1\) is chi-square with 1 degree of freedom, and \(\chi^2_1 = z^2\) (\(1.96^2 = 3.841\)).</p>
+<p><strong>use:</strong> reject \(H_0\) when \(\lvert z \rvert\) or \(\chi^2\) exceeds the critical value, or equivalently when the p-value is below \(\alpha\). A two-sided p-value is \(2P(Z &gt; \lvert z \rvert)\).</p><span class="src">11.2.1 · slide 734</span></div><div class="card f"><h3>Comparing two models on independent test sets</h3><p>\[
+z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\bar{p}(1 - \bar{p}) \left( \frac{1}{n_A} + \frac{1}{n_B} \right)}}, \quad \bar{p} = \frac{x_A + x_B}{n_A + n_B}; \qquad (\hat{p}_A - \hat{p}_B) \pm z_{\alpha/2} \sqrt{\frac{\hat{p}_A(1 - \hat{p}_A)}{n_A} + \frac{\hat{p}_B(1 - \hat{p}_B)}{n_B}}
+\]</p>
+<p><strong>where:</strong> \(x_A, x_B\) correct predictions on independent test sets of sizes \(n_A, n_B\); \(\bar{p}\) the pooled accuracy.</p>
+<p><strong>use:</strong> the pooled \(z\) tests \(H_0: p_A = p_B\); the unpooled interval estimates the gap (if it contains 0 the gap is not significant). Using this test when both models were scored on the <strong>same</strong> cases is wrong: it ignores the pairing and is far less powerful.</p><span class="src">11.2.1 · slide 734</span></div><div class="card f"><h3>McNemar's test on a shared test set</h3><p>\[
+\chi^2 = \frac{(b - c)^2}{b + c}, \qquad \chi^2_{\text{cc}} = \frac{(\lvert b - c \rvert - 1)^2}{b + c}, \qquad \text{df} = 1
+\]</p>
+<p><strong>where:</strong> \(b\) = cases A gets right and B wrong, \(c\) = cases A gets wrong and B right (the discordant counts); cases where both agree are ignored.</p>
+<p><strong>use:</strong> compare with \(\chi^2_1 = 3.841\) at 5%. It is the paired \(z\) test squared: \(\widehat{\operatorname{Var}}(D) = \frac{b + c}{n} - \left( \frac{b - c}{n} \right)^2\), \(z = \frac{(b - c)/n}{\sqrt{\widehat{\operatorname{Var}}(D)/n}}\). Two pairs of models with the same accuracies can give different verdicts depending on \(b + c\).</p><span class="src">11.2.1 · slide 734</span></div><div class="card f"><h3>Group fairness: demographic parity</h3><p>\[
+\text{SR}_g = P(\hat{Y} = 1 \mid G = g) = \frac{TP_g + FP_g}{n_g}, \qquad \Delta_{DP} = \lvert \text{SR}_A - \text{SR}_B \rvert, \qquad \text{DI} = \frac{\min(\text{SR}_A, \text{SR}_B)}{\max(\text{SR}_A, \text{SR}_B)}
+\]</p>
+<p><strong>where:</strong> \(\text{SR}_g\) is the selection rate of group \(g\) (fraction predicted positive), DI the disparate-impact ratio.</p>
+<p><strong>use:</strong> the "four-fifths rule" flags disparate impact when \(\text{DI} &lt; 0.8\) (\(0.34/0.56 = 0.607\)). Parity ignores differing base rates \(P(Y = 1 \mid G)\), so it is not a full verdict on its own. Dropping the protected attribute ("fairness through unawareness") does not remove a gap when proxies encode it.</p><span class="src">11.3.1, 11.3.2 · slides 735–742</span></div><div class="card f"><h3>Group fairness: equal opportunity, equalized odds, predictive parity</h3><p>\[
+\Delta_{EO} = \lvert TPR_A - TPR_B \rvert, \qquad \text{equalized odds: } TPR_A = TPR_B \text{ and } FPR_A = FPR_B, \qquad \text{predictive parity: } PPV_A = PPV_B
+\]</p>
+<p><strong>where:</strong> \(TPR_g = \frac{TP_g}{TP_g + FN_g}\), \(FPR_g = \frac{FP_g}{FP_g + TN_g}\), \(PPV_g = \frac{TP_g}{TP_g + FP_g}\) computed within group \(g\).</p>
+<p><strong>use:</strong> equal opportunity asks that qualified people in each group are accepted equally often; equalized odds adds equal false-alarm rates; predictive parity (calibration) asks that a positive prediction means the same in each group. If the labels themselves carry historical bias (negative legacy), every metric computed against them inherits it.</p><span class="src">11.3.1 · slides 735–742</span></div><div class="card f"><h3>Precision depends on the base rate</h3><p>\[
+PPV = \frac{TPR \cdot \pi}{TPR \cdot \pi + FPR \cdot (1 - \pi)} = \frac{1}{1 + \frac{FPR}{TPR} \cdot \frac{1 - \pi}{\pi}}
+\]</p>
+<p><strong>where:</strong> \(\pi = P(Y = 1 \mid G = g)\) is the group's base rate.</p>
+<p><strong>use:</strong> with equal TPR and FPR across groups (equalized odds), groups with different base rates must have different precision, and vice versa: equalized odds and predictive parity cannot both hold unless base rates are equal or the classifier is perfect (the COMPAS dispute). Solve the equation for the FPR one group would need to match another's PPV.</p><span class="src">11.3.1 · slides 738–742</span></div><div class="card f"><h3>Phi coefficient for proxy strength</h3><p>\[
+\phi = \frac{ad - bc}{\sqrt{(a + b)(c + d)(a + c)(b + d)}}
+\]</p>
+<p><strong>where:</strong> \(a, b\) (first row) and \(c, d\) (second row) are the cells of the \(2 \times 2\) table of a binary feature \(Z\) against the protected attribute \(G\).</p>
+<p><strong>use:</strong> the Pearson correlation of two binary variables, in \([-1, 1]\); a large \(\lvert \phi \rvert\) means \(Z\) is a proxy (redundant encoding) for \(G\), so a model that never sees \(G\) can still discriminate through \(Z\).</p><span class="src">11.3.2 · slides 739–742</span></div><div class="card f"><h3>Explaining a linear or logistic prediction</h3><p>\[
+z = w_0 + \sum_j w_j x_j, \qquad \text{contribution}_j = w_j x_j, \qquad \Delta x_j = \frac{\Delta z}{w_j}, \qquad P = \sigma(z)
+\]</p>
+<p><strong>where:</strong> \(w_j x_j\) is feature \(j\)'s additive push on the score (on \(\hat{y}\) for linear regression, on the log-odds for logistic regression); \(\Delta z\) the score change needed to reach the decision threshold (\(z = 0\) for \(P = 0.5\)).</p>
+<p><strong>use:</strong> gives per-decision explanations and counterfactuals ("raise \(x_1\) by 4.33 to be approved"). Coefficients are comparable across features only when the features are on comparable scales. Trees explain by their rule path and k-NN by its neighbours; black boxes (forests, boosting, deep nets) trade this transparency for accuracy and need post-hoc tools (feature importance), which show magnitude but not direction.</p><span class="src">11.4.1, 11.4.2, 4.2.3 · slides 743–749</span></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>

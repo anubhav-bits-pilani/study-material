@@ -5,91 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Semester 1 — Study Guides</title>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#fff;--card:#fff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{background:var(--panel);border-bottom:1px solid var(--border);padding:1.5rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-header .wrap{max-width:1000px;margin:0 auto}
-h1{margin:0;font-size:1.5rem;color:#fff}
-h1 span{color:var(--accent)}
-.sub{color:var(--muted);font-size:.9rem;margin-top:.35rem}
-main{max-width:1000px;margin:2rem auto;padding:0 1rem 4rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
-.subject{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;border-top:3px solid var(--accent)}
-.subject h2{margin:.1rem 0 .2rem;font-size:1.15rem;color:#fff}
-.subject .code{color:var(--muted);font-size:.78rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.subject .desc{color:var(--muted);font-size:.85rem;margin:.5rem 0 .9rem}
-.links{display:flex;flex-direction:column;gap:.5rem}
-.links a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--ink);background:#0b1220;border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;font-size:.92rem;transition:.15s}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--panel);border-bottom:1px solid var(--border);padding:1rem}
+header .wrap{max-width:1000px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start}
+h1{margin:0;font-size:1.35rem} h1 span{color:var(--accent)}
+.sub{color:var(--muted);font-size:.85rem;margin-top:.25rem}
+button{margin-left:auto;font-size:.8rem;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer}
+main{max-width:1000px;margin:1.25rem auto;padding:0 1rem 3rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.subject{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;border-top:3px solid var(--accent)}
+.subject h2{margin:0;font-size:1.05rem}
+.code{color:var(--muted);font-size:.75rem;font-family:ui-monospace,Menlo,monospace}
+.desc{color:var(--muted);font-size:.82rem;margin:.4rem 0 .7rem}
+.links{display:flex;flex-direction:column;gap:.4rem}
+.links a{display:flex;justify-content:space-between;text-decoration:none;color:var(--ink);background:var(--field);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;font-size:.88rem}
 .links a:hover{border-color:var(--accent);color:var(--accent)}
-.links a .n{color:var(--muted);font-size:.78rem}
+.links a.f:hover{border-color:var(--fc);color:var(--fc)}
 .links a.def:hover{border-color:var(--accent2);color:var(--accent2)}
-.links a.q:hover{border-color:#a78bfa;color:#a78bfa}
-footer{max-width:1000px;margin:0 auto;padding:1rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
-footer code{background:#0b1220;padding:.1rem .35rem;border-radius:4px}
+.links a.q:hover{border-color:var(--qc);color:var(--qc)}
+.links a .n{color:var(--muted);font-size:.75rem}
+.print{font-size:.75rem;color:var(--muted);margin-top:.5rem} .print a{color:var(--muted)}
+footer{max-width:1000px;margin:0 auto;padding:1rem;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
-<header><div class="wrap">
+<header><div class="wrap"><div>
   <h1><span>Semester 1</span> — Study Guides</h1>
-  <div class="sub">Concepts · Formulas · Definitions for each subject, extracted from all course slides & notebooks. Math rendered with MathJax (needs internet on first open).</div>
-</div></header>
-<main>
-  <div class="grid">
-
-    <div class="subject">
-      <h2>Machine Learning</h2>
-      <div class="code">AIMLZG565 · CS 1–8</div>
-      <div class="desc">Intro, ML workflow & data, linear regression, logistic regression, classification evaluation, decision tree classifier (entropy/Gini/gain ratio, pruning, MDL) + exam-scope topics.</div>
-      <div class="links">
-        <a href="ML/ML-concepts.html">Concepts <span class="n">117 items</span></a>
-        <a href="ML/ML-formulas.html">Formulas <span class="n">59 items</span></a>
-        <a class="def" href="ML/ML-definitions.html">Definitions <span class="n">129 items</span></a>
-        <a class="q" href="ML/ML-questions.html">Question Bank <span class="n">194 questions</span></a>
-      </div>
-    </div>
-
-    <div class="subject">
-      <h2>Mathematical Foundations</h2>
-      <div class="code">AIMLZC416 · Lectures 1–8</div>
-      <div class="desc">Linear algebra, vector spaces, analytic geometry, eigenvalues, diagonalization & SVD, differentiation, backpropagation, Taylor's theorem & the Hessian.</div>
-      <div class="links">
-        <a href="Maths/Maths-concepts.html">Concepts <span class="n">77 items</span></a>
-        <a href="Maths/Maths-formulas.html">Formulas <span class="n">80 items</span></a>
-        <a class="def" href="Maths/Maths-definitions.html">Definitions <span class="n">80 items</span></a>
-        <a class="q" href="Maths/Maths-questions.html">Question Bank <span class="n">109 questions</span></a>
-      </div>
-    </div>
-
-    <div class="subject">
-      <h2>Deep Neural Networks</h2>
-      <div class="code">AIML ZG511 · M1–M6 + Numericals + Labs</div>
-      <div class="desc">Intro, ANN/perceptron, linear NN regression & classification, DFNN, convolutional neural networks (conv/pooling, architectures, transfer learning), worked numericals, lab notebooks.</div>
-      <div class="links">
-        <a href="DNN/DNN-concepts.html">Concepts <span class="n">121 items</span></a>
-        <a href="DNN/DNN-formulas.html">Formulas <span class="n">72 items</span></a>
-        <a class="def" href="DNN/DNN-definitions.html">Definitions <span class="n">116 items</span></a>
-        <a class="q" href="DNN/DNN-questions.html">Question Bank <span class="n">97 questions</span></a>
-      </div>
-    </div>
-
-    <div class="subject">
-      <h2>Statistical Methods</h2>
-      <div class="code">AIMLZC418 · CS 1–6 + Webinar</div>
-      <div class="desc">Descriptive statistics, probability, conditional/total probability, Bayes & Naïve Bayes, random variables, probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square).</div>
-      <div class="links">
-        <a href="Stats/Stats-concepts.html">Concepts <span class="n">79 items</span></a>
-        <a href="Stats/Stats-formulas.html">Formulas <span class="n">76 items</span></a>
-        <a class="def" href="Stats/Stats-definitions.html">Definitions <span class="n">107 items</span></a>
-        <a class="q" href="Stats/Stats-questions.html">Question Bank <span class="n">123 questions</span></a>
-      </div>
-    </div>
-
-  </div>
-</main>
-<footer>
-  Each guide has a live filter box (type to search) and collapsible source-cited sections. Source decks are cited per item.
-  Generated from files under <code>Semester1/&lt;Subject&gt;/</code>. Intermediate extractions live in <code>Semester1/&lt;Subject&gt;/_extracted/</code>.
-</footer>
+  <div class="sub">Concepts · Formulas · Definitions · Question Bank for each subject. 1297 problems in all, levelled L1 → L5, every one with a hint and a worked answer. Math is rendered with KaTeX (needs internet on first open).</div>
+</div><button id="theme" title="Light / dark">◐</button></div></header>
+<main><div class="grid">
+<div class="subject"><h2>Machine Learning</h2><div class="code">AIMLZG565 · 11 modules</div>
+<div class="desc">ML workflow, linear and logistic regression, decision trees, kNN, SVMs, Bayesian learning, ensembles, clustering and GMM/EM, evaluation and fairness.</div><div class="links">
+<a href="ML/ML-concepts.html">Concepts <span class="n">157 items</span></a>
+<a class="f" href="ML/ML-formulas.html">Formulas <span class="n">154 items</span></a>
+<a class="def" href="ML/ML-definitions.html">Definitions <span class="n">163 items</span></a>
+<a class="q" href="ML/ML-questions.html">Question Bank <span class="n">345 questions</span></a>
+</div><div class="print">Single-page printable bank: <a href="print/ML_Mastery_Problem_Bank.html">ML_Mastery_Problem_Bank.html</a></div></div>
+<div class="subject"><h2>Mathematical Foundations for ML</h2><div class="code">ZC416 · 11 modules</div>
+<div class="desc">Linear systems, vector spaces, analytic geometry, eigenvalues, SVD, differentiation and autodiff, Taylor series, gradient descent, optimisation, PCA, mathematics of SVMs.</div><div class="links">
+<a href="Maths/Maths-concepts.html">Concepts <span class="n">164 items</span></a>
+<a class="f" href="Maths/Maths-formulas.html">Formulas <span class="n">129 items</span></a>
+<a class="def" href="Maths/Maths-definitions.html">Definitions <span class="n">160 items</span></a>
+<a class="q" href="Maths/Maths-questions.html">Question Bank <span class="n">331 questions</span></a>
+</div><div class="print">Single-page printable bank: <a href="print/MFML_Mastery_Problem_Bank.html">MFML_Mastery_Problem_Bank.html</a></div></div>
+<div class="subject"><h2>Deep Neural Networks</h2><div class="code">AIMLZG511 · 11 modules</div>
+<div class="desc">Perceptrons, linear networks, deep feedforward nets and backprop, CNNs and architectures, RNNs, attention, Transformers, optimisers, regularisation.</div><div class="links">
+<a href="DNN/DNN-concepts.html">Concepts <span class="n">217 items</span></a>
+<a class="f" href="DNN/DNN-formulas.html">Formulas <span class="n">134 items</span></a>
+<a class="def" href="DNN/DNN-definitions.html">Definitions <span class="n">233 items</span></a>
+<a class="q" href="DNN/DNN-questions.html">Question Bank <span class="n">349 questions</span></a>
+</div><div class="print">Single-page printable bank: <a href="print/DNN_Mastery_Problem_Bank.html">DNN_Mastery_Problem_Bank.html</a></div></div>
+<div class="subject"><h2>Introduction to Statistical Methods</h2><div class="code">AIMLZC418 · 6 modules</div>
+<div class="desc">Descriptive statistics, probability and Bayes, random variables and distributions, sampling and estimation, hypothesis tests and ANOVA, regression, time series and GMM/EM.</div><div class="links">
+<a href="Stats/Stats-concepts.html">Concepts <span class="n">161 items</span></a>
+<a class="f" href="Stats/Stats-formulas.html">Formulas <span class="n">130 items</span></a>
+<a class="def" href="Stats/Stats-definitions.html">Definitions <span class="n">175 items</span></a>
+<a class="q" href="Stats/Stats-questions.html">Question Bank <span class="n">272 questions</span></a>
+</div><div class="print">Single-page printable bank: <a href="print/ISM_Mastery_Problem_Bank.html">ISM_Mastery_Problem_Bank.html</a></div></div>
+</div></main>
+<footer>Every page has a live filter box (press <b>/</b>), collapsible module sections and a light/dark toggle. Printing opens every answer and uses a print-safe light palette. The Concepts pages end with the instructor's notes (misconceptions and slide errata) and the full syllabus tree.</footer>
+<script>
+const r=document.documentElement,s=localStorage.getItem('sm-theme');if(s)r.dataset.theme=s;
+document.getElementById('theme').onclick=()=>{const t=r.dataset.theme==='light'?'dark':'light';r.dataset.theme=t;localStorage.setItem('sm-theme',t);};
+</script>
 </body>
 </html>

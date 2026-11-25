@@ -4,766 +4,885 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maths — Formulas</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>Maths</span> · Formulas<span class="count" id="count"></span></h1>
+    <h1><span>Maths</span> · Formulas<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab" href="Maths-concepts.html">Concepts</a>
-    <a class="tab active" href="Maths-formulas.html">Formulas</a>
-    <a class="tab" href="Maths-definitions.html">Definitions</a>
-    <a class="tab" href="Maths-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab" href="Maths-concepts.html">Concepts</a><a class="tab active" href="Maths-formulas.html">Formulas</a><a class="tab" href="Maths-definitions.html">Definitions</a><a class="tab" href="Maths-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">Formula reference for AIMLZC416 — matrix algebra, norms and inner products, projections, eigenvalues/SVD, determinants, calculus, gradients and backpropagation. Each card gives the equation, a symbol legend, and when to use it. Includes standard prerequisite identities the exams require.</p>
-
-  <details class="module" open>
-    <summary>Lecture 1 — Linear Algebra: Systems &amp; Matrices <small>· source: Lecture 1.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 1 · p18-20">
-        <h3>Matrix–matrix product</h3>
-        $$C=AB,\qquad c_{ij}=\sum_{l=1}^{k} a_{il}\,b_{lj}$$
-        <p>where: \(A\in\mathbb{R}^{m\times k}\), \(B\in\mathbb{R}^{k\times n}\), \(C\in\mathbb{R}^{m\times n}\); \(c_{ij}\) = dot product of row \(i\) of \(A\) with column \(j\) of \(B\).</p>
-        <p>use: composing linear maps. Inner dimensions must match; \(AB\neq BA\) in general.</p>
-        <span class="src">Lecture 1 · p18-20</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p21">
-        <h3>Matrix multiplication properties</h3>
-        $$(AB)C=A(BC),\quad (A+B)C=AC+BC,\quad I_mA=AI_n=A$$
-        <p>where: associativity, distributivity, and identity; \(I_m,I_n\) are identity matrices of the compatible size.</p>
-        <p>use: simplifying/re-ordering matrix expressions during derivations.</p>
-        <span class="src">Lecture 1 · p21</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p23-24">
-        <h3>2×2 inverse and determinant</h3>
-        $$A^{-1}=\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\begin{bmatrix} a_{22} & -a_{12}\\ -a_{21} & a_{11}\end{bmatrix}$$
-        <p>where: \(\det(A)=a_{11}a_{22}-a_{12}a_{21}\) must be non-zero.</p>
-        <p>use: quickly inverting 2×2 matrices; the inverse exists iff the determinant is non-zero.</p>
-        <span class="src">Lecture 1 · p23-24</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p25">
-        <h3>Inverse &amp; transpose identities</h3>
-        $$AA^{-1}=A^{-1}A=I,\quad (AB)^{-1}=B^{-1}A^{-1},\quad (AB)^{T}=B^{T}A^{T},\quad (A^{T})^{T}=A$$
-        <p>where: \(A,B\) conformable and invertible where inverses appear. Note \((A+B)^{-1}\neq A^{-1}+B^{-1}\) in general.</p>
-        <p>use: manipulating products; the order reverses under both inverse and transpose.</p>
-        <span class="src">Lecture 1 · p25</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p27">
-        <h3>Scalar multiplication rules</h3>
-        $$(\lambda\psi)A=\lambda(\psi A),\quad \lambda(AB)=(\lambda A)B=A(\lambda B),\quad (\lambda A)^{T}=\lambda A^{T}$$
-        <p>where: \(\lambda,\psi\in\mathbb{R}\); \((\lambda+\psi)A=\lambda A+\psi A\) and \(\lambda(A+B)=\lambda A+\lambda B\).</p>
-        <p>use: pulling scalars through matrix expressions.</p>
-        <span class="src">Lecture 1 · p27</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p28-29">
-        <h3>System of equations in matrix form</h3>
-        $$Ax=b$$
-        <p>where: \(A\in\mathbb{R}^{m\times n}\) coefficient matrix, \(x\in\mathbb{R}^{n}\) unknowns, \(b\in\mathbb{R}^{m}\) right-hand side.</p>
-        <p>use: compact form for solving any linear system; \(b\) is a linear combination of the columns of \(A\).</p>
-        <span class="src">Lecture 1 · p28-29</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p37">
-        <h3>General solution of Ax = b</h3>
-        $$x = x_{p} + \sum_{i}\lambda_i\, n_i,\qquad A x_p=b,\ \ A n_i = 0$$
-        <p>where: \(x_p\) = a particular solution; \(\{n_i\}\) = basis of the null space (solutions of \(Ax=0\)); \(\lambda_i\in\mathbb{R}\).</p>
-        <p>use: describing all solutions of an underdetermined system as particular solution + homogeneous solutions.</p>
-        <span class="src">Lecture 1 · p37</span>
-      </div>
-
-      <div class="card" data-src="Lecture 1 · p61-62">
-        <h3>Inverse via augmented elimination</h3>
-        $$[\,A \mid I\,]\ \xrightarrow{\text{Gaussian elimination}}\ [\,I \mid A^{-1}\,]$$
-        <p>where: solving \(Ax=e_i\) for each canonical vector \(e_i\) yields the \(i\)-th column of \(A^{-1}\).</p>
-        <p>use: computing a matrix inverse by row reduction.</p>
-        <span class="src">Lecture 1 · p61-62</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 2 — Vector Spaces &amp; Linear Independence <small>· source: Lecture_2.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 2 · p4">
-        <h3>Group axioms</h3>
-        $$\forall x,y,z\in G:\ x\otimes y\in G,\ (x\otimes y)\otimes z=x\otimes(y\otimes z),\ \exists e:\ x\otimes e=x,\ \exists y:\ x\otimes y=e$$
-        <p>where: \(G\) = set, \(\otimes\) = binary operation, \(e\) = identity. Abelian adds \(x\otimes y=y\otimes x\).</p>
-        <p>use: closure + associativity + identity + inverse define a group; the algebraic foundation of a vector space.</p>
-        <span class="src">Lecture 2 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p7-8">
-        <h3>Vector space operations (in \(\mathbb{R}^n\))</h3>
-        $$x+y=(x_1+y_1,\dots,x_n+y_n),\qquad \lambda x=(\lambda x_1,\dots,\lambda x_n)$$
-        <p>where: \(x,y\in\mathbb{R}^n\), \(\lambda\in\mathbb{R}\); addition is inner operation, scaling is outer operation.</p>
-        <p>use: the concrete operations under which \(\mathbb{R}^n\) (and \(\mathbb{R}^{m\times n}\)) form a vector space.</p>
-        <span class="src">Lecture 2 · p7-8</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p11">
-        <h3>Subspace test</h3>
-        $$U\neq\varnothing,\quad \forall x,y\in U:\ x+y\in U,\quad \forall\lambda\in\mathbb{R},x\in U:\ \lambda x\in U$$
-        <p>where: \(U\subseteq V\). Closure under addition and scaling (with non-empty \(U\)) is sufficient.</p>
-        <p>use: verifying a subset is a subspace (e.g. the null space of a matrix).</p>
-        <span class="src">Lecture 2 · p11</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p14">
-        <h3>Linear combination</h3>
-        $$v=\lambda_1 x_1+\lambda_2 x_2+\cdots+\lambda_k x_k=\sum_{i=1}^{k}\lambda_i x_i$$
-        <p>where: \(x_i\in V\) vectors, \(\lambda_i\in\mathbb{R}\) coefficients.</p>
-        <p>use: building any vector in a span; the core operation of linear algebra.</p>
-        <span class="src">Lecture 2 · p14</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p16">
-        <h3>Linear independence condition</h3>
-        $$\sum_{i=1}^{k}\lambda_i x_i = 0 \ \Longrightarrow\ \lambda_1=\lambda_2=\cdots=\lambda_k=0$$
-        <p>where: if the <em>only</em> solution is all-zero coefficients, the vectors are independent; a non-trivial solution means dependence.</p>
-        <p>use: deciding whether vectors are redundant; tested via Gaussian elimination (all columns pivot ⇒ independent).</p>
-        <span class="src">Lecture 2 · p16-22</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p24-26">
-        <h3>Independence of transformed vectors</h3>
-        $$x_j=B\lambda_j\ \Rightarrow\ \{x_j\}\ \text{independent} \iff \{\lambda_j\}\ \text{independent}$$
-        <p>where: \(B=[b_1,\dots,b_k]\) has independent columns, \(\lambda_j\) = coefficient vectors.</p>
-        <p>use: reduces testing independence of combined vectors to testing their coefficient vectors.</p>
-        <span class="src">Lecture 2 · p24-26</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p33-34">
-        <h3>Span</h3>
-        $$\text{span}[A]=\left\{\sum_{i=1}^{k}\lambda_i x_i \;\middle|\; \lambda_i\in\mathbb{R}\right\},\qquad V=\text{span}[A]$$
-        <p>where: \(A=\{x_1,\dots,x_k\}\); the span is all linear combinations. \(A\) is a generating set when its span is \(V\).</p>
-        <p>use: describing the subspace reachable from a set of vectors.</p>
-        <span class="src">Lecture 2 · p33-34</span>
-      </div>
-
-      <div class="card" data-src="Lecture 2 · p39">
-        <h3>Dimension relations</h3>
-        $$\dim(V)=|\text{basis}|,\qquad U\subseteq V\Rightarrow \dim(U)\le\dim(V),\qquad \dim(U)=\dim(V)\iff U=V$$
-        <p>where: \(\dim(V)\) = number of vectors in any basis of \(V\).</p>
-        <p>use: counting degrees of freedom; comparing a subspace to its parent space.</p>
-        <span class="src">Lecture 2 · p39</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 3 — Norms, Inner Products &amp; Orthogonality <small>· source: Lecture_3.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 3 · p4">
-        <h3>Manhattan (ℓ₁) and Euclidean (ℓ₂) norms</h3>
-        $$\lVert x\rVert_1=\sum_{i=1}^{n}|x_i|,\qquad \lVert x\rVert_2=\sqrt{\sum_{i=1}^{n}x_i^{2}}$$
-        <p>where: \(x_i\) = components of \(x\in\mathbb{R}^n\).</p>
-        <p>use: measuring vector length; ℓ₂ is the ordinary Euclidean length, ℓ₁ sums absolute values.</p>
-        <span class="src">Lecture 3 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p4">
-        <h3>Norm axioms</h3>
-        $$\lVert\lambda x\rVert=|\lambda|\,\lVert x\rVert,\quad \lVert x+y\rVert\le\lVert x\rVert+\lVert y\rVert,\quad \lVert x\rVert\ge0,\ \lVert x\rVert=0\Rightarrow x=0$$
-        <p>where: absolute homogeneity, triangle inequality, positive definiteness; \(\lambda\in\mathbb{R}\).</p>
-        <p>use: any valid length function must satisfy these three properties.</p>
-        <span class="src">Lecture 3 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p5">
-        <h3>Dot product</h3>
-        $$\langle x,y\rangle = x^{T}y=\sum_{i=1}^{n} x_i y_i$$
-        <p>where: \(x,y\in\mathbb{R}^n\); the standard inner product.</p>
-        <p>use: the default inner product for lengths, angles and projections.</p>
-        <span class="src">Lecture 3 · p5</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p5-7">
-        <h3>Inner product via SPD matrix / bilinearity</h3>
-        $$\langle x,y\rangle=\hat{x}^{T}A\hat{y},\qquad \Omega(\lambda x+\psi y,z)=\lambda\Omega(x,z)+\psi\Omega(y,z)$$
-        <p>where: \(A\in\mathbb{R}^{n\times n}\) symmetric positive-definite; \(\hat{x},\hat{y}\) = coordinates in an ordered basis; \(\Omega\) linear in each argument.</p>
-        <p>use: a general inner product is exactly \(\hat{x}^{T}A\hat{y}\) for some SPD \(A\); \(A=I\) recovers the dot product.</p>
-        <span class="src">Lecture 3 · p5-7</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p9">
-        <h3>Induced norm</h3>
-        $$\lVert x\rVert=\sqrt{\langle x,x\rangle}$$
-        <p>where: any inner product \(\langle\cdot,\cdot\rangle\) generates this norm.</p>
-        <p>use: converting an inner product into a length; not every norm arises this way (e.g. ℓ₁).</p>
-        <span class="src">Lecture 3 · p9</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p9-10">
-        <h3>Cauchy–Schwarz inequality</h3>
-        $$|\langle x,y\rangle|\le\lVert x\rVert\,\lVert y\rVert\qquad\Longleftrightarrow\qquad (u^{T}u)(v^{T}v)\ge(u^{T}v)^{2}$$
-        <p>where: \(x,y\) (or \(u,v\)) any vectors; proved from \(\lVert u-\alpha v\rVert^2\ge0\) with \(\alpha=\tfrac{u^Tv}{v^Tv}\).</p>
-        <p>use: bounds the inner product; guarantees the cosine ratio lies in \([-1,1]\) so angles are well-defined.</p>
-        <span class="src">Lecture 3 · p9-10</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p11">
-        <h3>Distance / metric</h3>
-        $$d(x,y)=\lVert x-y\rVert=\sqrt{\langle x-y,\,x-y\rangle}$$
-        <p>where: with the dot product this is Euclidean distance; \(d\) is positive-definite, symmetric, obeys the triangle inequality.</p>
-        <p>use: measuring separation between vectors; basis of nearest-neighbour and clustering methods.</p>
-        <span class="src">Lecture 3 · p11-12</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p14">
-        <h3>Angle between vectors</h3>
-        $$\cos\omega=\frac{\langle x,y\rangle}{\lVert x\rVert\,\lVert y\rVert},\qquad \omega\in[0,\pi]$$
-        <p>where: \(x,y\neq0\); \(\omega\) is the angle between them.</p>
-        <p>use: measuring orientation similarity; \(\omega\approx\pi/2\) when the inner product ≈ 0.</p>
-        <span class="src">Lecture 3 · p14</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p16">
-        <h3>Orthogonality</h3>
-        $$x\perp y \iff \langle x,y\rangle = 0$$
-        <p>where: orthogonality is relative to the chosen inner product; the zero vector is orthogonal to all vectors.</p>
-        <p>use: detecting perpendicular directions; foundation of orthonormal bases and projections.</p>
-        <span class="src">Lecture 3 · p16</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p17-18">
-        <h3>Orthogonal (orthonormal) matrix</h3>
-        $$A^{T}A=AA^{T}=I,\qquad A^{T}=A^{-1},\qquad \lVert Ax\rVert_2=\lVert x\rVert_2$$
-        <p>where: \(A\in\mathbb{R}^{n\times n}\) with orthonormal columns.</p>
-        <p>use: length- and angle-preserving transformations (rotations/reflections); inverse is just the transpose.</p>
-        <span class="src">Lecture 3 · p17-20</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p20">
-        <h3>2D rotation matrix</h3>
-        $$R(\theta)=\begin{bmatrix}\cos\theta & -\sin\theta\\ \sin\theta & \cos\theta\end{bmatrix}$$
-        <p>where: \(\theta\) = rotation angle; \(R\) is orthonormal (\(R^TR=I\)).</p>
-        <p>use: canonical example of an orthonormal matrix; rotates vectors without changing length.</p>
-        <span class="src">Lecture 3 · p20</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p22-23">
-        <h3>Orthonormal basis condition</h3>
-        $$\langle b_i,b_j\rangle=0\ (i\neq j),\qquad \langle b_i,b_i\rangle=1$$
-        <p>where: \(\{b_1,\dots,b_n\}\) basis of an \(n\)-dim space; mutually orthogonal and unit length.</p>
-        <p>use: coordinates in an orthonormal basis are simple inner products; drops to "orthogonal basis" if unit-length is not required.</p>
-        <span class="src">Lecture 3 · p22-23</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p24-29">
-        <h3>Gram–Schmidt / LU relationship</h3>
-        $$[\,A^{T}A \mid A^{T}\,]\ \xrightarrow{\text{elimination}}\ [\,U \mid L^{-1}A^{T}\,],\qquad A^{T}A=LU,\quad A=LU$$
-        <p>where: \(A\) has basis vectors as columns; \(Q^{T}=L^{-1}A^{T}\) has orthogonal rows, which are normalised to an orthonormal basis.</p>
-        <p>use: constructing an orthonormal basis from any basis; elementary matrices realise the LU factorisation.</p>
-        <span class="src">Lecture 3 · p24-29</span>
-      </div>
-
-      <div class="card" data-src="Lecture 3 · p26-27">
-        <h3>Elementary matrix (row operation)</h3>
-        $$E=\begin{bmatrix}1&0&0\\-2&1&0\\0&0&1\end{bmatrix},\qquad EA=\text{(A with }R_2\!\leftarrow\!R_2-2R_1)$$
-        <p>where: \(E\) = identity with one below-diagonal entry set to the multiplier; pre-multiplying applies the row operation.</p>
-        <p>use: representing Gaussian-elimination steps as matrix products \(E_m\cdots E_1 A\).</p>
-        <span class="src">Lecture 3 · p26-27</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 4 — Determinant, Trace, Eigenvalues &amp; Cholesky <small>· source: Lecture_4.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 4 · p4-5">
-        <h3>Determinant by cofactor expansion</h3>
-        $$\det(A)=\sum_{k=1}^{n} a_{jk}C_{jk},\qquad C_{jk}=(-1)^{j+k}M_{jk}$$
-        <p>where: \(M_{jk}\) = minor (determinant of \(A\) with row \(j\), column \(k\) deleted); expand along any row \(j\) or column \(k\).</p>
-        <p>use: computing determinants recursively; base case \(\det[a_{11}]=a_{11}\).</p>
-        <span class="src">Lecture 4 · p4-5</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p7">
-        <h3>2×2 determinant</h3>
-        $$\det\begin{bmatrix}a&b\\c&d\end{bmatrix}=ad-bc$$
-        <p>where: entries of a 2×2 matrix.</p>
-        <p>use: fastest determinant; also the invertibility test for 2×2 matrices.</p>
-        <span class="src">Lecture 4 · p7</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p9-11">
-        <h3>Determinant, row operations &amp; rank</h3>
-        $$\det(A)=(-1)^{s}\det(U)=(-1)^{s}\prod_{i=1}^{n}U_{ii},\qquad \text{rank}(A)=n \iff \det(A)\neq0$$
-        <p>where: \(U\) = upper-triangular form after elimination, \(s\) = number of row swaps.</p>
-        <p>use: computing determinants by elimination; full rank ⇔ non-zero determinant ⇔ invertible.</p>
-        <span class="src">Lecture 4 · p9-12</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p13">
-        <h3>Trace and its properties</h3>
-        $$\text{tr}(A)=\sum_{i=1}^{n}a_{ii},\quad \text{tr}(A+B)=\text{tr}(A)+\text{tr}(B),\quad \text{tr}(AB)=\text{tr}(BA)$$
-        <p>where: \(a_{ii}\) = diagonal entries; \(\text{tr}(\alpha A)=\alpha\,\text{tr}(A)\), \(\text{tr}(I_n)=n\).</p>
-        <p>use: cyclic property is heavily used in ML derivations (e.g. rewriting quadratic forms).</p>
-        <span class="src">Lecture 4 · p13</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p14-16">
-        <h3>Characteristic polynomial</h3>
-        $$p_A(\lambda)=\det(A-\lambda I)=c_0+c_1\lambda+\cdots+c_{n-1}\lambda^{n-1}+(-1)^{n}\lambda^{n}$$
-        <p>where: \(c_0=\det(A)\), \(c_{n-1}=(-1)^{n-1}\text{tr}(A)\).</p>
-        <p>use: its roots are the eigenvalues of \(A\).</p>
-        <span class="src">Lecture 4 · p14-16</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p17">
-        <h3>Eigenvalue equation</h3>
-        $$Ax=\lambda x \iff (A-\lambda I)x=0,\quad x\neq0 \iff \det(A-\lambda I)=0$$
-        <p>where: \(\lambda\) = eigenvalue, \(x\) = eigenvector; \(cx\) (\(c\neq0\)) is also an eigenvector.</p>
-        <p>use: defining/finding eigenpairs — solve \(\det(A-\lambda I)=0\) then find the null space of \(A-\lambda I\).</p>
-        <span class="src">Lecture 4 · p17-19</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p31">
-        <h3>Trace = sum, determinant = product of eigenvalues</h3>
-        $$\sum_{i=1}^{n}\lambda_i=\text{tr}(A),\qquad \prod_{i=1}^{n}\lambda_i=\det(A)$$
-        <p>where: \(\lambda_i\) = eigenvalues (with multiplicity).</p>
-        <p>use: quick checks on computed eigenvalues; relates spectrum to trace and determinant.</p>
-        <span class="src">Lecture 4 · p31</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p24, p30">
-        <h3>Spectral decomposition (symmetric A)</h3>
-        $$A=Q\Lambda Q^{T},\qquad Q^{T}Q=I$$
-        <p>where: \(Q\) = orthonormal eigenvector matrix, \(\Lambda\) = diagonal of real eigenvalues.</p>
-        <p>use: diagonalising any symmetric matrix with an orthogonal change of basis; underlies PCA and SVD.</p>
-        <span class="src">Lecture 4 · p24, p30</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p26">
-        <h3>Hermitian inner product &amp; matrix</h3>
-        $$\langle x,y\rangle=x^{H}y,\qquad x^{H}x=\lVert x\rVert^{2},\qquad A^{H}=A$$
-        <p>where: \(x^{H}=\overline{x}^{T}\) = conjugate transpose; a Hermitian matrix equals its conjugate transpose.</p>
-        <p>use: extending symmetry/length to complex vectors; proves symmetric matrices have real eigenvalues.</p>
-        <span class="src">Lecture 4 · p25-28</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p22">
-        <h3>AᵀA symmetric positive-definite</h3>
-        $$x^{T}A^{T}Ax=\lVert Ax\rVert^{2}>0\quad\forall x\neq0\ \ (\text{when }A\text{ has full column rank})$$
-        <p>where: \(A\in\mathbb{R}^{m\times n}\), \(\text{rank}(A)=n\); \(A^{T}A\in\mathbb{R}^{n\times n}\).</p>
-        <p>use: guarantees \(A^{T}A\) is SPD — appears in least-squares and Gram–Schmidt.</p>
-        <span class="src">Lecture 4 · p22</span>
-      </div>
-
-      <div class="card" data-src="Lecture 4 · p32-33">
-        <h3>Cholesky decomposition</h3>
-        $$A=LL^{T},\quad l_{11}=\sqrt{a_{11}},\ \ l_{ii}=\sqrt{a_{ii}-\textstyle\sum_{k\lt i}l_{ik}^{2}},\ \ l_{ij}=\frac{a_{ij}-\sum_{k\lt j}l_{ik}l_{jk}}{l_{jj}}$$
-        <p>where: \(A\) symmetric positive-definite; \(L\) lower-triangular with positive diagonal.</p>
-        <p>use: solving SPD systems and sampling multivariate Gaussians (\(Lx\) with independent Gaussian \(x\)).</p>
-        <span class="src">Lecture 4 · p32-33</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 5 — Diagonalization &amp; SVD <small>· source: Lecture_5.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 5 · p4">
-        <h3>Diagonal matrix operations</h3>
-        $$\det(D)=\prod_i d_i,\qquad D^{k}=\text{diag}(d_1^{k},\dots,d_n^{k}),\qquad D^{-1}=\text{diag}(d_1^{-1},\dots,d_n^{-1})$$
-        <p>where: \(d_i\) = diagonal entries (non-zero for the inverse).</p>
-        <p>use: cheap powers, inverses and determinants — the payoff of diagonalising a matrix.</p>
-        <span class="src">Lecture 5 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p5-6">
-        <h3>Diagonalization</h3>
-        $$D=P^{-1}AP\iff AP=PD\iff Ap_i=\lambda_i p_i$$
-        <p>where: \(P\) invertible with eigenvector columns \(p_i\), \(D\) diagonal of eigenvalues \(\lambda_i\).</p>
-        <p>use: change of basis into eigen-coordinates where \(A\) acts as simple scaling.</p>
-        <span class="src">Lecture 5 · p5-6</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p7">
-        <h3>Eigenvalue decomposition</h3>
-        $$A=PDP^{-1}$$
-        <p>where: \(A\in\mathbb{R}^{n\times n}\) with \(n\) independent eigenvectors forming \(P\); \(D\) = eigenvalue diagonal. Symmetric \(A\) gives orthogonal \(P\) so \(A=PDP^{T}\).</p>
-        <p>use: powers \(A^{k}=PD^{k}P^{-1}\); analysing repeated linear maps.</p>
-        <span class="src">Lecture 5 · p7</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p12-13">
-        <h3>Singular value decomposition</h3>
-        $$A=U\Sigma V^{T}$$
-        <p>where: \(A\in\mathbb{R}^{m\times n}\) rank \(r\); \(U\in\mathbb{R}^{m\times m}\), \(V\in\mathbb{R}^{n\times n}\) orthogonal; \(\Sigma\in\mathbb{R}^{m\times n}\) with singular values \(\sigma_1\ge\sigma_2\ge\cdots>0\) on the diagonal (zero-padded).</p>
-        <p>use: universal factorisation valid for any rectangular matrix.</p>
-        <span class="src">Lecture 5 · p12-13</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p15-17">
-        <h3>Constructing SVD from eigendecompositions</h3>
-        $$A^{T}A=V\Sigma^{T}\Sigma V^{T},\qquad AA^{T}=U\Sigma\Sigma^{T}U^{T},\qquad u_i=\tfrac{1}{\sigma_i}Av_i$$
-        <p>where: \(V\) = eigenvectors of \(A^{T}A\), \(U\) = eigenvectors of \(AA^{T}\), \(\sigma_i=\sqrt{\lambda_i(A^{T}A)}\).</p>
-        <p>use: the practical recipe to compute \(U,\Sigma,V\) by hand.</p>
-        <span class="src">Lecture 5 · p15-22</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p26-28">
-        <h3>Rank-1 sum &amp; rank-k approximation</h3>
-        $$A=\sum_{i=1}^{r}\sigma_i u_i v_i^{T},\qquad \hat{A}(k)=\sum_{i=1}^{k}\sigma_i u_i v_i^{T}$$
-        <p>where: \(u_i,v_i\) = left/right singular vectors, \(\sigma_i\) = singular values, \(k\lt r\).</p>
-        <p>use: best low-rank approximation of \(A\) — compression, denoising, latent factors.</p>
-        <span class="src">Lecture 5 · p26-28</span>
-      </div>
-
-      <div class="card" data-src="Lecture 5 · p29-30">
-        <h3>Spectral norm</h3>
-        $$\lVert A\rVert_2=\max_{x\neq0}\frac{\lVert Ax\rVert_2}{\lVert x\rVert_2}=\sigma_{\max}$$
-        <p>where: \(\sigma_{\max}\) = largest singular value of \(A\).</p>
-        <p>use: largest gain of the linear map; measures rank-\(k\) approximation error.</p>
-        <span class="src">Lecture 5 · p29-30</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 6 — Differentiation, Gradients &amp; Jacobian <small>· source: Lecture_6.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 6 · p4">
-        <h3>Derivative (limit definition)</h3>
-        $$\frac{df}{dx}=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}$$
-        <p>where: \(f:\mathbb{R}\to\mathbb{R}\), \(h\) = small increment.</p>
-        <p>use: instantaneous rate of change; points in the direction of steepest ascent.</p>
-        <span class="src">Lecture 6 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p5-6">
-        <h3>Power rule</h3>
-        $$\frac{d}{dx}x^{n}=n x^{n-1}$$
-        <p>where: \(n\in\mathbb{N}\) (extends to real powers).</p>
-        <p>use: differentiating polynomials term by term.</p>
-        <span class="src">Lecture 6 · p5-6</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p12-13">
-        <h3>Differentiation rules (univariate)</h3>
-        $$(fg)'=f'g+fg',\quad \left(\tfrac{f}{g}\right)'=\frac{f'g-fg'}{g^{2}},\quad (g\circ f)'=g'(f(x))f'(x)$$
-        <p>where: product, quotient and chain rules; sum rule \((f+g)'=f'+g'\).</p>
-        <p>use: differentiating compositions and combinations of functions.</p>
-        <span class="src">Lecture 6 · p12-13</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p7">
-        <h3>Taylor polynomial</h3>
-        $$T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^{k}$$
-        <p>where: \(f^{(k)}(x_0)\) = \(k\)-th derivative at expansion point \(x_0\).</p>
-        <p>use: local polynomial approximation of a function near \(x_0\); \(n=1\) gives the linear model, \(n=2\) the quadratic.</p>
-        <span class="src">Lecture 6 · p7</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p8">
-        <h3>Taylor / Maclaurin series</h3>
-        $$T_\infty(x)=\sum_{k=0}^{\infty}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^{k}\quad(\text{Maclaurin: }x_0=0)$$
-        <p>where: \(f\) smooth (infinitely differentiable).</p>
-        <p>use: exact series representation; e.g. \(\sin x+\cos x=\sum(-1)^k\big[\tfrac{x^{2k}}{(2k)!}+\tfrac{x^{2k+1}}{(2k+1)!}\big]\).</p>
-        <span class="src">Lecture 6 · p8-11</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p15">
-        <h3>Partial derivative</h3>
-        $$\frac{\partial f}{\partial x_i}=\lim_{h\to0}\frac{f(x_1,\dots,x_i+h,\dots,x_n)-f(x_1,\dots,x_n)}{h}$$
-        <p>where: \(f:\mathbb{R}^n\to\mathbb{R}\); vary \(x_i\), hold the others fixed.</p>
-        <p>use: rate of change along one coordinate; building block of the gradient.</p>
-        <span class="src">Lecture 6 · p15</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p16">
-        <h3>Gradient (row vector)</h3>
-        $$\nabla_x f=\frac{df}{dx}=\left[\frac{\partial f}{\partial x_1},\ \frac{\partial f}{\partial x_2},\ \dots,\ \frac{\partial f}{\partial x_n}\right]\in\mathbb{R}^{1\times n}$$
-        <p>where: collection of all partial derivatives of \(f:\mathbb{R}^n\to\mathbb{R}\).</p>
-        <p>use: direction of steepest ascent; the object gradient descent moves against.</p>
-        <span class="src">Lecture 6 · p16</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p17-19">
-        <h3>Multivariate chain rule</h3>
-        $$\frac{df}{dt}=\frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial t}+\frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial t}=\begin{bmatrix}\frac{\partial f}{\partial x_1}&\frac{\partial f}{\partial x_2}\end{bmatrix}\begin{bmatrix}\frac{\partial x_1}{\partial t}\\[2pt]\frac{\partial x_2}{\partial t}\end{bmatrix}$$
-        <p>where: \(f\) depends on \(x_1,x_2\) which depend on \(t\).</p>
-        <p>use: differentiating through intermediate variables; generalises to \(\partial f/\partial s\), \(\partial f/\partial t\).</p>
-        <span class="src">Lecture 6 · p17-22</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p25">
-        <h3>Jacobian (vector-valued function)</h3>
-        $$\frac{df(x)}{dx}=\begin{bmatrix}\frac{\partial f_1}{\partial x_1}&\cdots&\frac{\partial f_1}{\partial x_n}\\ \vdots& &\vdots\\ \frac{\partial f_m}{\partial x_1}&\cdots&\frac{\partial f_m}{\partial x_n}\end{bmatrix}\in\mathbb{R}^{m\times n}$$
-        <p>where: \(f:\mathbb{R}^n\to\mathbb{R}^m\), entries \(\partial f_i/\partial x_j\).</p>
-        <p>use: full first-derivative of a vector-valued map; needed for backprop.</p>
-        <span class="src">Lecture 6 · p25</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p26">
-        <h3>Gradient of a linear map</h3>
-        $$f(x)=Ax\ \Rightarrow\ \frac{df}{dx}=A$$
-        <p>where: \(A\in\mathbb{R}^{m\times n}\), \(x\in\mathbb{R}^n\).</p>
-        <p>use: the Jacobian of a linear layer is just its weight matrix.</p>
-        <span class="src">Lecture 6 · p26</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p14 (prereq)">
-        <h3>Hessian matrix (prerequisite)</h3>
-        $$H=\nabla^{2}f=\begin{bmatrix}\frac{\partial^{2}f}{\partial x_1^{2}}&\cdots&\frac{\partial^{2}f}{\partial x_1\partial x_n}\\ \vdots& &\vdots\\ \frac{\partial^{2}f}{\partial x_n\partial x_1}&\cdots&\frac{\partial^{2}f}{\partial x_n^{2}}\end{bmatrix}$$
-        <p>where: symmetric matrix of second partial derivatives of \(f:\mathbb{R}^n\to\mathbb{R}\).</p>
-        <p>use: local curvature; classifying critical points (EC2 exam). Needed for the second-order Taylor model.</p>
-        <span class="src">Lecture 6 · p14 (prereq)</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p3 (prereq)">
-        <h3>Critical points &amp; second-derivative test (prerequisite)</h3>
-        $$\nabla f(x^{*})=0;\quad H\succ0\Rightarrow\text{min},\ \ H\prec0\Rightarrow\text{max},\ \ H\text{ indefinite}\Rightarrow\text{saddle}$$
-        <p>where: \(x^{*}\) = stationary point; \(H\) = Hessian evaluated there; \(\succ0\) = positive-definite.</p>
-        <p>use: finding and classifying optima of a multivariate function.</p>
-        <span class="src">Lecture 6 · p3 (prereq)</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 7 — Backpropagation &amp; Automatic Differentiation <small>· source: Lecture-7.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 7 · p4">
-        <h3>Matrix-calculus gradient identities</h3>
-        $$\frac{\partial\, x^{T}a}{\partial x}=a^{T},\quad \frac{\partial\, a^{T}Xb}{\partial X}=ab^{T},\quad \frac{\partial\, x^{T}Bx}{\partial x}=x^{T}(B+B^{T})$$
-        <p>where: \(a,b,x\) vectors, \(X,B\) matrices; also \(\frac{\partial}{\partial s}(x-As)^{T}W(x-As)=-2(x-As)^{T}WA\) for symmetric \(W\).</p>
-        <p>use: differentiating quadratic/bilinear ML loss terms directly. Note \(\frac{\partial}{\partial x}(x^TBx)=(B+B^T)x\) for a symmetric \(B\) gives \(2Bx\).</p>
-        <span class="src">Lecture 7 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 7 · p7-9">
-        <h3>Network loss &amp; layer recursion</h3>
-        $$f_i=\sigma_i(A_{i-1}f_{i-1}+b_{i-1}),\qquad L(\theta)=\lVert y-f_K(\theta,x)\rVert^{2}$$
-        <p>where: \(f_0=x\); \(\theta=\{A_j,b_j\}\) = weights and biases; \(\sigma_i\) = activation; \(L\) = squared error.</p>
-        <p>use: forward pass of a feed-forward network and its training objective.</p>
-        <span class="src">Lecture 7 · p7-9</span>
-      </div>
-
-      <div class="card" data-src="Lecture 7 · p9-10">
-        <h3>Backprop chain-rule expansion</h3>
-        $$\frac{\partial L}{\partial\theta_i}=\frac{\partial L}{\partial f_K}\frac{\partial f_K}{\partial f_{K-1}}\cdots\frac{\partial f_{i+2}}{\partial f_{i+1}}\frac{\partial f_{i+1}}{\partial\theta_i}$$
-        <p>where: product of layer Jacobians from output back to layer \(i\).</p>
-        <p>use: gradients for every parameter; \(\partial L/\partial\theta_{i+1}\) is reused to get \(\partial L/\partial\theta_i\).</p>
-        <span class="src">Lecture 7 · p9-10</span>
-      </div>
-
-      <div class="card" data-src="Lecture 7 · p15-16">
-        <h3>Automatic differentiation (reverse mode)</h3>
-        $$x_i=g_i(x_{\text{Pa}(x_i)}),\qquad \frac{\partial f}{\partial x_D}=1,\qquad \frac{\partial f}{\partial x_i}=\sum_{x_j:\,x_i\in \text{Pa}(x_j)}\frac{\partial f}{\partial x_j}\frac{\partial x_j}{\partial x_i}$$
-        <p>where: \(g_i\) = elementary forward functions, \(\text{Pa}(x_j)\) = parent nodes of \(x_j\) in the computation graph, \(x_D\) = output.</p>
-        <p>use: mechanically propagating gradients backward through a computation graph.</p>
-        <span class="src">Lecture 7 · p15-16</span>
-      </div>
-
-      <div class="card" data-src="Lecture 7 · p17-18">
-        <h3>Sigmoid and its derivative</h3>
-        $$\sigma(z)=\frac{1}{1+e^{-z}},\qquad \sigma'(z)=\sigma(z)\big(1-\sigma(z)\big)$$
-        <p>where: \(z\) = pre-activation; applied element-wise so \(\partial a_i/\partial Z_i=a_i(1-a_i)\), \(\partial a_i/\partial Z_j=0\) (\(i\neq j\)).</p>
-        <p>use: activation gradient; its element-wise nature makes the layer Jacobian diagonal.</p>
-        <span class="src">Lecture 7 · p17-19</span>
-      </div>
-
-      <div class="card" data-src="Lecture 7 · p21-25">
-        <h3>Backpropagation rules for a sigmoid layer</h3>
-        $$\delta(Z)=\delta(a)\odot a\odot(1-a),\quad \frac{\partial L}{\partial A}=\delta(Z)x^{T},\quad \frac{\partial L}{\partial b}=\delta(Z),\quad \frac{\partial L}{\partial x}=A^{T}\delta(Z)$$
-        <p>where: \(Z=Ax+b\), \(a=\sigma(Z)\); \(\delta(a)=\partial L/\partial a\); \(\odot\) = Hadamard (element-wise) product; \(\text{diag}(a\odot(1-a))\) is the sigmoid Jacobian.</p>
-        <p>use: the complete gradient set to update weights, bias and pass error to the previous layer.</p>
-        <span class="src">Lecture 7 · p21-25</span>
-      </div>
-
-      <div class="card" data-src="EC3 exam · Q5(2) (prereq)">
-        <h3>Gradient of a quadratic form</h3>
-        $$\frac{\partial}{\partial x}\big(x^{T}Ax\big)=(A+A^{T})x\ \ \xrightarrow{A\text{ symmetric}}\ \ 2Ax$$
-        <p>where: \(A\in\mathbb{R}^{n\times n}\), \(x\in\mathbb{R}^n\).</p>
-        <p>use: differentiating quadratic objectives; a directly examined identity (EC3 Q5.2). Builds on the Lecture 7 identities.</p>
-        <span class="src">EC3 exam · Q5(2) (prereq)</span>
-      </div>
-
-      <div class="card" data-src="Lecture 6 · p3 (prereq)">
-        <h3>Gradient descent update</h3>
-        $$x_{i+1}=x_i-\eta\,[\nabla f(x_i)]^{T}$$
-        <p>where: \(\eta>0\) = learning rate (step size), \([\nabla f(x_i)]^{T}\) = gradient as a column vector.</p>
-        <p>use: iterative minimisation of a differentiable loss; step against steepest ascent. (EC3 also examines the momentum variant \(x_{i+1}=x_i-\eta[\nabla f(x_i)]^{T}+\beta(x_i-x_{i-1})\).)</p>
-        <span class="src">Lecture 6 · p3 / EC3 Q1 (prereq)</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lecture 8 — Taylor's Theorem, Remainder Term &amp; the Hessian <small>· source: Lecture-8.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Lecture 8 · p3">
-        <h3>Taylor's theorem with remainder</h3>
-        $$f(b)=\sum_{k=0}^{n-1}\frac{f^{(k)}(a)}{k!}(b-a)^k+\frac{f^{(n)}(c)}{n!}(b-a)^n$$
-        <p>where: \(f\) is \(n\)-times differentiable on \((a,b)\); \(c\in(a,b)\) is some interior point; the sum is the degree-\((n-1)\) Taylor polynomial.</p>
-        <p>use: exact finite Taylor expansion; the last term is the truncation error.</p>
-        <span class="src">Lecture 8 · p3</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p3, p10">
-        <h3>Lagrange remainder term</h3>
-        $$R_n=\frac{f^{(n)}(c)}{n!}(b-a)^n,\qquad |R_n|\le\frac{\max_{[a,b]}|f^{(n)}|}{n!}\,|b-a|^n$$
-        <p>where: \(c\in(a,b)\) unknown; the bound replaces \(f^{(n)}(c)\) by its maximum on the interval.</p>
-        <p>use: certifying the accuracy of a truncated Taylor (linear/quadratic) approximation.</p>
-        <span class="src">Lecture 8 · p3, p10</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p4">
-        <h3>Mean-value theorem (n = 1)</h3>
-        $$\exists\,c\in(a,b):\quad f'(c)=\frac{f(b)-f(a)}{b-a}$$
-        <p>where: \(f\) continuous on \([a,b]\), differentiable on \((a,b)\).</p>
-        <p>use: the base case of Taylor's theorem; instantaneous slope equals average slope somewhere.</p>
-        <span class="src">Lecture 8 · p4</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p6">
-        <h3>Rolle's theorem</h3>
-        $$f(a)=f(b)=0\ \Rightarrow\ \exists\,c\in(a,b):\ f'(c)=0$$
-        <p>where: \(f\) continuous on \([a,b]\), differentiable on \((a,b)\).</p>
-        <p>use: applied \(n\) times (to \(F,F',\dots\)) it produces the Taylor remainder.</p>
-        <span class="src">Lecture 8 · p6</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p8-9">
-        <h3>Taylor coefficients</h3>
-        $$a_k=\frac{f^{(k)}(a)}{k!}\ \ (k=0,\dots,n-1),\qquad a_n=\frac{1}{(b-a)^n}\Big(f(b)-\sum_{k=0}^{n-1}\tfrac{f^{(k)}(a)}{k!}(b-a)^k\Big)$$
-        <p>where: coefficients of \(P(x)=\sum_k a_k(x-a)^k\) chosen so \(F=f-P\) satisfies Proposition P.</p>
-        <p>use: shows why the Taylor polynomial coefficients are the scaled derivatives.</p>
-        <span class="src">Lecture 8 · p8-9</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p11">
-        <h3>First derivative along the segment</h3>
-        $$F(t)=f(a+th,\,b+tk),\qquad F'(t)=h\,f_x+k\,f_y$$
-        <p>where: \(x=a+th,\ y=b+tk,\ t\in[0,1]\); \(f_x,f_y\) are first partials.</p>
-        <p>use: reduces a two-variable expansion to one variable via the chain rule.</p>
-        <span class="src">Lecture 8 · p11</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p12">
-        <h3>Second derivative along the segment</h3>
-        $$F''(t)=h^2 f_{xx}+2hk\,f_{xy}+k^2 f_{yy}$$
-        <p>where: \(f_{xx},f_{xy},f_{yy}\) are second partials evaluated along the segment.</p>
-        <p>use: supplies the quadratic term of the two-variable Taylor expansion.</p>
-        <span class="src">Lecture 8 · p12</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p12-13">
-        <h3>Second-order Taylor expansion (two variables)</h3>
-        $$f(a+h,b+k)=f(a,b)+hf_x+kf_y+\tfrac12\big(h^2f_{xx}+2hkf_{xy}+k^2f_{yy}\big)\big|_{a+ch,\,b+ck}$$
-        <p>where: \(c\in(0,1)\); at a critical point \(f_x=f_y=0\) so the linear term drops out.</p>
-        <p>use: local quadratic model of \(f\) near a point; basis of the second-derivative test.</p>
-        <span class="src">Lecture 8 · p12-13</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p13-14">
-        <h3>Quadratic form &amp; completed square</h3>
-        $$Q(0)=h^2f_{xx}+2hkf_{xy}+k^2f_{yy},\qquad f_{xx}\,Q(0)=(hf_{xx}+kf_{xy})^2+(f_{xx}f_{yy}-f_{xy}^2)k^2$$
-        <p>where: all partials at the critical point \((a,b)\); the sign of \(Q(c)\) follows that of \(Q(0)\) for small \(h,k\).</p>
-        <p>use: reduces classifying a critical point to the signs of \(f_{xx}\) and the discriminant \(f_{xx}f_{yy}-f_{xy}^2\).</p>
-        <span class="src">Lecture 8 · p13-14</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p15">
-        <h3>Second-derivative (discriminant) test</h3>
-        $$D=f_{xx}f_{yy}-f_{xy}^2:\quad \begin{cases}D>0,\ f_{xx}>0 &\text{min}\\ D>0,\ f_{xx}<0 &\text{max}\\ D<0 &\text{saddle}\\ D=0 &\text{inconclusive}\end{cases}$$
-        <p>where: \(D=\det H\) is the Hessian determinant at the critical point.</p>
-        <p>use: classify critical points of a function of two variables.</p>
-        <span class="src">Lecture 8 · p15</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p16">
-        <h3>Hessian matrix</h3>
-        $$H=\nabla^2_{x,y}f=\begin{bmatrix}f_{xx}&f_{xy}\\ f_{xy}&f_{yy}\end{bmatrix},\qquad f_{xy}=f_{yx}$$
-        <p>where: symmetric matrix of second partials (symmetry from Schwarz's theorem for \(C^2\) functions).</p>
-        <p>use: encodes local curvature; its definiteness classifies critical points.</p>
-        <span class="src">Lecture 8 · p16, p18</span>
-      </div>
-
-      <div class="card" data-src="Lecture 8 · p17">
-        <h3>Sylvester's criterion (positive-definiteness)</h3>
-        $$H\succ0\iff f_{xx}>0\ \text{and}\ \det H=f_{xx}f_{yy}-f_{xy}^2>0\iff \text{all eigenvalues }>0$$
-        <p>where: every upper-left \(m\times m\) minor positive; the local-minimum condition.</p>
-        <p>use: test a symmetric Hessian for positive-definiteness; negative-definite (max) flips the minor signs by parity of \(m\).</p>
-        <span class="src">Lecture 8 · p17</span>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">Every formula the MFML question bank relies on, from linear systems (M1) to SVMs (M11), with the slide errata of section 2.4 corrected and the gradient-layout and PCA data-layout conventions stated where they matter.</p>
+  <nav class="jump"><a href="#m1-systems-of-linear-equations">M1 · Systems of linear equations</a><a href="#m2-vector-spaces">M2 · Vector spaces</a><a href="#m3-analytic-geometry">M3 · Analytic geometry</a><a href="#m4-eigenvalues-eigenvectors">M4 · Eigenvalues &amp; eigenvectors</a><a href="#m5-singular-value-decomposition">M5 · Singular value decomposition</a><a href="#m6-differentiation-backpropagation-automatic-differentiation">M6 · Differentiation, backpropagation &amp; automatic differentiation</a><a href="#m7-taylor-maclaurin-series">M7 · Taylor &amp; Maclaurin series</a><a href="#m8-gradient-descent">M8 · Gradient descent</a><a href="#m9-optimization">M9 · Optimization</a><a href="#m10-principal-component-analysis">M10 · Principal component analysis</a><a href="#m11-mathematics-of-support-vector-machines">M11 · Mathematics of support vector machines</a></nav>
+<details class="module" open id="m1-systems-of-linear-equations"><summary>M1 · Systems of linear equations <small>· 11 items</small></summary><div class="cards"><div class="card f"><h3>Linear system in matrix form</h3><p>\[
+Ax = b \iff x_1 c_1 + x_2 c_2 + \dots + x_n c_n = b
+\]</p>
+<p><strong>where:</strong> \(A = [c_1, \dots, c_n] \in \mathbb{R}^{m \times n}\) has columns \(c_j\) (one row per equation, one column per unknown), \(x \in \mathbb{R}^n\), \(b \in \mathbb{R}^m\).</p>
+<p><strong>use:</strong> read \(Ax = b\) as "which combination of the columns of \(A\) gives \(b\)". A particular solution can often be read off by inspection when some columns are unit vectors, for example \(\begin{bmatrix} 1 &amp; 0 &amp; 8 &amp; -4 \\ 0 &amp; 1 &amp; 2 &amp; 12 \end{bmatrix} x = (42, 8)\) gives \(x_p = (42, 8, 0, 0)\).</p><span class="src">1.2.5, 1.3.1 · slides 29–33</span></div><div class="card f"><h3>Matrix product and algebraic rules</h3><p>\[
+C = AB, \qquad c_{ij} = \sum_{l=1}^{n} a_{il} b_{lj}, \qquad A \in \mathbb{R}^{m \times n},\; B \in \mathbb{R}^{n \times k} \Rightarrow C \in \mathbb{R}^{m \times k}
+\]</p>
+<p>\[
+(AB)C = A(BC), \qquad A(B + C) = AB + AC, \qquad (A + B)C = AC + BC, \qquad I_m A = A I_n = A
+\]</p>
+<p>\[
+(\lambda\psi)C = \lambda(\psi C), \qquad \lambda(BC) = (\lambda B)C = B(\lambda C), \qquad (\lambda C)^\top = \lambda C^\top
+\]</p>
+<p><strong>where:</strong> \(c_{ij}\) is row \(i\) of \(A\) dotted with column \(j\) of \(B\); the inner dimensions \(n\) must match. \(A \in \mathbb{R}^{m \times n}\), \(I_m\) is the \(m \times m\) identity, \(\lambda, \psi\) are scalars.</p>
+<p><strong>use:</strong> check shapes first. In general \(AB \ne BA\), and one of the two products may not even be defined. Associativity and distributivity hold; commutativity does not, so never reorder factors.</p><span class="src">1.2.1, 1.2.2 · slides 19–24</span></div><div class="card f"><h3>Inverse of a 2×2 matrix; inverse and transpose of a product</h3><p>\[
+A = \begin{bmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{bmatrix}, \qquad A^{-1} = \frac{1}{a_{11}a_{22} - a_{12}a_{21}} \begin{bmatrix} a_{22} &amp; -a_{12} \\ -a_{21} &amp; a_{11} \end{bmatrix}
+\]</p>
+<p>\[
+(AB)^{-1} = B^{-1}A^{-1}, \qquad (AB)^\top = B^\top A^\top, \qquad (A^{-1})^\top = (A^\top)^{-1}, \qquad (A^\top)^\top = A
+\]</p>
+<p><strong>where:</strong> \(a_{11}a_{22} - a_{12}a_{21} = \det A\). \(A, B\) are conformable; for the inverse rule both are square and invertible.</p>
+<p><strong>use:</strong> swap the diagonal, negate the off-diagonal, divide by the determinant. The inverse exists if and only if \(\det A \ne 0\). Both rules reverse the order. There is no sum rule: \((A + B)^{-1} \ne A^{-1} + B^{-1}\) in general, although \((A + B)^\top = A^\top + B^\top\) does hold.</p><span class="src">1.2.3, 1.2.4 · slides 25–28</span></div><div class="card f"><h3>Elementary row operations</h3><p>\[
+R_i \leftrightarrow R_j, \qquad R_i \leftarrow \lambda R_i \;(\lambda \ne 0), \qquad R_i \leftarrow R_i + \mu R_j \;(j \ne i)
+\]</p>
+<p><strong>where:</strong> \(R_i\) is row \(i\) of the augmented matrix \([A \mid b]\), \(\lambda, \mu\) are scalars.</p>
+<p><strong>use:</strong> each operation is invertible, so the solution set is unchanged. The third operation adds a <em>multiple</em> of a row (slide 41 omits the word). Scaling by \(\lambda = 0\) is not allowed.</p><span class="src">1.4.1 · slides 39–45</span></div><div class="card f"><h3>Consistency and the number of solutions</h3><p>\[
+Ax = b \text{ is consistent} \iff \operatorname{rk}(A) = \operatorname{rk}([A \mid b]); \qquad \text{unique} \iff \operatorname{rk}(A) = n
+\]</p>
+<p><strong>where:</strong> \(\operatorname{rk}\) is the number of pivots in a row-echelon form, \(n\) the number of unknowns; \(n - \operatorname{rk}(A)\) is the number of free variables.</p>
+<p><strong>use:</strong> a row \([0 \; \cdots \; 0 \mid c]\) with \(c \ne 0\) means no solution (in the slide-47 system the last row is \([0 \cdots 0 \mid a + 1]\), so it is consistent iff \(a = -1\)). Otherwise there is one solution if there are no free variables, infinitely many if there are. The counts of equations and unknowns alone never decide.</p><span class="src">1.1.2, 1.1.4, 1.4.2, 1.4.3 · slides 6–18, 46–49</span></div><div class="card f"><h3>Particular plus homogeneous: the general solution</h3><p>\[
+x = x_p + \sum_{k=1}^{n - r} \lambda_k n_k, \qquad A x_p = b, \quad A n_k = 0, \quad \lambda_k \in \mathbb{R}
+\]</p>
+<p><strong>where:</strong> \(x_p\) is any one solution, \(n_1, \dots, n_{n-r}\) a basis of \(\operatorname{null}(A)\), \(r = \operatorname{rk}(A)\).</p>
+<p><strong>use:</strong> neither \(x_p\) nor the basis is unique; only the set is. Slide 50 (erratum 1) prints the second null-space vector as \((2, 0, -2, 1, 1)\); the correct general solution of that system is \(x = (2, 0, -1, 1, 0) + \lambda_1 (2, 1, 0, 0, 0) + \lambda_2 (2, 0, -1, 2, 1)\). Always check \(A n_k = 0\).</p><span class="src">1.3.2, 1.3.3, 1.1.3 · slides 34–38, 50</span></div><div class="card f"><h3>Back-substitution on a row-echelon form</h3><p>\[
+x_i = \frac{1}{u_{ii}}\Big(c_i - \sum_{j &gt; i} u_{ij} x_j\Big), \qquad i = r, r-1, \dots, 1
+\]</p>
+<p><strong>where:</strong> \(u_{ij}, c_i\) are entries of the echelon form \([U \mid c]\), \(u_{ii}\) the pivot of row \(i\) (pivot columns only; free variables set to 0 for a particular solution).</p>
+<p><strong>use:</strong> solve from the bottom row upwards. In the deck's example this gives \(\lambda_3 = 1, \lambda_2 = -1, \lambda_1 = 2\), so \(x_p = (2, 0, -1, 1, 0)\).</p><span class="src">1.4.3, 1.4.4 · slides 50–54</span></div><div class="card f"><h3>Null-space basis from the RREF (minus-1 trick)</h3><p>\[
+\text{for each free column } j: \quad x_j = 1, \quad x_{\text{other free}} = 0, \quad x_{\text{pivot } i} = -\,(\text{RREF entry in row } i, \text{ column } j)
+\]</p>
+<p><strong>where:</strong> RREF has pivots equal to 1 and zeros above and below each pivot.</p>
+<p><strong>use:</strong> for \(\begin{bmatrix} 1 &amp; 3 &amp; 0 &amp; 0 &amp; 3 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 9 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; -4 \end{bmatrix}\) the free columns 2 and 5 give \((-3, 1, 0, 0, 0)\) and \((-3, 0, -9, 4, 1)\). The number of vectors equals the number of free columns.</p><span class="src">1.4.5, 1.3.2 · slides 55–58</span></div><div class="card f"><h3>Inverse by Gauss–Jordan elimination</h3><p>\[
+[A \mid I_n] \;\xrightarrow{\text{row ops}}\; [I_n \mid A^{-1}]
+\]</p>
+<p><strong>where:</strong> column \(i\) of the right block solves \(Ax = e_i\).</p>
+<p><strong>use:</strong> \(A\) is invertible iff its RREF is \(I_n\). If a zero row appears on the left, \(A\) is singular. Eliminating all the way to a diagonal is strictly Gauss–Jordan elimination (the deck calls it Gaussian).</p><span class="src">1.5.1, 1.5.2 · slides 59–63</span></div><div class="card f"><h3>Normal equations for an over-determined system</h3><p>\[
+\min_x \lVert Ax - b \rVert_2^2 \;\Rightarrow\; A^\top A\, x = A^\top b, \qquad x = (A^\top A)^{-1} A^\top b \text{ when } \operatorname{rk}(A) = n
+\]</p>
+<p><strong>where:</strong> \(A \in \mathbb{R}^{m \times n}\) with \(m &gt; n\) (more equations than unknowns), \(b \in \mathbb{R}^m\).</p>
+<p><strong>use:</strong> regression is the approximate answer to an inconsistent system. If the columns of \(A\) are dependent (collinear features), \(A^\top A\) is singular and the minimiser is not unique.</p><span class="src">1.1.2 · slides 7–9</span></div><div class="card f"><h3>Cost of Gaussian elimination</h3><p>\[
+\text{flops} \approx \tfrac{2}{3} n^3 \;(\text{forward elimination}) + n^2 \;(\text{back-substitution}) = O(n^3)
+\]</p>
+<p><strong>where:</strong> \(n\) is the size of a square system.</p>
+<p><strong>use:</strong> elimination dominates; once \(A\) is reduced (or factored as \(LU\)), each extra right-hand side costs only \(O(n^2)\).</p><span class="src">1.4.2 · slides 46–49</span></div></div></details>
+<details class="module" open id="m2-vector-spaces"><summary>M2 · Vector spaces <small>· 8 items</small></summary><div class="cards"><div class="card f"><h3>Group and vector space axioms</h3><p>\[
+\begin{aligned}
+&amp;\text{closure: } x \otimes y \in G, \qquad \text{associativity: } (x \otimes y) \otimes z = x \otimes (y \otimes z), \\
+&amp;\text{neutral: } \exists e \;\; x \otimes e = e \otimes x = x, \qquad \text{inverse: } \forall x \;\exists y \;\; x \otimes y = y \otimes x = e
+\end{aligned}
+\]</p>
+<p>\[
+\begin{aligned}
+&amp;(V, +) \text{ Abelian group}, \qquad \lambda(x + y) = \lambda x + \lambda y, \qquad (\lambda + \psi)x = \lambda x + \psi x, \\
+&amp;\lambda(\psi x) = (\lambda\psi)x, \qquad 1 \cdot x = x
+\end{aligned}
+\]</p>
+<p><strong>where:</strong> \((G, \otimes)\) is a set with an operation, \(x, y, z \in G\); Abelian adds \(x \otimes y = y \otimes x\). \(V = (V, +, \cdot)\), \(x, y \in V\), \(\lambda, \psi \in \mathbb{R}\); the neutral element of \(+\) is the zero vector \(0\).</p>
+<p><strong>use:</strong> to reject a candidate, find the one axiom that fails: \((\mathbb{N}_0, +)\) has no inverses, \((\mathbb{Z}, \cdot)\) has no inverse of 2; \((\mathbb{Z}, +)\) is an Abelian group. \(\mathbb{R}^n\), \(\mathbb{R}^{m \times n}\) and polynomials of degree at most \(n\) all satisfy these, so matrices and polynomials can be treated as vectors.</p><span class="src">2.1.1, 2.1.2, 2.2.1, 2.2.2 · slides 67–73</span></div><div class="card f"><h3>Subspace test</h3><p>\[
+U \subseteq V \text{ is a subspace} \iff U \ne \emptyset, \quad x + y \in U, \quad \lambda x \in U \quad \forall x, y \in U,\; \lambda \in \mathbb{R}
+\]</p>
+<p><strong>where:</strong> \(V\) is a vector space; closure under scaling with \(\lambda = 0\) forces \(0 \in U\).</p>
+<p><strong>use:</strong> quick rejection: if \(0 \notin U\) it is not a subspace (the line \(x = 1\)). The null space passes: \(A(x + y) = Ax + Ay = 0\) and \(A(\lambda x) = \lambda Ax = 0\). The solution set of \(Ax = b\) with \(b \ne 0\) does not.</p><span class="src">2.3.1, 2.3.2, 2.3.3 · slides 74–77</span></div><div class="card f"><h3>Linear combination and linear independence</h3><p>\[
+v = \sum_{j=1}^{k} \lambda_j x_j; \qquad x_1, \dots, x_k \text{ independent} \iff \Big(\sum_{j=1}^{k} \lambda_j x_j = 0 \Rightarrow \lambda_1 = \dots = \lambda_k = 0\Big)
+\]</p>
+<p><strong>where:</strong> \(x_j \in V\), \(\lambda_j \in \mathbb{R}\). The sum runs from \(j = 1\) to \(k\) (slides 89–90 start it at \(j = 0\); erratum 22).</p>
+<p><strong>use:</strong> dependent means some non-trivial combination gives 0, equivalently one vector is a combination of the others. Any set containing 0 is dependent.</p><span class="src">2.4.1, 2.4.2 · slides 78–90</span></div><div class="card f"><h3>Elimination test for independence</h3><p>\[
+A = [x_1, \dots, x_k] \;\xrightarrow{\text{REF}}\; \text{pivot columns} \leftrightarrow \text{independent } x_j; \qquad \text{independent} \iff \operatorname{rk}(A) = k
+\]</p>
+<p><strong>where:</strong> the vectors are placed as the columns of \(A\).</p>
+<p><strong>use:</strong> each non-pivot column is a combination of the pivot columns to its left, with coefficients read from the RREF. The original \(x_j\) at the pivot columns form a basis of \(\operatorname{span}\{x_1, \dots, x_k\}\).</p><span class="src">2.4.3, 2.5.5 · slides 85–90, 104</span></div><div class="card f"><h3>Independence through coefficient vectors</h3><p>\[
+x_j = B\lambda_j, \quad B = [b_1, \dots, b_k] \text{ with independent columns} \;\Rightarrow\; \{x_1, \dots, x_m\} \text{ independent} \iff \{\lambda_1, \dots, \lambda_m\} \text{ independent}
+\]</p>
+<p><strong>where:</strong> \(\lambda_j \in \mathbb{R}^k\) is the coordinate vector of \(x_j\) in the basis \(b_1, \dots, b_k\).</p>
+<p><strong>use:</strong> test the small coefficient vectors instead of the long vectors. The deck's example finds \(x_1, \dots, x_4\) dependent with \(7c_1 + 15c_2 + 18c_3 + c_4 = 0\) (columns of the coefficient matrix).</p><span class="src">2.4.4 · slides 91–95</span></div><div class="card f"><h3>More vectors than dimensions</h3><p>\[
+m &gt; k \;\Rightarrow\; \#\text{pivots} \le k &lt; m \;\Rightarrow\; x_1, \dots, x_m \text{ dependent}
+\]</p>
+<p><strong>where:</strong> \(m\) vectors in a space of dimension \(k\) (or \(m\) coefficient vectors in \(\mathbb{R}^k\)).</p>
+<p><strong>use:</strong> the number of pivots is <strong>at most</strong> \(k\) (slide 96 says "less than \(k\)"; erratum 2), which is less than \(m\), so at least one column is non-pivot. Any \(n + 1\) vectors in \(\mathbb{R}^n\) are dependent.</p><span class="src">2.4.5 · slide 96</span></div><div class="card f"><h3>Span, basis, coordinates and dimension</h3><p>\[
+\operatorname{span}[A] = \Big\{\sum_{j} \lambda_j x_j : \lambda_j \in \mathbb{R}\Big\}; \qquad x = B c \iff c = B^{-1} x
+\]</p>
+<p>\[
+\dim V = \#\text{vectors in any basis}; \qquad U \subseteq V \Rightarrow \dim U \le \dim V, \; \text{with } \dim U = \dim V \iff U = V
+\]</p>
+<p><strong>where:</strong> \(A = \{x_1, \dots, x_k\}\); \(B\) is the square matrix whose columns are a basis of \(\mathbb{R}^n\), \(c\) the coordinate vector of \(x\). \(U, V\) finite-dimensional vector spaces.</p>
+<p><strong>use:</strong> a basis is a minimal generating set, equivalently a maximal independent set, so coordinates are unique. A basis is not unique; three independent vectors in \(\mathbb{R}^4\) are not a basis. Dimension counts basis vectors, not components: \(\operatorname{span}\{(0, 1)\} \subset \mathbb{R}^2\) has dimension 1.</p><span class="src">2.5.1, 2.5.2, 2.5.3, 2.5.4 · slides 97–103</span></div><div class="card f"><h3>Rank, rank–nullity and rank rules</h3><p>\[
+\operatorname{rk}(A) = \#\text{pivots} = \dim \operatorname{col}(A) = \dim \operatorname{col}(A^\top), \qquad \operatorname{rk}(A) + \dim \operatorname{null}(A) = n
+\]</p>
+<p>\[
+\operatorname{rk}(AB) \le \min(\operatorname{rk} A, \operatorname{rk} B), \qquad \operatorname{rk}(A) \le \min(m, n)
+\]</p>
+<p><strong>where:</strong> \(A \in \mathbb{R}^{m \times n}\); \(\dim \operatorname{null}(A)\) is the number of free columns (the nullity).</p>
+<p><strong>use:</strong> full rank means \(\operatorname{rk}(A) = \min(m, n)\). Row rank equals column rank. A square \(A\) is invertible iff \(\operatorname{rk}(A) = n\). A rank-deficient design matrix means redundant features.</p><span class="src">2.5.6 · slides 105–106</span></div></div></details>
+<details class="module" open id="m3-analytic-geometry"><summary>M3 · Analytic geometry <small>· 10 items</small></summary><div class="cards"><div class="card f"><h3>Norm axioms and the common norms</h3><p>\[
+\lVert \lambda x \rVert = \lvert \lambda \rvert \lVert x \rVert, \qquad \lVert x + y \rVert \le \lVert x \rVert + \lVert y \rVert, \qquad \lVert x \rVert \ge 0 \text{ with } \lVert x \rVert = 0 \iff x = 0
+\]</p>
+<p>\[
+\lVert x \rVert_1 = \sum_{i=1}^{n} \lvert x_i \rvert, \qquad \lVert x \rVert_2 = \sqrt{\sum_{i=1}^{n} x_i^2} = \sqrt{x^\top x}, \qquad \lVert x \rVert_\infty = \max_i \lvert x_i \rvert
+\]</p>
+<p><strong>where:</strong> \(x, y \in V\), \(\lambda \in \mathbb{R}\): absolute homogeneity, triangle inequality, positive definiteness. \(x \in \mathbb{R}^n\).</p>
+<p><strong>use:</strong> to show a function is not a norm, break one axiom with a concrete vector (for example \(\lVert x \rVert^2\) fails homogeneity). \(\lVert x \rVert_\infty \le \lVert x \rVert_2 \le \lVert x \rVert_1\). The unit \(\ell_1\) ball is a diamond, whose corners on the axes favour sparse solutions. Different norms can pick different nearest neighbours.</p><span class="src">3.1.1, 3.1.2 · slide 111</span></div><div class="card f"><h3>Inner products and SPD matrices</h3><p>\[
+\langle \lambda x + \psi y, z \rangle = \lambda \langle x, z \rangle + \psi \langle y, z \rangle, \qquad \langle x, y \rangle = \langle y, x \rangle, \qquad \langle x, x \rangle &gt; 0 \;\; \forall x \ne 0
+\]</p>
+<p>\[
+\langle x, y \rangle = \hat{x}^\top A \hat{y} \text{ is an inner product} \iff A = A^\top \text{ and } x^\top A x &gt; 0 \;\; \forall x \ne 0
+\]</p>
+<p>\[
+\text{2×2 test: } A = \begin{bmatrix} a &amp; b \\ b &amp; d \end{bmatrix} \text{ is SPD} \iff a &gt; 0 \text{ and } ad - b^2 &gt; 0
+\]</p>
+<p><strong>where:</strong> bilinear (linear in each argument), symmetric, positive definite; the dot product is \(x^\top y = \sum_i x_i y_i\). \(\hat{x}, \hat{y}\) are coordinate vectors in a chosen basis; SPD means symmetric positive definite.</p>
+<p><strong>use:</strong> a map is an inner product only if all three hold; positive definiteness is the one that usually fails. An SPD matrix has a trivial null space (full rank) and strictly positive diagonal entries \(a_{ii} = e_i^\top A e_i &gt; 0\); a zero or negative diagonal entry rules SPD out immediately.</p><span class="src">3.2.1, 3.2.2, 3.2.3 · slides 112–115</span></div><div class="card f"><h3>Induced norm, distance and the parallelogram law</h3><p>\[
+\lVert x \rVert = \sqrt{\langle x, x \rangle}, \qquad d(x, y) = \lVert x - y \rVert = \sqrt{\langle x - y, x - y \rangle}
+\]</p>
+<p>\[
+\lVert x + y \rVert^2 + \lVert x - y \rVert^2 = 2\lVert x \rVert^2 + 2\lVert y \rVert^2 \quad \text{(holds for every induced norm)}
+\]</p>
+<p><strong>where:</strong> \(\langle \cdot, \cdot \rangle\) is any inner product; under \(\langle x, y \rangle = x^\top A y\), \(\lVert x \rVert = \sqrt{x^\top A x}\).</p>
+<p><strong>use:</strong> the Manhattan norm fails the parallelogram law (take \(x = e_1\), \(y = e_2\): \(8 \ne 4\)), so no inner product induces it. Lengths and distances change with the inner product.</p><span class="src">3.3.1, 3.3.3 · slides 116–119</span></div><div class="card f"><h3>Cauchy–Schwarz, triangle inequality and metric axioms</h3><p>\[
+\lvert \langle x, y \rangle \rvert \le \lVert x \rVert \lVert y \rVert, \qquad 0 \le \lVert u - \alpha v \rVert^2 \text{ with } \alpha = \frac{\langle u, v \rangle}{\langle v, v \rangle}
+\]</p>
+<p>\[
+d(x, y) \ge 0 \text{ with } d(x, y) = 0 \iff x = y, \qquad d(x, y) = d(y, x), \qquad d(x, z) \le d(x, y) + d(y, z)
+\]</p>
+<p><strong>where:</strong> \(x, y, u, v \in V\) with \(v \ne 0\); equality iff the vectors are parallel. \(d : V \times V \to \mathbb{R}\); every norm gives a metric \(d(x, y) = \lVert x - y \rVert\).</p>
+<p><strong>use:</strong> expanding \(\lVert u - \alpha v \rVert^2 \ge 0\) with this \(\alpha\) gives \(\langle u, v \rangle^2 \le \lVert u \rVert^2 \lVert v \rVert^2\). It guarantees \(\lvert \cos\omega \rvert \le 1\) and proves the triangle inequality \(\lVert x + y \rVert \le \lVert x \rVert + \lVert y \rVert\). Distance and inner product measure closeness in opposite directions: small \(d\) means similar, large \(\langle x, y \rangle\) means similar only for vectors of fixed length.</p><span class="src">3.3.2, 3.3.3 · slides 117–119</span></div><div class="card f"><h3>Angles, orthogonality and near-orthogonality in high dimension</h3><p>\[
+\cos\omega = \frac{\langle x, y \rangle}{\lVert x \rVert \lVert y \rVert}, \qquad \omega \in [0, \pi]; \qquad x \perp y \iff \langle x, y \rangle = 0
+\]</p>
+<p>\[
+x, y \sim N(0, I_D) \text{ independent} \;\Rightarrow\; E[\cos\omega] = 0, \qquad \operatorname{Var}(\cos\omega) = \frac{1}{D}
+\]</p>
+<p><strong>where:</strong> \(x, y \ne 0\); the norms are induced by the same inner product. \(D\) is the dimension.</p>
+<p><strong>use:</strong> orthogonality depends on the inner product: \(x = (1, 1)\), \(y = (-1, 1)\) are orthogonal under the dot product, but under \(A = \operatorname{diag}(2, 1)\), \(\langle x, y \rangle = -1\), \(\lVert x \rVert = \lVert y \rVert = \sqrt{3}\), so \(\cos\omega = -1/3\). Cosine similarity is this formula with the dot product. The typical \(\lvert \cos\omega \rvert\) is about \(1/\sqrt{D}\), so random high-dimensional vectors are nearly orthogonal (about \(0.03\) for \(D = 1000\)).</p><span class="src">3.4.1, 3.4.2, 3.4.3 · slides 120–125</span></div><div class="card f"><h3>Orthogonal matrices and rotations</h3><p>\[
+A^\top A = I = A A^\top \iff A^{-1} = A^\top
+\]</p>
+<p>\[
+\lVert Ax \rVert^2 = x^\top A^\top A x = \lVert x \rVert^2, \qquad \cos\omega(Ax, Ay) = \frac{x^\top A^\top A y}{\lVert x \rVert \lVert y \rVert} = \cos\omega(x, y)
+\]</p>
+<p>\[
+R(\theta) = \begin{bmatrix} \cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta \end{bmatrix}
+\]</p>
+<p><strong>where:</strong> \(A \in \mathbb{R}^{n \times n}\) is square with orthonormal columns. \(A\) orthogonal; \(R(\theta)\) rotates the plane anticlockwise by \(\theta\).</p>
+<p><strong>use:</strong> for a square matrix the left inverse equals the right inverse, so the rows are orthonormal too. A non-square \(Q\) with orthonormal columns has \(Q^\top Q = I\) but \(QQ^\top \ne I\). \(\det A = \pm 1\). Orthogonal matrices are rigid motions (rotations, reflections). \(R(\theta)^\top = R(-\theta) = R(\theta)^{-1}\).</p><span class="src">3.5.1, 3.5.2 · slides 126–128</span></div><div class="card f"><h3>Orthonormal bases and Gram–Schmidt</h3><p>\[
+\langle b_i, b_j \rangle = \delta_{ij} = \begin{cases} 1 &amp; i = j \\ 0 &amp; i \ne j \end{cases}, \qquad x = \sum_{i=1}^{n} \langle x, b_i \rangle\, b_i
+\]</p>
+<p>\[
+\pi_u(v) = \frac{\langle u, v \rangle}{\langle u, u \rangle}\, u, \qquad u_1 = v_1, \quad u_k = v_k - \sum_{j &lt; k} \pi_{u_j}(v_k), \qquad q_k = \frac{u_k}{\lVert u_k \rVert}
+\]</p>
+<p><strong>where:</strong> \(b_1, \dots, b_n\) an orthonormal basis; an orthogonal basis drops the requirement \(\langle b_i, b_i \rangle = 1\). \(v_1, \dots, v_n\) is the starting basis, \(u_k\) the orthogonal and \(q_k\) the orthonormal vectors.</p>
+<p><strong>use:</strong> in an orthonormal basis each coordinate is just an inner product, with no system to solve. The \(u_k\) are only orthogonal; divide each by its norm before calling the matrix orthogonal (erratum 23: the slide-136 \(Q\) has \(Q^\top Q = \operatorname{diag}(10, 1.6)\), so its columns must be divided by \(\sqrt{10}\) and \(\sqrt{1.6}\)). \(Q = [q_1, \dots, q_n]\) gives \(A = QR\) with \(R = Q^\top A\) upper triangular.</p><span class="src">3.6.1, 3.6.2 · slides 129–136</span></div><div class="card f"><h3>Orthogonalising by elimination on [AᵀA | Aᵀ]</h3><p>\[
+[A^\top A \mid A^\top] \;\xrightarrow{\text{forward elimination}}\; [U \mid L^{-1}A^\top], \qquad Q^\top = L^{-1} A^\top, \qquad Q^\top Q = U (L^{-1})^\top = \text{diagonal}
+\]</p>
+<p><strong>where:</strong> \(A\) has the basis vectors as columns and full column rank, so \(A^\top A\) is PD and needs no row swaps; \(A^\top A = LU\).</p>
+<p><strong>use:</strong> the rows of the right block are mutually orthogonal (symmetric and upper triangular forces diagonal). For \(v_1 = (3, 1)\), \(v_2 = (2, 2)\) the rows are \((3, 1)\) and \((-0.4, 1.2)\), shown on the slide rescaled to \((0.3, 0.1)\) and \((-0.25, 0.75)\). Normalise to get an orthonormal basis.</p><span class="src">3.6.2, 3.6.4 · slides 131–132, 136</span></div><div class="card f"><h3>Elementary matrices and A = LU</h3><p>\[
+E_m E_{m-1} \cdots E_1 A = U \;\Rightarrow\; A = LU, \qquad L = (E_m \cdots E_1)^{-1} = E_1^{-1} \cdots E_m^{-1}
+\]</p>
+<p><strong>where:</strong> each \(E_k\) is the identity with one non-zero entry below the diagonal (for "\(R_2 \leftarrow R_2 - 2R_1\)" that entry is \(-2\) in position \((2, 1)\)); \(U\) is upper triangular, \(L\) unit lower triangular.</p>
+<p><strong>use:</strong> products and inverses of lower-triangular matrices are lower triangular; \(E^{-1}\) just flips the sign of the off-diagonal entry, and the multipliers sit in \(L\) unchanged.</p><span class="src">3.6.3 · slides 133–135</span></div><div class="card f"><h3>Orthogonal projection onto a subspace (least squares)</h3><p>\[
+P = A(A^\top A)^{-1}A^\top, \qquad \hat{b} = Pb = A\hat{x}, \qquad A^\top (b - A\hat{x}) = 0
+\]</p>
+<p><strong>where:</strong> \(A\) has full column rank, its columns span the subspace; \(P^2 = P = P^\top\).</p>
+<p><strong>use:</strong> the least-squares residual is orthogonal to every column of \(A\), which is exactly the normal equations. With orthonormal columns \(Q\), \(P = QQ^\top\).</p><span class="src">3.6.2, 3.4.1 · slides 131–132</span></div></div></details>
+<details class="module" open id="m4-eigenvalues-eigenvectors"><summary>M4 · Eigenvalues &amp; eigenvectors <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Determinant by cofactor expansion</h3><p>\[
+\det A = \sum_{k=1}^{n} (-1)^{j+k} a_{jk} M_{jk} = \sum_{k=1}^{n} a_{jk} C_{jk} \quad \text{(any row } j\text{, or likewise any column)}
+\]</p>
+<p>\[
+\det \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} = ad - bc, \qquad \det \begin{bmatrix} a_{11} &amp; a_{12} &amp; a_{13} \\ a_{21} &amp; a_{22} &amp; a_{23} \\ a_{31} &amp; a_{32} &amp; a_{33} \end{bmatrix} = a_{11}(a_{22}a_{33} - a_{23}a_{32}) - a_{12}(a_{21}a_{33} - a_{23}a_{31}) + a_{13}(a_{21}a_{32} - a_{22}a_{31})
+\]</p>
+<p><strong>where:</strong> \(M_{jk}\) is the minor (determinant after deleting row \(j\) and column \(k\)), \(C_{jk} = (-1)^{j+k} M_{jk}\) the cofactor.</p>
+<p><strong>use:</strong> expand along the row or column with the most zeros. The sign pattern is a chessboard starting with \(+\) at \((1, 1)\).</p><span class="src">4.1.1 · slides 141–145</span></div><div class="card f"><h3>Determinant rules and determinant by elimination</h3><p>\[
+\det(AB) = \det A \det B, \qquad \det A^\top = \det A, \qquad \det A^{-1} = \frac{1}{\det A}, \qquad \det(\lambda A) = \lambda^n \det A
+\]</p>
+<p>\[
+R_i \leftrightarrow R_j: \det \to -\det, \qquad R_i \leftarrow \lambda R_i: \det \to \lambda \det, \qquad R_i \leftarrow R_i + \mu R_j: \det \text{ unchanged}
+\]</p>
+<p>\[
+\det A = (-1)^s \prod_{i=1}^{n} u_{ii}
+\]</p>
+<p><strong>where:</strong> \(A, B \in \mathbb{R}^{n \times n}\), \(\lambda, \mu\) scalars. \(U\) is the echelon form reached using only row swaps and "add a multiple of a row", \(s\) the number of swaps, \(u_{ii}\) the pivots.</p>
+<p><strong>use:</strong> two equal rows (or a zero row) give \(\det = 0\). The determinant of a triangular matrix is the product of its diagonal. There is no sum rule: \(\det(A + B) \ne \det A + \det B\). \(O(n^3)\) instead of the \(O(n!)\) of cofactors. \(\operatorname{rk}(A) = n \iff \det A \ne 0 \iff A\) invertible. If you scale a row during elimination, divide the result by that factor.</p><span class="src">4.1.2, 4.1.3 · slides 146–149</span></div><div class="card f"><h3>Trace rules</h3><p>\[
+\operatorname{tr}(A) = \sum_{i} a_{ii}, \quad \operatorname{tr}(A + B) = \operatorname{tr}A + \operatorname{tr}B, \quad \operatorname{tr}(\alpha A) = \alpha \operatorname{tr}A, \quad \operatorname{tr}(I_n) = n, \quad \operatorname{tr}(AB) = \operatorname{tr}(BA)
+\]</p>
+<p><strong>where:</strong> the cyclic rule holds for \(A \in \mathbb{R}^{n \times k}\), \(B \in \mathbb{R}^{k \times n}\) (non-square allowed), so \(AB\) is \(n \times n\) and \(BA\) is \(k \times k\).</p>
+<p><strong>use:</strong> \(\operatorname{tr}(ABC) = \operatorname{tr}(CAB)\) (cyclic, not arbitrary reordering); \(\operatorname{tr}(A^\top A) = \sum_{ij} a_{ij}^2 = \lVert A \rVert_F^2\).</p><span class="src">4.2.1 · slides 150–151</span></div><div class="card f"><h3>Characteristic polynomial</h3><p>\[
+p_A(\lambda) = \det(A - \lambda I) = c_0 + c_1\lambda + \dots + c_{n-1}\lambda^{n-1} + (-1)^n \lambda^n, \qquad c_0 = \det A, \quad c_{n-1} = (-1)^{n-1}\operatorname{tr}A
+\]</p>
+<p>\[
+n = 2: \quad p_A(\lambda) = \lambda^2 - (\operatorname{tr}A)\lambda + \det A
+\]</p>
+<p><strong>where:</strong> the cofactor expansion of \(\det(A - \lambda I)\) along row 1 is \((a_{11} - \lambda)C_{11} + a_{12}C_{12} + a_{13}C_{13}\) (slide 152 prints \(a_{12}C_{13}\); erratum 3).</p>
+<p><strong>use:</strong> the eigenvalues are the roots of \(p_A\). For \(n = 3\), \(p_A(\lambda) = -\lambda^3 + (\operatorname{tr}A)\lambda^2 - (\text{sum of principal } 2 \times 2 \text{ minors})\lambda + \det A\).</p><span class="src">4.2.2, 4.3.1 · slides 152–153</span></div><div class="card f"><h3>Eigenvalue equation and procedure</h3><p>\[
+Ax = \lambda x, \; x \ne 0 \iff (A - \lambda I)x = 0 \text{ has a non-trivial solution} \iff \operatorname{rk}(A - \lambda I) &lt; n \iff \det(A - \lambda I) = 0
+\]</p>
+<p><strong>where:</strong> \(\lambda\) is an eigenvalue, \(x\) an eigenvector; any non-zero multiple \(cx\) is also an eigenvector.</p>
+<p><strong>use:</strong> step 1, solve \(p_A(\lambda) = 0\); step 2, row-reduce \(A - \lambda I\) and read \(\operatorname{null}(A - \lambda I)\). For \(A = \begin{bmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{bmatrix}\): \(\lambda = 2, 0\) with eigenvectors \((1, 1), (1, -1)\).</p><span class="src">4.3.1, 4.3.2 · slides 154–157</span></div><div class="card f"><h3>Eigenspace and multiplicities</h3><p>\[
+E_\lambda = \operatorname{null}(A - \lambda I), \qquad \text{GM}(\lambda) = \dim E_\lambda = n - \operatorname{rk}(A - \lambda I), \qquad 1 \le \text{GM}(\lambda) \le \text{AM}(\lambda)
+\]</p>
+<p><strong>where:</strong> AM is the multiplicity of \(\lambda\) as a root of \(p_A\).</p>
+<p><strong>use:</strong> \(A\) is defective when some \(\text{GM} &lt; \text{AM}\): \(\begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix}\) has \(\lambda = 0\) with AM 2, GM 1. A rotation by \(\theta \notin \{0, \pi\}\) has \(\lambda = \cos\theta \pm i\sin\theta\), no real eigenvalues. \(I_n\) has \(\lambda = 1\) with \(E_1 = \mathbb{R}^n\).</p><span class="src">4.3.3, 4.3.4 · slides 156–159</span></div><div class="card f"><h3>Eigenvalues of related matrices</h3><p>\[
+Ax = \lambda x \;\Rightarrow\; A^k x = \lambda^k x, \quad A^{-1}x = \lambda^{-1}x, \quad (A + cI)x = (\lambda + c)x, \quad (cA)x = c\lambda x
+\]</p>
+<p><strong>where:</strong> same eigenvector \(x\); \(A^{-1}\) requires \(\lambda \ne 0\).</p>
+<p><strong>use:</strong> \(A\) and \(A^\top\) have the same eigenvalues (same \(p_A\), since \(\det M^\top = \det M\)) but usually different eigenvectors. Eigenvectors of distinct eigenvalues are linearly independent.</p><span class="src">4.3.4, 4.3.5 · slides 158–159</span></div><div class="card f"><h3>Trace and determinant from eigenvalues</h3><p>\[
+\sum_{i=1}^{n} \lambda_i = \operatorname{tr}A, \qquad \prod_{i=1}^{n} \lambda_i = \det A, \qquad \text{from } p_A(\lambda) = \prod_{i=1}^{n} (\lambda_i - \lambda)
+\]</p>
+<p><strong>where:</strong> \(\lambda_i\) counted with algebraic multiplicity (complex ones included).</p>
+<p><strong>use:</strong> for a 2×2 matrix, if you know one eigenvalue the other is \(\operatorname{tr}A - \lambda_1\); a quick check on any computed spectrum. \(\det A = 0 \iff 0\) is an eigenvalue.</p><span class="src">4.5.1 · slide 168</span></div><div class="card f"><h3>Spectral theorem</h3><p>\[
+A = A^\top \in \mathbb{R}^{n \times n} \;\Rightarrow\; A = Q\Lambda Q^\top = \sum_{i=1}^{n} \lambda_i q_i q_i^\top, \qquad Q^\top Q = I
+\]</p>
+<p><strong>where:</strong> the columns \(q_i\) of \(Q\) are orthonormal eigenvectors (they form an orthonormal basis); \(\Lambda = \operatorname{diag}(\lambda_1, \dots, \lambda_n)\) has <strong>zero off-diagonal entries</strong>, and its diagonal entries (real eigenvalues) may be 0 (erratum 24).</p>
+<p><strong>use:</strong> every symmetric matrix has AM = GM for every eigenvalue. \(A^\top A\) and \(AA^\top\) are symmetric, so the theorem covers SVD and PCA.</p><span class="src">4.4.1, 4.4.4 · slides 160, 167</span></div><div class="card f"><h3>Real eigenvalues and orthogonal eigenvectors (proof formulas)</h3><p>\[
+x^H = \bar{x}^\top, \quad \lVert x \rVert^2 = x^H x; \qquad Ax = \lambda x \Rightarrow \lambda = \frac{x^H A x}{x^H x} \in \mathbb{R} \text{ since } (x^H A x)^H = x^H A x
+\]</p>
+<p>\[
+\lambda_1 x_1^\top x_2 = (Ax_1)^\top x_2 = x_1^\top A x_2 = \lambda_2 x_1^\top x_2 \;\Rightarrow\; (\lambda_1 - \lambda_2)\, x_1^\top x_2 = 0
+\]</p>
+<p><strong>where:</strong> \(A\) real symmetric (or Hermitian, \(A^H = A\)); \(\bar{x}\) is the complex conjugate.</p>
+<p><strong>use:</strong> distinct eigenvalues of a symmetric matrix have orthogonal eigenvectors. The Hermitian \(\begin{bmatrix} 1 &amp; 3 - i \\ 3 + i &amp; 4 \end{bmatrix}\) has \(p(\lambda) = \lambda^2 - 5\lambda - 6\), so real \(\lambda = 6, -1\).</p><span class="src">4.4.2, 4.4.3 · slides 161–166</span></div><div class="card f"><h3>Definiteness from eigenvalues; AᵀA is SPD</h3><p>\[
+x^\top A x = \sum_{i=1}^{n} \lambda_i (q_i^\top x)^2, \qquad \lambda_{\min} \le \frac{x^\top A x}{x^\top x} \le \lambda_{\max}; \qquad x^\top A^\top A x = \lVert Ax \rVert^2 \ge 0
+\]</p>
+<p><strong>where:</strong> \(A = Q\Lambda Q^\top\) symmetric; the middle ratio is the Rayleigh quotient.</p>
+<p><strong>use:</strong> symmetric \(A\) is PD iff all \(\lambda_i &gt; 0\), PSD iff all \(\lambda_i \ge 0\). \(A^\top A\) is always PSD and is PD iff \(\operatorname{rk}A = n\) (no non-zero \(x\) with \(Ax = 0\)), which is why least squares has a unique solution with full column rank.</p><span class="src">4.3.5, 4.4.4 · slides 159, 167</span></div><div class="card f"><h3>Cholesky decomposition and Gaussian sampling</h3><p>\[
+A = LL^\top, \qquad l_{11} = \sqrt{a_{11}}, \quad l_{21} = \frac{a_{21}}{l_{11}}, \quad l_{31} = \frac{a_{31}}{l_{11}}, \quad l_{22} = \sqrt{a_{22} - l_{21}^2}, \quad l_{32} = \frac{a_{32} - l_{31}l_{21}}{l_{22}}, \quad l_{33} = \sqrt{a_{33} - l_{31}^2 - l_{32}^2}
+\]</p>
+<p>\[
+z \sim N(0, I) \;\Rightarrow\; x = \mu + Lz \sim N(\mu, \Sigma), \qquad \Sigma = LL^\top
+\]</p>
+<p><strong>where:</strong> \(A\) SPD, \(L\) lower triangular. Only the <strong>diagonal</strong> of \(L\) must be positive; off-diagonal entries may be negative (erratum 25): \(\begin{bmatrix} 4 &amp; -2 \\ -2 &amp; 2 \end{bmatrix} = LL^\top\) with \(L = \begin{bmatrix} 2 &amp; 0 \\ -1 &amp; 1 \end{bmatrix}\). \(L\) is the Cholesky factor of the covariance \(\Sigma\), \(\mu\) the mean.</p>
+<p><strong>use:</strong> exists (and is unique) iff \(A\) is SPD; a negative number under a square root proves \(A\) is not PD. \(\det A = \prod l_{ii}^2\). Solve \(Ax = b\) by \(Ly = b\), then \(L^\top x = y\). \(z\) must be <strong>standard</strong> normal and the mean is added <strong>after</strong> computing \(Lz\) (erratum 26). Check: \(\operatorname{Cov}(Lz) = L I L^\top = \Sigma\).</p><span class="src">4.6.1, 4.6.2 · slides 169–170</span></div></div></details>
+<details class="module" open id="m5-singular-value-decomposition"><summary>M5 · Singular value decomposition <small>· 10 items</small></summary><div class="cards"><div class="card f"><h3>Diagonal matrices and diagonalisation</h3><p>\[
+D = \operatorname{diag}(d_1, \dots, d_n): \quad \det D = \prod_i d_i, \qquad D^k = \operatorname{diag}(d_1^k, \dots, d_n^k), \qquad D^{-1} = \operatorname{diag}(d_1^{-1}, \dots, d_n^{-1})
+\]</p>
+<p>\[
+D = P^{-1}AP \iff AP = PD \iff Ap_i = \lambda_i p_i \;\; (i = 1, \dots, n)
+\]</p>
+<p><strong>where:</strong> the inverse needs every \(d_i \ne 0\). \(P = [p_1, \dots, p_n]\) is invertible with eigenvectors as columns, \(D = \operatorname{diag}(\lambda_1, \dots, \lambda_n)\) in the same order.</p>
+<p><strong>use:</strong> everything about a diagonal matrix is entry-wise, which is why we try to diagonalise. The column order of \(P\) fixes the order in \(D\). For \(A = \begin{bmatrix} 1 &amp; 4 \\ 2 &amp; 3 \end{bmatrix}\), \(P = \begin{bmatrix} -2 &amp; 1 \\ 1 &amp; 1 \end{bmatrix}\) gives \(D = \operatorname{diag}(-1, 5)\).</p><span class="src">5.1.1, 5.1.2 · slides 175–177</span></div><div class="card f"><h3>Eigendecomposition, matrix powers and the symmetric case</h3><p>\[
+A = PDP^{-1}, \qquad A^k = PD^kP^{-1}, \qquad A^{-1} = PD^{-1}P^{-1}
+\]</p>
+<p>\[
+A = A^\top \;\Rightarrow\; A = PDP^\top, \qquad P^{-1} = P^\top
+\]</p>
+<p><strong>where:</strong> requires \(n\) linearly independent eigenvectors (a basis of \(\mathbb{R}^n\)); distinct eigenvalues are sufficient, not necessary. \(P\) has orthonormal eigenvectors as columns (normalise them; for repeated eigenvalues orthogonalise within the eigenspace).</p>
+<p><strong>use:</strong> \(A^{10}\) costs two matrix products instead of nine. Worked example: \(A = \begin{bmatrix} 2.5 &amp; -1 \\ -1 &amp; 2.5 \end{bmatrix}\), \(\lambda^2 - 5\lambda + \tfrac{21}{4} = 0\), \(\lambda_1 = 3.5\) with \(p_1 \propto (1, -1)\) and \(\lambda_2 = 1.5\) with \(p_2 \propto (1, 1)\) (slide 180 labels the second one "\(\lambda_1\)"; erratum 4). No matrix inversion needed. For the example above, \(P = \tfrac{1}{\sqrt{2}}\begin{bmatrix} 1 &amp; 1 \\ -1 &amp; 1 \end{bmatrix}\).</p><span class="src">5.2.1, 5.2.2, 5.2.3 · slides 178–182</span></div><div class="card f"><h3>The SVD theorem</h3><p>\[
+A = U\Sigma V^\top, \qquad U \in \mathbb{R}^{m \times m}, \;\; \Sigma \in \mathbb{R}^{m \times n}, \;\; V \in \mathbb{R}^{n \times n}, \qquad \sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r &gt; 0
+\]</p>
+<p><strong>where:</strong> \(A \in \mathbb{R}^{m \times n}\) of rank \(r\); \(U, V\) orthogonal; \(\Sigma\) has the shape of \(A\) with \(\Sigma_{ii} = \sigma_i\) for \(i \le r\) and <strong>every other entry zero</strong> (zero rows when \(m &gt; n\), zero columns when \(m &lt; n\)).</p>
+<p><strong>use:</strong> exists for every real matrix. Singular values can repeat and some diagonal entries are 0, so slide 184's "\(\Sigma_{ii} &gt; 0\)" and "\(\Sigma_{ii} &gt; \Sigma_{jj}\)" are too strong (erratum 5). \(\Sigma\) is unique; \(U\) and \(V\) are not (signs, repeated \(\sigma\)).</p><span class="src">5.3.1, 5.3.2 · slides 183–186</span></div><div class="card f"><h3>Singular vectors as eigenvectors; left from right singular vectors</h3><p>\[
+A^\top A = V\Sigma^\top\Sigma V^\top, \qquad AA^\top = U\Sigma\Sigma^\top U^\top, \qquad \sigma_i = \sqrt{\lambda_i(A^\top A)} = \sqrt{\lambda_i(AA^\top)}
+\]</p>
+<p>\[
+AV = U\Sigma \;\Rightarrow\; u_i = \frac{1}{\sigma_i} A v_i, \qquad i = 1, \dots, r
+\]</p>
+<p><strong>where:</strong> \(\Sigma^\top\Sigma = \operatorname{diag}(\sigma_1^2, \dots, \sigma_r^2, 0, \dots) \in \mathbb{R}^{n \times n}\); \(\Sigma\Sigma^\top\) is the \(m \times m\) analogue. \(v_i\) unit eigenvector of \(A^\top A\) for \(\sigma_i^2 &gt; 0\).</p>
+<p><strong>use:</strong> right singular vectors are eigenvectors of \(A^\top A\), left singular vectors are eigenvectors of \(AA^\top\), and the non-zero eigenvalues of both are the \(\sigma_i^2\). Use whichever of \(A^\top A\), \(AA^\top\) is smaller. This fixes the signs of the \(u_i\) consistently with the \(v_i\). Computing \(U\) separately from \(AA^\top\) can give mismatched signs. Remaining \(u_{r+1}, \dots, u_m\) complete an orthonormal basis (they span \(\operatorname{null}(A^\top)\)).</p><span class="src">5.3.3, 5.3.4 · slides 186–188</span></div><div class="card f"><h3>Hand-SVD recipe</h3><p>\[
+A = \begin{bmatrix} 1 &amp; 0 &amp; 1 \\ -2 &amp; 1 &amp; 0 \end{bmatrix}: \quad \lambda(A^\top A) = 6, 1, 0, \quad \Sigma = \begin{bmatrix} \sqrt{6} &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \end{bmatrix}, \quad v_1 = \tfrac{1}{\sqrt{30}}(5, -2, 1), \; v_2 = \tfrac{1}{\sqrt{5}}(0, 1, 2), \; v_3 = \tfrac{1}{\sqrt{6}}(-1, -2, 1)
+\]</p>
+<p>\[
+u_1 = \tfrac{1}{\sqrt{6}} A v_1 = \tfrac{1}{\sqrt{5}}(1, -2), \qquad u_2 = A v_2 = \tfrac{1}{\sqrt{5}}(2, 1)
+\]</p>
+<p><strong>where:</strong> steps: (1) form \(A^\top A\); (2) its eigenvalues give \(\sigma_i = \sqrt{\lambda_i}\), sorted decreasing; (3) unit eigenvectors give \(V\); (4) \(u_i = Av_i/\sigma_i\); (5) pad \(\Sigma\) to the shape of \(A\).</p>
+<p><strong>use:</strong> check \(U\Sigma V^\top = A\) at the end; check \(\sum \sigma_i^2 = \lVert A \rVert_F^2\) (here \(6 + 1 = 7\)).</p><span class="src">5.4.1 · slides 189–193</span></div><div class="card f"><h3>SVD versus eigendecomposition</h3><p>\[
+A = U\Sigma V^\top \;(\text{all } A) \quad \text{vs} \quad A = PDP^{-1} \;(\text{some square } A); \qquad A = A^\top \Rightarrow \sigma_i = \lvert \lambda_i \rvert
+\]</p>
+<p><strong>where:</strong> in the SVD the left and right singular-vector matrices are \(U\) and \(V\) (slide 195 writes "\(P\) and \(P\)"; erratum 6), both orthogonal; \(P\) is merely invertible.</p>
+<p><strong>use:</strong> the SVD maps \(\mathbb{R}^n \to \mathbb{R}^m\) with different bases in domain and codomain, and \(\sigma_i \ge 0\) are real, whereas eigenvalues may be negative or complex. For SPD \(A\) the two decompositions coincide.</p><span class="src">5.5.1 · slides 194–196</span></div><div class="card f"><h3>SVD as a sum of rank-1 matrices</h3><p>\[
+A = \sum_{i=1}^{r} \sigma_i u_i v_i^\top
+\]</p>
+<p><strong>where:</strong> each \(u_i v_i^\top\) is an \(m \times n\) rank-1 outer product.</p>
+<p><strong>use:</strong> when \(U\Sigma V^\top\) is multiplied out, the <strong>cross terms</strong> \(u_i v_j^\top\) with \(i \ne j\) vanish because \(\Sigma\) is diagonal; the \(\sigma_i u_i v_i^\top\) terms are exactly what remains (erratum 27).</p><span class="src">5.6.1 · slides 197–198</span></div><div class="card f"><h3>Rank-k truncation, storage and Eckart–Young error</h3><p>\[
+\hat{A}(k) = \sum_{i=1}^{k} \sigma_i u_i v_i^\top, \qquad \text{storage} = k(m + n + 1), \qquad \lVert A - \hat{A}(k) \rVert_2 = \sigma_{k+1}, \qquad \lVert A - \hat{A}(k) \rVert_F = \sqrt{\textstyle\sum_{i &gt; k} \sigma_i^2}
+\]</p>
+<p><strong>where:</strong> \(k \le r\); storage counts \(k\) vectors \(u_i \in \mathbb{R}^m\), \(k\) vectors \(v_i \in \mathbb{R}^n\) and \(k\) numbers \(\sigma_i\), against \(mn\) for the full matrix.</p>
+<p><strong>use:</strong> Eckart–Young: no rank-\(k\) matrix is closer to \(A\) in either norm. Compression pays off when \(k(m + n + 1) &lt; mn\). The fraction of "energy" kept is \(\sum_{i \le k}\sigma_i^2 / \sum_i \sigma_i^2\).</p><span class="src">5.6.2 · slides 199–200</span></div><div class="card f"><h3>Spectral and Frobenius norms</h3><p>\[
+\lVert A \rVert_2 = \max_{x \ne 0} \frac{\lVert Ax \rVert_2}{\lVert x \rVert_2} = \sigma_1, \qquad \lVert A \rVert_F = \sqrt{\sum_{i,j} a_{ij}^2} = \sqrt{\operatorname{tr}(A^\top A)} = \sqrt{\sum_i \sigma_i^2}
+\]</p>
+<p><strong>where:</strong> the maximum is attained at \(x = v_1\).</p>
+<p><strong>use:</strong> for \(A = \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}\), \(\sigma = 5.465, 0.366\), so \(\lVert A \rVert_2 = 5.465\) although the eigenvalues are \(5.372, -0.372\). Norms are measured by singular values, not eigenvalues.</p><span class="src">5.6.3 · slides 200–201</span></div><div class="card f"><h3>Pseudo-inverse and minimum-norm least squares</h3><p>\[
+A^+ = V\Sigma^+U^\top = \sum_{i=1}^{r} \frac{1}{\sigma_i} v_i u_i^\top, \qquad x^+ = A^+ b
+\]</p>
+<p><strong>where:</strong> \(\Sigma^+ \in \mathbb{R}^{n \times m}\) is \(\Sigma^\top\) with each non-zero \(\sigma_i\) replaced by \(1/\sigma_i\).</p>
+<p><strong>use:</strong> \(x^+\) minimises \(\lVert Ax - b \rVert\) and, among all minimisers, has the smallest norm. With full column rank \(A^+ = (A^\top A)^{-1}A^\top\). Tiny \(\sigma_i\) amplify noise by \(1/\sigma_i\).</p><span class="src">5.3.1, 5.6.1 · slides 183–188</span></div></div></details>
+<details class="module" open id="m6-differentiation-backpropagation-automatic-differentiation"><summary>M6 · Differentiation, backpropagation &amp; automatic differentiation <small>· 14 items</small></summary><div class="cards"><div class="card f"><h3>Derivative as a limit and standard derivatives</h3><p>\[
+f'(x) = \frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
+\]</p>
+<p>\[
+\frac{d}{dx}x^n = nx^{n-1}, \quad \frac{d}{dx}e^x = e^x, \quad \frac{d}{dx}\ln x = \frac{1}{x}, \quad \frac{d}{dx}\sin x = \cos x, \quad \frac{d}{dx}\cos x = -\sin x, \quad \frac{d}{dx}\sqrt{x} = \frac{1}{2\sqrt{x}}
+\]</p>
+<p>\[
+\frac{d}{dx}\tanh x = 1 - \tanh^2 x, \qquad \frac{d}{dx}\sigma(x) = \sigma(x)(1 - \sigma(x)), \qquad \sigma(x) = \frac{1}{1 + e^{-x}}
+\]</p>
+<p><strong>where:</strong> the limit is two-sided (\(h \to 0\) from both signs; slide 206 says "for \(h &gt; 0\)", which would only give a one-sided derivative). \(\ln\) is the natural logarithm, \(\sigma\) the sigmoid.</p>
+<p><strong>use:</strong> the derivative of \(x^n\) follows from the binomial theorem: \((x + h)^n - x^n = nx^{n-1}h + \binom{n}{2}x^{n-2}h^2 + \dots\), so the quotient tends to \(nx^{n-1}\). \(\lvert x \rvert\) has no derivative at 0 because the one-sided limits differ. The building blocks of every local derivative in a computation graph.</p><span class="src">6.1.1, 6.1.2, 6.1.4 · slides 205–208, 214</span></div><div class="card f"><h3>Sum, product, quotient and chain rules</h3><p>\[
+(f + g)' = f' + g', \qquad (fg)' = f'g + fg', \qquad \Big(\frac{f}{g}\Big)' = \frac{f'g - fg'}{g^2}, \qquad (g \circ f)'(x) = g'(f(x))\, f'(x)
+\]</p>
+<p><strong>where:</strong> \(f, g\) differentiable, \(g \ne 0\) for the quotient rule.</p>
+<p><strong>use:</strong> chain rule example from the deck: \(\frac{d}{dx}(2x + 1)^4 = 4(2x + 1)^3 \cdot 2 = 8(2x + 1)^3\).</p><span class="src">6.1.4 · slides 214–215</span></div><div class="card f"><h3>Taylor polynomial and Taylor series</h3><p>\[
+T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k, \qquad T_\infty(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k
+\]</p>
+<p><strong>where:</strong> \(f^{(k)}\) is the \(k\)-th derivative, \(x_0\) the expansion point; Maclaurin means \(x_0 = 0\).</p>
+<p><strong>use:</strong> every coefficient is divided by \(k!\). For \(x^4\) at \(x_0 = 1\): \(T_4 = 1 + 4(x-1) + 6(x-1)^2 + 4(x-1)^3 + (x-1)^4 = x^4\) (slide 211 forgets the \(k!\) and prints \(12, 24, 24\); erratum 7). A degree-\(n\) polynomial is reproduced exactly by \(T_n\).</p><span class="src">6.1.3 · slides 209–213</span></div><div class="card f"><h3>Partial derivatives and the row gradient (deck convention)</h3><p>\[
+\frac{\partial f}{\partial x_i} = \lim_{h \to 0} \frac{f(x_1, \dots, x_i + h, \dots, x_n) - f(x)}{h}, \qquad \nabla_x f = \frac{df}{dx} = \Big[\frac{\partial f}{\partial x_1} \;\; \cdots \;\; \frac{\partial f}{\partial x_n}\Big] \in \mathbb{R}^{1 \times n}
+\]</p>
+<p>\[
+f = (x + 2y^3)^2: \quad \frac{\partial f}{\partial x} = 2(x + 2y^3), \quad \frac{\partial f}{\partial y} = 12y^2(x + 2y^3); \qquad f = x_1^2x_2 + x_1x_2^3: \quad \nabla f = \big[2x_1x_2 + x_2^3 \;\;\; x_1^2 + 3x_1x_2^2\big]
+\]</p>
+<p><strong>where:</strong> \(f : \mathbb{R}^n \to \mathbb{R}\), \(x \in \mathbb{R}^n\) a column vector. Hold every other variable constant and apply one-variable rules (chain rule for the outer square).</p>
+<p><strong>use:</strong> <strong>gradient layout:</strong> in M6 and M8 the deck writes the gradient as a <strong>row</strong> vector, so a gradient step is \(x - \gamma(\nabla f)^\top\). Textbooks and code often use the column gradient \((\nabla f)^\top\); then every identity on this page is transposed. Track shapes and state the layout. Check a hand partial with a finite difference at one point.</p><span class="src">6.2.1, 6.2.2 · slides 216–220</span></div><div class="card f"><h3>Chain rules for vector arguments</h3><p>\[
+\frac{\partial}{\partial x}\big(f(x)g(x)\big) = \frac{\partial f}{\partial x}g(x) + f(x)\frac{\partial g}{\partial x}, \qquad \frac{\partial}{\partial x}(f + g) = \frac{\partial f}{\partial x} + \frac{\partial g}{\partial x}, \qquad \frac{\partial}{\partial x}(g \circ f) = \frac{\partial g}{\partial f}\frac{\partial f}{\partial x}
+\]</p>
+<p>\[
+\frac{df}{dt} = \Big[\frac{\partial f}{\partial x_1} \;\; \frac{\partial f}{\partial x_2}\Big] \begin{bmatrix} \frac{\partial x_1}{\partial t} \\ \frac{\partial x_2}{\partial t} \end{bmatrix} = \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial t} + \frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial t}, \qquad \frac{df}{d(s, t)} = \underbrace{\frac{\partial f}{\partial x}}_{1 \times 2}\underbrace{\frac{\partial x}{\partial (s, t)}}_{2 \times 2}
+\]</p>
+<p><strong>where:</strong> \(x \in \mathbb{R}^n\); each derivative is a row vector or Jacobian matrix. \(f : \mathbb{R}^2 \to \mathbb{R}\) (slide 221 writes \(\mathbb{R} \to \mathbb{R}\); erratum 8), \(x_1, x_2\) functions of \(t\) (or of \(s, t\)).</p>
+<p><strong>use:</strong> with matrices the order of factors matters; write each factor's shape and check that inner dimensions agree. Sum over every path from \(t\) to \(f\). Deck example: \(f = x_1^2 + 2x_2\), \(x_1 = \sin t\), \(x_2 = \cos t\) gives \(\frac{df}{dt} = 2\sin t\cos t - 2\sin t = 2\sin t(\cos t - 1)\).</p><span class="src">6.2.3, 6.2.4 · slides 220–224</span></div><div class="card f"><h3>Jacobians, d(Ax)/dx and a shape-checked chain rule</h3><p>\[
+J = \frac{df}{dx} = \Big[\frac{\partial f}{\partial x_1} \;\; \cdots \;\; \frac{\partial f}{\partial x_n}\Big] = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \\ \vdots &amp; &amp; \vdots \\ \frac{\partial f_m}{\partial x_1} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}, \qquad J_{ij} = \frac{\partial f_i}{\partial x_j}
+\]</p>
+<p>\[
+\frac{d(Ax)}{dx} = A; \qquad h(t) = \exp(x_1x_2^2), \; x = \begin{bmatrix} t\cos t \\ t\sin t \end{bmatrix}: \quad \frac{dh}{dt} = \underbrace{\big[x_2^2 e^{x_1x_2^2} \;\;\; 2x_1x_2 e^{x_1x_2^2}\big]}_{1 \times 2}\underbrace{\begin{bmatrix} \cos t - t\sin t \\ \sin t + t\cos t \end{bmatrix}}_{2 \times 1}
+\]</p>
+<p><strong>where:</strong> \(f : \mathbb{R}^n \to \mathbb{R}^m\); row \(i\) is the gradient of \(f_i\), column \(j\) is \(\partial f/\partial x_j\). \(A \in \mathbb{R}^{m \times n}\) constant, \(f_i(x) = \sum_j A_{ij}x_j\) so \(\partial f_i/\partial x_j = A_{ij}\).</p>
+<p><strong>use:</strong> shape rule: (outputs) × (inputs). Linearisation: \(f(x + \delta) \approx f(x) + J\delta\). \((1 \times 2)(2 \times 1) = 1 \times 1\), the shape of a scalar derivative. The result is \(e^{x_1x_2^2}\big(x_2^2(\cos t - t\sin t) + 2x_1x_2(\sin t + t\cos t)\big)\).</p><span class="src">6.3.1, 6.3.2, 6.3.3 · slides 225–230</span></div><div class="card f"><h3>Matrix-calculus identities and the least-squares gradient</h3><p>\[
+\frac{\partial x^\top a}{\partial x} = \frac{\partial a^\top x}{\partial x} = a^\top, \qquad \frac{\partial a^\top X b}{\partial X} = ab^\top, \qquad \frac{\partial x^\top B x}{\partial x} = x^\top(B + B^\top)
+\]</p>
+<p>\[
+\frac{\partial}{\partial s}(x - As)^\top W(x - As) = -2(x - As)^\top WA \quad (W \text{ symmetric})
+\]</p>
+<p>\[
+L(\theta) = \lVert y - \Phi\theta \rVert^2: \qquad \frac{dL}{d\theta} = -2(y - \Phi\theta)^\top\Phi = 0 \;\Rightarrow\; \Phi^\top\Phi\,\theta = \Phi^\top y
+\]</p>
+<p><strong>where:</strong> \(a, b\) constant vectors, \(B, W\) constant matrices; derivatives with respect to a matrix \(X\) have the shape of \(X\). \(\Phi \in \mathbb{R}^{N \times D}\) design matrix, \(y \in \mathbb{R}^N\), \(\theta \in \mathbb{R}^D\); the gradient is \(1 \times D\) (row).</p>
+<p><strong>use:</strong> for symmetric \(B\), \(\frac{\partial}{\partial x}x^\top Bx = 2x^\top B\). In column layout transpose each result: \(a\), \((B + B^\top)x\), \(-2A^\top W(x - As)\). This is the slide-235 identity with \(W = I\). Weighted least squares with symmetric \(W\) gives \(\Phi^\top W\Phi\,\theta = \Phi^\top W y\).</p><span class="src">6.4.1 · slide 235</span></div><div class="card f"><h3>Derivatives with respect to a matrix</h3><p>\[
+\frac{\partial \operatorname{tr}(AX)}{\partial X} = A^\top, \qquad \frac{\partial \operatorname{tr}(X^\top A X)}{\partial X} = (A + A^\top)X, \qquad \frac{\partial \lVert X \rVert_F^2}{\partial X} = 2X
+\]</p>
+<p><strong>where:</strong> \(X\) is the variable matrix; each result has the shape of \(X\).</p>
+<p><strong>use:</strong> write the scalar as a sum over entries, differentiate with respect to \(X_{ij}\), then reassemble the matrix.</p><span class="src">6.4.1 · slide 235</span></div><div class="card f"><h3>Expression swell and backpropagation through a layered model</h3><p>\[
+f(x) = \sqrt{x^2 + e^{x^2}} + \cos(x^2 + e^{x^2}), \qquad f'(x) = \frac{2x + 2xe^{x^2}}{2\sqrt{x^2 + e^{x^2}}} - \sin(x^2 + e^{x^2})\,(2x + 2xe^{x^2})
+\]</p>
+<p>\[
+f_0 = x, \quad f_i = \sigma_i(A_{i-1}f_{i-1} + b_{i-1}) \;\; (i = 1, \dots, K), \qquad L(\theta) = \lVert y - f_K \rVert^2
+\]</p>
+<p>\[
+\frac{\partial L}{\partial \theta_i} = \frac{\partial L}{\partial f_K}\frac{\partial f_K}{\partial f_{K-1}} \cdots \frac{\partial f_{i+2}}{\partial f_{i+1}}\frac{\partial f_{i+1}}{\partial \theta_i}
+\]</p>
+<p><strong>where:</strong> the sub-expressions \(x^2 + e^{x^2}\) and \(2x + 2xe^{x^2}\) appear repeatedly. \(\theta_j = \{A_j, b_j\}\) for \(j = 0, \dots, K-1\), which is \(K\) parameter blocks (slide 239 mixes \(j = 1, \dots, K\) and \(j = 1, \dots, K-1\); erratum 31).</p>
+<p><strong>use:</strong> naive symbolic differentiation repeats work; introducing intermediate variables (the computation graph) computes each piece once. The product \(\frac{\partial L}{\partial f_K} \cdots \frac{\partial f_{i+2}}{\partial f_{i+1}}\) is already computed for layer \(i + 1\), so it is reused going right to left; that reuse is backpropagation.</p><span class="src">6.5.1, 6.5.2 · slides 236–241</span></div><div class="card f"><h3>Computation graph and local derivatives</h3><p>\[
+a = x^2, \; b = e^a, \; c = a + b, \; d = \sqrt{c}, \; e = \cos c, \; f = d + e
+\]</p>
+<p>\[
+\frac{\partial a}{\partial x} = 2x, \;\; \frac{\partial b}{\partial a} = e^a, \;\; \frac{\partial c}{\partial a} = \frac{\partial c}{\partial b} = 1, \;\; \frac{\partial d}{\partial c} = \frac{1}{2\sqrt{c}}, \;\; \frac{\partial e}{\partial c} = -\sin c, \;\; \frac{\partial f}{\partial d} = \frac{\partial f}{\partial e} = 1
+\]</p>
+<p><strong>where:</strong> each node is an elementary operation of its parents.</p>
+<p><strong>use:</strong> backward pass: \(\frac{\partial f}{\partial c} = \frac{\partial f}{\partial d}\frac{\partial d}{\partial c} + \frac{\partial f}{\partial e}\frac{\partial e}{\partial c}\), \(\frac{\partial f}{\partial b} = \frac{\partial f}{\partial c}\), \(\frac{\partial f}{\partial a} = \frac{\partial f}{\partial b}\frac{\partial b}{\partial a} + \frac{\partial f}{\partial c}\frac{\partial c}{\partial a}\) (two paths), \(\frac{\partial f}{\partial x} = \frac{\partial f}{\partial a}\,2x\).</p><span class="src">6.6.1 · slides 242–245</span></div><div class="card f"><h3>Reverse-mode automatic differentiation rule</h3><p>\[
+x_i = g_i(x_{\text{Pa}(x_i)}), \qquad \frac{\partial f}{\partial x_D} = 1, \qquad \frac{\partial f}{\partial x_i} = \sum_{j \,:\, x_i \in \text{Pa}(x_j)} \frac{\partial f}{\partial x_j}\frac{\partial g_j}{\partial x_i}
+\]</p>
+<p><strong>where:</strong> \(\text{Pa}(x_j)\) are the parents of node \(x_j\), \(x_D = f\) is the output node; the sum runs over the children \(x_j\) of \(x_i\).</p>
+<p><strong>use:</strong> the local factor is \(\partial g_j/\partial x_i\), not \(\partial g_i/\partial x_i\) as printed on slide 247 (erratum 9). Reverse mode gets the whole gradient of a scalar \(f\) for a small constant multiple of the cost of evaluating \(f\); forward mode needs one pass per input. AD is exact, unlike finite differences.</p><span class="src">6.6.2, 6.6.3 · slides 246–247</span></div><div class="card f"><h3>Sigmoid layer: diagonal Jacobian</h3><p>\[
+Z = Ax + b, \quad a = \sigma(Z), \qquad \frac{\partial a_i}{\partial Z_j} = \begin{cases} a_i(1 - a_i) &amp; i = j \\ 0 &amp; i \ne j \end{cases}, \qquad \frac{\partial a}{\partial Z} = \operatorname{diag}\big(a \odot (1 - a)\big)
+\]</p>
+<p><strong>where:</strong> \(x \in \mathbb{R}^n\), \(A \in \mathbb{R}^{m \times n}\), \(b, Z, a \in \mathbb{R}^m\); \(\odot\) is the element-wise (Hadamard) product.</p>
+<p><strong>use:</strong> an element-wise activation always has a diagonal Jacobian, so multiplying by it is just a Hadamard product. Since \(\sigma' \le \tfrac{1}{4}\), a chain of \(k\) sigmoids shrinks gradients by up to \(4^{-k}\) (vanishing gradients).</p><span class="src">6.7.1 · slides 248–252</span></div><div class="card f"><h3>Sigmoid layer: backpropagation rules (column layout)</h3><p>\[
+\delta^{(Z)} = \delta^{(a)} \odot a \odot (1 - a), \qquad \frac{\partial \text{Loss}}{\partial A} = \delta^{(Z)}x^\top, \qquad \frac{\partial \text{Loss}}{\partial b} = \delta^{(Z)}, \qquad \frac{\partial \text{Loss}}{\partial x} = A^\top\delta^{(Z)}
+\]</p>
+<p><strong>where:</strong> \(\delta^{(a)} = \partial\text{Loss}/\partial a\) and \(\delta^{(Z)} = \partial\text{Loss}/\partial Z\) are <strong>column</strong> vectors in \(\mathbb{R}^m\); \(\delta^{(Z)}x^\top\) is \(m \times n\), the shape of \(A\).</p>
+<p><strong>use:</strong> <strong>gradient layout:</strong> these slides use column layout, unlike the row gradient of slide 218. From \(\partial Z_i/\partial A_{ij} = x_j\). For squared loss \(\lVert y - a \rVert^2\), \(\delta^{(a)} = 2(a - y)\).</p><span class="src">6.7.2 · slides 253–256</span></div><div class="card f"><h3>Sigmoid with cross-entropy: prediction minus target</h3><p>\[
+\text{Loss} = -\big[y\ln a + (1 - y)\ln(1 - a)\big], \; a = \sigma(z) \;\Rightarrow\; \frac{\partial \text{Loss}}{\partial z} = a - y; \qquad p = \operatorname{softmax}(z), \; \text{Loss} = -\sum_k y_k \ln p_k \;\Rightarrow\; \frac{\partial \text{Loss}}{\partial z} = p - y
+\]</p>
+<p><strong>where:</strong> \(y \in \{0, 1\}\) (or a one-hot vector for softmax), \(z\) the pre-activation.</p>
+<p><strong>use:</strong> the \(a(1 - a)\) factor cancels, so the error signal does not vanish when the sigmoid saturates; logistic regression's gradient is \((a - y)x\).</p><span class="src">6.7.2 · slides 253–256</span></div></div></details>
+<details class="module" open id="m7-taylor-maclaurin-series"><summary>M7 · Taylor &amp; Maclaurin series <small>· 10 items</small></summary><div class="cards"><div class="card f"><h3>Taylor's theorem with the Lagrange remainder</h3><p>\[
+f(b) = \sum_{k=0}^{n-1} \frac{f^{(k)}(a)}{k!}(b - a)^k + \frac{f^{(n)}(c)}{n!}(b - a)^n, \qquad c \in (a, b)
+\]</p>
+<p><strong>where:</strong> \(f^{(n-1)}\) continuous on \([a, b]\) and \(f^{(n)}\) exists on \((a, b)\); \(c\) is some point strictly between \(a\) and \(b\) (it depends on \(a\), \(b\) and \(n\)).</p>
+<p><strong>use:</strong> exact, not approximate: the last term is the whole error of the degree-\((n-1)\) polynomial. The sum starts at \(k = 0\), so \(f(a)\) is included.</p><span class="src">7.1.1 · slides 260–262</span></div><div class="card f"><h3>Remainder of T_n and the error bound</h3><p>\[
+R_n(x) = f(x) - T_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x - x_0)^{n+1}, \qquad \lvert R_n(x) \rvert \le \frac{M\,\lvert x - x_0 \rvert^{n+1}}{(n+1)!}, \quad M = \max_{t \text{ between } x_0, x} \lvert f^{(n+1)}(t) \rvert
+\]</p>
+<p><strong>where:</strong> \(T_n\) the degree-\(n\) Taylor polynomial about \(x_0\).</p>
+<p><strong>use:</strong> to find how many terms are needed, increase \(n\) until the bound is below the tolerance. For \(e^x\) on \([0, 1]\), \(M = e &lt; 3\). The sign of \(f^{(n+1)}\) gives the sign of the error.</p><span class="src">7.1.5 · slide 268</span></div><div class="card f"><h3>Standard Maclaurin series</h3><p>\[
+e^x = \sum_{k=0}^{\infty} \frac{x^k}{k!}, \quad \sin x = \sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!}, \quad \cos x = \sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}
+\]</p>
+<p>\[
+\ln(1 + x) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}x^k}{k}, \qquad \frac{1}{1 - x} = \sum_{k=0}^{\infty} x^k \quad (\lvert x \rvert &lt; 1 \text{ for both})
+\]</p>
+<p><strong>where:</strong> expansions about \(x_0 = 0\).</p>
+<p><strong>use:</strong> combine by multiplying or substituting series, for example \(e^x\cos x = 1 + x - \tfrac{x^3}{3} - \tfrac{x^4}{6} + \dots\) and \(\sin x + \cos x = 1 + x - \tfrac{x^2}{2} - \tfrac{x^3}{6} + \dots\). A Taylor series need not converge to \(f\) (\(e^{-1/x^2}\) has all derivatives 0 at 0).</p><span class="src">7.1.1, 6.1.3 · slides 209–213, 260</span></div><div class="card f"><h3>Mean-value theorem, Rolle's theorem and Proposition P</h3><p>\[
+f'(c) = \frac{f(b) - f(a)}{b - a}, \qquad c \in (a, b)
+\]</p>
+<p>\[
+f(a) = f(b) \;\Rightarrow\; \exists c \in (a, b): f'(c) = 0; \qquad F(a) = F'(a) = \dots = F^{(n-1)}(a) = 0, \; F(b) = 0 \;\Rightarrow\; \exists c \in (a, b): F^{(n)}(c) = 0
+\]</p>
+<p><strong>where:</strong> \(f\) continuous on \([a, b]\), differentiable on \((a, b)\). Same continuity and differentiability hypotheses as the MVT (Proposition P needs them up to order \(n\)).</p>
+<p><strong>use:</strong> the case \(n = 1\) of Taylor's theorem. Differentiability is needed: \(\lvert x \rvert\) on \([-1, 1]\) has average slope 0 but no point with \(f' = 0\). Proposition P follows by applying Rolle \(n\) times on shrinking intervals; it is the engine of the remainder proof.</p><span class="src">7.1.2, 7.1.3 · slides 263–265</span></div><div class="card f"><h3>Constructing the remainder</h3><p>\[
+P(x) = \sum_{k=0}^{n-1} a_k (x - a)^k + a_n (x - a)^n, \quad a_k = \frac{f^{(k)}(a)}{k!} \; (k = 0, 1, \dots, n-1), \qquad F = f - P, \; F(b) = 0 \text{ fixes } a_n
+\]</p>
+<p>\[
+F^{(n)}(c) = f^{(n)}(c) - n!\,a_n = 0 \;\Rightarrow\; a_n = \frac{f^{(n)}(c)}{n!}
+\]</p>
+<p><strong>where:</strong> \(a_k\) start at \(k = 0\), with \(a_0 = f(a)\) (slide 267 starts at \(k = 1\); erratum 28).</p>
+<p><strong>use:</strong> \(F\) and its first \(n - 1\) derivatives vanish at \(a\) and \(F(b) = 0\), so Proposition P gives \(c\); substituting \(a_n\) into \(F(b) = 0\) is Taylor's theorem.</p><span class="src">7.1.4 · slides 266–267</span></div><div class="card f"><h3>Two-variable Taylor expansion</h3><p>\[
+F(t) = f(a + th, b + tk), \qquad F'(t) = hf_x + kf_y, \qquad F''(t) = h^2f_{xx} + 2hkf_{xy} + k^2f_{yy}
+\]</p>
+<p>\[
+f(x_0 + \delta) \approx f(x_0) + \nabla f(x_0)^\top \delta + \tfrac{1}{2}\delta^\top H(x_0)\,\delta
+\]</p>
+<p><strong>where:</strong> partials evaluated at \((a + th, b + tk)\); \(f_{xy} = f_{yx}\) for continuous second partials. \(\nabla f\) here is a <strong>column</strong> gradient (in the deck's row layout the linear term is \(\nabla f\,\delta\)); \(H\) is the Hessian.</p>
+<p><strong>use:</strong> apply one-variable Taylor to \(F\) on \([0, 1]\): \(f(a + h, b + k) = f(a, b) + hf_x + kf_y + \tfrac{1}{2}(h^2f_{xx} + 2hkf_{xy} + k^2f_{yy})\big|_{\text{intermediate point}}\). The local quadratic model behind the second-derivative test, Newton's method and step-size bounds. Example: \(e^x\sin y\) at \((0, 0)\) gives \(y + xy\) to second order.</p><span class="src">7.2.1, 7.3.1 · slides 269–270, 274</span></div><div class="card f"><h3>Critical points: the quadratic form and the second-derivative test</h3><p>\[
+f(a + h, b + k) - f(a, b) = \tfrac{1}{2}Q, \qquad Q = h^2f_{xx} + 2hkf_{xy} + k^2f_{yy}, \qquad f_{xx}Q = (hf_{xx} + kf_{xy})^2 + (f_{xx}f_{yy} - f_{xy}^2)k^2
+\]</p>
+<p>\[
+D = f_{xx}f_{yy} - f_{xy}^2: \quad D &gt; 0, f_{xx} &gt; 0 \Rightarrow \text{local min}; \quad D &gt; 0, f_{xx} &lt; 0 \Rightarrow \text{local max}; \quad D &lt; 0 \Rightarrow \text{saddle}; \quad D = 0 \Rightarrow \text{inconclusive}
+\]</p>
+<p><strong>where:</strong> \((a, b)\) a critical point (\(f_x = f_y = 0\)); the partials in \(Q\) are taken at an intermediate point, close to \((a, b)\) for small \(h, k\). All partials at the critical point; \(D = \det H\).</p>
+<p><strong>use:</strong> if \(f_{xx}f_{yy} - f_{xy}^2 &gt; 0\), \(Q\) has the sign of \(f_{xx}\) for every direction; if it is negative, \(Q\) takes both signs. \(D = 0\) cases need another argument: \(x^4 + y^4\) (min), \(-x^4 - y^4\) (max) and \(x^4 - y^4\) (saddle) all have \(D = 0\) at the origin.</p><span class="src">7.2.2, 7.2.3, 7.2.4 · slides 271–273</span></div><div class="card f"><h3>Hessian</h3><p>\[
+H = \nabla^2 f = \begin{bmatrix} f_{xx} &amp; f_{xy} \\ f_{xy} &amp; f_{yy} \end{bmatrix}, \qquad H_{ij} = \frac{\partial^2 f}{\partial x_i \partial x_j} \;\; (n \text{ variables})
+\]</p>
+<p><strong>where:</strong> \(H\) is symmetric when the second partials are continuous (Schwarz/Clairaut).</p>
+<p><strong>use:</strong> \(f(x) = \tfrac{1}{2}x^\top Ax + b^\top x\) with symmetric \(A\) has the constant Hessian \(H = A\).</p><span class="src">7.3.1 · slides 274–275</span></div><div class="card f"><h3>Sylvester's criterion and the nature of a critical point</h3><p>\[
+H \succ 0 \iff \Delta_1 &gt; 0, \Delta_2 &gt; 0, \dots, \Delta_n &gt; 0; \qquad H \prec 0 \iff \Delta_1 &lt; 0, \Delta_2 &gt; 0, \Delta_3 &lt; 0, \dots \;\big((-1)^k\Delta_k &gt; 0\big)
+\]</p>
+<p>\[
+\nabla f(x^*) = 0: \quad H(x^*) \succ 0 \Rightarrow \text{strict local min}, \quad H(x^*) \prec 0 \Rightarrow \text{strict local max}, \quad H \text{ indefinite} \Rightarrow \text{saddle}
+\]</p>
+<p><strong>where:</strong> \(\Delta_k\) is the \(k\)-th leading principal minor (determinant of the top-left \(k \times k\) block) of symmetric \(H\). \(H \succ 0\) iff all eigenvalues \(&gt; 0\); \(H \prec 0\) iff all \(&lt; 0\); indefinite iff eigenvalues of both signs.</p>
+<p><strong>use:</strong> for 2×2: PD iff \(f_{xx} &gt; 0\) and \(\det H &gt; 0\). Leading minors that fit neither pattern with \(\det H \ne 0\) mean indefinite (a saddle). For semidefiniteness you must check all principal minors, not only the leading ones. A singular semidefinite Hessian (some \(\lambda = 0\)) is inconclusive. Eigenvalues of \(H\) are the curvatures along its eigenvectors.</p><span class="src">7.3.2, 7.3.3 · slides 275–276</span></div><div class="card f"><h3>Newton's step</h3><p>\[
+x_{k+1} = x_k - H(x_k)^{-1}\nabla f(x_k)
+\]</p>
+<p><strong>where:</strong> column gradient \(\nabla f\), Hessian \(H\) invertible.</p>
+<p><strong>use:</strong> it jumps to the minimiser of the quadratic Taylor model, so it solves a quadratic with \(H \succ 0\) in one step. It is only a descent step when \(H \succ 0\); it can head to a saddle or maximum otherwise.</p><span class="src">7.3.1, 7.3.3 · slides 274–276</span></div></div></details>
+<details class="module" open id="m8-gradient-descent"><summary>M8 · Gradient descent <small>· 13 items</small></summary><div class="cards"><div class="card f"><h3>Line fit as an unconstrained minimisation</h3><p>\[
+L(a, b) = \sum_{i=1}^{N} (y_i - ax_i - b)^2, \qquad \begin{bmatrix} \sum x_i^2 &amp; \sum x_i \\ \sum x_i &amp; N \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} \sum x_iy_i \\ \sum y_i \end{bmatrix}
+\]</p>
+<p><strong>where:</strong> data \((x_i, y_i)\), slope \(a\), intercept \(b\); the system comes from \(\partial L/\partial a = \partial L/\partial b = 0\).</p>
+<p><strong>use:</strong> for \((1, 3.1), (2, 4.9), (3, 7.3), (4, 9.1)\): \(\sum x = 10\), \(\sum x^2 = 30\), \(\sum y = 24.4\), \(\sum xy = 71.2\), so \(a = 2.04\), \(b = 1.0\). \(L\) is convex, so this stationary point is the global minimum.</p><span class="src">8.1.1, 8.1.2 · slides 280–283</span></div><div class="card f"><h3>Stationary points and the one-variable second-derivative test</h3><p>\[
+l'(x^*) = 0: \quad l''(x^*) &gt; 0 \Rightarrow \text{local min}, \qquad l''(x^*) &lt; 0 \Rightarrow \text{local max}, \qquad l''(x^*) = 0 \Rightarrow \text{inconclusive}
+\]</p>
+<p><strong>where:</strong> \(l\) twice differentiable.</p>
+<p><strong>use:</strong> slide 285's "otherwise it is a local minimum" wrongly absorbs \(l'' = 0\) (erratum 29): \(x^3\), \(x^4\), \(-x^4\) at 0 give an inflection, a min and a max. For \(l(x) = x^4 + 7x^3 + 5x^2 - 17x + 3\), \(l'(x) = 4x^3 + 21x^2 + 10x - 17 = 0\) at \(x \approx -4.480\) (min), \(-1.432\) (max), \(0.662\) (min).</p><span class="src">8.1.3 · slides 284–286</span></div><div class="card f"><h3>Gradient-descent update (row gradient)</h3><p>\[
+x_{i+1} = x_i - \gamma_i\,\big(\nabla f(x_i)\big)^\top, \qquad f(x_{i+1}) \le f(x_i) \text{ for small enough } \gamma_i &gt; 0
+\]</p>
+<p><strong>where:</strong> <strong>gradient layout:</strong> \(\nabla f\) is the deck's \(1 \times d\) row gradient, so it is transposed to match the column \(x_i\); \(\gamma_i\) is the step size (learning rate).</p>
+<p><strong>use:</strong> \(-\nabla f\) is the direction of steepest descent. Convergence is to a local minimum (or a stationary point), not necessarily the global one.</p><span class="src">8.2.1 · slide 287</span></div><div class="card f"><h3>Quadratic objective: gradient and minimiser</h3><p>\[
+f(x) = \tfrac{1}{2}x^\top Ax + b^\top x, \qquad \nabla f = x^\top A + b^\top, \qquad x^* = -A^{-1}b
+\]</p>
+<p><strong>where:</strong> \(A\) symmetric positive definite; the gradient is a row vector (column form \(Ax + b\)).</p>
+<p><strong>use:</strong> for \(A = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 20 \end{bmatrix}\), \(b = (-5, -3)\), \(x^* = (2.487, 0.026)\); from \(x_0 = (-3, -1)\) gradient descent zig-zags because the curvatures 2 and 20 differ.</p><span class="src">8.2.2 · slide 288</span></div><div class="card f"><h3>Convergence of gradient descent on a quadratic; the halving heuristic</h3><p>\[
+e_{k+1} = (I - \gamma A)\,e_k, \qquad \text{converges} \iff 0 &lt; \gamma &lt; \frac{2}{\lambda_{\max}}, \qquad \gamma^* = \frac{2}{\lambda_{\max} + \lambda_{\min}}, \qquad \rho^* = \frac{\kappa - 1}{\kappa + 1}
+\]</p>
+<p>\[
+f(x_i - \gamma(\nabla f)^\top) &gt; f(x_i) \Rightarrow \text{undo, } \gamma \leftarrow \gamma/2; \qquad \text{else accept and allow } \gamma \text{ to grow}
+\]</p>
+<p><strong>where:</strong> \(e_k = x_k - x^*\), \(\lambda\) the eigenvalues of the Hessian \(A\), \(\kappa = \lambda_{\max}/\lambda_{\min}\) the condition number; the error shrinks per step by \(\max_i \lvert 1 - \gamma\lambda_i \rvert\). \(\gamma\) the current step size.</p>
+<p><strong>use:</strong> too small \(\gamma\) is slow, too large overshoots, beyond \(2/\lambda_{\max}\) it diverges. On \(x^2 + 4y^2\) (\(\lambda = 2, 8\)) the limit is \(\gamma &lt; 0.25\). Large \(\kappa\) means slow zig-zag convergence. It guarantees that \(f\) decreases monotonically; it does not guarantee convergence to a minimum (slide 289's "guarantees monotonic convergence" overstates it).</p><span class="src">8.2.3 · slides 288–289</span></div><div class="card f"><h3>Exact line search</h3><p>\[
+h(\gamma) = f\big(x - \gamma(\nabla f)^\top\big) = (1 - 2\gamma)^2x^2 + 3(1 - 6\gamma)^2y^2, \qquad h'(\gamma) = 0 \Rightarrow \gamma = \frac{x^2 + 9y^2}{2x^2 + 54y^2}
+\]</p>
+<p>\[
+\gamma^* = \frac{g^\top g}{g^\top H g}
+\]</p>
+<p><strong>where:</strong> \(\nabla f = [2x \;\; 6y]\), \((x, y)\) the current point. \(g = (\nabla f(x))^\top\) the column gradient at the current point, \(H\) the (constant) Hessian; for \(f = \tfrac{1}{2}x^\top Ax + b^\top x\), \(H = A\); for \(x^2 + 3y^2\), \(H = \operatorname{diag}(2, 6)\).</p>
+<p><strong>use:</strong> from \((2, 2)\): \(\gamma = 40/224 \approx 0.179\). The step depends on the current point, so recompute it every iteration. Minimises \(h(\gamma) = f(x - \gamma g)\) exactly for any quadratic; it reproduces the \(x^2 + 3y^2\) result.</p><span class="src">8.2.4, 8.5.1 · slides 290, 297</span></div><div class="card f"><h3>Finite-difference gradient check</h3><p>\[
+\frac{\partial J}{\partial w_i} \approx \frac{J(w + \Delta e_i) - J(w)}{\Delta} \;\; (\text{error } O(\Delta)), \qquad \frac{\partial J}{\partial w_i} \approx \frac{J(w + \Delta e_i) - J(w - \Delta e_i)}{2\Delta} \;\; (\text{error } O(\Delta^2))
+\]</p>
+<p><strong>where:</strong> \(e_i\) the \(i\)-th unit vector, \(\Delta\) a small step; check only a few sampled coordinates \(i\).</p>
+<p><strong>use:</strong> forward error \(\approx \tfrac{1}{2}J''\Delta\), central error \(\approx \tfrac{1}{6}J'''\Delta^2\); round-off grows like \(10^{-16}/\Delta\), so the best \(\Delta\) is about \(10^{-8}\) (forward) or \(10^{-5}\) (central). Compare with relative error \(\lvert g_{\text{num}} - g \rvert / (\lvert g_{\text{num}} \rvert + \lvert g \rvert)\).</p><span class="src">8.3.1 · slide 291</span></div><div class="card f"><h3>Learning-rate schedules and the bold driver</h3><p>\[
+w_{n+1} = w_n - \alpha_t\nabla J, \qquad \alpha_t = \alpha_0 e^{-kt} \;(\text{exponential}), \qquad \alpha_t = \frac{\alpha_0}{1 + kt} \;(\text{inverse}), \qquad \alpha_t = \alpha_0\, d^{\lfloor t/s \rfloor} \;(\text{step})
+\]</p>
+<p>\[
+J \text{ improved} \Rightarrow \alpha \leftarrow 1.05\,\alpha; \qquad J \text{ worsened} \Rightarrow \text{undo step}, \; \alpha \leftarrow 0.5\,\alpha
+\]</p>
+<p><strong>where:</strong> \(t\) counted in epochs (constant within an epoch), \(k &gt; 0\) the decay rate, step decay multiplies by \(d &lt; 1\) every \(s\) epochs. \(\alpha\) the learning rate, \(J\) the objective.</p>
+<p><strong>use:</strong> a large constant rate oscillates near the optimum; a small one crawls. Start large, then decay. Self-tunes the rate up to the stability edge. Unreliable when \(J\) is estimated from samples (SGD), because noise looks like worsening.</p><span class="src">8.4.1, 8.4.2, 8.4.3 · slides 292–295</span></div><div class="card f"><h3>Line search and orthogonal gradients</h3><p>\[
+w_{t+1} = w_t + \alpha_t g_t, \qquad \alpha_t = \arg\min_\alpha J(w_t + \alpha g_t), \qquad \nabla J(w_{t+1})\, g_t = 0
+\]</p>
+<p><strong>where:</strong> \(g_t\) the descent direction (\(g_t = -(\nabla J(w_t))^\top\) for steepest descent), \(\nabla J\) a row gradient.</p>
+<p><strong>use:</strong> from \(J(w_{t+1} \pm \delta g_t) \approx J(w_{t+1}) \pm \delta\,\nabla J(w_{t+1})g_t\): if the product were non-zero, a small move would improve \(J\). Consecutive steepest-descent steps with exact line search are therefore perpendicular. (Slide 298's \(g^\top\) inside \(J\) should be \(g_t\).)</p><span class="src">8.5.1 · slides 296–298</span></div><div class="card f"><h3>Binary and golden-section search on the step</h3><p>\[
+[a, b] = [0, \alpha_{\max}]; \qquad H\big(\tfrac{a+b}{2} + \varepsilon\big) &gt; H\big(\tfrac{a+b}{2}\big) \Rightarrow [a, b] \leftarrow \big[a, \tfrac{a+b}{2} + \varepsilon\big], \quad \text{else } [a, b] \leftarrow \big[\tfrac{a+b}{2}, b\big]
+\]</p>
+<p>\[
+\tau = \frac{\sqrt{5} - 1}{2} \approx 0.618, \qquad m_1 = b - \tau(b - a), \quad m_2 = a + \tau(b - a); \qquad H(m_1) &lt; H(m_2) \Rightarrow [a, m_2], \quad \text{else } [m_1, b]
+\]</p>
+<p><strong>where:</strong> \(H(\alpha) = J(w_t + \alpha g_t)\) unimodal on \([a, b]\); \(\varepsilon\) small (for example \(10^{-6}\)); \(\alpha_{\max}\) found by evaluating at geometrically increasing \(\alpha\) until \(H\) rises. \(a &lt; m_1 &lt; m_2 &lt; b\), \(H\) unimodal.</p>
+<p><strong>use:</strong> the two probes estimate the sign of \(H'\) at the midpoint; each step halves the interval. The interval shrinks by \(\tau\) per step and one old interior point is reused, so each step costs one new evaluation. The slides show only generic interval elimination; the golden ratio never appears there.</p><span class="src">8.5.2, 8.5.3, 8.5.4 · slides 299–303</span></div><div class="card f"><h3>Armijo (backtracking) rule</h3><p>\[
+f(w - \alpha g) \le f(w) - c\,\alpha\, g^\top g, \qquad \alpha = 1, \tfrac{1}{2}, \tfrac{1}{4}, \dots \;(\text{accept the first that satisfies it})
+\]</p>
+<p><strong>where:</strong> \(g = (\nabla f(w))^\top\), \(c \in (0, 1)\) small (for example 0.1 or \(10^{-4}\)).</p>
+<p><strong>use:</strong> inexact but cheap and does not need unimodality. Pure Newton takes the full step \(\alpha = 1\) and damped Newton uses this rule; Newton does not "require exact line search" (slide 304; erratum 30). Exact search costs more per step but may need fewer steps.</p><span class="src">8.5.5 · slides 300, 304</span></div><div class="card f"><h3>Batch, mini-batch and stochastic gradients</h3><p>\[
+\theta_{i+1} = \theta_i - \gamma_i \sum_{n=1}^{N} \big(\nabla L_n(\theta_i)\big)^\top; \qquad J(S) = \sum_{i \in S} (w^\top X_i - y_i)^2, \quad \nabla_w J(S) = 2\sum_{i \in S} (w^\top X_i - y_i)X_i
+\]</p>
+<p><strong>where:</strong> \(L(\theta) = \sum_n L_n(\theta)\) the total loss, \(S\) a random subset of indices (mini-batch), \(X_i\) a column feature vector; \(\nabla_w J(S)\) is written as a column here.</p>
+<p><strong>use:</strong> one SGD step with a single sample \(i\): \(w \leftarrow w - 2\alpha(w^\top X_i - y_i)X_i\). Batch steps cost \(O(N)\) per update; mini-batch steps cost \(O(\lvert S \rvert)\).</p><span class="src">8.6.1, 8.6.2 · slides 305–307</span></div><div class="card f"><h3>Unbiasedness, variance and step-size conditions for SGD</h3><p>\[
+E\Big[\frac{N}{\lvert S \rvert}\sum_{n \in S} \nabla L_n\Big] = \nabla L, \qquad \operatorname{Var} \propto \frac{1}{\lvert S \rvert}, \qquad \sum_t \gamma_t = \infty, \quad \sum_t \gamma_t^2 &lt; \infty
+\]</p>
+<p><strong>where:</strong> \(S\) drawn uniformly; the factor \(N/\lvert S \rvert\) is needed because the deck's loss is a sum, not a mean.</p>
+<p><strong>use:</strong> larger batches give lower-variance gradients (standard deviation falls like \(1/\sqrt{\lvert S \rvert}\)). With a decaying rate meeting the two sum conditions (for example \(\gamma_t = \gamma_0/(1 + kt)\)), SGD converges almost surely to a local minimum.</p><span class="src">8.6.3 · slide 308</span></div></div></details>
+<details class="module" open id="m9-optimization"><summary>M9 · Optimization <small>· 14 items</small></summary><div class="cards"><div class="card f"><h3>Least-squares training loss and its gradient</h3><p>\[
+J(w) = \sum_{i=1}^{N} (w^\top X_i - y_i)^2, \qquad \nabla J(w) = 2\sum_{i=1}^{N} (w^\top X_i - y_i)\,X_i^\top = 2(Xw - y)^\top X
+\]</p>
+<p><strong>where:</strong> \(X_i \in \mathbb{R}^d\) the \(i\)-th feature vector (row \(i\) of \(X \in \mathbb{R}^{N \times d}\)), \(w \in \mathbb{R}^d\); the gradient is a row vector, as in M8.</p>
+<p><strong>use:</strong> verify the gradient with finite differences before training. Initialise weights at small random values in \([-1, 1]\) or \([0, 1]\).</p><span class="src">9.1.1 · slides 312–315</span></div><div class="card f"><h3>When a zero training error exists</h3><p>\[
+\text{zero squared error} \iff Xw = y \text{ is consistent} \iff \operatorname{rk}(X) = \operatorname{rk}([X \mid y])
+\]</p>
+<p><strong>where:</strong> \(X \in \mathbb{R}^{N \times d}\) the training inputs (one row per example), \(y\) the targets.</p>
+<p><strong>use:</strong> fewer examples than parameters makes a zero-error fit likely but not certain: two identical input rows with different \(y\) make it impossible (erratum 34). Slide 318's \(w = (0, 7, 5, 0)\), \(w_5 = 20\) predicts \((49, 40, 70)\) against \(y = (59, 40, 70)\); a genuine zero-error fit is \(w_2 = 12\), \(w_3 = 5\), \(w_5 = 20\) (erratum 10). Zero training error is overfitting, not success.</p><span class="src">9.1.2 · slides 316–318</span></div><div class="card f"><h3>Feature scaling</h3><p>\[
+\frac{\partial}{\partial w_j}(w^\top x - y)^2 = 2(w^\top x - y)\,x_j; \qquad x_j' = x_j - \mu_j, \qquad x_j' = \frac{x_j - \mu_j}{\sigma_j}, \qquad x_j' = \frac{x_j - \min_j}{\max_j - \min_j}
+\]</p>
+<p><strong>where:</strong> \(\mu_j, \sigma_j\) the mean and standard deviation of feature \(j\) over the training set, \(\min_j, \max_j\) its range.</p>
+<p><strong>use:</strong> a feature with large magnitude gets a proportionally large partial derivative and dominates the step. Mean-centring, standardising (z-scores) or min–max scaling equalise the curvatures; apply the training-set statistics to test data.</p><span class="src">9.1.3 · slides 319–320</span></div><div class="card f"><h3>Critical points, basins and separable sums</h3><p>\[
+F(x) = (x - 1)^2\big((x - 3)^2 - 1\big), \qquad F'(x) = 0 \text{ at } x = 1, \; \frac{5 - \sqrt{3}}{2} \approx 1.634, \; \frac{5 + \sqrt{3}}{2} \approx 3.366
+\]</p>
+<p>\[
+F(x_1, \dots, x_d) = \sum_{i=1}^{d} A_i(x_i), \qquad \#\text{local minima of } F = \prod_{i=1}^{d} k_i
+\]</p>
+<p><strong>where:</strong> \(F(1) = 0\) (local min), \(F(1.634) \approx 0.348\) (local max), \(F(3.366) \approx -4.848\) (global min). \(A_i\) has \(k_i\) local minima; the sum ends in \(A_d(x_d)\) (the slide's \(A_n(x_n)\) is a typo).</p>
+<p><strong>use:</strong> gradient descent started left of the local maximum \(1.634\) ends at the local minimum 1; started right of it, at the global minimum. Which minimum you reach depends on the starting point. Every combination of per-coordinate minima is a local minimum, so the count grows exponentially with \(d\) (for example \(2^{10} = 1024\)).</p><span class="src">9.2.1, 9.2.2 · slides 321–324</span></div><div class="card f"><h3>Curvature, contours and ill-conditioning</h3><p>\[
+F(x + \delta x) = F(x) \;\Rightarrow\; \nabla F\,\delta x = 0; \qquad f = x^2 + y^2: \; \kappa = 1, \qquad f = x^2 + 4y^2: \; \kappa = \frac{8}{2} = 4
+\]</p>
+<p>\[
+J(w) = \lVert Xw - y \rVert^2, \qquad \nabla^2 J = 2X^\top X, \qquad \kappa\big(X^\top X\big) = \frac{\lambda_{\max}(X^\top X)}{\lambda_{\min}(X^\top X)}
+\]</p>
+<p><strong>where:</strong> \(\delta x\) a small move along a contour line, \(\nabla F\) a row gradient (slide 329's "\(\nabla F.x = 0\)" means \(\nabla F\,\delta x = 0\)); \(\kappa\) the ratio of the largest to smallest Hessian eigenvalue. \(X\) the data matrix with one feature per column.</p>
+<p><strong>use:</strong> on a circular bowl \(-\nabla f\) points at the minimum; on an elliptical one it points across the valley, so steps zig-zag. Flat regions give tiny gradients; cliffs give huge ones that overshoot. Columns on very different scales make \(\kappa\) huge, so any stable learning rate is tiny for the flat direction. Standardising the columns (as in the Guns/Butter/Happiness example) brings \(\kappa\) down and lets gradient descent converge quickly.</p><span class="src">9.2.3, 9.2.4, 9.2.5 · slides 325–340</span></div><div class="card f"><h3>Momentum</h3><p>\[
+x_{i+1} = x_i - \gamma\big(\nabla f(x_i)\big)^\top + \beta(x_i - x_{i-1}), \qquad \beta \in [0, 1]
+\]</p>
+<p>\[
+\text{equivalently: } v \leftarrow \beta v - \alpha\frac{\partial J}{\partial w}, \qquad w \leftarrow w + v
+\]</p>
+<p><strong>where:</strong> \(\beta\) the momentum (friction) parameter, \(v_i = x_{i+1} - x_i\) the velocity, \(v = 0\) at the start; with \(\beta = 0\) both reduce to plain gradient descent (slide 343's \(v \leftarrow -\alpha\,\partial J/\partial w\)).</p>
+<p><strong>use:</strong> consistent gradient components accumulate (up to a factor \(1/(1 - \beta)\)) while oscillating ones cancel, which damps zig-zags and carries the iterate across flat regions and potholes.</p><span class="src">9.3.1 · slides 341–347</span></div><div class="card f"><h3>AdaGrad and RMSProp</h3><p>\[
+A_i \leftarrow A_i + \Big(\frac{\partial J}{\partial w_i}\Big)^2, \qquad w_i \leftarrow w_i - \frac{\alpha}{\sqrt{A_i + \epsilon}}\frac{\partial J}{\partial w_i}
+\]</p>
+<p>\[
+A_i \leftarrow \rho A_i + (1 - \rho)\Big(\frac{\partial J}{\partial w_i}\Big)^2, \qquad w_i \leftarrow w_i - \frac{\alpha}{\sqrt{A_i}}\frac{\partial J}{\partial w_i}, \qquad \rho \in (0, 1)
+\]</p>
+<p><strong>where:</strong> \(A_i\) the running sum of squared partials for parameter \(i\) (start at 0), \(\alpha\) the base rate, \(\epsilon \approx 10^{-8}\). \(A_i\) an exponential moving average of squared partials; a gradient from \(t\) steps ago is weighted by \(\rho^t\).</p>
+<p><strong>use:</strong> the first step is \(\pm\alpha\) for every parameter. For a gradient of constant magnitude the step at iteration \(t\) is \(\alpha/\sqrt{t}\) whether it oscillates (\(\pm 100\)) or is consistent (\(0.1\)); what differs is the effective rate \(\alpha/\sqrt{A}\) (1000 times smaller for \(\pm 100\)) and the net displacement, since oscillating steps cancel (erratum 35). \(A_i\) only grows, so steps shrink forever. Fixes AdaGrad's ever-shrinking step because old gradients are forgotten; for a constant gradient \(A_i\) settles at its square and the step at about \(\alpha\).</p><span class="src">9.3.2, 9.3.3 · slides 348–350</span></div><div class="card f"><h3>Adam</h3><p>\[
+F_i \leftarrow \rho_f F_i + (1 - \rho_f)\frac{\partial J}{\partial w_i}, \qquad A_i \leftarrow \rho A_i + (1 - \rho)\Big(\frac{\partial J}{\partial w_i}\Big)^2, \qquad w_i \leftarrow w_i - \alpha_t\frac{F_i}{\sqrt{A_i}}, \qquad \alpha_t = \alpha\,\frac{\sqrt{1 - \rho^t}}{1 - \rho_f^t}
+\]</p>
+<p><strong>where:</strong> \(F_i, A_i\) start at 0; defaults \(\rho_f = 0.9\), \(\rho = 0.999\); \(t\) the iteration count.</p>
+<p><strong>use:</strong> \(\alpha_t\) corrects the bias toward 0 of the zero-initialised averages; it is the same as dividing \(F_i\) by \(1 - \rho_f^t\) and \(A_i\) by \(1 - \rho^t\). With a constant gradient the first step is exactly \(\alpha\). As \(t \to \infty\), \(\alpha_t \to \alpha\).</p><span class="src">9.3.4 · slides 351–353</span></div><div class="card f"><h3>Indicator reformulation and the Lagrangian</h3><p>\[
+\min_x f(x) \text{ s.t. } g_i(x) \le 0 \iff \min_x J(x) = f(x) + \sum_{i=1}^{m} \mathbf{1}(g_i(x)), \qquad \mathbf{1}(z) = \begin{cases} 0 &amp; z \le 0 \\ \infty &amp; z &gt; 0 \end{cases}
+\]</p>
+<p>\[
+\mathfrak{L}(x, \lambda) = f(x) + \sum_{i=1}^{m} \lambda_i g_i(x) = f(x) + \lambda^\top g(x), \qquad \lambda \ge 0; \qquad J(x) = \max_{\lambda \ge 0}\mathfrak{L}(x, \lambda)
+\]</p>
+<p><strong>where:</strong> \(f\) the objective, \(g_i\) the inequality constraints. \(\lambda_i\) the Lagrange multipliers (one per constraint).</p>
+<p><strong>use:</strong> turns the constrained problem into an unconstrained but discontinuous one; the Lagrangian replaces the step function by a linear lower bound. For \(\lambda_i \ge 0\), \(\lambda_i g_i(x) \le \mathbf{1}(g_i(x))\), so \(\mathfrak{L}(x, \lambda) \le J(x)\); maximising over \(\lambda\) recovers \(J\) (feasible: take \(\lambda = 0\); infeasible: \(\lambda_i \to \infty\)).</p><span class="src">9.4.1, 9.4.2 · slides 354–357</span></div><div class="card f"><h3>Dual function, minimax inequality and weak duality</h3><p>\[
+D(\lambda) = \min_x \mathfrak{L}(x, \lambda), \qquad \max_y \min_x \varphi(x, y) \le \min_x \max_y \varphi(x, y), \qquad d^* = \max_{\lambda \ge 0} D(\lambda) \le \min_x J(x) = p^*
+\]</p>
+<p><strong>where:</strong> \(p^*\) the primal optimum, \(d^*\) the dual optimum, \(\varphi\) any function of two arguments.</p>
+<p><strong>use:</strong> every \(D(\lambda)\) with \(\lambda \ge 0\) is a lower bound on \(p^*\). Weak duality alone gives only \(d^* \le p^*\); a positive gap \(p^* - d^*\) can occur for non-convex problems.</p><span class="src">9.4.3 · slides 357–359</span></div><div class="card f"><h3>Equality constraints and the Lagrange condition</h3><p>\[
+h(x) = 0 \iff h(x) \le 0 \text{ and } -h(x) \le 0 \;\Rightarrow\; \lambda_1 h - \lambda_2 h = (\lambda_1 - \lambda_2)h = \nu h, \quad \nu \in \mathbb{R}
+\]</p>
+<p>\[
+\min f(x) \text{ s.t. } h(x) = 0: \qquad \nabla f(x^*) = \nu\,\nabla h(x^*), \qquad h(x^*) = 0
+\]</p>
+<p><strong>where:</strong> \(\lambda_1, \lambda_2 \ge 0\), so their difference \(\nu\) can have either sign. \(\nu\) the multiplier; solve the \(n + 1\) equations for \(x^*\) and \(\nu\).</p>
+<p><strong>use:</strong> multipliers of equality constraints are unrestricted in sign; only inequality multipliers must be \(\ge 0\). Several stationary points can satisfy it (for example on a circle); evaluate \(f\) at each to find the minimum.</p><span class="src">9.4.4, 9.4.2 · slides 356–360</span></div><div class="card f"><h3>Convex sets and convex functions</h3><p>\[
+x, y \in C \Rightarrow \theta x + (1 - \theta)y \in C; \qquad f(\theta x + (1 - \theta)y) \le \theta f(x) + (1 - \theta)f(y); \qquad f(y) \ge f(x) + \nabla f(x)(y - x)
+\]</p>
+<p><strong>where:</strong> \(\theta \in [0, 1]\); the last (first-order) form uses the row gradient and needs \(f\) differentiable. For twice-differentiable \(f\): convex \(\iff \nabla^2 f \succeq 0\) everywhere.</p>
+<p><strong>use:</strong> the chord lies above the graph, and every tangent plane lies below it, so a stationary point of a convex function is a global minimum. A convex problem needs convex \(f\), convex \(g_i\) and <strong>affine</strong> equality constraints (slide 361 asks for convex \(h\); erratum 11).</p><span class="src">9.5.1 · slides 361–363</span></div><div class="card f"><h3>Linear program and its dual</h3><p>\[
+\min_x c^\top x \text{ s.t. } Ax \le b \qquad \longleftrightarrow \qquad \max_\lambda -\lambda^\top b \text{ s.t. } c + A^\top\lambda = 0, \; \lambda \ge 0
+\]</p>
+<p><strong>where:</strong> \(x \in \mathbb{R}^d\), \(A \in \mathbb{R}^{m \times d}\), \(\lambda \in \mathbb{R}^m\); from \(\mathfrak{L} = (c + A^\top\lambda)^\top x - \lambda^\top b\), which is bounded below in \(x\) only when \(c + A^\top\lambda = 0\).</p>
+<p><strong>use:</strong> solve whichever has fewer variables (\(d\) primal, \(m\) dual). For LPs strong duality holds whenever either problem has a finite optimum.</p><span class="src">9.5.2 · slides 364–365</span></div><div class="card f"><h3>Quadratic program, its dual, and concavity of the dual</h3><p>\[
+\min_x \tfrac{1}{2}x^\top Qx + c^\top x \text{ s.t. } Ax \le b: \qquad x = -Q^{-1}(c + A^\top\lambda), \qquad D(\lambda) = -\tfrac{1}{2}(c + A^\top\lambda)^\top Q^{-1}(c + A^\top\lambda) - \lambda^\top b
+\]</p>
+<p>\[
+D(\lambda) = \min_x \big[f(x) + \lambda^\top g(x)\big] \text{ is a pointwise minimum of functions affine in } \lambda \;\Rightarrow\; D \text{ concave}
+\]</p>
+<p><strong>where:</strong> \(Q\) must be <strong>symmetric positive definite</strong>, not merely invertible (erratum 36: with \(Q = \operatorname{diag}(1, -1)\) the stationary point is a saddle and \(D = -\infty\)); \(\lambda \ge 0\). The transpose on the first factor is needed (slides 367 and 431 omit it). For each fixed \(x\), \(\lambda \mapsto f(x) + \lambda^\top g(x)\) is affine.</p>
+<p><strong>use:</strong> maximise \(D(\lambda)\) over \(\lambda \ge 0\), then recover \(x\) from the first formula. This is the template of the SVM dual. The dual is a concave maximisation (a convex problem) even when \(f\) and \(g\) are not convex, which is why it is often easier to solve.</p><span class="src">9.5.3, 9.5.4 · slides 366–368</span></div></div></details>
+<details class="module" open id="m10-principal-component-analysis"><summary>M10 · Principal component analysis <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Data layout, mean and covariance matrix</h3><p>\[
+\mu = \frac{1}{N}\sum_{n=1}^{N} x_n, \qquad S = \frac{1}{N}\sum_{n=1}^{N}(x_n - \mu)(x_n - \mu)^\top = \frac{1}{N}X_{\text{deck}}X_{\text{deck}}^\top = \frac{1}{N}X^\top X \in \mathbb{R}^{D \times D}
+\]</p>
+<p><strong>where:</strong> \(x_n \in \mathbb{R}^D\), \(N\) points. <strong>PCA data layout:</strong> the deck stores the centred points as <strong>columns</strong>, \(X_{\text{deck}} \in \mathbb{R}^{D \times N}\); the question bank's Module 10 stores them as <strong>rows</strong>, \(X = X_{\text{deck}}^\top \in \mathbb{R}^{N \times D}\). Both give the same \(S\).</p>
+<p><strong>use:</strong> \(S\) is symmetric PSD, so it has real eigenvalues \(\lambda_1 \ge \dots \ge \lambda_D \ge 0\) and orthonormal eigenvectors. Always centre first: on raw data \(\frac{1}{N}\sum_n x_nx_n^\top = S + \mu\mu^\top\), which gives different directions (erratum 33).</p><span class="src">10.1.3 · slides 374–377</span></div><div class="card f"><h3>Code and reconstruction</h3><p>\[
+z = B^\top(x - \mu) \in \mathbb{R}^M, \qquad \tilde{x} = \mu + Bz = \mu + BB^\top(x - \mu) \in \mathbb{R}^D, \qquad B^\top B = I_M
+\]</p>
+<p><strong>where:</strong> \(B = [b_1, \dots, b_M] \in \mathbb{R}^{D \times M}\) with orthonormal columns, \(M &lt; D\); for centred data drop \(\mu\): \(z = B^\top x\), \(\tilde{x} = Bz\).</p>
+<p><strong>use:</strong> \(BB^\top\) is the orthogonal projection onto the principal subspace; it is not \(I_D\) when \(M &lt; D\). The code lives in \(\mathbb{R}^M\), the reconstruction in \(\mathbb{R}^D\).</p><span class="src">10.1.2 · slides 373–375</span></div><div class="card f"><h3>Variance of a projection</h3><p>\[
+V_1 = \frac{1}{N}\sum_{n=1}^{N} z_{1n}^2 = \frac{1}{N}\sum_{n=1}^{N} (b_1^\top x_n)^2 = b_1^\top S\, b_1, \qquad \operatorname{Var}\big(b^\top(x + c)\big) = \operatorname{Var}(b^\top x)
+\]</p>
+<p><strong>where:</strong> \(z_{1n} = b_1^\top x_n\) the first coordinate of the centred point \(x_n\), \(c\) any constant shift.</p>
+<p><strong>use:</strong> \(V_1\) is a variance because the data are <strong>centred</strong>, so \(E[z_1] = 0\), not because the points are independent (erratum 12). Shifting data does not change variance, so centring is harmless.</p><span class="src">10.1.3, 10.2.1 · slides 376–378</span></div><div class="card f"><h3>Maximum-variance derivation of the first principal component</h3><p>\[
+\max_{b_1} b_1^\top S b_1 \text{ s.t. } \lVert b_1 \rVert^2 = 1: \qquad \mathfrak{L} = b_1^\top Sb_1 + \lambda_1(1 - b_1^\top b_1), \qquad \frac{\partial \mathfrak{L}}{\partial b_1} = 2b_1^\top S - 2\lambda_1 b_1^\top = 0
+\]</p>
+<p>\[
+\Rightarrow\; Sb_1 = \lambda_1 b_1, \qquad V_1 = b_1^\top Sb_1 = \lambda_1
+\]</p>
+<p>\[
+\nabla f(x^*)\,\delta x = 0 \text{ and } \nabla g(x^*)\,\delta x = 0 \text{ for every feasible } \delta x \;\Rightarrow\; \nabla f(x^*) = \lambda\,\nabla g(x^*)
+\]</p>
+<p><strong>where:</strong> \(\lambda_1\) the Lagrange multiplier, which turns out to be an eigenvalue of \(S\). \(g(x) = 0\) the constraint, \(\delta x\) a small move along the constraint surface, row gradients.</p>
+<p><strong>use:</strong> the constraint is essential: without it \(b_1^\top Sb_1\) grows without bound by scaling \(b_1\). The best \(b_1\) is the eigenvector of the <strong>largest</strong> eigenvalue. At a constrained optimum the objective's gradient has no component along the surface, so it is parallel to the constraint's gradient.</p><span class="src">10.2.1, 10.2.2, 10.2.3 · slides 379–387</span></div><div class="card f"><h3>Deflation and the eigenvectors of Ŝ</h3><p>\[
+\hat{X} = X - B_{m-1}X = \Big(I - \sum_{i=1}^{m-1} b_ib_i^\top\Big)X, \qquad \hat{S} = \frac{1}{N}\hat{X}\hat{X}^\top = S - \sum_{i=1}^{m-1}\lambda_i b_ib_i^\top
+\]</p>
+<p>\[
+\hat{S}b_i = 0 \;\; (i &lt; m), \qquad \hat{S}b_j = \lambda_j b_j \;\; (j \ge m), \qquad Sb_i = \lambda_i b_i \ne 0
+\]</p>
+<p><strong>where:</strong> deck layout \(X \in \mathbb{R}^{D \times N}\) (columns are points; in the row layout \(\hat{X} = X(I - B_{m-1})\)); \(B_{m-1} = \sum_{i&lt;m} b_ib_i^\top\) the projection onto the first \(m - 1\) components. \(b_i\) orthonormal eigenvectors of \(S\).</p>
+<p><strong>use:</strong> \(b_m\) is the top eigenvector of \(\hat{S}\), which is the \(m\)-th eigenvector of the covariance matrix \(S\), not of the data matrix \(X\) (\(X\) is \(D \times N\) and has no eigenvectors; erratum 13). The slide's conclusion "\(Sb_i = 0\)" should be \(\hat{S}b_i = 0\) (erratum 14). Hence \(V_m = \lambda_m\): keep the top-\(M\) eigenvectors, and the total variance captured is \(\sum_{m=1}^{M}\lambda_m\).</p><span class="src">10.2.4, 10.2.5 · slides 388–392</span></div><div class="card f"><h3>Reconstruction error and explained variance</h3><p>\[
+J_M = \frac{1}{N}\sum_{n=1}^{N}\lVert x_n - \tilde{x}_n \rVert^2 = \sum_{j=M+1}^{D}\lambda_j, \qquad \text{explained variance ratio} = \frac{\sum_{j=1}^{M}\lambda_j}{\sum_{j=1}^{D}\lambda_j}
+\]</p>
+<p><strong>where:</strong> \(\tilde{x}_n\) the projection onto the span of the top-\(M\) eigenvectors; \(\sum_j \lambda_j = \operatorname{tr}S\) is the total variance.</p>
+<p><strong>use:</strong> minimising the average reconstruction error gives the same \(B\) as maximising variance. Choose \(M\) so that the ratio reaches, say, 90–95%.</p><span class="src">10.3.1 · slides 393, 423</span></div><div class="card f"><h3>The deck's nine-point example</h3><p>\[
+\mu = (1.5711, 15.556), \quad S = \begin{bmatrix} 0.0795 &amp; 0.8883 \\ 0.8883 &amp; 10.0247 \end{bmatrix}, \quad \lambda_1 = 10.103, \quad b_1 = (0.0883, 0.9961), \quad z = b_1^\top(x - \mu), \quad \tilde{x} = b_1z + \mu
+\]</p>
+<p><strong>where:</strong> \(D = 2\), \(N = 9\), \(M = 1\); \(140/9 = 15.5556\) rounds to 15.556 (printed 15.555).</p>
+<p><strong>use:</strong> adding \(\mu\) undoes the <strong>centring</strong>; the example never standardised, so there is nothing else to undo (erratum 15). \(b_1\) is almost the \(x_2\) axis only because \(x_2\) has the larger scale.</p><span class="src">10.4.1 · slides 394–398</span></div><div class="card f"><h3>PCA through the SVD</h3><p>\[
+X_{\text{deck}} = U\Sigma V^\top \;\Rightarrow\; S = \frac{1}{N}U\Sigma\Sigma^\top U^\top, \qquad \lambda_d = \frac{\sigma_d^2}{N}
+\]</p>
+<p><strong>where:</strong> <strong>PCA data layout:</strong> with points as columns (\(D \times N\)) the principal directions are the columns of \(U\) (left singular vectors); with points as rows (\(X \in \mathbb{R}^{N \times D}\), \(X = U\Sigma V^\top\)) they are the columns of \(V\) and the scores are \(XV_M = U_M\Sigma_M\).</p>
+<p><strong>use:</strong> the SVD avoids forming \(S\) explicitly and is numerically more stable. The data must be centred first.</p><span class="src">10.5.1 · slides 403–405</span></div><div class="card f"><h3>Eckart–Young for PCA</h3><p>\[
+\tilde{X}_M = U_M\Sigma_MV_M^\top = \arg\min_{\operatorname{rk}(A) \le M}\lVert X - A \rVert, \qquad \lVert X - \tilde{X}_M \rVert_F^2 = \sum_{j &gt; M}\sigma_j^2, \qquad \lVert X - \tilde{X}_M \rVert_2 = \sigma_{M+1}
+\]</p>
+<p><strong>where:</strong> \(U_M, V_M\) the first \(M\) columns of \(U, V\); \(\Sigma_M\) the top-left \(M \times M\) block.</p>
+<p><strong>use:</strong> \(U_M\) and \(V_M\) have orthonormal columns but are not orthogonal matrices: \(U_M^\top U_M = I\) while \(U_MU_M^\top \ne I\) (erratum 32). The truncated SVD is the best rank-\(M\) reconstruction of the data.</p><span class="src">10.5.2 · slides 406–407</span></div><div class="card f"><h3>Power iteration</h3><p>\[
+x_{k+1} = \frac{Sx_k}{\lVert Sx_k \rVert}, \qquad x_k \to \pm b_1 \text{ at rate } \Big\lvert\frac{\lambda_2}{\lambda_1}\Big\rvert^k, \qquad \lambda_1 \approx x_k^\top Sx_k
+\]</p>
+<p><strong>where:</strong> \(x_0\) the starting vector.</p>
+<p><strong>use:</strong> needs \(b_1^\top x_0 \ne 0\) and a strictly dominant \(\lambda_1 &gt; \lambda_2\); "not in the null space of \(S\)" is not enough (erratum 16: \(S = \operatorname{diag}(2, 1)\), \(x_0 = (0, 1)\) stays at \((0, 1)\)). No closed-form root formula exists for degree \(\ge 5\) (Abel–Ruffini), so eigen-solvers are iterative.</p><span class="src">10.6.1, 10.6.2 · slides 408–411</span></div><div class="card f"><h3>PCA when N ≪ D (Gram-matrix trick)</h3><p>\[
+\frac{1}{N}X^\top X\,c_m = \lambda_m c_m \;\Rightarrow\; \frac{1}{N}XX^\top(Xc_m) = \lambda_m(Xc_m), \qquad b_m = \frac{Xc_m}{\lVert Xc_m \rVert}, \quad \lVert Xc_m \rVert = \sqrt{N\lambda_m}\;(\lVert c_m \rVert = 1)
+\]</p>
+<p><strong>where:</strong> deck layout \(X \in \mathbb{R}^{D \times N}\), so \(X^\top X\) is the small \(N \times N\) Gram matrix and \(S = \frac{1}{N}XX^\top\) is \(D \times D\).</p>
+<p><strong>use:</strong> solve the \(N \times N\) problem instead of the \(D \times D\) one; the non-zero eigenvalues are identical. Normalise \(Xc_m\) to get a unit principal direction.</p><span class="src">10.6.3 · slides 412–414</span></div><div class="card f"><h3>The PCA pipeline, new points and the 1/N convention</h3><p>\[
+x_d^{(n)} \leftarrow \frac{x_d^{(n)} - \mu_d}{\sigma_d}, \quad S = \tfrac{1}{N}X^\top X, \quad S = B\Lambda B^\top; \qquad z^* = B^\top x^*, \quad \tilde{x}^* = BB^\top x^*, \quad \tilde{x}_d^{\text{orig}} = \tilde{x}_d^*\,\sigma_d + \mu_d
+\]</p>
+<p>\[
+S_{\text{unbiased}} = \frac{1}{N - 1}\sum_{n}(x_n - \mu)(x_n - \mu)^\top = \frac{N}{N - 1}S
+\]</p>
+<p><strong>where:</strong> \(\mu_d, \sigma_d\) the <strong>training</strong> mean and standard deviation of feature \(d\); \(x^*\) a new point standardised with them; \(B\) the top-\(M\) eigenvectors. \(S\) the deck's \(\frac{1}{N}\) covariance.</p>
+<p><strong>use:</strong> order: mean subtraction, standardisation, eigendecomposition, projection, then undo the standardisation. Standardise when features have different units, otherwise PC1 follows the largest-scale feature. Switching to \(\frac{1}{N - 1}\) multiplies every eigenvalue by \(\frac{N}{N - 1}\); the eigenvectors and explained-variance ratios are unchanged. State which normalisation you use.</p><span class="src">10.7.1, 10.7.2, 10.1.3 · slides 376–377, 415–423</span></div></div></details>
+<details class="module" open id="m11-mathematics-of-support-vector-machines"><summary>M11 · Mathematics of support vector machines <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>Constrained problem, Lagrangian and weak duality</h3><p>\[
+\min_x f(x) \text{ s.t. } g_i(x) \le 0 \; (i = 1, \dots, m), \;\; h_j(x) = 0 \; (j = 1, \dots, p); \qquad L(x, \lambda, \nu) = f(x) + \sum_{i=1}^{m}\lambda_ig_i(x) + \sum_{j=1}^{p}\nu_jh_j(x)
+\]</p>
+<p>\[
+D(\lambda, \nu) \le f(\tilde{x}) \text{ for every feasible } \tilde{x} \text{ and } \lambda \ge 0, \qquad d^* = \max_{\lambda \ge 0, \nu} D(\lambda, \nu) \le p^*
+\]</p>
+<p><strong>where:</strong> \(\lambda_i \ge 0\) (inequalities), \(\nu_j\) of any sign (equalities). This is the slide-437 form; slides 463 and 473 swap the roles of \(g\) and \(h\) and head the list with "max" (erratum 17), so always rewrite a problem into this form first. \(p^*\) the primal optimum, \(d^*\) the dual optimum, \(p^* - d^* \ge 0\) the duality gap.</p>
+<p><strong>use:</strong> the dual function is \(D(\lambda, \nu) = \min_x L(x, \lambda, \nu)\) (slide 428 calls it \(g(\lambda, \nu)\)). Always holds, convex or not. Weak duality does <strong>not</strong> say \(p^* = d^*\).</p><span class="src">11.1.1 · slides 425–433</span></div><div class="card f"><h3>Strong duality and Slater's condition</h3><p>\[
+f, g_i \text{ convex}, \; h_j \text{ affine}, \; \exists \bar{x}: g_i(\bar{x}) &lt; 0 \;\forall i, \; h_j(\bar{x}) = 0 \;\forall j \;\;\Rightarrow\;\; p^* = d^*
+\]</p>
+<p><strong>where:</strong> \(\bar{x}\) a strictly feasible point.</p>
+<p><strong>use:</strong> check: \(\min x^2 + y^2\) s.t. \(x + y - 3 \le 0\) is convex and \((0, 0)\) is strictly feasible, so strong duality holds; \(D(\lambda) = -\tfrac{\lambda^2}{2} - 3\lambda\), maximised at \(\lambda = 0\) with \(d^* = p^* = 0\). Without Slater (or without convexity) a gap can appear.</p><span class="src">11.1.2 · slides 434–436</span></div><div class="card f"><h3>KKT conditions</h3><p>\[
+\begin{aligned}
+&amp;\text{primal feasibility: } g_i(x^*) \le 0, \; h_j(x^*) = 0; \qquad \text{dual feasibility: } \lambda_i^* \ge 0; \\
+&amp;\text{complementary slackness: } \lambda_i^*g_i(x^*) = 0; \qquad \text{stationarity: } \nabla f(x^*) + \sum_i \lambda_i^*\nabla g_i(x^*) + \sum_j \nu_j^*\nabla h_j(x^*) = 0
+\end{aligned}
+\]</p>
+<p><strong>where:</strong> stated for the slide-437 form (minimise, \(g_i \le 0\), \(h_j = 0\)).</p>
+<p><strong>use:</strong> with strong duality, optimal \(x^*, (\lambda^*, \nu^*)\) satisfy KKT; for convex problems KKT is also sufficient. Solve by cases: each constraint is active (\(g_i = 0\)) or has \(\lambda_i = 0\). For \(x^2 + y^2\), \(x + y \le 3\): \(\lambda = 0\), \((0, 0)\). With the equality \(x + y = 3\): \(x = y = 1.5\), \(\nu = -3\).</p><span class="src">11.1.3 · slides 437–439, 463</span></div><div class="card f"><h3>Hyperplane, classifier and point-to-plane distance</h3><p>\[
+\{x : w^\top x + b = 0\}, \qquad f(x) = w^\top x + b, \qquad \hat{y} = \operatorname{sign}(w^\top x + b), \qquad w^\top(x_a - x_b) = 0 \text{ for } x_a, x_b \text{ on the plane}
+\]</p>
+<p>\[
+x_a = x_a' + r\,\frac{w}{\lVert w \rVert} \;\Rightarrow\; r = \frac{w^\top x_a + b}{\lVert w \rVert}, \qquad \text{unsigned distance } \frac{y_a(w^\top x_a + b)}{\lVert w \rVert} \text{ if correctly classified}
+\]</p>
+<p><strong>where:</strong> \(w\) the normal vector, \(b\) the bias, labels \(y_n \in \{-1, +1\}\); correct classification means \(y_nf(x_n) &gt; 0\). \(x_a'\) the orthogonal projection of \(x_a\) onto the plane, \(r\) the signed distance.</p>
+<p><strong>use:</strong> \(w\) is orthogonal to the hyperplane. Data that are not linearly separable may become so after a feature map \(x \mapsto \varphi(x)\). Scaling \((w, b)\) by any \(c &gt; 0\) leaves every distance unchanged, which is what allows canonical scaling.</p><span class="src">11.2.1, 11.2.2, 11.2.3 · slides 440–455</span></div><div class="card f"><h3>Margin, canonical scaling and the hard-margin primal</h3><p>\[
+\min_n y_n(w^\top x_n + b) = 1 \;\Rightarrow\; \text{half-margin} = \frac{1}{\lVert w \rVert}, \qquad \text{margin (full width between } w^\top x + b = \pm 1) = \frac{2}{\lVert w \rVert}
+\]</p>
+<p>\[
+\max_{w, b, r} r \text{ s.t. } y_n(w^\top x_n + b) \ge r, \; \lVert w \rVert = 1, \; r &gt; 0 \quad\iff\quad \min_{w, b}\tfrac{1}{2}\lVert w \rVert^2 \text{ s.t. } y_n(w^\top x_n + b) \ge 1 \;\; \forall n
+\]</p>
+<p><strong>where:</strong> the closest points satisfy \(y_n(w^\top x_n + b) = 1\). The equivalence (MML Theorem 12.1) rescales \(w\) so that \(r\lVert w \rVert = 1\); maximising \(1/\lVert w \rVert\) is minimising \(\tfrac{1}{2}\lVert w \rVert^2\).</p>
+<p><strong>use:</strong> slide 452 calls \(1/\lVert w \rVert\) the margin; slides 487, 511 and 549 use \(2/\lVert w \rVert\). The question bank uses margin \(= 2/\lVert w \rVert\) and half-margin \(= 1/\lVert w \rVert\); say which you mean. A convex QP with a unique \(w\) when the data are separable; feasible only for separable data.</p><span class="src">11.2.3, 11.2.4 · slides 452–461</span></div><div class="card f"><h3>Hard-margin Lagrangian, stationarity and dual</h3><p>\[
+L(w, b, \alpha) = \tfrac{1}{2}\lVert w \rVert^2 - \sum_{i=1}^{N}\alpha_i\big[y_i(w^\top x_i + b) - 1\big], \quad \alpha_i \ge 0; \qquad \frac{\partial L}{\partial w} = 0 \Rightarrow w = \sum_i \alpha_iy_ix_i, \qquad \frac{\partial L}{\partial b} = 0 \Rightarrow \sum_i \alpha_iy_i = 0
+\]</p>
+<p>\[
+\max_\alpha \sum_{i=1}^{N}\alpha_i - \frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\alpha_i\alpha_jy_iy_j\,x_i^\top x_j \quad \text{s.t. } \alpha_i \ge 0, \;\; \sum_{i=1}^{N}\alpha_iy_i = 0
+\]</p>
+<p><strong>where:</strong> \(\alpha_i\) one multiplier per training point (the constraints are \(1 - y_i(w^\top x_i + b) \le 0\), hence the minus sign). Obtained by substituting \(w = \sum_i\alpha_iy_ix_i\) into \(L\).</p>
+<p><strong>use:</strong> \(w\) is a weighted combination of training points; the condition \(\sum_i \alpha_iy_i = 0\) must be kept as a constraint in the dual. The data appear only through inner products \(x_i^\top x_j\), which is what makes kernels possible. At the optimum, \(\tfrac{1}{2}\lVert w \rVert^2 = \tfrac{1}{2}\sum_i\alpha_i\) (strong duality). Dropping \(\sum\alpha_iy_i = 0\) and setting each \(\partial/\partial\alpha_i = 0\) only works in symmetric cases such as XOR.</p><span class="src">11.3.1 · slides 462–471</span></div><div class="card f"><h3>Support vectors, bias and decision function</h3><p>\[
+\alpha_i\big[y_i(w^\top x_i + b) - 1\big] = 0, \qquad b = y_s - w^\top x_s \;(\text{any } s \text{ with } \alpha_s &gt; 0), \qquad \hat{y}(x) = \operatorname{sign}\Big(\sum_i \alpha_iy_i\,x_i^\top x + b\Big)
+\]</p>
+<p><strong>where:</strong> support vectors are the points with \(\alpha_i &gt; 0\); they lie exactly on \(y_i(w^\top x_i + b) = 1\) (since \(y_s^2 = 1\), \(1/y_s = y_s\)).</p>
+<p><strong>use:</strong> points with \(y_if(x_i) &gt; 1\) have \(\alpha_i = 0\) and do not affect the solution. Average \(b\) over all support vectors for numerical stability.</p><span class="src">11.3.2 · slides 471–480</span></div><div class="card f"><h3>Solving a linear SVM by hand and verifying with KKT</h3><p>\[
+\beta_i = \alpha_iy_i: \qquad \sum_{j \in SV}\beta_j\,x_j^\top x_i + b = y_i \;\; (i \in SV), \qquad \sum_{j \in SV}\beta_j = 0, \qquad w = \sum_j \beta_jx_j
+\]</p>
+<p>\[
+\alpha_i &gt; 0 \Rightarrow y_i(w^\top x_i + b) = 1, \qquad y_i(w^\top x_i + b) &gt; 1 \Rightarrow \alpha_i = 0, \qquad y_i(w^\top x_i + b) \ge 1 \;\; \forall i, \qquad \alpha_i \ge 0
+\]</p>
+<p><strong>where:</strong> \(SV\) the guessed support vectors; \(\lvert SV \rvert + 1\) linear equations in \(\beta\) and \(b\), solved by row reduction. \((w, b, \alpha)\) the candidate solution.</p>
+<p><strong>use:</strong> for \((1, 2), (2, 1)\) labelled \(-1\) and \((4, 4)\) labelled \(+1\): \(\beta = (-0.08, -0.08, 0.16)\), \(b = -2.2\), \(w = (0.4, 0.4)\), margin \(2/\lVert w \rVert \approx 3.54\). Each \(\alpha_i = \beta_iy_i\) must come out \(\ge 0\), otherwise the guess is wrong. A guess is correct iff every point is feasible and every \(\alpha_i \ge 0\). In the 8-point exercise \(w = (1, 0)\), \(b = -2\) gives margin \(2/\lVert w \rVert = 2\).</p><span class="src">11.4.1, 11.4.2 · slides 480–487, 512–515</span></div><div class="card f"><h3>Soft-margin primal</h3><p>\[
+\min_{w, b, \xi}\tfrac{1}{2}\lVert w \rVert^2 + C\sum_{n=1}^{N}\xi_n \quad \text{s.t. } y_n(w^\top x_n + b) \ge 1 - \xi_n, \;\; \xi_n \ge 0
+\]</p>
+<p><strong>where:</strong> \(\xi_n\) the slack of point \(n\) (\(0 &lt; \xi_n \le 1\): inside the margin but correct; \(\xi_n &gt; 1\): misclassified), \(C &gt; 0\) the penalty.</p>
+<p><strong>use:</strong> large \(C\) punishes slack and approaches the hard margin; small \(C\) allows a wider margin with more violations (more regularisation). \(\sum_n \xi_n\) bounds the number of training errors.</p><span class="src">11.5.1 · slides 457–458, 488–495</span></div><div class="card f"><h3>Hinge loss, the unconstrained objective and its subgradient</h3><p>\[
+\ell(t) = \max(0, 1 - t), \;\; t = yf(x); \qquad \xi_n = \max\big(0, 1 - y_nf(x_n)\big); \qquad J(w, b) = \tfrac{1}{2}\lVert w \rVert^2 + C\sum_{n=1}^{N}\max\big(0, 1 - y_n(w^\top x_n + b)\big)
+\]</p>
+<p>\[
+\partial_w J = w - C\sum_{n:\, y_nf(x_n) &lt; 1} y_nx_n, \qquad \partial_b J = -C\sum_{n:\, y_nf(x_n) &lt; 1} y_n; \qquad w \leftarrow w - \eta\,\partial_wJ, \quad b \leftarrow b - \eta\,\partial_bJ
+\]</p>
+<p><strong>where:</strong> \(f(x) = w^\top x + b\); the optimal slack equals the hinge loss. Only margin violators (\(y_nf(x_n) &lt; 1\)) contribute; at \(y_nf(x_n) = 1\) the hinge has a kink and 0 is a valid subgradient choice.</p>
+<p><strong>use:</strong> the hinge loss is not the 0–1 loss (erratum 18): it is 0 only when \(yf(x) \ge 1\), equals \(1 - yf(x) \in (0, 1)\) for a correct point inside the margin (for example 0.5), and exceeds 1 for every misclassified point. Compare candidate classifiers by evaluating \(J\). Recompute the violator set after every step. Flipping all labels flips the signs of \(w\) and \(b\) (slides 500–501).</p><span class="src">11.5.2 · slides 488–505</span></div><div class="card f"><h3>Soft-margin dual, box constraint and KKT table</h3><p>\[
+\max_\alpha \sum_i\alpha_i - \frac{1}{2}\sum_{i,j}\alpha_i\alpha_jy_iy_j\,x_i^\top x_j \quad \text{s.t. } 0 \le \alpha_i \le C, \;\; \sum_i\alpha_iy_i = 0; \qquad \mu_i = C - \alpha_i \ge 0
+\]</p>
+<p>\[
+\alpha_i = 0 \Rightarrow y_if(x_i) \ge 1; \qquad 0 &lt; \alpha_i &lt; C \Rightarrow y_if(x_i) = 1, \; \xi_i = 0; \qquad \alpha_i = C \Rightarrow y_if(x_i) \le 1, \; \xi_i = 1 - y_if(x_i)
+\]</p>
+<p><strong>where:</strong> \(\mu_i\) the multiplier of \(\xi_i \ge 0\); stationarity in \(\xi_i\) gives \(C - \alpha_i - \mu_i = 0\). \(f(x) = w^\top x + b\); from \(\alpha_i[y_if(x_i) - 1 + \xi_i] = 0\) and \(\mu_i\xi_i = (C - \alpha_i)\xi_i = 0\).</p>
+<p><strong>use:</strong> identical to the hard-margin dual except for the upper bound \(C\). \(w = \sum_i\alpha_iy_ix_i\) as before; compute \(b\) from a point with \(0 &lt; \alpha_s &lt; C\). Outside the margin, on the margin, inside or misclassified. Worked: 4 points, \(C = 0.5\): \(\alpha = (0.4, 0.5, 0.1, 0)\), \(w = (0.3, 0.6)\), \(b = -2.5\), \(\xi_2 = 1.1\), primal \(= \tfrac{1}{2}(0.45) + 0.5(1.1) = 0.775 =\) dual. 6 points, \(C = 1\): \(w = (1.2, 0.4)\), \(b = -3.4\), \(\xi_6 = 0.4\).</p><span class="src">11.5.3, 11.5.4 · slides 506–518</span></div><div class="card f"><h3>Kernels and the kernel trick</h3><p>\[
+K(x, x') = \varphi(x)^\top\varphi(x'), \qquad \max_\alpha \sum_i\alpha_i - \frac{1}{2}\sum_{i,j}\alpha_i\alpha_jy_iy_jK(x_i, x_j), \qquad \hat{y}(x) = \operatorname{sign}\Big(\sum_i\alpha_iy_iK(x_i, x) + b\Big)
+\]</p>
+<p><strong>where:</strong> \(\varphi\) a feature map; constraints as in the hard- or soft-margin dual.</p>
+<p><strong>use:</strong> Mercer: \(K\) is a valid kernel iff it is symmetric and every kernel matrix \([K(x_i, x_j)]\) is PSD. Recipe: choose \(K\), solve the dual, find \(b\) from a margin support vector, classify with the kernel sum (no explicit \(\varphi\) needed).</p><span class="src">11.6.1 · slides 520–522</span></div><div class="card f"><h3>Common kernels and valid constructions</h3><p>\[
+K = x^\top x' \;(\text{linear}), \qquad K = (1 + x^\top x')^p \;(\text{polynomial}), \qquad K = \exp\big(-\gamma\lVert x - x' \rVert^2\big), \; \gamma &gt; 0 \;(\text{Gaussian/RBF})
+\]</p>
+<p>\[
+K_1 + K_2, \quad cK_1 \;(c &gt; 0), \quad K_1K_2, \quad g(x)K_1(x, x')g(x'), \quad \exp(K_1) \quad \text{are kernels}
+\]</p>
+<p><strong>where:</strong> \(K_1, K_2\) valid kernels, \(g\) any real function.</p>
+<p><strong>use:</strong> \(\exp(-d(x, x'))\) is <strong>not</strong> a kernel for every metric \(d\) (erratum 19; it holds for special ones such as Euclidean distance). The sigmoid \(\tanh(\beta_0x^\top x' + \beta_1)\) is not PSD for all parameters, for example \(K(0, 0) = \tanh(\beta_1) &lt; 0\) when \(\beta_1 &lt; 0\) (erratum 20). The RBF kernel has \(K(x, x) = 1\) and an infinite-dimensional feature space.</p><span class="src">11.6.2 · slides 523–527</span></div><div class="card f"><h3>Polynomial kernel feature map and the XOR SVM</h3><p>\[
+(1 + x^\top x')^2 = \varphi(x)^\top\varphi(x'), \qquad \varphi(x) = \big(1, \; x_1^2, \; \sqrt{2}x_1x_2, \; x_2^2, \; \sqrt{2}x_1, \; \sqrt{2}x_2\big)
+\]</p>
+<p>\[
+K_{ii} = 9, \; K_{ij} = 1 \;(i \ne j), \qquad \alpha_i = \tfrac{1}{8}, \qquad Q(\alpha) = \tfrac{1}{4}, \qquad w_0 = \big(0, 0, -\tfrac{1}{\sqrt{2}}, 0, 0, 0\big), \qquad b = 0
+\]</p>
+<p><strong>where:</strong> \(x = (x_1, x_2) \in \mathbb{R}^2\); the \(\sqrt{2}\) factors reproduce the cross terms of the expansion. The four points \((\pm 1, \pm 1)\) with \(y = -x_1x_2\) (XOR labels), kernel \((1 + x^\top x')^2\).</p>
+<p><strong>use:</strong> XOR is not linearly separable in \(\mathbb{R}^2\) but is in this 6-dimensional space, via the \(x_1x_2\) coordinate. One kernel evaluation costs one 2-D inner product instead of a 6-D one. \(f(x) = w_0^\top\varphi(x) = -x_1x_2\), so the decision boundary is \(x_1x_2 = 0\) (the two axes). All four points are support vectors.</p><span class="src">11.6.3, 11.6.4 · slides 528–539</span></div><div class="card f"><h3>The OR function: hard versus soft margin</h3><p>\[
+w = (2, 2), \;\; b = -1, \;\; \alpha = (4, 2, 2, 0), \;\; \text{margin } \frac{2}{\lVert w \rVert} = \frac{1}{\sqrt{2}}; \qquad J(w, b) = \tfrac{1}{2}\lVert w \rVert^2 + C\sum_n\max(0, 1 - y_nf(x_n))
+\]</p>
+<p><strong>where:</strong> points \((0, 0) \mapsto -1\) and \((1, 0), (0, 1), (1, 1) \mapsto +1\); \(w = \sum\alpha_iy_ix_i = 2(1, 0) + 2(0, 1)\).</p>
+<p><strong>use:</strong> the hard-margin solution is the soft-margin optimum only for \(C \ge 4\), as the box \(\alpha_i \le C\) with \(\alpha_1 = 4\) implies. Comparing it with \(w = (1, 1)\), \(b = -0.5\) is not enough ("for \(C &gt; 2\) the hard margin wins" is wrong; erratum 21): at \(C = 1\) the optimum is \(w = (0.5, 0.5)\), \(b = 0.5\), \(J = 1.75\); at \(C = 3\), \(w = (1.5, 1.5)\), \(b = -0.5\), \(J = 3.75\).</p><span class="src">11.6.5 · slides 540–549</span></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>

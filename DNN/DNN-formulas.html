@@ -4,703 +4,774 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DNN — Formulas</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>DNN</span> · Formulas<span class="count" id="count"></span></h1>
+    <h1><span>DNN</span> · Formulas<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab" href="DNN-concepts.html">Concepts</a>
-    <a class="tab active" href="DNN-formulas.html">Formulas</a>
-    <a class="tab" href="DNN-definitions.html">Definitions</a>
-    <a class="tab" href="DNN-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab" href="DNN-concepts.html">Concepts</a><a class="tab active" href="DNN-formulas.html">Formulas</a><a class="tab" href="DNN-definitions.html">Definitions</a><a class="tab" href="DNN-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">Every equation you need for AIML ZG511 problems: neuron net input & activations (+ derivatives), perceptron rule, linear regression + MSE, logistic regression + cross-entropy, softmax, gradient descent (batch/SGD/mini-batch), forward prop, backprop deltas & weight gradients, convolution / feature-map / receptive-field / parameter-count formulas for CNNs, plus prerequisite chain-rule/matrix/normal-equation tools for the worked numericals. Sources: DNN_M2–M6 decks, DFNN numericals, and the lab notebooks.</p>
-
-  <details class="module" open>
-    <summary>Module 2 — Neuron & Perceptron <small>· source: DNN_M2_ANN_Perceptron.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Weighted Sum / Net Input (Pre-activation)</h3>
-        $$z=\sum_{i=1}^{n} w_i x_i + b = w^\top x + b$$
-        <p>where: \(x_i\)=input features; \(w_i\)=weights (feature importance); \(b\)=bias; \(z\)=net input / logit / pre-activation.</p>
-        <p>use: the linear part of every neuron; the activation function is applied to \(z\).</p>
-        <span class="src">DNN_M2 · p12</span>
-      </div>
-
-      <div class="card">
-        <h3>Artificial Neuron Output</h3>
-        $$\hat y = f\!\left(\sum_{i=1}^{n} w_i x_i + b\right) = f(w^\top x + b)$$
-        <p>where: \(f(\cdot)\)=activation function; \(\hat y\)=neuron output.</p>
-        <p>use: general form of a single neuron; choose \(f\) per task (identity/sigmoid/softmax/ReLU).</p>
-        <span class="src">DNN_M2 · p12</span>
-      </div>
-
-      <div class="card">
-        <h3>Augmented Notation (bias as \(w_0\))</h3>
-        $$\tilde x=[1,x_1,\dots,x_n]^\top,\quad w=[w_0,w_1,\dots,w_n]^\top,\quad h=w^\top\tilde x$$
-        <p>where: \(w_0\)=bias term absorbed into the weight vector; \(\tilde x\)=augmented input with a leading 1.</p>
-        <p>use: lets a single dot product include the bias; used throughout perceptron/regression algebra.</p>
-        <span class="src">DNN_M2 · p48</span>
-      </div>
-
-      <div class="card">
-        <h3>Perceptron Step / Sign Activation</h3>
-        $$\hat y=\begin{cases}1 & \text{if } w^\top x+b\ge 0\\ -1\ (\text{or }0) & \text{otherwise}\end{cases}$$
-        <p>where: threshold at 0; classical output \(\{-1,+1\}\), logic-gate output \(\{0,1\}\).</p>
-        <p>use: perceptron / hard binary decision; not differentiable, so trained by the perceptron rule.</p>
-        <span class="src">DNN_M2 · p23,34</span>
-      </div>
-
-      <div class="card">
-        <h3>Perceptron Learning Rule</h3>
-        $$w_i \leftarrow w_i + \eta\,(t-\hat y)\,x_i,\qquad b \leftarrow b + \eta\,(t-\hat y)$$
-        <p>where: \(\eta\)=learning rate; \(t\)=target label; \(\hat y\)=predicted label; update only on misclassification.</p>
-        <p>use: trains a perceptron; converges in finite steps if data is linearly separable.</p>
-        <span class="src">DNN_M2 · p33,50</span>
-      </div>
-
-      <div class="card">
-        <h3>Linear Separability / Decision Boundary</h3>
-        $$w_1x_1+w_2x_2+\dots+w_nx_n+b=0$$
-        <p>where: an \((n{-}1)\)-D hyperplane in \(n\)-D space (a line in 2D).</p>
-        <p>use: perceptron boundary; XOR has no single such line, motivating multilayer nets.</p>
-        <span class="src">DNN_M2 · p42,45</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 3 — Linear Regression <small>· source: DNN_M3_Linear NN Regression (1).pdf · L2-Linear Regression.ipynb</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Linear Regression Hypothesis</h3>
-        $$\hat y = w_0 + w_1x_1 + \dots + w_dx_d = w^\top x,\qquad \hat{\mathbf y}=Xw$$
-        <p>where: \(x\in\mathbb R^{d+1}\) (augmented); \(w\in\mathbb R^{d+1}\); \(X\in\mathbb R^{N\times(d+1)}\)=design matrix; identity activation \(f(z)=z\).</p>
-        <p>use: prediction for regression; the vectorized form \(Xw\) computes all \(N\) predictions at once.</p>
-        <span class="src">DNN_M3 · p7,14</span>
-      </div>
-
-      <div class="card">
-        <h3>Identity Activation & Derivative</h3>
-        $$f(z)=z,\qquad f'(z)=1$$
-        <p>where: used at the output for regression.</p>
-        <p>use: passes value & gradient through unchanged; enables gradient-based optimisation for continuous targets.</p>
-        <span class="src">DNN_M3 · p15-16</span>
-      </div>
-
-      <div class="card">
-        <h3>Squared Error — Single Example</h3>
-        $$\ell(w;x^{(i)},y^{(i)})=\tfrac12\big(\hat y^{(i)}-y^{(i)}\big)^2=\tfrac12\big(w^\top x^{(i)}-y^{(i)}\big)^2$$
-        <p>where: \(\tfrac12\)=convenience factor that cancels in the derivative.</p>
-        <p>use: per-example regression loss; sum/average gives the cost.</p>
-        <span class="src">DNN_M3 · p17</span>
-      </div>
-
-      <div class="card">
-        <h3>Mean Squared Error Cost (MSE)</h3>
-        $$J(w)=\frac{1}{N}\sum_{i=1}^{N}\tfrac12\big(w^\top x^{(i)}-y^{(i)}\big)^2=\frac{1}{2N}\lVert Xw-y\rVert^2$$
-        <p>where: \(N\)=#examples; \(\lVert\cdot\rVert^2=(Xw-y)^\top(Xw-y)\).</p>
-        <p>use: convex objective for linear regression; minimise to find \(w^*=\arg\min_w J(w)\).</p>
-        <span class="src">DNN_M3 · p17-18</span>
-      </div>
-
-      <div class="card">
-        <h3>Gradient of MSE</h3>
-        $$\nabla J(w)=\frac{1}{N}\sum_{i=1}^{N}\big(w^\top x^{(i)}-y^{(i)}\big)x^{(i)}=\frac{1}{N}X^\top(Xw-y)$$
-        <p>where: \(X^\top\in\mathbb R^{(d+1)\times N}\); \((Xw-y)\in\mathbb R^N\); \(\nabla J\in\mathbb R^{d+1}\).</p>
-        <p>use: the descent direction for batch GD; note the recurring "error × input" structure.</p>
-        <span class="src">DNN_M3 · p22</span>
-      </div>
-
-      <div class="card">
-        <h3>Batch Gradient Descent Update</h3>
-        $$w^{(t+1)}=w^{(t)}-\eta\,\nabla J(w^{(t)})=w^{(t)}-\frac{\eta}{N}X^\top\big(Xw^{(t)}-y\big)$$
-        <p>where: \(\eta\)=learning rate; stop when \(\lVert\nabla J\rVert<\epsilon\) or max iterations.</p>
-        <p>use: iterative weight optimisation using all examples per step.</p>
-        <span class="src">DNN_M3 · p21,23</span>
-      </div>
-
-      <div class="card">
-        <h3>Bias / Weight Gradient (notebook form)</h3>
-        $$\frac{\partial J}{\partial w}=\frac1N X^\top(\hat{\mathbf y}-\mathbf y),\qquad \frac{\partial J}{\partial b}=\frac1N\sum_{i=1}^{N}(\hat y^{(i)}-y^{(i)})$$
-        <p>where: \(\hat{\mathbf y}-\mathbf y\)=residual/error vector.</p>
-        <p>use: exact gradients implemented in the L2 lab; update \(w\!\mathrel{-}=\!\eta\partial_w J\), \(b\!\mathrel{-}=\!\eta\partial_b J\).</p>
-        <span class="src">L2-Linear Regression.ipynb</span>
-      </div>
-
-      <div class="card">
-        <h3>Normal Equation (closed form)</h3>
-        $$w^*=(X^\top X)^{-1}X^\top y$$
-        <p>where: requires \(X^\top X\) invertible; no learning rate or iterations needed.</p>
-        <p>use: exact least-squares solution; used to verify GD / check "is the update moving toward the optimum" in exam problems.</p>
-        <span class="src">L2-Linear Regression.ipynb · EC-2 Q4</span>
-      </div>
-
-      <div class="card">
-        <h3>Evaluation: MSE, RMSE, MAE</h3>
-        $$\text{MSE}=\frac1N\sum(\hat y^{(i)}-y^{(i)})^2,\quad \text{RMSE}=\sqrt{\text{MSE}},\quad \text{MAE}=\frac1N\sum|y^{(i)}-\hat y^{(i)}|$$
-        <p>where: RMSE is in target units; MAE is robust to outliers.</p>
-        <p>use: report regression accuracy on the test set.</p>
-        <span class="src">DNN_M3 · p34</span>
-      </div>
-
-      <div class="card">
-        <h3>R² (Coefficient of Determination)</h3>
-        $$R^2=1-\frac{\sum_{i}(y^{(i)}-\hat y^{(i)})^2}{\sum_{i}(y^{(i)}-\bar y)^2}=1-\frac{SS_{\text{res}}}{SS_{\text{tot}}}$$
-        <p>where: \(\bar y=\frac1N\sum y^{(i)}\)=mean target; \(SS_{\text{res}}\)=residual sum of squares; \(SS_{\text{tot}}\)=total.</p>
-        <p>use: fraction of variance explained; 1=perfect, 0=predicts mean, &lt;0=worse than baseline.</p>
-        <span class="src">DNN_M3 · p35</span>
-      </div>
-
-      <div class="card">
-        <h3>Feature Scaling</h3>
-        $$\text{Min-Max: } x'_j=\frac{x_j-\min(x_j)}{\max(x_j)-\min(x_j)},\qquad \text{Z-score: } x'_j=\frac{x_j-\mu_j}{\sigma_j}$$
-        <p>where: \(\mu_j,\sigma_j\)=feature mean & std.</p>
-        <p>use: standardise features before GD so no feature dominates; critical for fast convergence.</p>
-        <span class="src">DNN_M3 · p40 · L2 notebook</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 4 — Classification (Logistic, Softmax, SGD) <small>· source: DNN_M4_Linear NN Classification.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Sigmoid Function & Derivative</h3>
-        $$\sigma(z)=\frac{1}{1+e^{-z}},\qquad \sigma'(z)=\sigma(z)\big(1-\sigma(z)\big)$$
-        <p>where: range (0,1); \(\sigma(0)=0.5\), \(\sigma'(0)=0.25\) (max); symmetry \(\sigma(-z)=1-\sigma(z)\).</p>
-        <p>use: binary-classification output; derivative computed from the function value itself.</p>
-        <span class="src">DNN_M4 · p13-14 · Numerical p45</span>
-      </div>
-
-      <div class="card">
-        <h3>Logistic Regression Model</h3>
-        $$z=w^\top x,\qquad \hat y=\sigma(z)=\frac{1}{1+e^{-w^\top x}}=P(y=1\mid x)$$
-        <p>where: \(\hat y\in[0,1]\)=probability of class 1.</p>
-        <p>use: binary classification; predict class 1 if \(\hat y\ge0.5\) (i.e. \(w^\top x\ge0\)).</p>
-        <span class="src">DNN_M4 · p12,19-20</span>
-      </div>
-
-      <div class="card">
-        <h3>Binary Cross-Entropy (single & total)</h3>
-        $$\ell=-\big[y\log\hat y+(1-y)\log(1-\hat y)\big],\quad J(w)=-\frac1N\sum_{i=1}^{N}\big[y^{(i)}\log\hat y^{(i)}+(1-y^{(i)})\log(1-\hat y^{(i)})\big]$$
-        <p>where: \(y\in\{0,1\}\); if \(y{=}1\), \(\ell=-\log\hat y\); if \(y{=}0\), \(\ell=-\log(1-\hat y)\).</p>
-        <p>use: loss for binary classification; convex with sigmoid, penalises confident errors.</p>
-        <span class="src">DNN_M4 · p21-22</span>
-      </div>
-
-      <div class="card">
-        <h3>BCE Gradient (per example)</h3>
-        $$\nabla_w\ell=\big(\hat y^{(i)}-y^{(i)}\big)\,x^{(i)}$$
-        <p>where: \(\hat y^{(i)}=\sigma(w^\top x^{(i)})\); "error × input" — same structure as linear regression.</p>
-        <p>use: SGD weight update for logistic regression (sigmoid+BCE pairing gives this clean form).</p>
-        <span class="src">DNN_M4 · p26</span>
-      </div>
-
-      <div class="card">
-        <h3>BCE Derivative w.r.t. Output</h3>
-        $$\frac{\partial\ell}{\partial\hat y}=\frac{\hat y-y}{\hat y(1-\hat y)}$$
-        <p>where: derivative before combining with the sigmoid derivative.</p>
-        <p>use: chained with \(\sigma'\) it simplifies to \(\hat y-y\); explains why sigmoid+BCE is numerically well-behaved.</p>
-        <span class="src">Numerical · p72</span>
-      </div>
-
-      <div class="card">
-        <h3>SGD Update Rule</h3>
-        $$w^{(t+1)}=w^{(t)}-\eta\,\nabla\ell\big(w^{(t)};x^{(i)},y^{(i)}\big)$$
-        <p>where: one randomly-selected example \((x^{(i)},y^{(i)})\) per step; shuffle each epoch.</p>
-        <p>use: fast, low-memory training; noisy path but escapes sharp minima.</p>
-        <span class="src">DNN_M4 · p25,27</span>
-      </div>
-
-      <div class="card">
-        <h3>Softmax Function</h3>
-        $$\text{softmax}(z)_k=\hat y_k=\frac{e^{z_k}}{\sum_{j=1}^{K}e^{z_j}}=P(y=k\mid x)$$
-        <p>where: \(z_k=w_k^\top x\)=logit for class \(k\); outputs in (0,1) summing to 1.</p>
-        <p>use: multi-class output activation; predicted class = \(\arg\max_k\hat y_k\).</p>
-        <span class="src">DNN_M4 · p57</span>
-      </div>
-
-      <div class="card">
-        <h3>Numerically-Stable Softmax</h3>
-        $$\text{softmax}(z)_k=\frac{e^{z_k-c}}{\sum_j e^{z_j-c}},\qquad c=\max_k z_k$$
-        <p>where: subtracting the max leaves softmax unchanged (translation invariance) but prevents overflow.</p>
-        <p>use: always subtract \(\max(z)\) before exponentiating in code / numericals (log-sum-exp trick).</p>
-        <span class="src">DNN_M4 · p91 · Numerical p58</span>
-      </div>
-
-      <div class="card">
-        <h3>Multi-class Logits (batch)</h3>
-        $$z=W^\top x\in\mathbb R^{K},\qquad Z=XW\in\mathbb R^{N\times K}$$
-        <p>where: \(W\in\mathbb R^{(d+1)\times K}\)=weight matrix (one column \(w_k\) per class).</p>
-        <p>use: compute all class scores; apply softmax row-wise to get \(\hat Y\).</p>
-        <span class="src">DNN_M4 · p54,56</span>
-      </div>
-
-      <div class="card">
-        <h3>Categorical Cross-Entropy</h3>
-        $$J(W)=-\frac1N\sum_{i=1}^{N}\sum_{k=1}^{K}y_k^{(i)}\log\hat y_k^{(i)}$$
-        <p>where: \(y^{(i)}\)=one-hot label; only the true class's term contributes per example.</p>
-        <p>use: multi-class loss; reduces to BCE when \(K=2\).</p>
-        <span class="src">DNN_M4 · p61</span>
-      </div>
-
-      <div class="card">
-        <h3>Softmax + CE Gradient</h3>
-        $$\frac{\partial\ell}{\partial z_j}=\hat y_j-y_j$$
-        <p>where: derived by chaining \(\partial\ell/\partial\hat y_i=-y_i/\hat y_i\) with the softmax Jacobian \(\hat y_k(\delta_{kj}-\hat y_j)\).</p>
-        <p>use: the elegant "predicted − true" gradient; core of multi-class backprop.</p>
-        <span class="src">DNN_M4 · p68 · Numerical p49,61</span>
-      </div>
-
-      <div class="card">
-        <h3>Mini-batch Gradient & Update</h3>
-        $$\nabla_W J_{\mathcal B}=\frac1B X_{\mathcal B}^\top(\hat Y_{\mathcal B}-Y_{\mathcal B}),\qquad W^{(t+1)}=W^{(t)}-\frac{\eta}{B}X_{\mathcal B}^\top(\hat Y_{\mathcal B}-Y_{\mathcal B})$$
-        <p>where: \(B\)=batch size (32–256); \(X_{\mathcal B},\hat Y_{\mathcal B},Y_{\mathcal B}\)=mini-batch inputs, predictions, one-hot labels.</p>
-        <p>use: standard deep-learning optimiser — vectorized, stable, GPU-efficient.</p>
-        <span class="src">DNN_M4 · p68-69</span>
-      </div>
-
-      <div class="card">
-        <h3>Iterations per Epoch</h3>
-        $$\text{iterations/epoch}=\left\lceil \frac{N}{B}\right\rceil$$
-        <p>where: \(N\)=dataset size; \(B\)=batch size. E.g. \(N{=}60000, B{=}128\Rightarrow469\).</p>
-        <p>use: plan training length / weight-update count (× epochs).</p>
-        <span class="src">DNN_M4 · p67</span>
-      </div>
-
-      <div class="card">
-        <h3>Confusion-Matrix Metrics</h3>
-        $$\text{Acc}=\frac{TP+TN}{TP+TN+FP+FN},\ \text{Prec}=\frac{TP}{TP+FP},\ \text{Rec}=\frac{TP}{TP+FN},\ F_1=\frac{2\,\text{Prec}\cdot\text{Rec}}{\text{Prec}+\text{Rec}}$$
-        <p>where: TP/TN/FP/FN from the confusion matrix; \(F_1\)=harmonic mean.</p>
-        <p>use: evaluate classifiers; pick metric by error cost (precision vs recall) — critical for imbalanced data.</p>
-        <span class="src">DNN_M4 · p40-41,43</span>
-      </div>
-
-      <div class="card">
-        <h3>Macro & Weighted Averages, Top-K</h3>
-        $$\text{Prec}_{\text{macro}}=\frac1K\sum_k \text{Prec}_k,\quad \text{Prec}_{\text{wt}}=\sum_k \frac{N_k}{N}\text{Prec}_k,\quad \text{Top-}K=\frac1N\sum_i \mathbb 1[y^{(i)}\in\text{Top-}K(\hat y^{(i)})]$$
-        <p>where: per-class metrics combined equally (macro) or by frequency (weighted); Top-K counts a hit if the true class is among the top K predictions.</p>
-        <p>use: multi-class evaluation, especially with many/imbalanced classes.</p>
-        <span class="src">DNN_M4 · p87-88</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 5 — DFNN, Forward Prop & Backpropagation <small>· source: DNN_M5_DFNN (1).pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Layer Pre-activation & Activation</h3>
-        $$z^{(\ell)}=h^{(\ell-1)}W^{(\ell)}+b^{(\ell)},\qquad h^{(\ell)}=\sigma^{(\ell)}\big(z^{(\ell)}\big),\qquad h^{(0)}=x,\ \hat y=h^{(L)}$$
-        <p>where: \(W^{(\ell)}\in\mathbb R^{n_{\ell-1}\times n_\ell}\); \(b^{(\ell)}\in\mathbb R^{n_\ell}\); \(\sigma^{(\ell)}\)=layer activation (element-wise).</p>
-        <p>use: one layer of forward propagation; chain across \(\ell=1\dots L\).</p>
-        <span class="src">DNN_M5 · p19</span>
-      </div>
-
-      <div class="card">
-        <h3>Vectorized Forward Pass (mini-batch)</h3>
-        $$H^{(0)}=X_{\mathcal B},\quad Z^{(\ell)}=H^{(\ell-1)}W^{(\ell)}+\mathbf 1_B\,b^{(\ell)\top},\quad H^{(\ell)}=\sigma^{(\ell)}(Z^{(\ell)}),\quad \hat Y_{\mathcal B}=H^{(L)}$$
-        <p>where: \(\mathbf 1_B\in\mathbb R^{B\times1}\)=ones vector broadcasting the bias; \(H^{(\ell)}\in\mathbb R^{B\times n_\ell}\).</p>
-        <p>use: compute predictions for a whole batch; cost \(O(B\sum_\ell n_{\ell-1}n_\ell)\).</p>
-        <span class="src">DNN_M5 · p20,30</span>
-      </div>
-
-      <div class="card">
-        <h3>Total Parameters</h3>
-        $$\text{Params}=\sum_{\ell=1}^{L} n_\ell\,(n_{\ell-1}+1)$$
-        <p>where: \(n_{\ell-1}\cdot n_\ell\) weights \(+\ n_\ell\) biases per layer.</p>
-        <p>use: size a network / answer "parameters in the first hidden layer" exam questions.</p>
-        <span class="src">DNN_M5 · p21</span>
-      </div>
-
-      <div class="card">
-        <h3>Task Loss Functions</h3>
-        $$\text{MSE}=\tfrac12\lVert\hat y-y\rVert^2,\quad \text{BCE}=-[y\log\hat y+(1-y)\log(1-\hat y)],\quad \text{CCE}=-\sum_{k=1}^{C}y_k\log\hat y_k$$
-        <p>where: choose by task — regression / binary / multi-class.</p>
-        <p>use: per-example loss; batch loss \(J=\frac1B\sum_{i\in\mathcal B}\ell^{(i)}\).</p>
-        <span class="src">DNN_M5 · p22,31</span>
-      </div>
-
-      <div class="card">
-        <h3>Mini-batch SGD Parameter Update</h3>
-        $$W^{(\ell)}\leftarrow W^{(\ell)}-\eta\,\frac{\partial J}{\partial W^{(\ell)}},\qquad b^{(\ell)}\leftarrow b^{(\ell)}-\eta\,\frac{\partial J}{\partial b^{(\ell)}}$$
-        <p>where: \(\eta&gt;0\)=learning rate; gradients from backprop.</p>
-        <p>use: the actual learning step for every layer of a DFNN.</p>
-        <span class="src">DNN_M5 · p24</span>
-      </div>
-
-      <div class="card">
-        <h3>Output-Layer Error Signal</h3>
-        $$\delta^{(L)}=\frac{\partial J}{\partial Z^{(L)}}=\frac1B\big(\hat Y-Y\big)$$
-        <p>where: holds for all three matched pairs — MSE+identity, BCE+sigmoid, CCE+softmax.</p>
-        <p>use: the starting point of backpropagation.</p>
-        <span class="src">DNN_M5 · p32</span>
-      </div>
-
-      <div class="card">
-        <h3>Backpropagation — Error Recursion</h3>
-        $$\delta^{(\ell)}=\big(\delta^{(\ell+1)}W^{(\ell+1)\top}\big)\odot\sigma'^{(\ell)}\big(z^{(\ell)}\big)$$
-        <p>where: \(\odot\)=element-wise (Hadamard) product; \(\sigma'^{(\ell)}\)=activation derivative at that layer.</p>
-        <p>use: propagate the error signal from layer \(\ell{+}1\) back to layer \(\ell\); the core backprop equation.</p>
-        <span class="src">DNN_M5 · p34</span>
-      </div>
-
-      <div class="card">
-        <h3>Parameter Gradients from \(\delta\)</h3>
-        $$\frac{\partial J}{\partial W^{(\ell)}}=\frac1B\,H^{(\ell-1)\top}\delta^{(\ell)},\qquad \frac{\partial J}{\partial b^{(\ell)}}=\frac1B\,\mathbf 1_B^\top\delta^{(\ell)}$$
-        <p>where: the same \(\delta^{(\ell)}\) feeds both weight and bias gradients.</p>
-        <p>use: compute gradients once error signals are known; then apply the SGD update.</p>
-        <span class="src">DNN_M5 · p35</span>
-      </div>
-
-      <div class="card">
-        <h3>Single-Example Update (vector form)</h3>
-        $$W^{(\ell)}\leftarrow W^{(\ell)}-\eta\,h^{(\ell-1)\top}\delta^{(\ell)},\qquad b^{(\ell)}\leftarrow b^{(\ell)}-\eta\,\delta^{(\ell)}$$
-        <p>where: the \(B=1\) special case of the batch gradients.</p>
-        <p>use: hand-computable update used in the numerical worked examples.</p>
-        <span class="src">DNN_M5 · p39</span>
-      </div>
-
-      <div class="card">
-        <h3>Chain Rule (backprop foundation)</h3>
-        $$\frac{\partial J}{\partial z^{(\ell)}}=\frac{\partial J}{\partial h^{(\ell)}}\frac{\partial h^{(\ell)}}{\partial z^{(\ell)}},\qquad \frac{\partial J}{\partial h^{(\ell)}}=\delta^{(\ell+1)}W^{(\ell+1)\top},\quad \frac{\partial h^{(\ell)}}{\partial z^{(\ell)}}=\sigma'^{(\ell)}(z^{(\ell)})$$
-        <p>where: composition of local derivatives through the network.</p>
-        <p>use: derives every backprop equation; the key idea that makes deep-net training tractable.</p>
-        <span class="src">DNN_M5 · p34</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 6 — Convolutional Neural Networks (CNN) <small>· source: DNN_M6_CNN.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>2-D Convolution (Cross-Correlation)</h3>
-        $$(I\star K)(i,j)=\sum_{m}\sum_{n} I(i+m,\,j+n)\,K(m,n)$$
-        <p>where: \(I\)=input, \(K\)=kernel (\(k\times k\) learnable weights); element-wise product then sum, slid by the stride.</p>
-        <p>use: the core CNN operation; produces one entry of a feature map.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Feature Map (with bias)</h3>
-        $$\text{FM}_k(i,j)=\sum_{m}\sum_{n} I(i+m,\,j+n)\,K_k(m,n)+b_k$$
-        <p>where: \(K_k,b_k\)=weights/bias of filter \(k\); one filter → one feature map, so \(C_{out}\) filters give \(C_{out}\) maps.</p>
-        <p>use: compute each output channel; stack maps into an \(H'\times W'\times C_{out}\) volume.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Multi-Channel Convolution</h3>
-        $$O(i,j)=\sum_{c=1}^{C_{in}}\sum_{m}\sum_{n} I(i+m,\,j+n,\,c)\,K(m,n,c)+b$$
-        <p>where: filter depth = input depth \(C_{in}\); the sum runs over all input channels → one output channel.</p>
-        <p>use: convolving RGB (\(C_{in}=3\)) or any feature volume; repeat with \(C_{out}\) filters for \(C_{out}\) channels.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Output Spatial Size</h3>
-        $$H_{out}=\left\lfloor\frac{H_{in}+2p-k}{s}\right\rfloor+1\qquad(\text{likewise } W_{out})$$
-        <p>where: \(k\)=kernel size, \(p\)=padding, \(s\)=stride; must yield an integer (filter fully overlaps).</p>
-        <p>use: size any conv/pool output; e.g. 6×6, \(k=3,p=0,s=1\Rightarrow4\times4\); \(s=2\Rightarrow2\times2\).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Same Padding</h3>
-        $$p=\frac{k-1}{2}\quad(\text{stride }1\Rightarrow H_{out}=H_{in})$$
-        <p>where: \(k\)=odd kernel size; pads so the output keeps the input's spatial dimensions.</p>
-        <p>use: preserve resolution through many conv layers (e.g. VGG uses \(k=3,p=1\)).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Receptive Field Growth</h3>
-        $$RF_l = RF_{l-1} + (K_l-1)\prod_{i=1}^{l-1} S_i$$
-        <p>where: \(K_l\)=kernel size, \(S_i\)=stride of layer \(i\); \(RF_0=1\).</p>
-        <p>use: stacked 3×3 stride-1 convs give \(RF=3,5,7,9,\dots\); shows small kernels reach a large RF cheaply.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Dilated (Atrous) Effective Kernel</h3>
-        $$k_{eff}=k+(k-1)(r-1)$$
-        <p>where: \(k\)=kernel size, \(r\)=dilation rate (\(r=1\) standard); parameters stay \(k\times k\).</p>
-        <p>use: enlarge the receptive field without more params; 3×3 with \(r=2\) → effective 5×5.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Convolution Layer Parameters</h3>
-        $$\text{Params}=(k\cdot k\cdot C_{in}+1)\cdot C_{out}$$
-        <p>where: \(k\)=kernel size, \(C_{in}/C_{out}\)=input/output channels, \(+1\)=bias per filter; independent of \(H,W\).</p>
-        <p>use: 3×3, 256 filters on 128-ch input → \(1153\times256=295{,}168\); pooling layers have \(0\) params.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>1×1 Convolution</h3>
-        $$O(i,j)=\sum_{c=1}^{C_{in}} I(i,j,c)\,w_c + b$$
-        <p>where: a per-pixel learned linear combination across channels (Network-in-Network); no neighbouring pixels.</p>
-        <p>use: channel reduction / bottleneck — 256→64→(5×5)→64→256 costs ≈147K vs 1.64M params (~11×).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Global Average Pooling</h3>
-        $$\text{GAP}_c=\frac{1}{H\cdot W}\sum_{i=1}^{H}\sum_{j=1}^{W}\text{FM}_c(i,j)$$
-        <p>where: averages each feature map \(c\) to a single number; parameter-free.</p>
-        <p>use: replace fully connected classifier layers, reducing params and overfitting (NiN).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>ReLU &amp; Its Derivative</h3>
-        $$\text{ReLU}(x)=\max(0,x),\qquad \text{ReLU}'(x)=\begin{cases}1&x>0\\0&x<0\end{cases}$$
-        <p>where: undefined at \(x=0\) (take 0 or 1 in practice); scale-invariant \(\text{ReLU}(\alpha x)=\alpha\,\text{ReLU}(x)\) for \(\alpha>0\).</p>
-        <p>use: default conv activation; the 0/1 gradient avoids the sigmoid's vanishing-gradient shrink.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Softmax &amp; Its Derivative</h3>
-        $$\sigma(z_i)=\frac{e^{z_i}}{\sum_{j} e^{z_j}},\qquad \frac{\partial\sigma_i}{\partial z_j}=\begin{cases}\sigma_i(1-\sigma_i)&i=j\\-\sigma_i\sigma_j&i\neq j\end{cases}$$
-        <p>where: \(z\)=logits from the final layer; output is a probability distribution over \(K\) classes.</p>
-        <p>use: classification head; e.g. \(z=[2,1,0.1]\Rightarrow\sigma=[0.659,0.242,0.099]\).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Fully Connected Layer</h3>
-        $$y=f(Wx+b),\qquad \text{Params}=n\cdot m + m = m(n+1)$$
-        <p>where: \(x\in\mathbb R^n\), \(W\in\mathbb R^{m\times n}\), \(b\in\mathbb R^m\); flattens \(H\times W\times C\to H\!\cdot\!W\!\cdot\!C\) then maps to \(m\) units.</p>
-        <p>use: classification head after feature extraction; e.g. \(3\to2\) layer has \(3\cdot2+2=8\) params.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Backprop Through Convolution</h3>
-        $$\frac{\partial L}{\partial K(m,n)}=\sum_{i}\sum_{j}\frac{\partial L}{\partial O(i,j)}\,I(i+m,\,j+n),\qquad \frac{\partial L}{\partial b}=\sum_{i}\sum_{j}\frac{\partial L}{\partial O(i,j)}$$
-        <p>where: \(O\)=conv output; the kernel gradient is itself a convolution of the input with the upstream gradient.</p>
-        <p>use: derive weight/bias gradients for a conv layer during training.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Kernel Update Rule</h3>
-        $$K_{\text{new}}=K_{\text{old}}-\eta\,\frac{\partial L}{\partial K}$$
-        <p>where: \(\eta\)=learning rate; kernels start random and are updated by gradient descent (bias likewise).</p>
-        <p>use: the learning step that makes filters into pattern detectors.</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-      <div class="card" data-src="M6 · CNN">
-        <h3>Residual Block &amp; Gradient</h3>
-        $$y=F(x)+x,\qquad \frac{\partial L}{\partial x}=\frac{\partial L}{\partial y}\Big(1+\frac{\partial F}{\partial x}\Big)$$
-        <p>where: \(F\)=residual mapping (learn \(F=H(x)-x\)); the identity shortcut adds the "+x".</p>
-        <p>use: the "1" gives a direct gradient highway, enabling 100+ layer training (ResNet).</p>
-        <span class="src">M6 · CNN</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Numerical Methods — Activation & Loss Derivatives, Gradient Flow <small>· source: DNN_M5_DFNN_Numerical.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Tanh & Derivative</h3>
-        $$\tanh(z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}},\qquad \tanh'(z)=1-\tanh^2(z)=\frac{4}{(e^z+e^{-z})^2}$$
-        <p>where: range (−1,1), zero-centred, odd; \(\tanh'(0)=1\) (max, 4× sigmoid).</p>
-        <p>use: hidden-layer activation with stronger gradients than sigmoid.</p>
-        <span class="src">Numerical · p50-51</span>
-      </div>
-
-      <div class="card">
-        <h3>ReLU & Derivative</h3>
-        $$\text{ReLU}(z)=\max(0,z),\qquad \text{ReLU}'(z)=\begin{cases}1 & z&gt;0\\ 0 & z\le0\end{cases}$$
-        <p>where: range [0,∞); gradient 1 for positive inputs, 0 otherwise (dead-neuron zone).</p>
-        <p>use: default hidden activation; cheap and avoids vanishing gradients for \(z&gt;0\).</p>
-        <span class="src">Numerical · p56 · DNN_M5 p37</span>
-      </div>
-
-      <div class="card">
-        <h3>MSE & MAE Derivatives</h3>
-        $$\ell_{\text{MSE}}=\tfrac12(\hat y-y)^2\Rightarrow\frac{\partial\ell}{\partial\hat y}=\hat y-y,\qquad \ell_{\text{MAE}}=|\hat y-y|\Rightarrow\frac{\partial\ell}{\partial\hat y}=\text{sign}(\hat y-y)$$
-        <p>where: MSE gradient scales with error; MAE gradient is constant ±1 (robust to outliers, undefined at 0).</p>
-        <p>use: regression backprop; MAE for outlier-heavy data.</p>
-        <span class="src">Numerical · p65,68</span>
-      </div>
-
-      <div class="card">
-        <h3>Cross-Entropy Derivative (w.r.t. output)</h3>
-        $$\ell=-\sum_{c}y_c\log\hat y_c\ \Rightarrow\ \frac{\partial\ell}{\partial\hat y_j}=-\frac{y_j}{\hat y_j}$$
-        <p>where: with one-hot \(y\), only the true class \(k\) gives \(-1/\hat y_k\); others 0.</p>
-        <p>use: combined with the softmax Jacobian to yield \(\hat y_j-y_j\).</p>
-        <span class="src">Numerical · p75-76</span>
-      </div>
-
-      <div class="card">
-        <h3>Gradient-Flow (Vanishing) Recursion</h3>
-        $$|\delta^{[l-1]}|=|\delta^{[l]}|\cdot\lVert W^{[l]}\rVert\cdot|g'^{[l-1]}|$$
-        <p>where: \(\lVert W^{[l]}\rVert\)=spectral norm; \(g'\)=activation derivative. Sigmoid \(g'\le0.25\).</p>
-        <p>use: quantify vanishing/exploding gradients — e.g. factor \(0.8\times0.25=0.2\)/layer shrinks \(|\delta|\) fast.</p>
-        <span class="src">Numerical · p33-34</span>
-      </div>
-
-      <div class="card">
-        <h3>Network Design Heuristics</h3>
-        $$L\le\log_2\!\big(M/(d\cdot c)\big)+1,\qquad \text{Parameters}\le \frac{M}{5}$$
-        <p>where: \(M\)=#training samples; \(d\)=#features; \(c\)=#classes; \(L\)=#layers.</p>
-        <p>use: pick depth and cap capacity so the model isn't over-parameterised for the data.</p>
-        <span class="src">Numerical · p36-41</span>
-      </div>
-
-      <div class="card">
-        <h3>Two-Layer Numerical Forward/Backward (reference)</h3>
-        $$z^{[1]}=W^{[1]}x+b^{[1]},\ a^{[1]}=\text{ReLU}(z^{[1]});\quad z^{[2]}=W^{[2]}a^{[1]}+b^{[2]},\ a^{[2]}=\sigma(z^{[2]})$$
-        $$\delta^{[2]}=a^{[2]}-y,\ \tfrac{\partial L}{\partial W^{[2]}}=\delta^{[2]}(a^{[1]})^\top;\quad \delta^{[1]}=\big(W^{[2]\top}\delta^{[2]}\big)\odot\text{ReLU}'(z^{[1]}),\ \tfrac{\partial L}{\partial W^{[1]}}=\delta^{[1]}x^\top$$
-        <p>where: the exact template of the EC-2 exam Q3 (2→3 ReLU→2 sigmoid, BCE).</p>
-        <p>use: memorise this full forward→loss→backward→update chain for hand computation.</p>
-        <span class="src">Numerical · p3-31 · EC-2 Q3</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Lab Notebooks — Formulas Demonstrated in Code <small>· source: L1-Perceptron.ipynb · L2-Linear Regression.ipynb</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Perceptron Forward Pass & Activation</h3>
-        $$Z=XW+b,\qquad A=\text{sign}(Z)=\begin{cases}+1 & Z\ge0\\ -1 & Z&lt;0\end{cases}$$
-        <p>where: \(X\)=batch of inputs; \(W,b\)=weights/bias initialised to 0; output \(\pm1\).</p>
-        <p>use: OR/AND/XOR gate demo — computes predictions for all examples at once.</p>
-        <span class="src">L1-Perceptron.ipynb</span>
-      </div>
-
-      <div class="card">
-        <h3>Perceptron Cost (hinge-style)</h3>
-        $$J=\frac1m\sum_{i=1}^{m}\max\!\big(0,\,-y^{(i)}x^{(i)}W\big)$$
-        <p>where: \(m\)=#examples; penalises misclassified points (where \(y\cdot(xW)&lt;0\)).</p>
-        <p>use: cost tracked over iterations to visualise convergence (flat for XOR — never converges).</p>
-        <span class="src">L1-Perceptron.ipynb</span>
-      </div>
-
-      <div class="card">
-        <h3>Perceptron Weight/Bias Update (batch)</h3>
-        $$W\leftarrow W-\frac{\alpha}{2}\,X^\top(A-Y),\qquad b\leftarrow b-\frac{\alpha}{2}\sum_{i}(A^{(i)}-Y^{(i)})$$
-        <p>where: \(\alpha\)=learning rate (0.1); \((A-Y)\)=prediction error.</p>
-        <p>use: the vectorized perceptron learning rule as implemented in the L1 lab.</p>
-        <span class="src">L1-Perceptron.ipynb</span>
-      </div>
-
-      <div class="card">
-        <h3>Decision-Boundary Line (2D)</h3>
-        $$x_2=-\frac{W_0}{W_1}x_1-\frac{b}{W_1}$$
-        <p>where: derived from \(W_0x_1+W_1x_2+b=0\); plotted against the data points.</p>
-        <p>use: visualise how the trained perceptron separates the classes.</p>
-        <span class="src">L1-Perceptron.ipynb</span>
-      </div>
-
-      <div class="card">
-        <h3>Single-Neuron Regression (notebook)</h3>
-        $$\hat y=w^\top x+b,\quad J=\frac{1}{2N}\sum_{i=1}^{N}(\hat y^{(i)}-y^{(i)})^2,\quad w\!\mathrel{-}=\!\eta\tfrac1N X^\top(\hat{\mathbf y}-\mathbf y),\ b\!\mathrel{-}=\!\eta\tfrac1N\!\sum(\hat y-y)$$
-        <p>where: identity activation; \(\eta=0.01\), 1000 iterations, features standardized.</p>
-        <p>use: end-to-end batch GD regression on the Auto-MPG dataset (loss 310→5.67, R²≈0.77 test).</p>
-        <span class="src">L2-Linear Regression.ipynb</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Recovered from image-only slides <small>· source: DNN image slides</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="DFFNNUMERICAL · p17-18 (image)">
-        <h3>Softmax Jacobian (element-wise)</h3>
-        $$\frac{\partial\,\hat y_i}{\partial z_j}=\hat y_i\,(\delta_{ij}-\hat y_j),\qquad \frac{\partial\,\hat y_i}{\partial z_i}=\hat y_i(1-\hat y_i)\ (\text{diagonal})$$
-        <p>where: \(\hat y=\text{softmax}(z)\); \(\delta_{ij}=1\) if \(i{=}j\) else 0; the diagonal term is the "own-class" sensitivity.</p>
-        <p>use: exact derivative of softmax before chaining with the loss; in the 3-output worked example only the diagonal \(\hat y_i(1-\hat y_i)=[0.1218,0.2492,0.2370]\) is used to backprop each output.</p>
-        <span class="src">DFFNNUMERICAL · p17-18 (image)</span>
-      </div>
-
-      <div class="card" data-src="DFFNNUMERICAL · p12-30 (image)">
-        <h3>Three-Layer Worked Backprop (per-weight chain)</h3>
-        $$\frac{\partial E}{\partial W^{(\ell)}_{jk}}=\underbrace{\frac{\partial E}{\partial a_k}}_{\text{upstream error}}\cdot\underbrace{\frac{\partial a_k}{\partial z_k}}_{\text{activation}'}\cdot\underbrace{\frac{\partial z_k}{\partial W_{jk}}}_{=\,a^{(\ell-1)}_j}$$
-        <p>where: \(a^{(\ell-1)}_j\)=incoming activation on the weight; activation′ is softmax/sigmoid/ReLU derivative for that layer; upstream error is accumulated from all downstream nodes.</p>
-        <p>use: the exact hand-computation template of the DFFNNUMERICAL 3→3→3→3 example — "(upstream error) × (local activation derivative) × (incoming activation)" per weight, then \(W'=W-lr\cdot\partial W\).</p>
-        <span class="src">DFFNNUMERICAL · p12-30 (image)</span>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">Every formula the DNN (AIMLZG511) question bank relies on, module by module, in the deck's notation, with the slide errata of the syllabus file (section 2.4) already corrected.</p>
+  <nav class="jump"><a href="#m1-introduction-to-deep-learning">M1 · Introduction to Deep Learning</a><a href="#m2-artificial-neural-network">M2 · Artificial Neural Network</a><a href="#m3-linear-neural-networks-for-regression">M3 · Linear Neural Networks for Regression</a><a href="#m4-linear-neural-networks-for-classification">M4 · Linear Neural Networks for Classification</a><a href="#m5-deep-feed-forward-neural-networks">M5 · Deep Feed-Forward Neural Networks</a><a href="#m6-convolutional-neural-networks">M6 · Convolutional Neural Networks</a><a href="#m7-recurrent-neural-networks">M7 · Recurrent Neural Networks</a><a href="#m8-attention-mechanism">M8 · Attention Mechanism</a><a href="#m9-transformer">M9 · Transformer</a><a href="#m10-optimizers">M10 · Optimizers</a><a href="#m11-regularisation-of-deep-models">M11 · Regularisation of Deep Models</a></nav>
+<details class="module" open id="m1-introduction-to-deep-learning"><summary>M1 · Introduction to Deep Learning <small>· 2 items</small></summary><div class="cards"><div class="card f"><h3>Dataset as a matrix</h3><p>\[
+D = \{X, t\}, \qquad X \in \mathbb{R}^{N \times d}, \qquad t \in \mathbb{R}^{N}
+\]</p>
+<p><strong>where:</strong> \(N\) is the number of examples (rows), \(d\) the number of numeric input features (columns), \(t\) the target vector; a categorical feature with \(K\) levels becomes \(K\) one-hot columns, so it adds \(K\) to \(d\).</p>
+<p><strong>use:</strong> count \(N\) and \(d\) before choosing a model; adding rows changes only \(N\), adding columns only \(d\). Identifier columns (row IDs) are neither features nor targets.</p><span class="src">1.4.1 · slides 23–24</span></div><div class="card f"><h3>Objective and gradient-descent learning</h3><p>\[
+J(\theta) = \frac{1}{N}\sum_{i=1}^{N} \ell\big(f(x^{(i)}; \theta),\, t^{(i)}\big), \qquad \theta \leftarrow \theta - \eta\, \nabla_\theta J(\theta)
+\]</p>
+<p><strong>where:</strong> \(f(\cdot\,; \theta)\) is the model family with parameters \(\theta\), \(\ell\) the per-example loss, \(J\) the objective (lower is better), \(\eta &gt; 0\) the learning rate, \(\nabla_\theta J\) the gradient.</p>
+<p><strong>use:</strong> the recurring four-part recipe (data, model, loss, learning algorithm). The loss must be differentiable with informative gradients; "number of mistakes" is piecewise constant, so its gradient is zero almost everywhere and cannot drive gradient descent.</p><span class="src">1.4.3, 1.4.4, 1.4.5 · slides 26–27</span></div></div></details>
+<details class="module" open id="m2-artificial-neural-network"><summary>M2 · Artificial Neural Network <small>· 7 items</small></summary><div class="cards"><div class="card f"><h3>Artificial neuron</h3><p>\[
+z = \sum_{i=1}^{n} w_i x_i + b, \qquad \hat{y} = f(z)
+\]</p>
+<p><strong>where:</strong> \(x_i\) are inputs (dendrites), \(w_i\) weights (synapses), \(b\) the bias, \(z\) the weighted sum (soma), \(f\) the activation, \(\hat{y}\) the output (axon).</p>
+<p><strong>use:</strong> every unit in every later module computes exactly this; \(w\) and \(b\) fix where the boundary \(z = 0\) lies, the activation only labels the two sides.</p><span class="src">2.1.3, 2.1.4 · slides 45–48</span></div><div class="card f"><h3>Brain-timing arithmetic</h3><p>\[
+\text{serial steps} = \frac{\text{recognition time}}{\text{neuron switching time}} = \frac{1\ \text{s}}{0.001\ \text{s}} = 1000
+\]</p>
+<p><strong>where:</strong> deck figures: about \(10^{10}\) neurons, \(10^{4}\) to \(10^{5}\) connections per neuron, switching time about 0.001 s, scene recognition about 1 s.</p>
+<p><strong>use:</strong> erratum: slide 41 says "100 inference steps", but 1 s / 0.001 s is <strong>1000</strong>; 100 steps corresponds to a 0.1 s recognition time. Either way the brain must compute massively in parallel.</p><span class="src">2.1.2 · slides 41–42</span></div><div class="card f"><h3>Perceptron output and decision boundary</h3><p>\[
+\hat{y} = \begin{cases} +1 &amp; \text{if } \sum_i w_i x_i + b \ge 0 \\ -1 &amp; \text{otherwise} \end{cases} \qquad \text{or} \qquad \hat{y} = \begin{cases} 1 &amp; \text{if } z \ge 0 \\ 0 &amp; \text{otherwise} \end{cases}
+\]</p>
+<p><strong>where:</strong> the left form is the sign (bipolar, \(\{-1, +1\}\)) convention of the learning algorithm, the right form the step (\(\{0, 1\}\)) convention of the gate examples; the boundary \(w^\top x + b = 0\) is an \((n-1)\)-dimensional hyperplane in \(\mathbb{R}^n\), and a perceptron on \(n\) inputs has \(n + 1\) parameters.</p>
+<p><strong>use:</strong> state the convention before solving a gate problem (erratum 1): the bias you solve for differs between them. A point with \(z = 0\) exactly is classified by the tie rule (\(z \ge 0\) fires). Example \(\{0,1\}\) gates: AND \(w = (1, 1),\ b = -1.5\); OR \(w = (1, 1),\ b = -0.5\); NOT \(w = -1,\ b = 0.5\).</p><span class="src">2.3.1, 2.3.3, 2.5.2 · slides 57–58, 80–83</span></div><div class="card f"><h3>Converting a perceptron between the two encodings</h3><p>\[
+x_i = \frac{x_i' + 1}{2} \;\Longrightarrow\; w_i' = \frac{w_i}{2}, \qquad b' = b + \frac{1}{2}\sum_i w_i
+\]</p>
+<p><strong>where:</strong> \(x_i \in \{0, 1\}\) are binary inputs, \(x_i' = 2x_i - 1 \in \{-1, +1\}\) bipolar inputs, \((w, b)\) the \(\{0,1\}\) perceptron, \((w', b')\) the equivalent bipolar one.</p>
+<p><strong>use:</strong> an encoding change is an affine change of coordinates, so the weights halve and the bias absorbs a shift; running a \(\{0,1\}\) perceptron unchanged on bipolar inputs gives wrong outputs.</p><span class="src">2.3.3, 2.3.2 · slides 60–66</span></div><div class="card f"><h3>Perceptron learning rule</h3><p>\[
+w_i \leftarrow w_i + \eta\,(t - \hat{y})\,x_i, \qquad b \leftarrow b + \eta\,(t - \hat{y})
+\]</p>
+<p><strong>where:</strong> \(t\) is the target, \(\hat{y}\) the current output, \(\eta\) the learning rate, \(x_i\) the \(i\)-th input.</p>
+<p><strong>use:</strong> updates happen only on mistakes. With \(\{0,1\}\) outputs a mistake gives \(t - \hat{y} = \pm 1\); with bipolar outputs \(t - \hat{y} = 2t\), so each correction is \(2\eta\, t\, x\). Training stops at the first error-free epoch. From a zero start, \(\eta\) only rescales all weights and does not change the sequence of decisions.</p><span class="src">2.4.1, 2.4.2 · slides 68–74</span></div><div class="card f"><h3>Perceptron convergence (mistake) bound</h3><p>\[
+k \le \left(\frac{R}{\gamma}\right)^2, \qquad R = \max_i \lVert \tilde{x}_i \rVert, \qquad \gamma = \min_i t_i\, u^\top \tilde{x}_i
+\]</p>
+<p><strong>where:</strong> \(k\) is the number of mistakes (updates), \(\tilde{x} = (1, x_1, \dots, x_n)\) the augmented input, \(u\) any unit vector that separates the data, \(\gamma &gt; 0\) its margin, \(t_i \in \{-1, +1\}\).</p>
+<p><strong>use:</strong> quantitative form of "linearly separable data \(\Rightarrow\) finite convergence"; \(\eta\) cancels out. A tiny margin makes the bound huge, so slow convergence does not prove the data are inseparable. On XOR no \(u\) with \(\gamma &gt; 0\) exists and the rule cycles for ever.</p><span class="src">2.4.3 · slide 68</span></div><div class="card f"><h3>XOR is not linearly separable; a hidden layer fixes it</h3><p>\[
+\begin{aligned} b &amp;&lt; 0, \quad w_2 + b \ge 0, \quad w_1 + b \ge 0, \quad w_1 + w_2 + b &lt; 0 \;\Rightarrow\; \text{contradiction} \\ \operatorname{XOR}(x_1, x_2) &amp;= \operatorname{AND}\big(\operatorname{OR}(x_1, x_2),\ \operatorname{NAND}(x_1, x_2)\big) \end{aligned}
+\]</p>
+<p><strong>where:</strong> the four inequalities are what a single \(\{0,1\}\) perceptron would need for inputs \((0,0), (0,1), (1,0), (1,1)\); adding the middle two gives \(w_1 + w_2 + 2b \ge 0\), and with \(b &lt; 0\) this forces \(w_1 + w_2 + b &gt; 0\).</p>
+<p><strong>use:</strong> proves a single perceptron cannot compute XOR; two hidden perceptrons (OR, NAND) feeding an AND perceptron can. Only 14 of the 16 two-input Boolean functions are linearly separable (XOR and XNOR are not).</p><span class="src">2.5.1, 2.5.3 · slides 76–77, 85</span></div></div></details>
+<details class="module" open id="m3-linear-neural-networks-for-regression"><summary>M3 · Linear Neural Networks for Regression <small>· 8 items</small></summary><div class="cards"><div class="card f"><h3>Linear model as a single neuron</h3><p>\[
+\hat{y} = w_0 + \sum_{i=1}^{d} w_i x_i = w^\top \tilde{x}, \qquad \hat{y} = Xw, \qquad X = \begin{bmatrix} 1 &amp; x_1^{(1)} &amp; \cdots &amp; x_d^{(1)} \\ \vdots &amp; \vdots &amp; &amp; \vdots \\ 1 &amp; x_1^{(N)} &amp; \cdots &amp; x_d^{(N)} \end{bmatrix}
+\]</p>
+<p><strong>where:</strong> \(w = (w_0, w_1, \dots, w_d) \in \mathbb{R}^{d+1}\) with \(w_0\) the bias, \(\tilde{x} = (1, x_1, \dots, x_d)\), \(X \in \mathbb{R}^{N \times (d+1)}\) the design matrix (leading column of ones), \(\hat{y} \in \mathbb{R}^N\); the activation is the identity \(f(z) = z\), \(f'(z) = 1\).</p>
+<p><strong>use:</strong> regression targets are continuous and unbounded, so no squashing activation; forgetting the column of ones silently removes the bias.</p><span class="src">3.1, 3.2.1, 3.2.2 · slides 99–103</span></div><div class="card f"><h3>Mean squared error loss</h3><p>\[
+J(w) = \frac{1}{2N}\sum_{i=1}^{N}\big(\hat{y}^{(i)} - y^{(i)}\big)^2 = \frac{1}{2N}\lVert Xw - y \rVert^2
+\]</p>
+<p><strong>where:</strong> \(\hat{y}^{(i)} = w^\top \tilde{x}^{(i)}\), \(y^{(i)}\) the true value, \(N\) the number of examples.</p>
+<p><strong>use:</strong> convex and differentiable; minimising it is maximum likelihood under Gaussian noise, because \(-\log p(y \mid X, w) = \frac{N}{2}\log(2\pi s^2) + \frac{1}{2s^2}\sum_i (w^\top \tilde{x}^{(i)} - y^{(i)})^2\). Erratum 8: slide 104 uses \(\frac{1}{N}\), slides 105 onward \(\frac{1}{2N}\); both have the same minimiser, the \(\frac{1}{2}\) only cancels the 2 from differentiation. Pick one and stay consistent.</p><span class="src">3.3.1, 3.3.2 · slides 104–105</span></div><div class="card f"><h3>Gradient of the MSE</h3><p>\[
+\nabla J(w) = \frac{1}{N} X^\top (Xw - y), \qquad \frac{\partial J}{\partial w_j} = \frac{1}{N}\sum_{i=1}^{N}\big(\hat{y}^{(i)} - y^{(i)}\big)\, x_j^{(i)}
+\]</p>
+<p><strong>where:</strong> \(e = Xw - y\) is the residual vector, \(x_0^{(i)} = 1\) for the bias.</p>
+<p><strong>use:</strong> for the \(\frac{1}{2N}\) loss. With \(\frac{1}{2}\sum e_i^2\) the gradient is \(X^\top e\); with \(\frac{1}{N}\sum e_i^2\) it is \(\frac{2}{N}X^\top e\). Same direction, different scale, so the effective learning rate changes.</p><span class="src">3.4.1 · slides 109, 115</span></div><div class="card f"><h3>Batch gradient descent and its stable learning rate</h3><p>\[
+w^{(t+1)} = w^{(t)} - \eta\,\nabla J(w^{(t)}), \qquad w^{(t+1)} - w^* = (I - \eta H)(w^{(t)} - w^*), \qquad 0 &lt; \eta &lt; \frac{2}{\lambda_{\max}(H)}
+\]</p>
+<p><strong>where:</strong> \(\eta\) is the learning rate, \(H = \frac{1}{N}X^\top X\) the (constant) Hessian, \(w^*\) the minimiser, \(\lambda_{\max}\) the largest eigenvalue of \(H\).</p>
+<p><strong>use:</strong> too small \(\eta\) is slow, too large oscillates or diverges; the error along eigen-direction \(i\) shrinks by \(\lvert 1 - \eta\lambda_i \rvert\) per step, so the slowest direction (\(\lambda_{\min}\)) sets the iteration count \(t \approx \ln(\text{tol}) / \ln(1 - \eta\lambda_{\min})\).</p><span class="src">3.4.2, 3.4.3, 3.6 · slides 107–111, 126</span></div><div class="card f"><h3>Normal equations (closed-form minimiser)</h3><p>\[
+\nabla J(w) = 0 \;\Longrightarrow\; X^\top X\, w^* = X^\top y, \qquad w^* = (X^\top X)^{-1} X^\top y
+\]</p>
+<p><strong>where:</strong> \(X^\top X\) must be invertible (features not linearly dependent).</p>
+<p><strong>use:</strong> a check on hand-worked GD traces: GD converges to this \(w^*\). \(H = \frac{1}{N}X^\top X\) is positive semi-definite (\(v^\top H v = \frac{1}{N}\lVert Xv \rVert^2 \ge 0\)), which is why the MSE is convex.</p><span class="src">3.3.2, 3.4.1 · slide 109</span></div><div class="card f"><h3>Feature standardisation</h3><p>\[
+x_j' = \frac{x_j - \mu_j}{\sigma_j}
+\]</p>
+<p><strong>where:</strong> \(\mu_j\) and \(\sigma_j\) are the training-set mean and standard deviation of feature \(j\).</p>
+<p><strong>use:</strong> puts features on one scale so \(H\) is better conditioned (eigenvalues closer together) and one learning rate suits every weight; compute \(\mu_j, \sigma_j\) on the training split only and reuse them for test data.</p><span class="src">3.6 · slides 126–127</span></div><div class="card f"><h3>Regression error metrics: MSE, RMSE, MAE</h3><p>\[
+\text{MSE} = \frac{1}{N}\sum_{i=1}^{N}\big(\hat{y}^{(i)} - y^{(i)}\big)^2, \qquad \text{RMSE} = \sqrt{\text{MSE}}, \qquad \text{MAE} = \frac{1}{N}\sum_{i=1}^{N}\big\lvert y^{(i)} - \hat{y}^{(i)} \big\rvert
+\]</p>
+<p><strong>where:</strong> the sums run over the test set; MSE is in squared target units, RMSE and MAE in target units.</p>
+<p><strong>use:</strong> squaring lets the largest errors dominate, so RMSE is sensitive to outliers and MAE is not; \(\text{RMSE} \ge \text{MAE}\) always. The same metrics evaluate time-series forecasts (M7, slide 670).</p><span class="src">3.5 · slide 121</span></div><div class="card f"><h3>Coefficient of determination</h3><p>\[
+R^2 = 1 - \frac{\sum_{i}\big(y^{(i)} - \hat{y}^{(i)}\big)^2}{\sum_{i}\big(y^{(i)} - \bar{y}\big)^2} = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}, \qquad \bar{y} = \frac{1}{N}\sum_i y^{(i)}
+\]</p>
+<p><strong>where:</strong> \(SS_{\text{res}}\) is the residual sum of squares, \(SS_{\text{tot}}\) the total sum of squares about the mean.</p>
+<p><strong>use:</strong> \(R^2 = 1\) perfect fit, \(R^2 = 0\) no better than predicting \(\bar{y}\), \(R^2 &lt; 0\) worse than the mean (possible on a test set). It has no lower bound.</p><span class="src">3.5 · slide 122</span></div></div></details>
+<details class="module" open id="m4-linear-neural-networks-for-classification"><summary>M4 · Linear Neural Networks for Classification <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>Sigmoid and its derivative</h3><p>\[
+\sigma(z) = \frac{1}{1 + e^{-z}}, \qquad \sigma'(z) = \sigma(z)\,\big(1 - \sigma(z)\big), \qquad \sigma(-z) = 1 - \sigma(z)
+\]</p>
+<p><strong>where:</strong> \(z\) is the pre-activation; range \((0, 1)\), \(\sigma(0) = 0.5\), \(\sigma'(0) = 0.25\) is the maximum slope.</p>
+<p><strong>use:</strong> turns a score into a probability. The open range \((0, 1)\) is correct; erratum 9: the slide 227 table prints \([0, 1]\), but \(\sigma\) never reaches 0 or 1. Saturation (\(\lvert z \rvert\) large) makes \(\sigma'\) tiny.</p><span class="src">4.2.2 · slides 146–147, 344–345</span></div><div class="card f"><h3>Logistic-regression prediction and decision boundary</h3><p>\[
+\hat{y} = \sigma(w^\top \tilde{x}), \qquad \hat{y} \ge \tau \iff w^\top \tilde{x} \ge \ln\frac{\tau}{1 - \tau}
+\]</p>
+<p><strong>where:</strong> \(\tilde{x}\) includes the leading 1, \(\tau\) the decision threshold; at \(\tau = 0.5\) the boundary is the hyperplane \(w^\top \tilde{x} = 0\).</p>
+<p><strong>use:</strong> the boundary is linear even though the output is not; for one feature, \(w_0 + w_1 x = 0\) gives the cut-off \(x = -w_0/w_1\). Linear regression thresholded at 0.5 is unbounded and gets pulled by far-away points, which is why the sigmoid is used.</p><span class="src">4.2.3, 4.2.1 · slides 151–153</span></div><div class="card f"><h3>Binary cross-entropy loss</h3><p>\[
+\ell(w) = -\Big[y \log \hat{y} + (1 - y)\log(1 - \hat{y})\Big], \qquad J(w) = \frac{1}{N}\sum_{i=1}^{N} \ell^{(i)}
+\]</p>
+<p><strong>where:</strong> \(y \in \{0, 1\}\) is the label, \(\hat{y} = \sigma(w^\top \tilde{x})\); natural logs.</p>
+<p><strong>use:</strong> \(y = 1\) gives \(-\log \hat{y}\), \(y = 0\) gives \(-\log(1 - \hat{y})\); a confident wrong prediction costs a lot (\(\ell \to \infty\)). Predicting 0.5 always costs \(\ln 2 \approx 0.693\).</p><span class="src">4.2.4 · slides 154–156</span></div><div class="card f"><h3>BCE gradient through the sigmoid</h3><p>\[
+\frac{\partial \ell}{\partial \hat{y}} = \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}, \qquad \frac{\partial \ell}{\partial z} = \hat{y} - y, \qquad \nabla_w \ell = (\hat{y} - y)\,\tilde{x}, \qquad w \leftarrow w - \eta(\hat{y} - y)\tilde{x}
+\]</p>
+<p><strong>where:</strong> \(z = w^\top \tilde{x}\); the factor \(\hat{y}(1 - \hat{y}) = \sigma'(z)\) cancels.</p>
+<p><strong>use:</strong> one SGD step per example; a full batch step averages \((\hat{y}^{(i)} - y^{(i)})\tilde{x}^{(i)}\) over the data. The cancellation is the reason sigmoid is paired with BCE.</p><span class="src">4.2.4, 4.2.5, 4.2.6 · slides 157–160, 372</span></div><div class="card f"><h3>Why not MSE with a sigmoid output</h3><p>\[
+\ell_{\text{MSE}} = \tfrac{1}{2}(\hat{y} - y)^2 \;\Longrightarrow\; \frac{\partial \ell_{\text{MSE}}}{\partial z} = (\hat{y} - y)\,\hat{y}(1 - \hat{y})
+\]</p>
+<p><strong>where:</strong> \(\hat{y} = \sigma(z)\).</p>
+<p><strong>use:</strong> the extra factor \(\hat{y}(1 - \hat{y})\) is near 0 when the model is confidently wrong (\(\hat{y} \approx 0\), \(y = 1\)), so learning stalls exactly when the error is largest; MSE on a sigmoid is also non-convex in \(w\).</p><span class="src">4.2.1, 4.2.5 · slide 156</span></div><div class="card f"><h3>Confusion-matrix metrics</h3><p>\[
+\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}, \quad \text{Precision} = \frac{TP}{TP + FP}, \quad \text{Recall} = \frac{TP}{TP + FN}, \quad F1 = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\]</p>
+<p><strong>where:</strong> \(TP, TN, FP, FN\) are true positives, true negatives, false positives and false negatives at a chosen threshold.</p>
+<p><strong>use:</strong> on imbalanced data accuracy misleads (predicting the majority class scores high); prefer precision when false positives are costly, recall when false negatives are costly, F1 to balance them. Raising the threshold usually raises precision and lowers recall.</p><span class="src">4.2.7 · slides 172–176</span></div><div class="card f"><h3>One-hot labels and the multi-class weight matrix</h3><p>\[
+y = e_k \in \{0, 1\}^K, \qquad Z = XW, \qquad X \in \mathbb{R}^{N \times (d+1)}, \quad W \in \mathbb{R}^{(d+1) \times K}, \quad Z \in \mathbb{R}^{N \times K}
+\]</p>
+<p><strong>where:</strong> \(e_k\) is the one-hot vector of class \(k\), \(K\) the number of classes, column \(k\) of \(W\) the weights (first row the bias) for class \(k\), \(Z\) the logits.</p>
+<p><strong>use:</strong> the model has \((d + 1)K\) parameters; one output neuron per class.</p><span class="src">4.3.1 · slides 186–189</span></div><div class="card f"><h3>Softmax and its properties</h3><p>\[
+\hat{y}_k = \operatorname{softmax}(z)_k = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}, \qquad \operatorname{softmax}(z + c\mathbf{1}) = \operatorname{softmax}(z), \qquad K = 2:\ \hat{y}_1 = \sigma(z_1 - z_2)
+\]</p>
+<p><strong>where:</strong> \(z \in \mathbb{R}^K\) are logits, \(c\) any constant, \(\mathbf{1}\) the all-ones vector.</p>
+<p><strong>use:</strong> outputs are in \((0, 1)\) (open interval, erratum 9) and sum to 1; only logit differences matter; with two classes softmax is the sigmoid of the logit gap and CCE becomes BCE.</p><span class="src">4.3.2 · slides 190–192, 347–348</span></div><div class="card f"><h3>Numerically stable softmax, log-sum-exp and BCE-with-logits</h3><p>\[
+\operatorname{softmax}(z)_k = \frac{e^{z_k - m}}{\sum_j e^{z_j - m}}, \quad \log\sum_j e^{z_j} = m + \log\sum_j e^{z_j - m}, \quad \ell(z, y) = \max(z, 0) - zy + \log\big(1 + e^{-\lvert z \rvert}\big)
+\]</p>
+<p><strong>where:</strong> \(m = \max_j z_j\); in the last formula \(z\) is the single logit of a binary model and \(y \in \{0, 1\}\).</p>
+<p><strong>use:</strong> subtracting the max prevents overflow of \(e^{z}\) (for example \(z = 1000\)); computing the loss from logits avoids \(\log 0\) and NaN losses.</p><span class="src">4.5 · slides 224–225</span></div><div class="card f"><h3>Categorical cross-entropy loss</h3><p>\[
+\ell = -\sum_{k=1}^{K} y_k \log \hat{y}_k = -\log \hat{y}_{c}, \qquad J = \frac{1}{N}\sum_{i=1}^{N}\ell^{(i)}
+\]</p>
+<p><strong>where:</strong> \(y\) is one-hot with true class \(c\), \(\hat{y} = \operatorname{softmax}(z)\).</p>
+<p><strong>use:</strong> only the probability of the true class matters. A model that predicts uniformly has loss \(\ln K\) (for example \(\ln 10 = 2.303\)): an initial loss near \(\ln K\) is healthy, a loss stuck at \(\ln K\) means nothing is being learned.</p><span class="src">4.3.3 · slides 194–196</span></div><div class="card f"><h3>Softmax + cross-entropy gradient (mini-batch)</h3><p>\[
+\frac{\partial \hat{y}_k}{\partial z_j} = \hat{y}_k(\delta_{kj} - \hat{y}_j), \qquad \frac{\partial \ell}{\partial z} = \hat{y} - y, \qquad \nabla_W J = \frac{1}{B} X_B^\top (\hat{Y}_B - Y_B), \qquad W \leftarrow W - \eta \nabla_W J
+\]</p>
+<p><strong>where:</strong> \(\delta_{kj}\) is 1 if \(k = j\) and 0 otherwise, \(X_B \in \mathbb{R}^{B \times (d+1)}\), \(\hat{Y}_B, Y_B \in \mathbb{R}^{B \times K}\) the mini-batch inputs, predictions and one-hot labels, \(B\) the batch size.</p>
+<p><strong>use:</strong> the Jacobian collapses to "prediction minus target", the same form as sigmoid + BCE; the gradient has the shape of \(W\), \((d+1) \times K\).</p><span class="src">4.3.3, 4.3.4, 4.3.5 · slides 196, 201–202, 349</span></div><div class="card f"><h3>Iterations per epoch</h3><p>\[
+\text{iterations per epoch} = \left\lceil \frac{N}{B} \right\rceil, \qquad \text{total updates} = \text{epochs} \times \left\lceil \frac{N}{B} \right\rceil
+\]</p>
+<p><strong>where:</strong> \(N\) training examples, \(B\) batch size; \(B = 1\) is SGD, \(B = N\) is batch GD.</p>
+<p><strong>use:</strong> example \(N = 60{,}000\), \(B = 128\): 469 iterations per epoch, 4690 after 10 epochs; the last batch may be smaller.</p><span class="src">4.3.4 · slides 198–204</span></div><div class="card f"><h3>Macro and weighted averaging</h3><p>\[
+\text{Precision}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^{K}\text{Precision}_k, \qquad \text{Precision}_{\text{weighted}} = \sum_{k=1}^{K} \frac{N_k}{N}\,\text{Precision}_k
+\]</p>
+<p><strong>where:</strong> \(\text{Precision}_k\) treats class \(k\) as positive and all others as negative (one-vs-rest), \(N_k\) is the number of true examples of class \(k\); the same averaging applies to recall and F1.</p>
+<p><strong>use:</strong> macro treats every class equally (exposes poor minority classes); weighted follows class frequency and is pulled toward the majority classes.</p><span class="src">4.3.6 · slides 217–220</span></div><div class="card f"><h3>Top-K accuracy</h3><p>\[
+\text{Top-}K\ \text{accuracy} = \frac{1}{N}\sum_{i=1}^{N} \mathbb{1}\big[y^{(i)} \in \text{Top-}K(\hat{y}^{(i)})\big]
+\]</p>
+<p><strong>where:</strong> \(\text{Top-}K(\hat{y})\) is the set of the \(K\) highest-probability classes, \(\mathbb{1}[\cdot]\) the indicator.</p>
+<p><strong>use:</strong> forgiving metric for many classes (ImageNet top-5); top-1 is ordinary accuracy and top-\(K\) never decreases as \(K\) grows.</p><span class="src">4.3.6 · slide 221</span></div><div class="card f"><h3>Regression vs binary vs multi-class (memorise)</h3><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Output activation</th>
+<th>Loss</th>
+<th>Output range</th>
+<th>Output neurons</th>
+<th>Weights</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regression</td>
+<td>identity</td>
+<td>MSE</td>
+<td>\((-\infty, \infty)\)</td>
+<td>1</td>
+<td>\(w \in \mathbb{R}^{d+1}\)</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>sigmoid</td>
+<td>BCE</td>
+<td>\((0, 1)\)</td>
+<td>1</td>
+<td>\(w \in \mathbb{R}^{d+1}\)</td>
+</tr>
+<tr>
+<td>Multi-class</td>
+<td>softmax</td>
+<td>CCE</td>
+<td>\((0, 1)\), sums to 1</td>
+<td>\(K\)</td>
+<td>\(W \in \mathbb{R}^{(d+1) \times K}\)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>where:</strong> \(d\) is the number of features, \(K\) the number of classes.</p>
+<p><strong>use:</strong> every matched pair has \(\partial \ell / \partial z = \hat{y} - y\). Erratum 9: the deck's table prints \([0, 1]\) for sigmoid and softmax; the correct ranges are open, \((0, 1)\).</p><span class="src">4.4 · slides 227–230</span></div></div></details>
+<details class="module" open id="m5-deep-feed-forward-neural-networks"><summary>M5 · Deep Feed-Forward Neural Networks <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Stacked linear layers collapse to one</h3><p>\[
+\hat{y} = x\,\underbrace{W^{(1)} W^{(2)} \cdots W^{(L)}}_{\tilde{W}} + \underbrace{\sum_{\ell=1}^{L} b^{(\ell)} W^{(\ell+1)} \cdots W^{(L)}}_{\tilde{b}}
+\]</p>
+<p><strong>where:</strong> \(W^{(\ell)}, b^{(\ell)}\) are the weights and biases of layer \(\ell\) with identity activations; the empty product (for \(\ell = L\)) is the identity.</p>
+<p><strong>use:</strong> a function is linear if \(f(a x_1 + b x_2) = a f(x_1) + b f(x_2)\); without a non-linear activation, depth adds no representational power (XOR stays unsolvable). ReLU is piecewise linear but not linear, so ReLU networks are non-linear.</p><span class="src">5.1, 5.2.1 · slides 237–243</span></div><div class="card f"><h3>Activation functions, ranges and derivatives</h3><table>
+<thead>
+<tr>
+<th>Activation</th>
+<th>\(f(z)\)</th>
+<th>\(f'(z)\)</th>
+<th>Range</th>
+<th>Max slope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sigmoid</td>
+<td>\(\frac{1}{1 + e^{-z}}\)</td>
+<td>\(\sigma(z)(1 - \sigma(z))\)</td>
+<td>\((0, 1)\)</td>
+<td>0.25 at \(z = 0\)</td>
+</tr>
+<tr>
+<td>Tanh</td>
+<td>\(\frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}\)</td>
+<td>\(1 - \tanh^2 z\)</td>
+<td>\((-1, 1)\)</td>
+<td>1 at \(z = 0\)</td>
+</tr>
+<tr>
+<td>ReLU</td>
+<td>\(\max(0, z)\)</td>
+<td>1 if \(z &gt; 0\), 0 if \(z &lt; 0\)</td>
+<td>\([0, \infty)\)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Leaky ReLU</td>
+<td>\(\max(az, z)\), \(0 &lt; a &lt; 1\)</td>
+<td>1 if \(z &gt; 0\), \(a\) if \(z &lt; 0\)</td>
+<td>\((-\infty, \infty)\)</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>where:</strong> \(z\) is the pre-activation; \(\tanh z = 2\sigma(2z) - 1\); \(\operatorname{ReLU}'(0)\) is taken as 0 by convention.</p>
+<p><strong>use:</strong> tanh is zero-centred, sigmoid is not (all-positive outputs make weight gradients share one sign and zig-zag). Sigmoid/tanh saturate and shrink gradients; ReLU passes gradient 1 for \(z &gt; 0\) but a unit with \(z &lt; 0\) on every input is "dead" (gradient 0 for ever).</p><span class="src">5.2.2, 5.2.3 · slides 244–246, 344–356</span></div><div class="card f"><h3>Layer-wise forward pass (row convention)</h3><p>\[
+h^{(0)} = x, \qquad z^{(\ell)} = h^{(\ell-1)} W^{(\ell)} + b^{(\ell)}, \qquad h^{(\ell)} = \sigma^{(\ell)}\big(z^{(\ell)}\big), \qquad \hat{y} = h^{(L)}
+\]</p>
+<p><strong>where:</strong> examples are row vectors, \(W^{(\ell)} \in \mathbb{R}^{n_{\ell-1} \times n_\ell}\), \(b^{(\ell)} \in \mathbb{R}^{n_\ell}\), \(n_0 = d\), \(n_L = K\), \(L\) counts hidden plus output layers (not the input); a mini-batch stacks rows, \(H^{(\ell)} \in \mathbb{R}^{B \times n_\ell}\), with the bias broadcast to every row.</p>
+<p><strong>use:</strong> the "DFNN Numerical" sub-deck uses the column form \(z = Wx + b\) with \(W \in \mathbb{R}^{n_\ell \times n_{\ell-1}}\): the same network with every matrix transposed. Check shapes at every layer.</p><span class="src">5.3.1 · slides 249–253, 261–263</span></div><div class="card f"><h3>Parameter count of a dense network</h3><p>\[
+\text{Params}(\ell) = n_{\ell-1} n_\ell + n_\ell = n_\ell(n_{\ell-1} + 1), \qquad \text{Total} = \sum_{\ell=1}^{L} n_\ell(n_{\ell-1} + 1)
+\]</p>
+<p><strong>where:</strong> \(n_\ell\) is the width of layer \(\ell\), \(n_0 = d\) the input dimension.</p>
+<p><strong>use:</strong> example \(784 \to 256 \to 128 \to 10\): \(200{,}960 + 32{,}896 + 1{,}290 = 235{,}146\). For a budget with equal hidden widths \(h\), the count is a quadratic in \(h\); solve the inequality for the largest \(h\).</p><span class="src">5.3.2, 5.6.2 · slide 254</span></div><div class="card f"><h3>Losses by task and their output derivatives</h3><p>\[
+\ell_{\text{MSE}} = \tfrac{1}{2}\lVert \hat{y} - y \rVert^2, \quad \ell_{\text{MAE}} = \lVert \hat{y} - y \rVert_1, \quad \ell_{\text{BCE}} = -\big[y\log\hat{y} + (1-y)\log(1-\hat{y})\big], \quad \ell_{\text{CCE}} = -\sum_k y_k \log \hat{y}_k
+\]</p>
+<p><strong>where:</strong> the batch cost is \(J = \frac{1}{B}\sum_{i=1}^{B} \ell^{(i)}\); derivatives with respect to \(\hat{y}\): MSE \(\hat{y} - y\), MAE \(\operatorname{sign}(\hat{y} - y)\), BCE \(\frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}\), CCE \(-y_k / \hat{y}_k\).</p>
+<p><strong>use:</strong> pair identity with MSE (regression), sigmoid with BCE (binary or multi-label, one sigmoid per label), softmax with CCE (multi-class).</p><span class="src">5.3.3, 5.6.1 · slides 255–256, 363–376</span></div><div class="card f"><h3>Output-layer error signal</h3><p>\[
+\delta^{(L)} = \frac{\partial \ell}{\partial z^{(L)}} = \hat{y} - y \qquad \text{for identity+MSE, sigmoid+BCE, softmax+CCE}
+\]</p>
+<p><strong>where:</strong> \(z^{(L)}\) is the output pre-activation, \(\hat{y} = h^{(L)}\); for a mini-batch, \(\Delta^{(L)} = \hat{Y} - Y \in \mathbb{R}^{B \times K}\).</p>
+<p><strong>use:</strong> erratum 10: slide 265 writes \(\delta^{(L)} = \frac{1}{B}(\hat{Y} - Y)\) and slide 268 divides by \(B\) again. Apply \(\frac{1}{B}\) exactly once, in the parameter gradients below. An unmatched pair (for example sigmoid + MSE) adds a factor \(\sigma'(z)\).</p><span class="src">5.4.1 · slides 264–265</span></div><div class="card f"><h3>Backpropagation recursion</h3><p>\[
+\delta^{(\ell)} = \Big(\delta^{(\ell+1)} \big(W^{(\ell+1)}\big)^\top\Big) \odot \sigma'^{(\ell)}\big(z^{(\ell)}\big)
+\]</p>
+<p><strong>where:</strong> \(\delta^{(\ell)} = \partial \ell / \partial z^{(\ell)}\) is a row vector of length \(n_\ell\), \(\odot\) the element-wise product, \(\sigma'^{(\ell)}\) the derivative of layer \(\ell\)'s activation (sigmoid \(h(1-h)\), tanh \(1 - h^2\), ReLU \(\mathbb{1}[z &gt; 0]\)).</p>
+<p><strong>use:</strong> "upstream error, routed back through the transposed weights, scaled by the local slope". Shapes: \((1 \times n_{\ell+1})(n_{\ell+1} \times n_\ell) = 1 \times n_\ell\). Dead ReLUs give \(\delta = 0\) and no update to the weights feeding them.</p><span class="src">5.4.2, 5.4.4 · slides 266–267, 270</span></div><div class="card f"><h3>Parameter gradients and the update</h3><p>\[
+\frac{\partial J}{\partial W^{(\ell)}} = \frac{1}{B}\big(H^{(\ell-1)}\big)^\top \Delta^{(\ell)}, \qquad \frac{\partial J}{\partial b^{(\ell)}} = \frac{1}{B}\mathbf{1}_B^\top \Delta^{(\ell)}, \qquad W^{(\ell)} \leftarrow W^{(\ell)} - \eta\,\frac{\partial J}{\partial W^{(\ell)}}
+\]</p>
+<p><strong>where:</strong> \(H^{(\ell-1)} \in \mathbb{R}^{B \times n_{\ell-1}}\) are the cached activations feeding layer \(\ell\) (\(H^{(0)} = X\)), \(\Delta^{(\ell)} \in \mathbb{R}^{B \times n_\ell}\) the stacked \(\delta\)'s, \(\mathbf{1}_B\) the all-ones vector (so the bias gradient is the column mean of \(\Delta^{(\ell)}\)).</p>
+<p><strong>use:</strong> for one example the weight gradient is the outer product \((h^{(\ell-1)})^\top \delta^{(\ell)}\), entry \((i, j) = h_i^{(\ell-1)}\delta_j^{(\ell)}\). The gradient has the same shape as \(W^{(\ell)}\). Update all layers only after all gradients are computed with the old weights.</p><span class="src">5.4.3, 5.4.4 · slides 268–269, 272</span></div><div class="card f"><h3>Cost of backprop vs numerical gradients</h3><p>\[
+\text{forward MACs} = B\sum_{\ell=1}^{L} n_{\ell-1} n_\ell, \qquad \text{backward} \approx 2 \times \text{forward}, \qquad \frac{\partial J}{\partial \theta_j} \approx \frac{J(\theta + \varepsilon e_j) - J(\theta - \varepsilon e_j)}{2\varepsilon}
+\]</p>
+<p><strong>where:</strong> a MAC is one multiply-accumulate, \(e_j\) the \(j\)-th unit vector, \(\varepsilon\) a small step (about \(10^{-5}\)); the backward pass needs \(\partial J / \partial H\) and \(\partial J / \partial W\), each about one forward pass of work (the first layer skips \(\partial J / \partial X\)).</p>
+<p><strong>use:</strong> backprop gets all \(P\) gradients for about three forward passes in total, while finite differences need about \(2P\) (central) or \(P + 1\) (one-sided) forward passes. Use the central difference only to check a backprop implementation; relative error near \(10^{-7}\) is good.</p><span class="src">5.4.5, 5.6.3 · slide 271</span></div><div class="card f"><h3>Gradient attenuation through depth</h3><p>\[
+\lvert \delta^{(\ell-1)} \rvert = \lvert \delta^{(\ell)} \rvert \cdot \lVert W^{(\ell)} \rVert \cdot \lvert \sigma'(z^{(\ell-1)}) \rvert, \qquad \lvert \delta^{(L-k)} \rvert \approx \big(\lVert W \rVert \cdot \lvert \sigma' \rvert\big)^{k} \lvert \delta^{(L)} \rvert
+\]</p>
+<p><strong>where:</strong> \(\lVert W \rVert\) is the weight-matrix (spectral) norm, \(\lvert \sigma' \rvert\) the activation slope at that layer, \(k\) the number of layers travelled back.</p>
+<p><strong>use:</strong> deck example \(\lVert W \rVert = 0.8\), \(\sigma' = 0.25\) (sigmoid maximum): factor 0.2 per layer, \(0.2^3 = 0.008\), so 0.8% of the gradient reaches layer 1. A factor above 1 per layer explodes instead. This is the thread behind ReLU, ResNet, LSTM/GRU, clipping and He initialisation.</p><span class="src">5.5.3, 5.7 · slides 280, 333–334</span></div><div class="card f"><h3>Universal approximation theorem</h3><p>\[
+\Big\lvert f(x) - \sum_{j=1}^{m} v_j\, \sigma\big(w_j^\top x + b_j\big) \Big\rvert &lt; \varepsilon \quad \text{for all } x \in \text{compact } S
+\]</p>
+<p><strong>where:</strong> \(f\) is any continuous function, \(\sigma\) a non-polynomial (for example sigmoid or ReLU) activation, \(m\) the number of hidden units, \(v_j, w_j, b_j\) weights.</p>
+<p><strong>use:</strong> one hidden layer can approximate anything, but \(m\) may have to grow exponentially and the theorem says nothing about learning the weights or generalising; depth can represent the same functions with far fewer units.</p><span class="src">5.5.1, 5.5.2 · slides 277–279</span></div><div class="card f"><h3>Network-sizing heuristic (deck's own rule of thumb)</h3><p>\[
+L \le \log_2\!\left(\frac{M}{d \times c}\right) + 1, \qquad \text{Parameters} \le \frac{M}{5}
+\]</p>
+<p><strong>where:</strong> \(L\) is the number of layers, \(M\) the number of training samples, \(d\) the input features, \(c\) the number of classes.</p>
+<p><strong>use:</strong> erratum 2: these are pedagogical heuristics specific to this deck, not standard results; use them as a sanity check and say so in an exam answer. Example \(M = 800, d = 20, c = 3\): \(L \le 4.7\), and at most 160 parameters.</p><span class="src">5.6.2 · slides 336–341</span></div></div></details>
+<details class="module" open id="m6-convolutional-neural-networks"><summary>M6 · Convolutional Neural Networks <small>· 19 items</small></summary><div class="cards"><div class="card f"><h3>Convolution (cross-correlation) and feature maps</h3><p>\[
+(I \star K)(i, j) = \sum_{m}\sum_{n} I(i + m,\, j + n)\, K(m, n), \qquad \text{FeatureMap}_k(i, j) = \sum_m \sum_n I(i + m, j + n)\, K_k(m, n) + b_k
+\]</p>
+<p><strong>where:</strong> \(I\) is the input, \(K\) a \(k \times k\) kernel (learnable), \(b_k\) the bias of filter \(k\); no kernel flip, as frameworks compute it.</p>
+<p><strong>use:</strong> slide the kernel, multiply element-wise, sum, add the bias; \(C_{\text{out}}\) filters give \(C_{\text{out}}\) feature maps stacked into an \(H \times W \times C_{\text{out}}\) volume. Shifting the input shifts the map (equivariance); pooling adds approximate invariance.</p><span class="src">6.2.1, 6.2.2, 6.2.3 · slides 418–430</span></div><div class="card f"><h3>Output size of a convolution or pooling layer</h3><p>\[
+O = \left\lfloor \frac{n + 2p - k_{\text{eff}}}{s} \right\rfloor + 1
+\]</p>
+<p><strong>where:</strong> \(n\) is the input side, \(p\) the padding on each side, \(k_{\text{eff}}\) the (effective) kernel size (\(= k\) without dilation), \(s\) the stride; apply separately to height and width if they differ.</p>
+<p><strong>use:</strong> the module's number-one skill; chain it layer by layer and never round before the floor. Pooling uses the same formula with \(k\) = pool size (usually \(p = 0\)); the channel count is the number of filters, not part of this formula.</p><span class="src">6.3.2, 6.5.2 · slides 440–443, 536–539, 567–568</span></div><div class="card f"><h3>Padding: valid, same, full</h3><p>\[
+\text{valid: } p = 0, \qquad \text{same } (s = 1): p = \frac{k_{\text{eff}} - 1}{2} = \frac{r(k-1)}{2}, \qquad \text{full: } p = k - 1 \Rightarrow O = n + k - 1
+\]</p>
+<p><strong>where:</strong> \(k\) is the kernel size, \(r\) the dilation rate, \(k_{\text{eff}}\) the effective kernel size.</p>
+<p><strong>use:</strong> "same" keeps \(O = n\) only for stride 1 and odd \(k\) (for example \(k = 3, p = 1\); \(k = 5, p = 2\)); valid shrinks the map by \(k - 1\).</p><span class="src">6.3.1 · slides 438–439</span></div><div class="card f"><h3>Dilated (atrous) convolution</h3><p>\[
+k_{\text{eff}} = k + (k - 1)(r - 1) = r(k - 1) + 1
+\]</p>
+<p><strong>where:</strong> \(k\) is the kernel size, \(r\) the dilation rate (\(r = 1\) is ordinary convolution).</p>
+<p><strong>use:</strong> a \(3 \times 3\) kernel with \(r = 2\) covers \(5 \times 5\), with \(r = 4\) covers \(9 \times 9\). The parameter count is unchanged (still \(k^2 C_{\text{in}}\) per filter) and no resolution is lost, which is why segmentation uses dilation instead of stride or pooling.</p><span class="src">6.3.3 · slides 444–447, 571–578</span></div><div class="card f"><h3>Receptive-field recursion</h3><p>\[
+RF_\ell = RF_{\ell-1} + (k_\ell - 1)\prod_{i=1}^{\ell-1} s_i, \qquad RF_0 = 1
+\]</p>
+<p><strong>where:</strong> \(k_\ell\) is the (effective) kernel size of layer \(\ell\) (pooling layers count with their pool size), \(s_i\) the strides of the earlier layers; the product is the "jump" between neighbouring outputs.</p>
+<p><strong>use:</strong> \(n\) stacked \(3 \times 3\), stride-1 convolutions give \(RF = 2n + 1\) (3, 5, 7, 9). A stride or pool multiplies the growth of every later layer.</p><span class="src">6.3.4 · slides 431–433, 540–543</span></div><div class="card f"><h3>Multi-channel convolution</h3><p>\[
+Y_k(i, j) = \sum_{c=1}^{C_{\text{in}}}\sum_{m}\sum_{n} X(i + m, j + n, c)\, K_k(m, n, c) + b_k, \qquad K_k \in \mathbb{R}^{k \times k \times C_{\text{in}}}
+\]</p>
+<p><strong>where:</strong> \(X\) has \(C_{\text{in}}\) channels, \(K_k\) is filter \(k\) (its depth must equal \(C_{\text{in}}\)), \(b_k\) one scalar bias per filter, \(k = 1, \dots, C_{\text{out}}\).</p>
+<p><strong>use:</strong> one filter sums over all input channels and produces one output channel; the output depth equals the number of filters.</p><span class="src">6.4.1, 6.4.3 · slides 448–454, 550–553</span></div><div class="card f"><h3>Parameters of convolutional and dense layers</h3><p>\[
+\text{conv: } (k \times k \times C_{\text{in}} + 1) \times C_{\text{out}}, \qquad \text{dense: } m q + q, \qquad \text{pooling: } 0
+\]</p>
+<p><strong>where:</strong> \(k\) is the kernel size, \(C_{\text{in}}, C_{\text{out}}\) input channels and filters, \(m\) and \(q\) the input and output sizes of a dense layer (flatten \(H \times W \times C\) to \(m = HWC\)).</p>
+<p><strong>use:</strong> conv parameters do not depend on the image size (weight sharing); a dense layer on a whole image does. Example: \(5 \times 5\) on RGB with 64 filters, \((75 + 1) \times 64 = 4{,}864\); a dense layer from \(224 \times 224 \times 3\) to 1000 units needs about 150M.</p><span class="src">6.4.2, 6.1.3, 6.7 · slides 466–468, 475–478, 544–547</span></div><div class="card f"><h3>1×1 convolution</h3><p>\[
+Y_k(i, j) = \sum_{c=1}^{C_{\text{in}}} w_{k,c}\, X(i, j, c) + b_k, \qquad \text{params} = (C_{\text{in}} + 1)\, C_{\text{out}}
+\]</p>
+<p><strong>where:</strong> \(w_{k,c}\) are the weights of filter \(k\), applied identically at every pixel \((i, j)\).</p>
+<p><strong>use:</strong> a per-pixel dense layer across channels ("network in network", MLPconv): it changes depth without touching \(H \times W\), so it is used to reduce channels before an expensive \(3 \times 3\) or \(5 \times 5\).</p><span class="src">6.6.1, 6.12.4 · slides 458–460, 497–499, 557–560</span></div><div class="card f"><h3>1×1 bottleneck savings (corrected slide 461)</h3><p>\[
+\underbrace{256 \cdot 64}_{1 \times 1\ \text{reduce}} + \underbrace{5^2 \cdot 64^2}_{5 \times 5} + \underbrace{64 \cdot 256}_{1 \times 1\ \text{expand}} = 135{,}168 \quad \text{vs} \quad 5 \cdot 5 \cdot 256 \cdot 256 = 1{,}638{,}400
+\]</p>
+<p><strong>where:</strong> weights only (biases ignored), input and output 256 channels, bottleneck width 64.</p>
+<p><strong>use:</strong> erratum 11: the slide's 147,456 and "11\(\times\)" are wrong; the correct total is 135,168, about a <strong>\(12\times\)</strong> reduction. In general reduce \(\to\) process \(\to\) expand costs \(C b + k^2 b^2 + b C\) against \(k^2 C^2\). Do not confuse this with the Inception "3.3\(\times\)" or the deck's separate "8\(\times\)" bottleneck example (erratum 4).</p><span class="src">6.6.2, 6.10 · slides 461, 483</span></div><div class="card f"><h3>Compute (MACs) of a convolution</h3><p>\[
+\text{MACs} = H_{\text{out}} \cdot W_{\text{out}} \cdot C_{\text{out}} \cdot k^2 \cdot C_{\text{in}}, \qquad \text{FLOPs} \approx 2 \times \text{MACs}
+\]</p>
+<p><strong>where:</strong> one MAC is one multiplication plus one addition, biases ignored; each output value needs \(k^2 C_{\text{in}}\) MACs.</p>
+<p><strong>use:</strong> the bank counts compute in MACs; some texts call the same count "FLOPs", others double it, so state the convention. Example: \(56 \times 56 \times 128\) output of a \(3 \times 3\) conv from 64 channels is \(231{,}211{,}008\) MACs.</p><span class="src">6.9 · slides 561–562</span></div><div class="card f"><h3>Memory of activations and parameters</h3><p>\[
+\text{activation bytes} = B \cdot H \cdot W \cdot C \cdot 4, \qquad \text{parameter bytes} = P \cdot 4
+\]</p>
+<p><strong>where:</strong> \(B\) is the batch size, \(H \times W \times C\) the tensor shape, 4 bytes per float32 value, \(P\) the parameter count.</p>
+<p><strong>use:</strong> state whether 1 MB means \(10^6\) or \(2^{20}\) bytes (the CNN files use \(2^{20}\)). Early high-resolution layers dominate activation memory, late layers and dense heads dominate parameters; training needs extra memory for gradients (roughly 2 to 3\(\times\)).</p><span class="src">6.9 · slides 548–549</span></div><div class="card f"><h3>How costs scale when channels double and resolution halves</h3><p>\[
+\text{params} \propto k^2 C^2, \qquad \text{MACs} \propto H W k^2 C^2, \qquad \text{activations} \propto H W C
+\]</p>
+<p><strong>where:</strong> \(H, W\) the spatial size and \(C\) the channel count of a stage (with \(C_{\text{in}} \approx C_{\text{out}} = C\)).</p>
+<p><strong>use:</strong> halving \(H\) and \(W\) while doubling \(C\): parameters \(\times 4\), MACs \(\times 1\) (constant), activations \(\times \frac{1}{2}\). Erratum 11: slide 453's claim that \(H \times W \times C\) stays "roughly constant" is loose; it is the per-layer compute that stays constant.</p><span class="src">6.4.3, 6.10, 6.11 · slides 453, 479–480, 485–488</span></div><div class="card f"><h3>Backprop through a convolution</h3><p>\[
+\frac{\partial L}{\partial K(m, n)} = \sum_{i,j} G(i, j)\, X(i + m,\, j + n), \qquad \frac{\partial L}{\partial b} = \sum_{i,j} G(i, j), \qquad \frac{\partial L}{\partial X(a, b)} = \sum_{i,j} G(i, j)\, K(a - i,\, b - j)
+\]</p>
+<p><strong>where:</strong> \(G = \partial L / \partial Y\) is the upstream gradient (same shape as the output \(Y\)), \(X\) the input, \(K\) the kernel, stride 1, terms with out-of-range kernel indices are zero.</p>
+<p><strong>use:</strong> the filter gradient is itself a cross-correlation of the input with \(G\) (same shape as \(K\)); the input gradient is a "full" convolution of \(G\) with the 180°-rotated kernel (same shape as \(X\)). Weight sharing means the gradients from all positions are summed.</p><span class="src">6.8.1 · slides 437, 563–564</span></div><div class="card f"><h3>Backprop through pooling</h3><p>\[
+\text{max: } \frac{\partial L}{\partial X(a, b)} = \begin{cases} G(i, j) &amp; \text{if } (a, b) = \arg\max \text{ of window } (i, j) \\ 0 &amp; \text{otherwise} \end{cases} \qquad \text{average: } \frac{\partial L}{\partial X(a, b)} = \frac{G(i, j)}{k^2}
+\]</p>
+<p><strong>where:</strong> \(G(i, j)\) is the upstream gradient of pooled output \((i, j)\), \(k \times k\) the pool window; with overlapping windows, contributions add.</p>
+<p><strong>use:</strong> max pooling routes the whole gradient to the single winning position (other entries get 0); average pooling spreads it evenly. Pooling has no parameters to update.</p><span class="src">6.8.2 · slides 565–566</span></div><div class="card f"><h3>Stacked small kernels and factorised convolutions</h3><p>\[
+\frac{\text{two } 3 \times 3}{\text{one } 5 \times 5} = \frac{2 \cdot 9 C^2}{25 C^2} = 0.72, \qquad \frac{\text{three } 3 \times 3}{\text{one } 7 \times 7} = \frac{27 C^2}{49 C^2} \approx 0.551, \qquad \frac{1 \times n + n \times 1}{n \times n} = \frac{2}{n}
+\]</p>
+<p><strong>where:</strong> \(C\) channels in and out, weights only; a stack of \(m\) stride-1 \(3 \times 3\) layers has the receptive field of one \((2m + 1) \times (2m + 1)\) layer.</p>
+<p><strong>use:</strong> VGG's argument: same receptive field, fewer parameters and MACs, and more non-linearities. Inception v3's \(1 \times n\) then \(n \times 1\) saves \(1 - 2/n\) (71% for \(n = 7\)).</p><span class="src">6.12.3, 6.12.5, 6.10 · slides 433, 495–496, 508</span></div><div class="card f"><h3>Inception module: naive vs 1×1-reduced compute</h3><p>\[
+\begin{aligned} \text{naive} &amp;: 28^2 \cdot 256 \cdot 128 \cdot 3^2 + 28^2 \cdot 256 \cdot 32 \cdot 5^2 \approx 230\text{M} + 160\text{M} \approx 390\text{M} \\ \text{reduced} &amp;: 28^2(256 \cdot 96 + 96 \cdot 128 \cdot 9 + 256 \cdot 16 + 16 \cdot 32 \cdot 25) \approx 19 + 86 + 3 + 10 \approx 118\text{M} \end{aligned}
+\]</p>
+<p><strong>where:</strong> \(28 \times 28 \times 256\) input; 96 and 16 are the \(1 \times 1\) reduction widths before the \(3 \times 3\) (128 filters) and \(5 \times 5\) (32 filters) branches; counts are multiply-adds.</p>
+<p><strong>use:</strong> \(390/118 \approx 3.3\times\) reduction (correct, erratum 4); it is a different example from the generic bottleneck "8\(\times\)" and the corrected \(12\times\) of slide 461, so quote the one the question uses. Concatenate branch outputs along channels: output depth is the sum of branch filter counts.</p><span class="src">6.12.5 · slides 503–505</span></div><div class="card f"><h3>Classifier head: dense vs global average pooling, and transfer learning</h3><p>\[
+\text{GAP}(X)_c = \frac{1}{HW}\sum_{i,j} X(i, j, c), \qquad \text{head params: } \underbrace{HWC\,q + q}_{\text{flatten + dense}} \quad \text{vs} \quad \underbrace{C K + K}_{\text{GAP + dense}}
+\]</p>
+<p><strong>where:</strong> \(X\) is the last \(H \times W \times C\) feature map, \(q\) the dense width, \(K\) the number of classes; trainable parameters in transfer learning = parameters of the layers left unfrozen.</p>
+<p><strong>use:</strong> GAP has no parameters and removes the huge flatten layer (NiN, GoogLeNet, ResNet). In feature extraction only the new head trains (for example \(4096 K + K\)); fine-tuning unfreezes top blocks with a small learning rate.</p><span class="src">6.12.4, 6.13.1, 6.13.2 · slides 500, 518–522</span></div><div class="card f"><h3>Residual block and the gradient highway</h3><p>\[
+y = F(x) + x, \qquad \frac{\partial L}{\partial x} = \frac{\partial L}{\partial y}\big(J_F(x) + I\big), \qquad y = F(x) + W_s x \ \text{(projection shortcut)}
+\]</p>
+<p><strong>where:</strong> \(F\) is the residual branch (two or three conv layers), \(J_F\) its Jacobian, \(I\) the identity, \(W_s\) a \(1 \times 1\) (often stride-2) convolution used when the shape changes.</p>
+<p><strong>use:</strong> the identity term passes gradient even when \(J_F\) is small, and the identity mapping is easy to learn (\(F = 0\)), which fixes the degradation problem (deeper plain nets with higher training error). A projection from \(C_{\text{in}}\) to \(C_{\text{out}}\) adds \(C_{\text{in}} C_{\text{out}}\) weights.</p><span class="src">6.12.6 · slides 509–515</span></div><div class="card f"><h3>Basic vs bottleneck residual block</h3><p>\[
+\text{basic: } 2(9C^2 + C), \qquad \text{bottleneck: } (C + 1)\tfrac{C}{4} + \big(9(\tfrac{C}{4})^2 + \tfrac{C}{4}\big) + (\tfrac{C}{4} + 1)C
+\]</p>
+<p><strong>where:</strong> \(C\) channels in and out, the bottleneck reduces to \(C/4\) with \(1 \times 1\), applies \(3 \times 3\), then expands with \(1 \times 1\); biases included.</p>
+<p><strong>use:</strong> at \(C = 256\): basic \(1{,}180{,}160\), bottleneck \(16{,}448 + 36{,}928 + 16{,}640 = 70{,}016\) (about \(16.8\times\) fewer); MACs scale the same way at a fixed \(H \times W\) (basic \(\approx 3.7\)G, bottleneck \(\approx 0.22\)G at \(56 \times 56\)). ResNet-50 and deeper use bottlenecks, ResNet-18/34 basic blocks.</p><span class="src">6.12.6, 6.9 · slides 511–512, 561–562</span></div></div></details>
+<details class="module" open id="m7-recurrent-neural-networks"><summary>M7 · Recurrent Neural Networks <small>· 14 items</small></summary><div class="cards"><div class="card f"><h3>Autoregressive factorisation and the Markov assumption</h3><p>\[
+P(x_1, \dots, x_T) = \prod_{t=1}^{T} P(x_t \mid x_1, \dots, x_{t-1}), \qquad P(x_t \mid x_{&lt;t}) \approx P(x_t \mid x_{t-k}, \dots, x_{t-1})
+\]</p>
+<p><strong>where:</strong> \(x_t\) is the token or value at step \(t\), \(k\) the Markov order (\(k = 1\): only the previous step); a latent-variable model instead uses \(h_t = f(x_t, h_{t-1})\) and \(P(x_{t+1} \mid x_{\le t}) = P(x_{t+1} \mid h_t)\).</p>
+<p><strong>use:</strong> the chain rule is exact; the Markov cut is an approximation whose count table grows like \(V^{k}\) contexts \(\times\) \((V - 1)\) free probabilities each. A hidden state is a fixed-size summary of the whole history, which is what an RNN implements.</p><span class="src">7.1, 7.2.1, 7.2.2, 7.2.3 · slides 587–592</span></div><div class="card f"><h3>Vanilla RNN</h3><p>\[
+h_t = \phi(W_{hh} h_{t-1} + W_{hx} x_t + b_h), \qquad o_t = W_{ho} h_t + b_o, \qquad P(x_t = k \mid x_{&lt;t}) = \operatorname{softmax}(o_t)_k
+\]</p>
+<p><strong>where:</strong> \(x_t \in \mathbb{R}^d\), \(h_t \in \mathbb{R}^h\), \(o_t \in \mathbb{R}^V\) logits, \(W_{hx} \in \mathbb{R}^{h \times d}\), \(W_{hh} \in \mathbb{R}^{h \times h}\), \(W_{ho} \in \mathbb{R}^{V \times h}\), \(\phi = \tanh\) (so \(\phi'(z_t) = 1 - h_t^2\)), \(h_0 = 0\).</p>
+<p><strong>use:</strong> the same weights are reused at every step (parameter sharing), so the model handles any sequence length with a fixed parameter count.</p><span class="src">7.3.1, 7.3.2, 7.3.3 · slides 597–600, 604–607</span></div><div class="card f"><h3>RNN parameter count</h3><p>\[
+\underbrace{hd + h^2 + h}_{\text{recurrent layer}} + \underbrace{Vh + V}_{\text{output}} = h(d + h + V + 1) + V
+\]</p>
+<p><strong>where:</strong> \(d\) input size, \(h\) hidden size, \(V\) output (vocabulary) size.</p>
+<p><strong>use:</strong> example \(d = 100, h = 256, V = 10{,}000\): \(2{,}661{,}392\), dominated by the output layer. The count does not depend on the sequence length \(T\).</p><span class="src">7.3.2 · slides 601–603</span></div><div class="card f"><h3>Sequence loss and per-token loss</h3><p>\[
+L = \sum_{t=1}^{T} \ell_t = -\sum_{t=1}^{T} \log P(x_t \mid x_1, \dots, x_{t-1}), \qquad \bar{L} = \frac{1}{T}\sum_{t=1}^{T}\ell_t
+\]</p>
+<p><strong>where:</strong> \(\ell_t\) is the cross-entropy at step \(t\), natural logs (nats).</p>
+<p><strong>use:</strong> the average per-token loss is what training logs report; \(e^{\bar{L}}\) is the perplexity (M9).</p><span class="src">7.4.1 · slides 609–610</span></div><div class="card f"><h3>BPTT: hidden-state gradient recursion</h3><p>\[
+\frac{\partial L}{\partial h_t} = \frac{\partial \ell_t}{\partial h_t} + \frac{\partial L}{\partial h_{t+1}}\frac{\partial h_{t+1}}{\partial h_t}, \qquad \frac{\partial h_{t+1}}{\partial h_t} = \operatorname{diag}\big(\phi'(z_{t+1})\big)\, W_{hh}, \qquad \frac{\partial \ell_t}{\partial h_t} = W_{ho}^\top (\hat{y}_t - y_t)
+\]</p>
+<p><strong>where:</strong> \(z_{t+1}\) is the pre-activation at step \(t + 1\); for tanh \(\phi'(z_{t+1}) = 1 - h_{t+1}^2\); the last form assumes softmax + cross-entropy outputs; start at \(t = T\) with \(\partial L / \partial h_T = \partial \ell_T / \partial h_T\).</p>
+<p><strong>use:</strong> run backwards from \(T\) to 1. In the scalar case \(\partial h_{t+1}/\partial h_t = w_{hh}(1 - h_{t+1}^2)\); unrolling shows each \(\ell_s\) reaches \(h_t\) through a product of such factors.</p><span class="src">7.4.1, 7.4.2, 7.4.4 · slides 611–616</span></div><div class="card f"><h3>BPTT: parameter gradients are sums over time</h3><p>\[
+\delta_t = \frac{\partial L}{\partial h_t} \odot (1 - h_t^2), \qquad \frac{\partial L}{\partial W_{hh}} = \sum_{t} \delta_t h_{t-1}^\top, \quad \frac{\partial L}{\partial W_{hx}} = \sum_t \delta_t x_t^\top, \quad \frac{\partial L}{\partial b_h} = \sum_t \delta_t, \quad \frac{\partial L}{\partial W_{ho}} = \sum_t (\hat{y}_t - y_t) h_t^\top
+\]</p>
+<p><strong>where:</strong> \(\delta_t\) is the gradient at the pre-activation \(z_t\), column vectors throughout, \(h_0 = 0\) (so the \(t = 1\) term of \(W_{hh}\) vanishes).</p>
+<p><strong>use:</strong> shared weights receive the sum of their per-step gradients. Truncated BPTT keeps only the last few steps of the recursion and so drops long-range terms.</p><span class="src">7.4.3 · slide 617</span></div><div class="card f"><h3>Vanishing and exploding gradients through time</h3><p>\[
+\frac{\partial L}{\partial h_1} = \frac{\partial L}{\partial h_T}\prod_{t=2}^{T}\operatorname{diag}\big(\phi'(z_t)\big) W_{hh}, \qquad \text{ratio} \approx (\lambda_{\max} \cdot \lvert \phi' \rvert)^{k}
+\]</p>
+<p><strong>where:</strong> \(\lambda_{\max}\) is the largest eigenvalue (or norm) of \(W_{hh}\), \(\lvert \phi' \rvert\) the typical activation slope, \(k\) the number of steps.</p>
+<p><strong>use:</strong> deck example \(0.8 \times 0.5 = 0.4\): \(0.4^5 = 0.01024\) (about 1%), \(0.4^{10} \approx 10^{-4}\), \(0.4^{20} \approx 10^{-8}\) (verified, erratum 6). Since \(\lvert \tanh' \rvert \le 1\), \(\lvert w_{hh} \rvert &gt; 1\) is necessary but not sufficient to explode. Fixes: gating (GRU, LSTM), gradient clipping (M10).</p><span class="src">7.5.1, 7.5.2 · slides 618–620</span></div><div class="card f"><h3>Bidirectional and stacked (deep) RNNs</h3><p>\[
+\begin{aligned} \overrightarrow{h}_t &amp;= \phi(\overrightarrow{W}_{hh}\overrightarrow{h}_{t-1} + \overrightarrow{W}_{hx}x_t + \overrightarrow{b}_h), \quad \overleftarrow{h}_t = \phi(\overleftarrow{W}_{hh}\overleftarrow{h}_{t+1} + \overleftarrow{W}_{hx}x_t + \overleftarrow{b}_h), \quad o_t = W_{ho}[\overrightarrow{h}_t; \overleftarrow{h}_t] + b_o \\ h_t^{(\ell)} &amp;= \phi\big(W_{hh}^{(\ell)} h_{t-1}^{(\ell)} + W_{hx}^{(\ell)} h_t^{(\ell-1)} + b_h^{(\ell)}\big), \quad h_t^{(0)} = x_t \end{aligned}
+\]</p>
+<p><strong>where:</strong> \([\cdot\,; \cdot]\) is concatenation, \(h_f, h_b\) the forward and backward widths, \(h_\ell\) the width of layer \(\ell\). Bidirectional params: \(h_f^2 + h_b^2 + d(h_f + h_b) + h_f + h_b + V(h_f + h_b) + V\); stacked: layer \(\ell\) has \(h_\ell h_{\ell-1} + h_\ell^2 + h_\ell\) (with \(h_0 = d\)) plus the output \(V h_L + V\).</p>
+<p><strong>use:</strong> bidirectional needs the whole sequence, so it cannot forecast in real time; in a stacked RNN gradients flow both back in time and down through layers, and the vanishing products compound.</p><span class="src">7.6, 7.7 · slides 622–627, 630–637</span></div><div class="card f"><h3>GRU equations</h3><p>\[
+\begin{aligned} r_t &amp;= \sigma(W_r x_t + U_r h_{t-1} + b_r), \qquad z_t = \sigma(W_z x_t + U_z h_{t-1} + b_z) \\ \tilde{h}_t &amp;= \tanh\big(W_h x_t + U_h(r_t \odot h_{t-1}) + b_h\big), \qquad h_t = z_t \odot h_{t-1} + (1 - z_t) \odot \tilde{h}_t \end{aligned}
+\]</p>
+<p><strong>where:</strong> \(r_t\) is the reset gate, \(z_t\) the update gate, \(\tilde{h}_t\) the candidate state, \(W_\cdot \in \mathbb{R}^{h \times d}\), \(U_\cdot \in \mathbb{R}^{h \times h}\), \(\sigma\) the sigmoid.</p>
+<p><strong>use:</strong> erratum 12: with this update equation, \(z_t \approx 1\) <strong>keeps</strong> the old state and \(z_t \approx 0\) takes the new candidate (slide 643's bullets say the reverse). \(r_t \approx 0\) makes the candidate ignore the past. Libraries differ, so always read the update equation.</p><span class="src">7.8.1, 7.8.2, 7.8.3 · slides 639–650</span></div><div class="card f"><h3>GRU step Jacobian</h3><p>\[
+\frac{\partial h_t}{\partial h_{t-1}} = \underbrace{\operatorname{diag}(z_t)}_{\text{direct}} + \underbrace{\operatorname{diag}(1 - z_t)\frac{\partial \tilde{h}_t}{\partial h_{t-1}}}_{\text{through candidate}} + \underbrace{\operatorname{diag}(h_{t-1} - \tilde{h}_t)\frac{\partial z_t}{\partial h_{t-1}}}_{\text{through gate}}
+\]</p>
+<p><strong>where:</strong> \(\partial z_t / \partial h_{t-1} = \operatorname{diag}\big(z_t(1 - z_t)\big)U_z\); the slide keeps only the first two terms.</p>
+<p><strong>use:</strong> the direct term \(z_t\) has no weight matrix and no activation derivative, so when \(z_t \approx 1\) the gradient passes almost unchanged (vanilla RNN: only \(\operatorname{diag}(\phi')W_{hh}\)).</p><span class="src">7.8.2 · slide 652</span></div><div class="card f"><h3>LSTM equations</h3><p>\[
+\begin{aligned} f_t &amp;= \sigma(W_f x_t + U_f h_{t-1} + b_f), \quad i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i), \quad o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o) \\ \tilde{c}_t &amp;= \tanh(W_c x_t + U_c h_{t-1} + b_c), \qquad c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t, \qquad h_t = o_t \odot \tanh(c_t) \end{aligned}
+\]</p>
+<p><strong>where:</strong> \(f_t, i_t, o_t\) are the forget, input and output gates, \(\tilde{c}_t\) the candidate, \(c_t\) the cell state (long-term memory), \(h_t\) the hidden state (short-term output).</p>
+<p><strong>use:</strong> \(f_t \approx 1\) keeps memory, \(i_t \approx 1\) writes the candidate, \(o_t\) decides what is exposed; the cell can remember without outputting.</p><span class="src">7.9.1, 7.9.2 · slides 654–661</span></div><div class="card f"><h3>LSTM cell-state gradient path</h3><p>\[
+\frac{\partial c_t}{\partial c_{t-1}}\bigg|_{\text{cell path}} = \operatorname{diag}(f_t), \qquad \frac{\partial c_T}{\partial c_{T-k}}\bigg|_{\text{cell path}} = \prod_{j=T-k+1}^{T}\operatorname{diag}(f_j)
+\]</p>
+<p><strong>where:</strong> \(f_j\) are the forget-gate values; the other paths (through \(h_{t-1}\) into the gates) add further terms.</p>
+<p><strong>use:</strong> the additive update gives a path with no weight matrix and no \(\tanh'\); it resists vanishing only while the forget gates stay near 1 (for example \(0.9^{10} \approx 0.35\), but \(0.5^{10} \approx 0.001\)).</p><span class="src">7.9.2 · slides 659, 663</span></div><div class="card f"><h3>Gated-RNN parameter counts</h3><p>\[
+\text{vanilla: } h(d + h + 1), \qquad \text{GRU: } 3h(d + h + 1), \qquad \text{LSTM: } 4h(d + h + 1), \qquad \text{plus output } Vh + V
+\]</p>
+<p><strong>where:</strong> \(d\) input size, \(h\) hidden size, \(V\) output size; 3 = reset, update, candidate; 4 = forget, input, output, candidate.</p>
+<p><strong>use:</strong> example \(d = 100, h = 256\): GRU \(274{,}176\), LSTM \(365{,}568\) (layer only). A bidirectional layer doubles the recurrent part, and its output layer sees \(2h\) inputs.</p><span class="src">7.9.3 · slides 651, 662, 664</span></div><div class="card f"><h3>Forecasting windows and recursive forecasts</h3><p>\[
+\text{pairs} = N - L - H + 1, \qquad X \in \mathbb{R}^{\text{pairs} \times L \times d}, \qquad T_{t+1} = a T_t + c \;\Rightarrow\; T^* = \frac{c}{1 - a}
+\]</p>
+<p><strong>where:</strong> \(N\) series length, \(L\) input window, \(H\) forecast horizon, \(d\) number of input variables (univariate \(d = 1\), multivariate \(d &gt; 1\)), \(a, c\) coefficients of a first-order autoregressive model with \(\lvert a \rvert &lt; 1\).</p>
+<p><strong>use:</strong> each training pair needs \(L + H\) consecutive points (stride 1). Recursive multi-step forecasts feed predictions back in, so errors accumulate and long forecasts decay to the fixed point \(T^*\). Evaluate with MSE, RMSE, MAE (M3).</p><span class="src">7.10, 7.2.2 · slides 593–595, 666–670</span></div></div></details>
+<details class="module" open id="m8-attention-mechanism"><summary>M8 · Attention Mechanism <small>· 12 items</small></summary><div class="cards"><div class="card f"><h3>Seq2seq encoder–decoder and teacher forcing</h3><p>\[
+c = h_T^{\text{enc}}, \qquad s_t = g(s_{t-1}, y_{t-1}, c), \qquad L = -\sum_{t=1}^{T'} \log P(y_t \mid y_{&lt;t}, c)
+\]</p>
+<p><strong>where:</strong> \(h_T^{\text{enc}}\) is the last encoder state (the fixed-size context vector), \(s_t\) the decoder state, \(y_{t-1}\) the previous target token, \(T\) and \(T'\) the input and output lengths (they may differ).</p>
+<p><strong>use:</strong> teacher forcing feeds the ground-truth \(y_{t-1}\) in training; at inference the model's own \(\hat{y}_{t-1}\) is fed back (free running), and the mismatch is exposure bias. The context \(c\) does not grow with \(T\), and the influence of early inputs on it decays like a product of RNN Jacobians: this bottleneck motivates attention.</p><span class="src">8.1.1, 8.1.2, 8.1.3 · slides 678–686</span></div><div class="card f"><h3>Attention as weighted retrieval</h3><p>\[
+e_i = \operatorname{score}(q, k_i), \qquad \alpha_i = \frac{\exp(e_i)}{\sum_{j=1}^{n}\exp(e_j)}, \qquad c = \sum_{i=1}^{n}\alpha_i v_i, \qquad H(\alpha) = -\sum_i \alpha_i \ln \alpha_i
+\]</p>
+<p><strong>where:</strong> \(q\) is the query ("what I seek"), \(k_i\) the keys ("what is indexed"), \(v_i\) the values ("what is retrieved"), \(\alpha_i\) the attention weights (non-negative, sum to 1), \(c\) the output, \(H\) the attention entropy.</p>
+<p><strong>use:</strong> equal scores give average pooling (\(H = \ln n\)); one dominant score approaches max-style retrieval (\(H \to 0\)). Entropy near 0 on every query signals collapse onto one token.</p><span class="src">8.2.1, 8.2.2 · slides 692–703</span></div><div class="card f"><h3>Dot-product and scaled dot-product scores</h3><p>\[
+\operatorname{score}(q, k) = q^\top k, \qquad \operatorname{score}(q, k) = \frac{q^\top k}{\sqrt{d_k}}
+\]</p>
+<p><strong>where:</strong> \(q, k \in \mathbb{R}^{d_k}\) (query and key must have equal dimension); no parameters.</p>
+<p><strong>use:</strong> erratum 13: slide 706's softmax of scores \((0.58, 1.14, 0.44)\) is \((0.276, 0.484, 0.240)\), not \((0.21, 0.62, 0.17)\); always recompute the weights. Cost \(O(d)\) per pair, fully parallel as \(QK^\top\).</p><span class="src">8.3.1 · slides 705–707</span></div><div class="card f"><h3>Why divide by the square root of the key dimension</h3><p>\[
+\operatorname{Var}(q^\top k) = \sum_{j=1}^{d_k}\operatorname{Var}(q_j k_j) = d_k, \qquad \frac{\partial \alpha_i}{\partial e_i} = \alpha_i(1 - \alpha_i)
+\]</p>
+<p><strong>where:</strong> \(q_j, k_j\) independent with mean 0 and variance 1.</p>
+<p><strong>use:</strong> unscaled scores have standard deviation \(\sqrt{d_k}\), push the softmax into saturation (\(\alpha_i \to 0\) or 1) and kill the gradient \(\alpha_i(1 - \alpha_i)\); dividing by \(\sqrt{d_k}\) restores unit variance.</p><span class="src">8.3.1, 8.6 · slides 707–708</span></div><div class="card f"><h3>Additive (Bahdanau) and multiplicative (Luong) scores</h3><p>\[
+\operatorname{score}(q, k_i) = v^\top \tanh(W_q q + W_k k_i), \qquad \operatorname{score}(q, k) = q^\top W k
+\]</p>
+<p><strong>where:</strong> \(W_q \in \mathbb{R}^{h \times d_q}\), \(W_k \in \mathbb{R}^{h \times d_k}\), \(v \in \mathbb{R}^{h}\), \(h\) the attention hidden size; Luong's \(W \in \mathbb{R}^{d_q \times d_k}\).</p>
+<p><strong>use:</strong> additive has \(h(d_q + d_k + 1)\) parameters, works with \(d_q \ne d_k\), costs \(O(d h)\) per pair; dot-product is parameter-free and faster on GPUs, the Transformer default. \(W_k k_i\) can be precomputed once per key.</p><span class="src">8.3.2 · slides 709–712</span></div><div class="card f"><h3>Bahdanau attention: the five-step decoder pipeline</h3><p>\[
+\begin{aligned} e_{t,i} &amp;= v^\top \tanh(W_s s_{t-1} + W_h h_i), \qquad \alpha_{t,i} = \frac{\exp(e_{t,i})}{\sum_{j=1}^{T}\exp(e_{t,j})}, \qquad c_t = \sum_{i=1}^{T}\alpha_{t,i} h_i \\ s_t &amp;= \operatorname{RNN}([y_{t-1}; c_t],\ s_{t-1}), \qquad P(y_t \mid y_{&lt;t}, x) = \operatorname{softmax}(W_o[s_t; c_t]) \end{aligned}
+\]</p>
+<p><strong>where:</strong> \(h_i = [\overrightarrow{h}_i; \overleftarrow{h}_i]\) are bidirectional encoder states, \(s_{t-1}\) the previous decoder state (the query), \(c_t\) a fresh context per output step, \([\cdot\,; \cdot]\) concatenation.</p>
+<p><strong>use:</strong> align, normalise, context, update, output. The per-step loss is \(-\log P(y_t)\), and the softmax output again gives \(\hat{y} - y\) at the logits. \(\alpha_{t,i}\) forms the alignment matrix.</p><span class="src">8.4 · slides 714–719</span></div><div class="card f"><h3>Matrix self-attention and cross-attention</h3><p>\[
+Q = XW^Q,\ K = XW^K,\ V = XW^V, \qquad \operatorname{Attention}(Q, K, V) = \operatorname{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+\]</p>
+<p><strong>where:</strong> tokens are the rows of \(X \in \mathbb{R}^{n \times d_{\text{model}}}\), \(W^Q, W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}\), \(W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}\), softmax applied row by row; the score matrix is \(n \times n\) and the output \(n \times d_v\).</p>
+<p><strong>use:</strong> self-attention takes \(Q, K, V\) from one sequence; cross-attention takes \(Q = X_{\text{dec}}W^Q\) from the decoder (\(m\) rows) and \(K, V\) from the encoder output (\(n\) rows), so its weights are \(m \times n\) and its output has the decoder's length \(m\).</p><span class="src">8.5.1, 8.5.2 · slides 721–726, 733</span></div><div class="card f"><h3>Causal (masked) attention</h3><p>\[
+\operatorname{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}} + M\right), \qquad M_{ij} = \begin{cases} 0 &amp; j \le i \\ -\infty &amp; j &gt; i \end{cases}
+\]</p>
+<p><strong>where:</strong> \(M\) is the upper-triangular mask, \(i\) the query position, \(j\) the key position.</p>
+<p><strong>use:</strong> each token attends only to itself and earlier tokens, so training matches left-to-right generation; masked entries get weight exactly 0, and row \(i\) renormalises over \(i\) keys. The first row always puts weight 1 on token 1.</p><span class="src">8.5.3 · slides 727–728</span></div><div class="card f"><h3>Multi-head attention</h3><p>\[
+\operatorname{MultiHead}(Q, K, V) = \operatorname{Concat}(\text{head}_1, \dots, \text{head}_h)\,W^O, \qquad \text{head}_i = \operatorname{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\]</p>
+<p><strong>where:</strong> \(h\) heads, \(d_k = d_v = d_{\text{model}}/h\), \(W_i^Q, W_i^K, W_i^V \in \mathbb{R}^{d_{\text{model}} \times d_k}\), \(W^O \in \mathbb{R}^{h d_v \times d_{\text{model}}}\).</p>
+<p><strong>use:</strong> parameters \(4d_{\text{model}}^2\) (weights) or \(4d_{\text{model}}^2 + 4d_{\text{model}}\) with biases, independent of \(h\) (for \(d_{\text{model}} = 512\): \(1{,}048{,}576\) and \(1{,}050{,}624\)). Heads cost the same as one full-width head but can attend to different patterns.</p><span class="src">8.5.4 · slides 729–731</span></div><div class="card f"><h3>Permutation equivariance of self-attention</h3><p>\[
+\operatorname{Attention}(PX) = P\,\operatorname{Attention}(X), \qquad \operatorname{softmax}(PSP^\top) = P\operatorname{softmax}(S)P^\top
+\]</p>
+<p><strong>where:</strong> \(P\) is a permutation matrix (\(P^\top P = I\)), \(S = QK^\top/\sqrt{d_k}\).</p>
+<p><strong>use:</strong> erratum 14: self-attention is permutation-<strong>equivariant</strong> (shuffle the tokens, the outputs shuffle the same way), not invariant as slide 736 says; only a pooled output (mean or sum over tokens) is invariant. Without positional information word order is invisible.</p><span class="src">8.6.1 · slide 736</span></div><div class="card f"><h3>Sinusoidal positional encoding</h3><p>\[
+PE(pos, 2i) = \sin\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right), \qquad PE(pos, 2i + 1) = \cos\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\]</p>
+<p><strong>where:</strong> \(pos = 0, 1, 2, \dots\) the position, \(i = 0, \dots, d_{\text{model}}/2 - 1\) the dimension-pair index; pair \(i\) has frequency \(\omega_i = 10000^{-2i/d_{\text{model}}}\) and wavelength \(2\pi \cdot 10000^{2i/d_{\text{model}}}\).</p>
+<p><strong>use:</strong> erratum 14: low-index dimensions have the <strong>highest</strong> frequency (wavelength \(2\pi\)) and high-index dimensions the lowest, the reverse of slide 738's bullet. \(PE(p)\cdot PE(q) = \sum_i \cos\big(\omega_i(p - q)\big)\) depends only on the offset, and \(PE(pos + k)\) is a fixed rotation of \(PE(pos)\). \(PE(0) = (0, 1, 0, 1, \dots)\).</p><span class="src">8.6.2, 9.3.1 · slides 737–739, 761</span></div><div class="card f"><h3>Self-attention vs RNN vs CNN</h3><p>\[
+\text{per layer: } O(n^2 d)\ \text{(self-attention)}, \quad O(n d^2)\ \text{(RNN)}, \quad O(k\, n\, d^2)\ \text{(CNN)}; \qquad \text{path length: } O(1),\ O(n),\ O(\log n)
+\]</p>
+<p><strong>where:</strong> \(n\) sequence length, \(d\) width, \(k\) kernel size; path length is the number of steps between two far-apart positions (the CNN figure assumes dilated or strided stacks; plain stride-1 stacks need about \(n/k\) layers); sequential steps are \(O(1)\) for attention and CNN, \(O(n)\) for an RNN.</p>
+<p><strong>use:</strong> attention gives direct long-range paths and full parallelism at quadratic cost and \(O(n^2)\) memory in the sequence length; it is cheaper than an RNN layer while \(n &lt; d\).</p><span class="src">8.6.3, 9.1 · slides 734–735</span></div></div></details>
+<details class="module" open id="m9-transformer"><summary>M9 · Transformer <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>Encoder layer: input, pre-LN Add &amp; Norm</h3><p>\[
+X = \operatorname{Embedding}(\text{tokens}) + \operatorname{PE}(\text{positions}), \qquad Z_1 = X + \operatorname{MHA}(\operatorname{LN}(X)), \qquad Z_2 = Z_1 + \operatorname{FFN}(\operatorname{LN}(Z_1))
+\]</p>
+<p><strong>where:</strong> \(X \in \mathbb{R}^{n \times d}\) (rows are tokens, \(d = d_{\text{model}}\)), \(\operatorname{LN}(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta\) with \(\mu, \sigma^2\) over the \(d\) features of one token (population variance), \(\gamma, \beta \in \mathbb{R}^d\) learnable.</p>
+<p><strong>use:</strong> embedding and positional encoding are <strong>added</strong> (slide 762 says "concatenated" but its own equation adds them), so both have width \(d\). The residual \(+\) keeps a direct gradient path \(\partial Z/\partial X = I + J_F J_{\text{LN}}\) through a deep stack. Every sub-layer keeps the shape \(n \times d\).</p><span class="src">9.2, 9.3.1, 9.3.3 · slides 756, 760–767</span></div><div class="card f"><h3>Position-wise feed-forward network</h3><p>\[
+\operatorname{FFN}(x) = \operatorname{ReLU}(xW_1 + b_1)\,W_2 + b_2, \qquad W_1 \in \mathbb{R}^{d \times d_{ff}},\ W_2 \in \mathbb{R}^{d_{ff} \times d},\ d_{ff} = 4d
+\]</p>
+<p><strong>where:</strong> \(x\) is one token's row, \(b_1 \in \mathbb{R}^{d_{ff}}\), \(b_2 \in \mathbb{R}^{d}\); ViT uses \(\operatorname{GELU}(x) = x\,\Phi(x)\) instead of ReLU, with \(\Phi\) the standard normal CDF.</p>
+<p><strong>use:</strong> the same weights act on every position independently (expand \(4\times\), non-linearity, contract); \(8d^2 + 5d\) parameters with biases, about two-thirds of an encoder layer.</p><span class="src">9.3.2 · slide 764</span></div><div class="card f"><h3>Encoder-layer parameter count</h3><p>\[
+\underbrace{4d^2 + 4d}_{\text{MHA}} + \underbrace{8d^2 + 5d}_{\text{FFN}} + \underbrace{4d}_{\text{2 LayerNorms}} = 12d^2 + 13d \approx 12 d^2
+\]</p>
+<p><strong>where:</strong> \(d = d_{\text{model}}\), \(d_{ff} = 4d\), a bias on every linear map, \(\gamma, \beta\) on each LayerNorm.</p>
+<p><strong>use:</strong> the deck's estimate counts weights plus LayerNorm vectors, \(4d + 12d^2\); the exact count adds the \(9d\) biases. For \(d = 512\): \(3{,}152{,}384\) per layer; \(N\) identical layers give \(N(12d^2 + 13d)\). The count does not depend on \(n\) or \(h\).</p><span class="src">9.3.4 · slides 768–769</span></div><div class="card f"><h3>Decoder layer and its parameter count</h3><p>\[
+\underbrace{4(d^2 + d)}_{\text{masked self-attn}} + \underbrace{4(d^2 + d)}_{\text{cross-attn}} + \underbrace{8d^2 + 5d}_{\text{FFN}} + \underbrace{6d}_{\text{3 LayerNorms}} = 16d^2 + 19d \approx 16 d^2
+\]</p>
+<p><strong>where:</strong> the decoder layer is masked self-attention, then cross-attention (queries from the decoder, keys and values from the encoder output, <strong>no mask</strong>), then the FFN, each with Add &amp; Norm.</p>
+<p><strong>use:</strong> about 33% more parameters than an encoder layer (16 vs 12 \(d^2\)). For \(d = 512\): \(4{,}204{,}032\). A decoder-only (GPT-style) layer has no cross-attention, so it counts like an encoder layer, \(12d^2 + 13d\).</p><span class="src">9.4.1, 9.4.2, 9.4.3 · slides 771–775</span></div><div class="card f"><h3>Embeddings and output layer</h3><p>\[
+\text{token embedding: } V d, \qquad \text{learned positions: } n_{\max} d, \qquad \text{output: } P = \operatorname{softmax}(H W_{\text{out}} + b), \ W_{\text{out}} \in \mathbb{R}^{d \times V}
+\]</p>
+<p><strong>where:</strong> \(V\) vocabulary size (the deck writes \(\lvert V \rvert\)), \(n_{\max}\) the maximum length, \(H \in \mathbb{R}^{m \times d}\) the final decoder states, \(P \in \mathbb{R}^{m \times V}\) one distribution per target position.</p>
+<p><strong>use:</strong> sinusoidal positions have 0 parameters; the output layer adds \(Vd + V\) unless tied to the input embedding (then only the bias, or nothing). With \(V = 30{,}000\)–\(50{,}000\) the embedding is often the largest single block (BERT-base: 23.4M of 110M).</p><span class="src">9.3.1, 9.4.3 · slides 760–761, 768, 774, 776</span></div><div class="card f"><h3>Compute of one layer: attention vs FFN</h3><p>\[
+\underbrace{4nd^2}_{\text{projections}} + \underbrace{2n^2 d}_{\text{scores + weighted sum}} + \underbrace{8nd^2}_{\text{FFN}} \ \text{MACs}, \qquad 2n^2 d = 8nd^2 \iff n = 4d
+\]</p>
+<p><strong>where:</strong> \(n\) sequence length, \(d\) width, \(d_{ff} = 4d\), softmax, LayerNorm and biases ignored; \(h\) heads do not change the total because \(h d_k = d\).</p>
+<p><strong>use:</strong> for short sequences the linear layers dominate; the \(n^2\) terms equal the FFN at \(n = 4d\) and all linear layers at \(n = 6d\) (\(4608\) for \(d = 768\)). Longer context adds no parameters but grows compute quadratically.</p><span class="src">9.3.2, 9.1 · slides 749–750, 763–764</span></div><div class="card f"><h3>Attention-matrix memory</h3><p>\[
+\text{bytes} = B \cdot h \cdot n^2 \cdot (\text{bytes per value}), \qquad B h n^2 = B n \cdot 4d \iff n = \frac{4d}{h}
+\]</p>
+<p><strong>where:</strong> \(B\) batch size, \(h\) heads, \(n\) sequence length, 4 bytes per fp32 value (2 for fp16); \(Bn \cdot 4d\) is the FFN hidden activation it is compared with; cross-attention stores \(B h m n\).</p>
+<p><strong>use:</strong> per layer, and multiplied by the number of layers when kept for backprop; doubling \(n\) quadruples it. Example \(B = 8, h = 16, n = 1024\), fp32: about 537 MB per layer.</p><span class="src">9.1, 9.7.2 · slides 749–750, 804</span></div><div class="card f"><h3>Vision Transformer patch arithmetic</h3><p>\[
+N = \frac{H W}{P^2}, \qquad z_i = \operatorname{Flatten}(\text{patch}_i)\,W_p, \quad W_p \in \mathbb{R}^{(P^2 C) \times d}, \qquad \text{sequence} = N + 1
+\]</p>
+<p><strong>where:</strong> \(H \times W \times C\) the image, \(P\) the patch size, \(N\) the number of patches, \(d\) the width, the \(+1\) is the prepended [CLS] token; learned 1-D positions add \((N + 1)d\).</p>
+<p><strong>use:</strong> \(224 \times 224 \times 3\), \(P = 16\): 196 patches of length 768, projection \(768 \cdot 768 + 768 = 590{,}592\), sequence 197, positions \(151{,}296\). \(W_p\) depends only on \(P, C, d\); a new resolution changes only the positional table (interpolate it). Attention cost grows with \((N + 1)^2\).</p><span class="src">9.5.1, 9.5.2 · slides 778–785</span></div><div class="card f"><h3>ViT-Base parameter total</h3><p>\[
+\underbrace{(P^2 C + 1)d}_{\text{patch proj.}} + \underbrace{d}_{\text{[CLS]}} + \underbrace{(N + 1)d}_{\text{positions}} + L(12d^2 + 13d) + \underbrace{2d}_{\text{final LN}} + \underbrace{dK + K}_{\text{head}}
+\]</p>
+<p><strong>where:</strong> \(L\) encoder layers, \(K\) classes; ViT-Base/16: \(d = 768\), \(L = 12\), \(h = 12\), \(d_{ff} = 3072\).</p>
+<p><strong>use:</strong> ViT-Base/16 with \(K = 1000\) totals \(86{,}567{,}656\) (about 86M), 98% of it in the encoder layers; the classifier reads the final [CLS] row. Fine-tuning to a new task replaces only the \(dK + K\) head.</p><span class="src">9.5.1, 9.3.4 · slides 781–784</span></div><div class="card f"><h3>LoRA: low-rank fine-tuning</h3><p>\[
+W_{\text{new}} = W_{\text{frozen}} + \alpha\, BA, \qquad B \in \mathbb{R}^{d_{\text{in}} \times r},\ A \in \mathbb{R}^{r \times d_{\text{out}}}, \qquad \text{trainable} = r(d_{\text{in}} + d_{\text{out}}) \ \text{vs}\ d_{\text{in}} d_{\text{out}}
+\]</p>
+<p><strong>where:</strong> \(r \ll \min(d_{\text{in}}, d_{\text{out}})\) the rank, \(\alpha\) a scaling factor, \(\operatorname{rank}(BA) \le r\).</p>
+<p><strong>use:</strong> one \(768 \times 768\) matrix at \(r = 8\): \(12{,}288\) instead of \(589{,}824\) (about 2%); over a whole model usually under 1%. After training \(BA\) is merged into \(W\), so inference costs nothing extra.</p><span class="src">9.7.1, 9.7.2 · slides 796, 800–806</span></div><div class="card f"><h3>LoRA gradients and the zero initialisation of B</h3><p>\[
+y = x(W + BA), \quad u = xB, \qquad \frac{\partial L}{\partial A} = u^\top G = (xB)^\top G, \qquad \frac{\partial L}{\partial B} = x^\top (G A^\top)
+\]</p>
+<p><strong>where:</strong> \(x\) is an input row, \(G = \partial L / \partial y\) the upstream gradient (row), \(\alpha = 1\).</p>
+<p><strong>use:</strong> LoRA starts with \(B = 0\) and random \(A\): the model output equals the pretrained model's, \(\partial L/\partial A = 0\) at step 0 but \(\partial L/\partial B \ne 0\), so training starts. Both zero: no gradient ever; both random: the starting model is perturbed.</p><span class="src">9.7.2 · slide 806</span></div><div class="card f"><h3>Training memory per parameter</h3><p>\[
+\text{fp32 + Adam} = \underbrace{4}_{\text{weights}} + \underbrace{4}_{\text{gradients}} + \underbrace{4 + 4}_{m,\ v} = 16 \ \text{bytes per trainable parameter}
+\]</p>
+<p><strong>where:</strong> frozen weights need only storage (4 bytes in fp32, 2 in fp16); 1 GB \(= 10^9\) bytes.</p>
+<p><strong>use:</strong> total = frozen weights \(\times\) bytes + trainable \(\times 16\) + activations. A 1.3B-parameter model needs about 21 GB before activations for full fine-tuning, but only about 2.6 GB (fp16 frozen) plus tens of MB with LoRA.</p><span class="src">9.7.2, 10.5.3 · slides 804–806</span></div><div class="card f"><h3>Perplexity</h3><p>\[
+\operatorname{PPL} = \exp\!\left(\frac{1}{T}\sum_{t=1}^{T} -\ln p(x_t \mid x_{&lt;t})\right) = \left(\prod_{t=1}^{T} p(x_t \mid x_{&lt;t})\right)^{-1/T}
+\]</p>
+<p><strong>where:</strong> \(T\) tokens, \(p(x_t \mid x_{&lt;t})\) the probability the model gives to the actual next token.</p>
+<p><strong>use:</strong> an effective branching factor: a uniform model over \(V\) tokens has \(\operatorname{PPL} = V\), a perfect model 1. Lower is better; only compare models with the same tokeniser.</p><span class="src">9.7.3, 7.4.1 · slide 805</span></div><div class="card f"><h3>EM, token F1, BLEU and ROUGE</h3><p>\[
+\text{EM} = \mathbb{1}[\text{pred} = \text{gold}], \quad F1 = \frac{2PR}{P + R},\ P = \frac{c}{\lvert \text{pred} \rvert},\ R = \frac{c}{\lvert \text{gold} \rvert}, \quad \text{BLEU-1} = \frac{\sum_w \min(\text{cnt}_{\text{cand}}(w), \text{cnt}_{\text{ref}}(w))}{\lvert \text{cand} \rvert}, \quad \text{ROUGE-1} = \frac{\text{overlap}}{\lvert \text{ref} \rvert}
+\]</p>
+<p><strong>where:</strong> \(c\) is the number of overlapping tokens (multiset overlap), \(\lvert \cdot \rvert\) a token count, cnt a word count; full BLEU multiplies the geometric mean of 1- to 4-gram clipped precisions by the brevity penalty \(\text{BP} = \min(1, e^{1 - r/c'})\) with reference length \(r\) and candidate length \(c'\).</p>
+<p><strong>use:</strong> EM is all-or-nothing, F1 gives partial credit (extractive QA); BLEU is precision-based (translation), ROUGE recall-based (summarisation). Clipping stops "the the the" from scoring; the brevity penalty stops one-word candidates from scoring.</p><span class="src">9.7.3 · slide 805</span></div><div class="card f"><h3>Attention patterns and training signal by variant</h3><p>\[
+\text{encoder-only: } n^2, \qquad \text{decoder-only (causal): } \frac{n(n+1)}{2}, \qquad \text{encoder–decoder: } n^2 + \frac{m(m+1)}{2} + mn \quad \text{(query, key) pairs}
+\]</p>
+<p><strong>where:</strong> \(n\) source (or full) length, \(m\) target length, per head per layer.</p>
+<p><strong>use:</strong> encoder-only (BERT) is bidirectional and trained with MLM (only the masked 15% of tokens give targets); decoder-only (GPT) is causal and every token after the first is a target (\(n - 1\)); encoder–decoder (T5, BART) suits tasks whose output differs from the input (translation, summarisation).</p><span class="src">9.6.1, 9.6.2, 9.6.3 · slides 787–795</span></div></div></details>
+<details class="module" open id="m10-optimizers"><summary>M10 · Optimizers <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>The toy loss and critical points</h3><p>\[
+L(w_1, w_2) = w_1^2 + 4w_2^2, \qquad \nabla L = (2w_1,\ 8w_2), \qquad H = \begin{bmatrix} 2 &amp; 0 \\ 0 &amp; 8 \end{bmatrix}
+\]</p>
+<p><strong>where:</strong> \(H\) is the Hessian (matrix of second derivatives); the minimum is at \((0, 0)\), the condition number is \(\kappa = \lambda_{\max}/\lambda_{\min} = 4\).</p>
+<p><strong>use:</strong> the running example for every optimiser in the module. Classify any critical point (\(\nabla L = 0\)) by the eigenvalues of \(H\): all positive, minimum; all negative, maximum; mixed signs, saddle; zero eigenvalues, flat directions (plateaus). Positive diagonal entries alone do not prove a minimum.</p><span class="src">10.1, 10.3 · slides 815–816, 820</span></div><div class="card f"><h3>Batch, stochastic and mini-batch gradient descent</h3><p>\[
+\theta_{t+1} = \theta_t - \eta\, g_t, \qquad g_t = \frac{1}{\lvert \mathcal{B} \rvert}\sum_{i \in \mathcal{B}} \nabla_\theta \ell_i(\theta_t), \qquad \text{updates per epoch} = \left\lceil \frac{N}{B} \right\rceil
+\]</p>
+<p><strong>where:</strong> \(\mathcal{B}\) is the mini-batch of size \(B\) (\(B = N\): batch GD, \(B = 1\): SGD), \(\ell_i\) the loss of example \(i\), \(\eta\) the learning rate.</p>
+<p><strong>use:</strong> larger \(B\) gives a less noisy gradient but fewer updates per epoch and more memory; mini-batch is the default. The deck's "mini-batch" toy example has no sampling, so it is really full-batch GD.</p><span class="src">10.2 · slides 813, 818–819, 821</span></div><div class="card f"><h3>Learning-rate stability and convergence rate on a quadratic</h3><p>\[
+c_i^{(t+1)} = (1 - \eta\lambda_i)\,c_i^{(t)}, \qquad 0 &lt; \eta &lt; \frac{2}{\lambda_{\max}}, \qquad \eta^* = \frac{2}{\lambda_{\min} + \lambda_{\max}}, \qquad \rho^* = \frac{\kappa - 1}{\kappa + 1}
+\]</p>
+<p><strong>where:</strong> \(c_i\) is the component of \(\theta - \theta^*\) along eigenvector \(i\) of \(H\), \(\lambda_i\) its eigenvalue, \(\rho^*\) the best worst-case factor per step, \(\kappa = \lambda_{\max}/\lambda_{\min}\).</p>
+<p><strong>use:</strong> toy loss: diverges for \(\eta &gt; 0.25\), oscillates in \(w_2\) for \(0.125 &lt; \eta &lt; 0.25\), best \(\eta^* = 0.2\) with \(\rho^* = 0.6\). Steps to shrink an error by a factor \(\varepsilon\): \(t \ge \ln \varepsilon / \ln \rho\). The limit uses eigenvalues, not diagonal entries, when parameters are coupled.</p><span class="src">10.3 · slides 822–823</span></div><div class="card f"><h3>Momentum (heavy ball)</h3><p>\[
+v_t = \beta v_{t-1} + g_t, \qquad \theta_{t+1} = \theta_t - \eta v_t, \qquad v_t = \sum_{k=0}^{t} \beta^{t-k} g_k
+\]</p>
+<p><strong>where:</strong> \(v_t\) is the velocity (initialised to 0), \(\beta \in [0, 1)\) the momentum coefficient (typically 0.9), \(g_t = \nabla L(\theta_t)\).</p>
+<p><strong>use:</strong> an exponentially weighted sum of past gradients: consistent directions accelerate, alternating ones cancel. Effective rate about \(\eta/(1 - \beta)\) (\(10\eta\) at \(\beta = 0.9\)) where gradients agree and \(\eta/(1 + \beta)\) where they alternate, so lower \(\eta\) when adding momentum.</p><span class="src">10.4.1, 10.4.2 · slides 825–828</span></div><div class="card f"><h3>Best heavy-ball settings for a quadratic</h3><p>\[
+\eta = \frac{4}{(\sqrt{\lambda_{\max}} + \sqrt{\lambda_{\min}})^2}, \qquad \beta = \left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^2, \qquad \text{factor per step} = \sqrt{\beta}
+\]</p>
+<p><strong>where:</strong> \(\lambda_{\min}, \lambda_{\max}\) the extreme Hessian eigenvalues, \(\kappa\) their ratio.</p>
+<p><strong>use:</strong> momentum's rate behaves like \(1 - 2/\sqrt{\kappa}\) instead of GD's \(1 - 2/\kappa\): for \(\kappa = 100\), 69 steps instead of 691 to gain a factor \(10^{6}\). Too much momentum on an easy problem circles the minimum at rate \(\sqrt{\beta}\).</p><span class="src">10.4.2, 10.8 · slides 828, 865</span></div><div class="card f"><h3>Nesterov accelerated gradient</h3><p>\[
+v_t = \beta v_{t-1} + \nabla L(\theta_t - \eta\beta v_{t-1}), \qquad \theta_{t+1} = \theta_t - \eta v_t
+\]</p>
+<p><strong>where:</strong> \(\theta_t - \eta\beta v_{t-1}\) is the look-ahead point the momentum alone would reach.</p>
+<p><strong>use:</strong> same memory and one gradient per step, but the slope is measured where the step is going, so overshoot is corrected one step earlier. The slide writes the look-ahead as \(\theta_t - \beta v_{t-1}\); with the update \(\theta_{t+1} = \theta_t - \eta v_t\) the consistent point includes \(\eta\), as above.</p><span class="src">10.4.3 · slide 829</span></div><div class="card f"><h3>AdaGrad</h3><p>\[
+s_t = s_{t-1} + g_t \odot g_t, \qquad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{s_t} + \epsilon} \odot g_t
+\]</p>
+<p><strong>where:</strong> \(s_t\) is the per-parameter sum of squared gradients (from 0), \(\epsilon = 10^{-8}\), all operations element-wise.</p>
+<p><strong>use:</strong> parameters with large past gradients get small steps; the first step is \(\eta \operatorname{sign}(g)\) for every parameter. Because \(s_t\) only grows, the step decays like \(1/\sqrt{t}\) even for a constant gradient, and learning eventually stalls; good for sparse features.</p><span class="src">10.5.1 · slides 830–833</span></div><div class="card f"><h3>RMSprop</h3><p>\[
+s_t = \gamma s_{t-1} + (1 - \gamma)\, g_t \odot g_t, \qquad \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{s_t} + \epsilon} \odot g_t
+\]</p>
+<p><strong>where:</strong> \(\gamma\) the decay rate (typical 0.9), \(\eta = 0.001\) default, \(s_0 = 0\).</p>
+<p><strong>use:</strong> an exponential moving average with memory of about \(1/(1 - \gamma) = 10\) steps, so the step tracks the current gradient scale (about \(\eta/\text{RMS}(g)\)) and does not stall. Its zero start makes the first steps larger than \(\eta\) (step 1: \(\eta/\sqrt{1 - \gamma} \approx 3.16\eta\) in magnitude). No momentum term.</p><span class="src">10.5.2 · slides 834–838</span></div><div class="card f"><h3>Adam</h3><p>\[
+\begin{aligned} m_t &amp;= \beta_1 m_{t-1} + (1 - \beta_1) g_t, \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \\ \hat{m}_t &amp;= \frac{m_t}{1 - \beta_1^t}, \qquad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}, \qquad \theta_{t+1} = \theta_t - \frac{\eta\, \hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} \end{aligned}
+\]</p>
+<p><strong>where:</strong> \(m_t\) the first moment (momentum), \(v_t\) the second moment (RMSprop), defaults \(\beta_1 = 0.9\), \(\beta_2 = 0.999\), \(\eta = 0.001\), \(\epsilon = 10^{-8}\), \(t\) starts at 1, \(m_0 = v_0 = 0\).</p>
+<p><strong>use:</strong> bias correction removes the zero-start shrinkage; at \(t = 1\), \(\hat{m}_1 = g_1\) and \(\hat{v}_1 = g_1^2\), so the first step is \(\eta \operatorname{sign}(g_1)\) whatever the gradient's scale. \(\eta\) acts as a step length, roughly the per-step distance of every parameter.</p><span class="src">10.5.3 · slides 839–843</span></div><div class="card f"><h3>AdamW: decoupled weight decay</h3><p>\[
+\theta_{t+1} = \theta_t - \eta\left(\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \theta_t\right)
+\]</p>
+<p><strong>where:</strong> \(\lambda\) the weight-decay coefficient (typical 0.01), \(\hat{m}_t, \hat{v}_t\) as in Adam computed from the loss gradient only.</p>
+<p><strong>use:</strong> Adam + L2 adds \(\lambda\theta\) to \(g_t\), which then gets divided by \(\sqrt{\hat{v}_t}\), so weights with large gradients are barely regularised. AdamW applies the decay directly, so every weight shrinks by the fraction \(\eta\lambda\) per step. For plain SGD the two are identical.</p><span class="src">10.5.4 · slides 844–845</span></div><div class="card f"><h3>Step and exponential decay</h3><p>\[
+\eta_t = \eta_0\, \gamma^{\lfloor t / \text{step} \rfloor}, \qquad \eta_t = \eta_0\, e^{-\lambda t}, \qquad t_{1/2} = \frac{\ln 2}{\lambda}
+\]</p>
+<p><strong>where:</strong> \(\eta_0\) the initial rate, \(\gamma\) the drop factor (typical 0.1), step the epochs between drops (typical 30), \(\lambda\) the decay rate, \(t\) the epoch, \(t_{1/2}\) the half-life.</p>
+<p><strong>use:</strong> step decay is piecewise constant (\(\eta_0 = 0.1\), \(\gamma = 0.1\), step 30: epoch 40 gives 0.01); exponential decay loses a fixed percentage per epoch (\(\lambda = 0.05\): epoch 10 gives \(0.1e^{-0.5} = 0.061\)).</p><span class="src">10.6 · slides 847–849</span></div><div class="card f"><h3>Cosine annealing and linear warmup</h3><p>\[
+\eta_t = \eta_{\min} + \tfrac{1}{2}(\eta_{\max} - \eta_{\min})\left(1 + \cos\frac{\pi t}{T}\right), \qquad \eta_t = \eta_0 \frac{t}{T_w}\ \ (t \le T_w)
+\]</p>
+<p><strong>where:</strong> \(T\) the total (annealing) epochs, \(\eta_{\max}, \eta_{\min}\) the start and end rates, \(T_w\) the warmup length; after warmup the cosine runs over the remaining \(T - T_w\) epochs with \(t\) replaced by \(t - T_w\).</p>
+<p><strong>use:</strong> cosine is flat at both ends and steepest in the middle; at \(t = T/2\) it is exactly the midpoint. Slide 850's epoch-50 example (with \(T = 100\)) plugs in \(\cos\pi\); the correct value is \(0.001 + 0.0495(1 + \cos\frac{\pi}{2}) = 0.0505\). Warmup protects the first steps of large-batch or Transformer runs.</p><span class="src">10.6 · slides 850–851</span></div><div class="card f"><h3>Gradient clipping</h3><p>\[
+g \leftarrow \begin{cases} g &amp; \lVert g \rVert \le \tau \\ \tau \dfrac{g}{\lVert g \rVert} &amp; \lVert g \rVert &gt; \tau \end{cases} \qquad \text{(norm)}, \qquad g_i \leftarrow \operatorname{clip}(g_i, -\tau, \tau) \qquad \text{(value)}
+\]</p>
+<p><strong>where:</strong> \(\tau\) the threshold (typical 1 to 5 for norm, 0.5 to 1 for value), \(\lVert g \rVert\) the Euclidean norm over all parameters.</p>
+<p><strong>use:</strong> norm clipping keeps the direction and caps the step length at \(\eta\tau\); value clipping can rotate the gradient (for \(g = (3, -4, 12)\), \(\tau = 1\) gives \((1, -1, 1)\), 32.5° away). Small gradients pass unchanged. Standard for RNNs and Transformers.</p><span class="src">10.7, 7.5 · slides 853–854</span></div><div class="card f"><h3>Linear-scaling rule for batch size</h3><p>\[
+\eta_{\text{new}} = \eta_{\text{old}} \cdot \frac{B_{\text{new}}}{B_{\text{old}}}, \qquad \text{updates per epoch} = \frac{N}{B}
+\]</p>
+<p><strong>where:</strong> \(B\) the batch size, \(N\) the training-set size.</p>
+<p><strong>use:</strong> a larger batch gives fewer, less noisy steps per epoch; scaling \(\eta\) keeps the distance travelled per epoch about the same (\(B\): 256 to 2048 takes \(\eta\) from 0.1 to 0.8). Combine with warmup (and clipping), or the first large steps can diverge.</p><span class="src">10.7, 10.8 · slides 856, 865</span></div><div class="card f"><h3>Early stopping with patience and min-delta</h3><p>\[
+\text{improved} \iff \text{val}_t &lt; \text{best} - \text{min\_delta}, \qquad \text{stop epoch} = \text{last improving epoch} + \text{patience}
+\]</p>
+<p><strong>where:</strong> best is the lowest validation loss so far, patience the number of non-improving epochs tolerated, min-delta the smallest change counted as an improvement.</p>
+<p><strong>use:</strong> training always overshoots the best epoch by exactly the patience, so restore the saved best weights (deck: best epoch 35, patience 25, stop at 60, restore 35). An improvement smaller than min-delta is treated as noise and not saved.</p><span class="src">10.8, 11.7 · slides 858–859, 909–910</span></div></div></details>
+<details class="module" open id="m11-regularisation-of-deep-models"><summary>M11 · Regularisation of Deep Models <small>· 15 items</small></summary><div class="cards"><div class="card f"><h3>Bias–variance decomposition</h3><p>\[
+E\big[(y - \hat{f}(x_0))^2\big] = \underbrace{\big(E[\hat{f}(x_0)] - f(x_0)\big)^2}_{\text{bias}^2} + \underbrace{E\big[(\hat{f}(x_0) - E[\hat{f}(x_0)])^2\big]}_{\text{variance}} + \underbrace{\sigma^2}_{\text{noise}}
+\]</p>
+<p><strong>where:</strong> \(f\) the true function, \(\hat{f}\) the model trained on a random training set (expectations over training sets), \(\sigma^2\) the irreducible label-noise variance, \(x_0\) a fixed input.</p>
+<p><strong>use:</strong> estimate bias and variance from several retrained models' predictions at \(x_0\) (population variance). High training and validation error: bias (underfitting); low training but high validation error: variance (overfitting). Regularisation trades a little bias for a large cut in variance.</p><span class="src">11.1 · slides 874–879, 893</span></div><div class="card f"><h3>Variance propagation through a layer</h3><p>\[
+\operatorname{Var}(z) = n_{\text{in}} \operatorname{Var}(W)\, E[h^2], \qquad \text{ReLU: } E[h^2] = \tfrac{1}{2}\operatorname{Var}(z_{\text{prev}}) \;\Rightarrow\; \operatorname{Var}(z^{(\ell+1)}) = \tfrac{1}{2} n_{\text{in}} \operatorname{Var}(W) \operatorname{Var}(z^{(\ell)})
+\]</p>
+<p><strong>where:</strong> \(z = \sum_{i=1}^{n_{\text{in}}} w_i h_i\) with independent zero-mean weights, \(n_{\text{in}}\) the fan-in, \(h\) the incoming activations.</p>
+<p><strong>use:</strong> the per-layer factor \(\frac{1}{2}n_{\text{in}}\operatorname{Var}(W)\) is compounded over \(L\) layers: below 1 activations and gradients vanish (too-small init), above 1 they explode (too-large init). Zero (or equal) initialisation makes all units in a layer identical for ever (symmetry never breaks).</p><span class="src">11.3.1, 11.2 · slides 881–883, 888–889</span></div><div class="card f"><h3>Xavier (Glorot) initialisation</h3><p>\[
+\operatorname{Var}(W) = \frac{2}{n_{\text{in}} + n_{\text{out}}} \ \Big(\text{or } \frac{1}{n_{\text{in}}}\Big), \qquad W \sim U\!\left(-\sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}},\ \sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}}\right)
+\]</p>
+<p><strong>where:</strong> \(n_{\text{in}}, n_{\text{out}}\) the fan-in and fan-out; a uniform \(U(-a, a)\) has variance \(a^2/3\).</p>
+<p><strong>use:</strong> keeps activation and gradient variance roughly constant for sigmoid and tanh (near-linear around 0); it averages the forward (\(n_{\text{in}}\)) and backward (\(n_{\text{out}}\)) conditions.</p><span class="src">11.3.2 · slides 889–890</span></div><div class="card f"><h3>He initialisation</h3><p>\[
+\operatorname{Var}(W) = \frac{2}{n_{\text{in}}}, \qquad W \sim U\!\left(-\sqrt{\frac{6}{n_{\text{in}}}},\ \sqrt{\frac{6}{n_{\text{in}}}}\right), \qquad \text{leaky ReLU: } \operatorname{Var}(W) = \frac{2}{(1 + a^2)\, n_{\text{in}}}
+\]</p>
+<p><strong>where:</strong> \(n_{\text{in}}\) the fan-in, \(a\) the leaky-ReLU negative slope.</p>
+<p><strong>use:</strong> for ReLU; the factor 2 compensates for ReLU zeroing half of its inputs (\(E[h^2] = \frac{1}{2}\operatorname{Var}(z)\)), making the per-layer factor exactly 1. Xavier on a deep ReLU net halves the variance at every layer.</p><span class="src">11.3.2 · slides 889, 891</span></div><div class="card f"><h3>L2 penalty and weight decay</h3><p>\[
+\tilde{J}(w) = J(w) + \frac{\lambda}{2}\lVert w \rVert^2, \qquad \nabla \tilde{J} = \nabla J + \lambda w, \qquad w \leftarrow (1 - \eta\lambda)\,w - \eta \nabla J(w)
+\]</p>
+<p><strong>where:</strong> \(\lambda \ge 0\) the regularisation strength (typical \(10^{-5}\) to \(10^{-2}\)), \(\eta\) the learning rate.</p>
+<p><strong>use:</strong> erratum 15: slide 894 writes the penalty \(\lambda\sum_i w_i^2\) with gradient \(\lambda w\); the derivative of \(\lambda\sum_i w_i^2\) is \(2\lambda w\). The gradient \(\lambda w\) belongs to \(\frac{\lambda}{2}\lVert w \rVert^2\), which gives the decay factor exactly \(1 - \eta\lambda\). L2 shrinks proportionally and never reaches exactly 0 (toy orthonormal case: \(w_i = a_i/(1 + \lambda)\)); constraint region a circle or sphere.</p><span class="src">11.4.1 · slide 894</span></div><div class="card f"><h3>L1 penalty and sparsity</h3><p>\[
+\tilde{J}(w) = J(w) + \lambda \lVert w \rVert_1, \qquad \partial \tilde{J} = \nabla J + \lambda \operatorname{sign}(w), \qquad w_i = \operatorname{sign}(a_i)\max(\lvert a_i \rvert - \lambda,\ 0)
+\]</p>
+<p><strong>where:</strong> \(\lVert w \rVert_1 = \sum_i \lvert w_i \rvert\), \(\operatorname{sign}(0) = 0\) (subgradient), \(a_i\) the unregularised solution in the toy orthonormal case (soft thresholding).</p>
+<p><strong>use:</strong> the constant-size pull drives small weights to exactly 0 (feature selection); the diamond-shaped constraint region has corners on the axes. Not differentiable at 0. Typical \(\lambda\) is \(10^{-4}\) to \(10^{-1}\).</p><span class="src">11.4.2 · slide 894</span></div><div class="card f"><h3>k-fold cross-validation</h3><p>\[
+\operatorname{CV}(\lambda) = \frac{1}{k}\sum_{i=1}^{k} \operatorname{Err}_i(\lambda), \qquad \lambda^* = \arg\min_\lambda \operatorname{CV}(\lambda)
+\]</p>
+<p><strong>where:</strong> \(\operatorname{Err}_i(\lambda)\) is the validation error on fold \(i\) of a model trained on the other \(k - 1\) folds with hyperparameter \(\lambda\).</p>
+<p><strong>use:</strong> each model sees \((k-1)/k\) of the data; the procedure costs \(k\) trainings per candidate. Pick \(\lambda^*\), retrain on all training data, then report the untouched test set once.</p><span class="src">11.4.3 · slide 895</span></div><div class="card f"><h3>Dropout: training and the two inference conventions</h3><p>\[
+m \sim \operatorname{Bernoulli}(1 - p), \quad \tilde{h} = h \odot m \ \ \text{(classic train)}, \quad h^{(l+1)} = f\big(W^{(l+1)}(1 - p)h^{(l)} + b\big) \ \ \text{(classic test)}, \quad \tilde{h} = \frac{h \odot m}{1 - p} \ \ \text{(inverted train)}
+\]</p>
+<p><strong>where:</strong> \(p\) the <strong>drop</strong> probability (each unit kept with probability \(1 - p\)), \(m\) a fresh mask per unit per forward pass.</p>
+<p><strong>use:</strong> erratum 3: the slide's classic formulation scales the weights by \(1 - p\) at test time; PyTorch and TensorFlow use inverted dropout, scaling activations by \(1/(1 - p)\) during training and doing nothing at test. Both match the expected pre-activation. Never mask at inference.</p><span class="src">11.5.1, 11.5.2 · slides 897–898</span></div><div class="card f"><h3>Dropout keeps the mean and adds variance</h3><p>\[
+z = \sum_i w_i \frac{m_i h_i}{1 - p}, \qquad E[z] = \sum_i w_i h_i, \qquad \operatorname{Var}(z) = \frac{p}{1 - p}\sum_i (w_i h_i)^2
+\]</p>
+<p><strong>where:</strong> inverted dropout with independent masks \(m_i \sim \operatorname{Bernoulli}(1 - p)\); a layer of \(n\) units has \(2^n\) possible masks and keeps \(n(1 - p)\) units on average.</p>
+<p><strong>use:</strong> the drop rate controls the amount of noise, not the mean; a higher \(p\) is a stronger regulariser. Training with dropout trains an implicit ensemble of \(2^n\) sub-networks.</p><span class="src">11.5.1, 11.5.2 · slides 897–898</span></div><div class="card f"><h3>Dropout variants: DropConnect, DropBlock, variational</h3><p>\[
+\text{DropConnect: } W \odot M, \qquad \text{DropBlock rescale: } \frac{\text{total cells}}{\text{kept cells}}, \qquad P(\text{unit survives } T \text{ steps}) = (1 - p)^T \ \text{vs}\ (1 - p)
+\]</p>
+<p><strong>where:</strong> \(M\) a Bernoulli mask over weights (one value per weight), DropBlock zeroes contiguous \(b \times b\) blocks of a feature map, the last expression compares a mask resampled every time step with a variational (same mask for all steps) mask.</p>
+<p><strong>use:</strong> CNNs use DropBlock or Cutout because neighbouring pixels are correlated; RNNs use variational (recurrent) dropout with one mask per sequence; Transformers use attention dropout on the weights \(\alpha\). Example DropBlock: one \(3 \times 3\) block on \(6 \times 6\) keeps 27 of 36 cells, survivors scaled by \(36/27\).</p><span class="src">11.5.3, 11.9 · slides 899, 920–921</span></div><div class="card f"><h3>Batch normalisation (training)</h3><p>\[
+\mu_B = \frac{1}{m}\sum_{i=1}^{m} x_i, \qquad \sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m}(x_i - \mu_B)^2, \qquad \hat{x}_i = \frac{x_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}, \qquad y_i = \gamma \hat{x}_i + \beta
+\]</p>
+<p><strong>where:</strong> \(x_1, \dots, x_m\) the values of <strong>one feature (or channel)</strong> across the mini-batch, population variance (divide by \(m\)), \(\gamma, \beta\) learnable scale and shift, \(\epsilon\) small.</p>
+<p><strong>use:</strong> normalises across the batch, per feature, which reduces internal covariate shift and allows larger learning rates. With \(m = 1\) every \(\hat{x} = 0\) and \(y = \beta\); with \(m = 2\) the outputs are about \(\pm 1\) whatever the inputs. In a CNN statistics are taken over \(B \times H \times W\) per channel.</p><span class="src">11.6.1, 11.2 · slides 900–902</span></div><div class="card f"><h3>Batch normalisation (inference and parameters)</h3><p>\[
+\mu_{\text{run}} \leftarrow (1 - \alpha)\mu_{\text{run}} + \alpha\mu_B, \qquad \sigma^2_{\text{run}} \leftarrow (1 - \alpha)\sigma^2_{\text{run}} + \alpha\sigma_B^2, \qquad y = \gamma\frac{x - \mu_{\text{run}}}{\sqrt{\sigma^2_{\text{run}} + \epsilon}} + \beta
+\]</p>
+<p><strong>where:</strong> \(\alpha\) the momentum of the running average (PyTorch's momentum 0.1 means \(\alpha = 0.1\)), \(\mu_{\text{run}}, \sigma^2_{\text{run}}\) the stored statistics.</p>
+<p><strong>use:</strong> at test time the output of one example must not depend on its batch-mates, so running statistics replace batch statistics. Per normalised feature: 2 learnable parameters (\(\gamma, \beta\)) plus 2 non-learned buffers. Forgetting to switch to evaluation mode is a classic bug.</p><span class="src">11.6.1, 11.6.3 · slides 901, 908</span></div><div class="card f"><h3>Layer normalisation</h3><p>\[
+\mu = \frac{1}{d}\sum_{i=1}^{d} x_i, \qquad \sigma^2 = \frac{1}{d}\sum_{i=1}^{d}(x_i - \mu)^2, \qquad y_i = \gamma_i\frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta_i
+\]</p>
+<p><strong>where:</strong> \(x \in \mathbb{R}^d\) the features of <strong>one sample (one token)</strong>, \(\gamma, \beta \in \mathbb{R}^d\) learnable, \(2d\) parameters.</p>
+<p><strong>use:</strong> normalises across features per sample, so it is identical at train and test and works with any batch size including 1 and variable-length sequences: the choice for RNNs and Transformers; BatchNorm suits CNNs with large, consistent batches.</p><span class="src">11.6.2, 11.6.3, 9.3.3 · slides 903–908</span></div><div class="card f"><h3>Mixup and CutMix</h3><p>\[
+\tilde{x} = \lambda x_i + (1 - \lambda)x_j, \qquad \tilde{y} = \lambda y_i + (1 - \lambda)y_j, \qquad \text{CutMix: } \lambda = 1 - \frac{\text{pasted area}}{\text{image area}}
+\]</p>
+<p><strong>where:</strong> \((x_i, y_i), (x_j, y_j)\) two training examples with one-hot (or smoothed) labels, \(\lambda \in [0, 1]\) the mixing weight (usually drawn from a Beta distribution).</p>
+<p><strong>use:</strong> cross-entropy is linear in the target, so the loss is the same convex mix. In CutMix use the area actually pasted after border clipping. Apply only to training data, after the train/validation split; lower training accuracy against hard labels is expected.</p><span class="src">11.8 · slides 911–914</span></div><div class="card f"><h3>Label smoothing</h3><p>\[
+y_{\text{LS}} = (1 - \varepsilon)\,y + \frac{\varepsilon}{K}, \qquad \text{optimal logit gap} = \ln\frac{1 - \varepsilon + \varepsilon/K}{\varepsilon/K}
+\]</p>
+<p><strong>where:</strong> \(y\) the one-hot label, \(\varepsilon\) the smoothing amount (typical 0.1), \(K\) the number of classes; the gap is between the true-class logit and each other logit at the loss minimum.</p>
+<p><strong>use:</strong> the target never reaches 1, so logits stay finite and the model is less over-confident (\(K = 3\), \(\varepsilon = 0.1\): \((0.9333, 0.0333, 0.0333)\)). Cross-entropy against \(y_{\text{LS}}\) is minimised when \(\hat{y} = y_{\text{LS}}\), so its minimum is not 0.</p><span class="src">11.9 · slide 922</span></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>

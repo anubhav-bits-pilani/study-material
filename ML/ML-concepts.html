@@ -4,821 +4,537 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ML — Concepts</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>ML</span> · Concepts<span class="count" id="count"></span></h1>
+    <h1><span>ML</span> · Concepts<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab active" href="ML-concepts.html">Concepts</a>
-    <a class="tab" href="ML-formulas.html">Formulas</a>
-    <a class="tab" href="ML-definitions.html">Definitions</a>
-    <a class="tab" href="ML-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab active" href="ML-concepts.html">Concepts</a><a class="tab" href="ML-formulas.html">Formulas</a><a class="tab" href="ML-definitions.html">Definitions</a><a class="tab" href="ML-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">Machine Learning (AIMLZG565) exam-prep concept sweep across the four session decks — CS1 (Introduction), CS2 (ML Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Classification Evaluation), CS7-8 (Decision Tree Classifier) — plus exam-referenced topics harvested from the EC2/EC3 instruction sheets.</p>
-
-  <details class="module" open>
-    <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 1 · p16">
-        <h3>What is Machine Learning</h3>
-        <p>The science of programming computers so they can learn from data — giving computers the ability to learn without being explicitly programmed. Engineering definition: a program learns from experience <b>E</b> with respect to task <b>T</b> and performance measure <b>P</b>, if its performance at T (measured by P) improves with E. A well-defined task is the tuple &lt;P, T, E&gt;.</p>
-        <p class="src">ML_CS 1 · p16</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p16">
-        <h3>Traditional Programming vs Machine Learning</h3>
-        <p>Traditional: data + hand-written program → output. ML: data + desired output → the computer produces the program (model). Matters because for tasks like spam filtering or digit recognition, hand-coded rules become a long, brittle, unmaintainable list, whereas ML learns predictive patterns directly.</p>
-        <p class="src">ML_CS 1 · p16, p19-20</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p25">
-        <h3>When to Use ML</h3>
-        <p>Use ML when human expertise doesn't exist (navigating Mars), humans can't explain their expertise (biometrics), the solution must be customized (personalized medicine), tasks are definable only by examples, or hidden correlations exist in large data. Do NOT "learn" tasks that are trivially computed (e.g. payroll).</p>
-        <p class="src">ML_CS 1 · p25-26</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p29">
-        <h3>Types of ML by Level of Supervision</h3>
-        <p>Supervised (labelled feedback), Unsupervised (no feedback / no labels), and Reinforcement (delayed reward/penalty feedback). Understanding which paradigm a problem fits is the first modelling decision.</p>
-        <p class="src">ML_CS 1 · p29</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p33">
-        <h3>Supervised Learning — Classification</h3>
-        <p>Given labelled pairs (xᵢ, yᵢ), learn f(x) to predict a <b>categorical</b> y (e.g. benign vs malignant). Goal: assign unseen records to a class as accurately as possible. x can be multi-dimensional (each dimension an attribute). Applications: face recognition, spam filters, fraud detection, document tagging.</p>
-        <p class="src">ML_CS 1 · p33-37</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p39">
-        <h3>Supervised Learning — Regression</h3>
-        <p>Given labelled pairs (xᵢ, yᵢ), learn f(x) to predict a <b>real-valued</b> y. Goal: assign unseen records a value as accurately as possible (e.g. predicting used-car price, arctic sea-ice extent by year).</p>
-        <p class="src">ML_CS 1 · p39</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p40">
-        <h3>Unsupervised Learning — Clustering</h3>
-        <p>Given unlabelled x₁…xₙ, output hidden structure behind the data (e.g. clustering). Goal: minimise intra-cluster distance and maximise inter-cluster distance. Techniques: k-Means, hierarchical clustering, EM; and for dim-reduction: PCA, kernel PCA, LLE, t-SNE.</p>
-        <p class="src">ML_CS 1 · p40-42</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p44">
-        <h3>Reinforcement Learning</h3>
-        <p>A feedback-based technique where an agent learns by acting in an environment and observing results — positive feedback (reward) reinforces behaviour, negative feedback (penalty) discourages it. Suits sequential decision problems with long-term goals (game-playing, robotics). No labelled data; learning is by trial and error.</p>
-        <p class="src">ML_CS 1 · p44-47</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p50">
-        <h3>Semi-Supervised Learning</h3>
-        <p>Combines supervised and unsupervised learning on partially labelled data — some labelled and a lot of unlabelled data (e.g. Google Photos grouping and then labelling faces).</p>
-        <p class="src">ML_CS 1 · p50</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p51">
-        <h3>Batch vs Mini-Batch vs Online Learning</h3>
-        <p>Classified by how training data is fed: <b>Batch</b> uses all data per training step; <b>Mini-batch</b> uses a subset; <b>Online (incremental)</b> uses a single instance at a time. Online learning suits streaming data and continual updates.</p>
-        <p class="src">ML_CS 1 · p51</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p52">
-        <h3>Instance-Based vs Model-Based Learning</h3>
-        <p><b>Instance-based</b> compares new data points to stored known points (e.g. KNN — lazy learning). <b>Model-based</b> detects patterns in training data and builds a predictive model (e.g. regression). Determines memory/compute trade-off and generalisation behaviour.</p>
-        <p class="src">ML_CS 1 · p52</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p30">
-        <h3>Features / Attributes / Predictors</h3>
-        <p>The input columns used to predict the target (e.g. CGPA, communication skills, aptitude to predict "Job Offered?"). Choosing informative features is central to model quality.</p>
-        <p class="src">ML_CS 1 · p30-31</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p57">
-        <h3>ML Workflow (End-to-End)</h3>
-        <p>(1) Should I use ML? (is there a pattern, can I solve analytically, do I have data). (2) Gather/organise data. (3) Preprocess, clean, visualise. (4) Choose model, loss, regularization. (5) Optimize. (6) Hyperparameter search. (7) Analyse performance/mistakes and iterate. Understanding this loop frames every other topic.</p>
-        <p class="src">ML_CS 1 · p57-58</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p10">
-        <h3>Issues in Machine Learning</h3>
-        <p>Key practical issues surveyed: what algorithm/representation to use, sufficiency and quality of data, generalisation to unseen cases, and choosing appropriate performance metrics. These motivate the workflow and evaluation modules.</p>
-        <p class="src">ML_CS 1 · p10</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 2 — ML Workflow &amp; Data <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 2 · p5">
-        <h3>Three Components of Every ML Algorithm</h3>
-        <p>Every ML algorithm = Data Representation + Parameter Optimization + Model Evaluation/Selection. A useful lens for comparing the thousands of available algorithms.</p>
-        <p class="src">ML_CS 2 · p5</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p7">
-        <h3>Data, Objects &amp; Attributes</h3>
-        <p>Data = a collection of data objects and their attributes. An <b>attribute</b> (aka variable, field, feature, dimension) is a property of an object; an <b>object</b> (aka record, point, sample, instance) is described by a set of attributes. This is the row/column mental model.</p>
-        <p class="src">ML_CS 2 · p7</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p8">
-        <h3>Attribute Types: Nominal, Ordinal, Interval, Ratio</h3>
-        <p><b>Nominal</b>: labels, only distinctness (=, ≠) — zip codes, eye colour. <b>Ordinal</b>: also ordered (&lt;, &gt;) — grades, rankings. <b>Interval</b>: meaningful differences (+, −) — Celsius dates. <b>Ratio</b>: meaningful ratios too (×, ÷) with true zero — Kelvin, length, counts. Determines which statistics and transformations are valid.</p>
-        <p class="src">ML_CS 2 · p8-12</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p10">
-        <h3>Ratio vs Interval Distinction</h3>
-        <p>Only ratio scales have a true zero, so "twice as much" is meaningful. 10°C is NOT twice 5°C (interval), but 10 K IS twice 5 K (ratio). Height "above average" behaves like interval (no true zero). Exam-relevant justification pattern.</p>
-        <p class="src">ML_CS 2 · p10</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p13">
-        <h3>Discrete vs Continuous Attributes</h3>
-        <p><b>Discrete</b>: finite / countably infinite values (zip codes, counts); binary is a special case. <b>Continuous</b>: real-valued (temperature, height), stored as floating point. Governs modelling and encoding choices.</p>
-        <p class="src">ML_CS 2 · p13</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p14">
-        <h3>Characteristics of Data</h3>
-        <p>Dimensionality (many attributes → challenges), Sparsity (only presence counts), Resolution (patterns depend on scale), and Size (analysis type depends on volume). These characteristics drive preprocessing decisions.</p>
-        <p class="src">ML_CS 2 · p14</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p23">
-        <h3>Data Quality Dimensions</h3>
-        <p>Quality data is Correct, Complete, Consistent, Trustable, Interpretable and Usable-on-demand. Poor data quality directly harms ML — e.g. a loan-risk classifier built on bad data denies credit-worthy applicants and approves defaulters.</p>
-        <p class="src">ML_CS 2 · p23-24</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p25">
-        <h3>Noise and Outliers</h3>
-        <p><b>Noise</b> = extraneous objects or modification of original values (distortion). <b>Outliers</b> = objects considerably different from most others; they may be nuisance noise (to remove) OR the very goal of analysis (fraud, intrusion detection). Context decides which.</p>
-        <p class="src">ML_CS 2 · p25-26</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p27">
-        <h3>Handling Missing Values</h3>
-        <p>Causes: information not collected, or attribute inapplicable. Options: eliminate the object/variable, estimate/impute the value (mean/median), or ignore it during analysis. Imputation strategy affects downstream bias.</p>
-        <p class="src">ML_CS 2 · p27, p36</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p28">
-        <h3>Duplicate Data &amp; Data Cleaning</h3>
-        <p>Datasets may contain duplicate or near-duplicate objects, a major issue when merging heterogeneous sources (e.g. same person, multiple emails). Data cleaning is the process of resolving these plus noisy/inconsistent/intentional-error records.</p>
-        <p class="src">ML_CS 2 · p28, p34-35</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p37">
-        <h3>Handling Outliers (Univariate) — IQR &amp; 3-Sigma</h3>
-        <p>Two standard rules: <b>IQR</b> — flag values below Q1−1.5·IQR or above Q3+1.5·IQR. <b>3-Sigma (Z-score)</b> — for normal data, flag values outside μ ± 3σ (≈99% lie within). Know how to compute both by hand.</p>
-        <p class="src">ML_CS 2 · p37-40</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p31">
-        <h3>Data Preprocessing Steps</h3>
-        <p>Preprocessing = Data Aggregation + Data Cleansing + Instance selection &amp; partitioning + Feature tuning. It splits into <b>data engineering</b> (raw→prepared data) and <b>feature engineering</b> (prepared→model-ready features).</p>
-        <p class="src">ML_CS 2 · p29, p31</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p32">
-        <h3>Aggregation</h3>
-        <p>Combining attributes/objects into one — for data reduction, change of scale (cities→regions, days→months), and to produce more stable, lower-variability data.</p>
-        <p class="src">ML_CS 2 · p32-33</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p41">
-        <h3>Sampling &amp; Train/Validation/Test Partitioning</h3>
-        <p>Sampling is the main data-reduction technique; a sample works nearly as well as the full set <b>if representative</b> (same properties of interest). Small samples cause sampling noise; a flawed process causes sampling bias even at large size. Data is partitioned into training, validation (evaluation) and test sets (e.g. 8000/2000/500).</p>
-        <p class="src">ML_CS 2 · p41-44</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p44">
-        <h3>Sampling Types</h3>
-        <p>Simple random, Stratified (preserves class proportions), and Clustered sampling. Stratified matters when class balance must be maintained across splits (e.g. IRIS by species).</p>
-        <p class="src">ML_CS 2 · p43-44</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p45">
-        <h3>Handling Imbalanced Training Sets</h3>
-        <p>Modify the training distribution so the rare class is well represented: <b>under-sample</b> the majority class or <b>over-sample</b> the rare class (e.g. SMOTE). Essential when the class of interest (fraud, cancer) is rare.</p>
-        <p class="src">ML_CS 2 · p45</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p46">
-        <h3>Feature Scaling — Normalization vs Standardization</h3>
-        <p><b>Normalization (min-max)</b>: use when bounds are known and data ≈ uniform, or algorithms make no distribution assumption (KNN, NN); scales to [0,1] or [−1,1]. <b>Standardization (z-score)</b>: use when algorithms assume Gaussian data; not range-bounded; less affected by outliers. Fit scalers on the training set only, then transform both train and test. Scaling the target is generally not required.</p>
-        <p class="src">ML_CS 2 · p46-48</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p49">
-        <h3>Feature Engineering</h3>
-        <p>Deriving a good feature set: <b>Extraction</b> (dimensionality reduction), <b>Selection</b> (pick useful existing features, drop redundant/irrelevant/mostly-missing), <b>Construction</b> (combine features — polynomial expansion, feature crossing, domain logic), and <b>Transformation</b> (rescale/encode/discretize).</p>
-        <p class="src">ML_CS 2 · p49-54</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p51">
-        <h3>Curse of Dimensionality</h3>
-        <p>As the number of features grows, data becomes increasingly sparse in the occupied space, hurting learning. Solution: dimensionality reduction (e.g. PCA) to create fewer, lower-dimensional features.</p>
-        <p class="src">ML_CS 2 · p51</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p55">
-        <h3>Discretization / Binning</h3>
-        <p>Converting a continuous attribute into a discrete one ("binning"/"bucketing") — into interval labels (0-10, 11-20) or conceptual labels (youth/adult/senior). Helps Naive Bayes, decision trees, KNN; handles outliers and improves value spread. <b>Equal-width</b> partitions the range into N equal intervals (W=(B−A)/N; outliers can dominate); <b>Equal-depth</b> puts ~equal counts per bin (good scaling).</p>
-        <p class="src">ML_CS 2 · p55-56</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p57">
-        <h3>Encoding Categorical Features</h3>
-        <p><b>One-Hot / Dummy encoding</b>: maps a categorical attribute to binary indicator variables. <b>Label encoding</b>: maps categories to integers. Choice affects whether spurious ordinal relationships are introduced.</p>
-        <p class="src">ML_CS 2 · p57</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p62">
-        <h3>Inductive Learning Hypothesis</h3>
-        <p>Any hypothesis that approximates the target function well over a sufficiently large training set will also approximate it well over unseen examples. This assumption is what makes generalisation from data possible. Inductive learning covers classification (discrete F(X)), regression (continuous F(X)) and probability estimation.</p>
-        <p class="src">ML_CS 2 · p62</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p66">
-        <h3>Hypothesis Space (General vs Specific)</h3>
-        <p>A hypothesis constrains attribute values. The <b>most general</b> hypothesis (?, ?, …, ?) labels every instance positive; the <b>most specific</b> (∅, …, ∅) labels none positive. Learning searches this space for a hypothesis consistent with the data.</p>
-        <p class="src">ML_CS 2 · p66</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p59">
-        <h3>Core Challenges of ML</h3>
-        <p>Training data problems (insufficient / non-representative), model-selection problems (overfitting / underfitting), and validation-and-testing problems. These recur through every subsequent module.</p>
-        <p class="src">ML_CS 2 · p59</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 3 — Linear Models for Regression <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 34 · p9">
-        <h3>Simple vs Multiple Linear Regression</h3>
-        <p><b>Simple</b>: one predictor (Income vs Education). <b>Multiple</b>: several predictors (Income from Education, Soft skills, Experience, Age). The model is linear in its parameters θ.</p>
-        <p class="src">ML_CS 34 · p9</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p8">
-        <h3>Hypothesis, Parameters &amp; Model</h3>
-        <p>Training set → learning algorithm → hypothesis h(·) mapping input x to predicted output. The θ's are the parameters to be learned. Central question: "How to choose the θ's?" — answered by minimizing a cost function.</p>
-        <p class="src">ML_CS 34 · p8</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p11">
-        <h3>Cost Function (Least Squares / MSE)</h3>
-        <p>Measures how far predictions are from actual values, using squared errors. Minimizing it gives the best-fit line. Intuition built from y=θ₀ (horizontal line) to y=θ₀+θ₁x — the cost surface over parameters is bowl-shaped (convex).</p>
-        <p class="src">ML_CS 34 · p11-19</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p23">
-        <h3>Convex Function</h3>
-        <p>A real-valued function is convex if the line segment between any two points on its graph lies on or above the graph. The MSE cost of linear regression is convex, guaranteeing a single global minimum that gradient descent can reach.</p>
-        <p class="src">ML_CS 34 · p23</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p24">
-        <h3>Closed-Form (Normal Equation) Solution</h3>
-        <p>Solves for optimal parameters directly (analytically) by setting the gradient of the cost to zero: θ = (XᵀX)⁻¹Xᵀy. Uses vectorization (matrix form) rather than iteration. Exact but requires matrix inversion — costly for many features.</p>
-        <p class="src">ML_CS 34 · p24-30</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p25">
-        <h3>Vectorization</h3>
-        <p>Expressing the hypothesis and cost over the whole dataset as matrix/vector operations (Xθ) rather than loops — enables the closed-form solution and efficient computation.</p>
-        <p class="src">ML_CS 34 · p25-29</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p31">
-        <h3>Gradient Descent</h3>
-        <p>Iterative optimization: start at some θ, repeatedly step in the direction of steepest descent (negative gradient) to reduce cost until convergence. A positive derivative pushes θ down, a negative derivative pushes it up — so it always moves toward the minimum.</p>
-        <p class="src">ML_CS 34 · p31-49</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p50">
-        <h3>Choosing the Learning Rate</h3>
-        <p>Learning rate α controls step size. Too small → very slow convergence; too large → overshoots and may diverge. It is a key hyperparameter tuned by observing whether the cost decreases each iteration.</p>
-        <p class="src">ML_CS 34 · p50, p53</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p51">
-        <h3>Feature Scaling &amp; Gradient Descent</h3>
-        <p>With scaling, cost contours are circular → GD path goes straight to the minimum, converges fast. Without scaling, contours are elongated → GD zig-zags inefficiently. So scale features before running GD.</p>
-        <p class="src">ML_CS 34 · p51-52</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p65">
-        <h3>Batch, Stochastic &amp; Mini-Batch Gradient Descent</h3>
-        <p><b>Batch</b>: derivative from all data before one update (slow, stable, small datasets). <b>Stochastic (SGD)</b>: update per single instance (fast, noisy/low-stability, online learning). <b>Mini-batch</b>: update per small batch (medium speed/stability, default for deep learning).</p>
-        <p class="src">ML_CS 34 · p65-71</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p74">
-        <h3>R-squared (Goodness of Fit)</h3>
-        <p>The proportion of variation in y explained by the regression model (explained variation ÷ total variation). Measures goodness of fit for a regression model; higher is better (max 1). Used to compare regression models.</p>
-        <p class="src">ML_CS 34 · p74</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p75">
-        <h3>Linear Basis Function Models / Polynomial Regression</h3>
-        <p>When output is a non-linear function of the input, apply basis functions Φⱼ(x) (e.g. powers of x for an M-th order polynomial). Still called "linear" because the model is linear in the weights w. Φ₀(x)=1 gives the bias term.</p>
-        <p class="src">ML_CS 34 · p75-79</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p80">
-        <h3>Bias and Variance</h3>
-        <p><b>Bias</b> = error from wrong (too-simple) assumptions → underfitting; high bias means predictions systematically far from truth. <b>Variance</b> = sensitivity to the particular training set → overfitting; high variance means a wiggly model that fits training noise but fails on new data.</p>
-        <p class="src">ML_CS 34 · p80-81</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p82">
-        <h3>Underfitting vs Overfitting</h3>
-        <p><b>Underfitting</b>: model too simple → high bias, low variance; both training and test error high. <b>Overfitting</b>: model too complex → low bias, high variance; training error very low but test error high (poor generalization). The goal is the balanced middle.</p>
-        <p class="src">ML_CS 34 · p82-90</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p84">
-        <h3>Ways to Handle Overfitting</h3>
-        <p>(1) Increase training set size (larger data reduces overfitting, especially for higher-order models). (2) Reduce model complexity. (3) Apply regularization. Choosing model complexity is validated experimentally against test error.</p>
-        <p class="src">ML_CS 34 · p84-88</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p89">
-        <h3>Regularization</h3>
-        <p>Adds a penalty on the size of the weights to the cost, discouraging overly complex models and controlling overfitting. Common to both linear (M3) and logistic (M4) regression. Strength is a tuned hyperparameter (λ).</p>
-        <p class="src">ML_CS 34 · p89-95</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p96">
-        <h3>Ridge, Lasso &amp; Elastic Net</h3>
-        <p><b>Ridge (L2 / Tikhonov)</b>: penalizes squared weights → shrinks weights toward (but not exactly) zero. <b>Lasso (L1)</b>: penalizes absolute weights → can set weights exactly to 0 (sparse model, feature selection). <b>Elastic Net</b>: mixes L1 and L2 via ratio r (r=0→Ridge, r=1→Lasso); preferred for highly correlated features.</p>
-        <p class="src">ML_CS 34 · p96-99</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p99">
-        <h3>L1 vs L2 — Practical Choice</h3>
-        <p>L1 drives some coefficients exactly to 0 (sparsity, automatic feature selection) but is non-differentiable so awkward for gradient methods. L2 yields small-but-nonzero weights and is differentiable. Elastic net is preferred when features are highly correlated.</p>
-        <p class="src">ML_CS 34 · p99</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 4 — Linear Models for Classification (Logistic Regression &amp; Evaluation) <small>· source: ML_CS 5 6.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 5 · p4">
-        <h3>Generative vs Discriminative Classifiers</h3>
-        <p><b>Probabilistic generative</b>: learn the joint distribution P(X, Y) (e.g. Naive Bayes). <b>Probabilistic discriminative</b>: learn the decision boundary separating classes directly (e.g. logistic regression). Objective in classification: minimise mis-classification rate.</p>
-        <p class="src">ML_CS 5 · p4</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p7">
-        <h3>Logistic Regression Model</h3>
-        <p>A statistical model for binary classification that predicts the <b>probability</b> an input belongs to a class. It computes a linear combination z=w₀x₀+…+wₙxₙ and squashes it through the logistic (sigmoid) function h(x)=1/(1+e⁻ᶻ) to output a value in [0,1].</p>
-        <p class="src">ML_CS 5 · p7</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p12">
-        <h3>Sigmoid / Logistic Function</h3>
-        <p>Takes any real input and outputs a value between 0 and 1, giving a probability interpretation. σ(t) &lt; 0.5 when t &lt; 0 and σ(t) ≥ 0.5 when t ≥ 0, so the model predicts class 1 when xᵀθ ≥ 0.</p>
-        <p class="src">ML_CS 5 · p12, p58</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p8">
-        <h3>Why Not Linear Regression for Classification</h3>
-        <p>Fitting a line and thresholding at 0.5 breaks down: predictions hθ(x) can exceed 1 or fall below 0, and least squares is highly sensitive to outliers — a single new point can swing the boundary. Logistic regression is robust to this and bounds output to [0,1].</p>
-        <p class="src">ML_CS 5 · p8-13</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p9">
-        <h3>Discriminant Function &amp; Decision Rule</h3>
-        <p>A discriminant f(x) takes input x and assigns it to one of K classes Cₖ. A linear discriminant f(x,w)=w₀+wᵀx gives decision rule y=sign(w₀+wᵀx); the boundary w₀+wᵀx=0 is a hyperplane. In two-class problems f(·) is binary-valued.</p>
-        <p class="src">ML_CS 5 · p9</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p14">
-        <h3>Decision Boundary (Linear &amp; Non-Linear)</h3>
-        <p>At the decision boundary logistic-regression output is 0.5. With linear features the boundary is a line/hyperplane; with polynomial/engineered features it becomes non-linear (curved), letting the model separate more complex class regions.</p>
-        <p class="src">ML_CS 5 · p14-15</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p20">
-        <h3>Logistic Regression Cost (Cross-Entropy / Log Loss)</h3>
-        <p>MSE would be non-convex for logistic regression, so a log-loss cost is used: heavily penalizes confident wrong predictions (cost→∞ as prediction diverges from the true label) and is 0 when prediction matches the label. This cost is convex, so gradient descent finds the global minimum.</p>
-        <p class="src">ML_CS 5 · p19-22</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p23">
-        <h3>Fitting Logistic Regression via Gradient Descent</h3>
-        <p>Parameters are fit by applying gradient descent to the cross-entropy cost. The update rule has the same form as linear regression (with the sigmoid hypothesis substituted). Prediction for new x uses hθ(x) and a 0.5 threshold.</p>
-        <p class="src">ML_CS 5 · p22-24, p28</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p29">
-        <h3>Odds Ratio &amp; Coefficient Interpretation</h3>
-        <p>The exponential of a regression coefficient, e^w, is the odds ratio for a one-unit increase in that predictor. E.g. odds of a job offer increase by a factor of 1.35 for each unit increase in CGPA. Enables interpretable inference from logistic models.</p>
-        <p class="src">ML_CS 5 · p29</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p58">
-        <h3>Logit / Log-Odds</h3>
-        <p>logit(p) = log(p/(1−p)) is the inverse of the logistic function; applied to the estimated probability it returns t = xᵀθ. Also called log-odds — it linearizes the relationship between features and the log of the odds.</p>
-        <p class="src">ML_CS 5 · p58</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p30">
-        <h3>Regularization in Logistic Regression (parameter C)</h3>
-        <p>Same regularization idea as linear regression. In Scikit-Learn's LogisticRegression the strength is controlled by <b>C</b> (the inverse of α): higher C → less regularization (more overfitting risk), lower C → stronger regularization.</p>
-        <p class="src">ML_CS 5 · p30-31</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p33">
-        <h3>Confusion Matrix</h3>
-        <p>A table of predicted vs actual classes with TP, FP, FN, TN. It is the basis for all classification metrics and reveals what a single accuracy number hides (which class the errors fall on).</p>
-        <p class="src">ML_CS 5 · p33-36</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p35">
-        <h3>Accuracy Limitation &amp; Class Imbalance</h3>
-        <p>Accuracy is misleading under imbalance: a model predicting the majority class for everything can score 99% yet detect zero rare-class cases. Since detecting the rare class (fraud, cancer, defects) is usually the point, use precision/recall/ROC instead. Accuracy is most meaningful when classes are balanced.</p>
-        <p class="src">ML_CS 5 · p34-35, p50</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p44">
-        <h3>Precision, Recall (TPR) &amp; F1</h3>
-        <p>Precision = TP/(TP+FP) (of predicted positives, how many correct). Recall/TPR = TP/(TP+FN) (of actual positives, how many caught). F1 is their harmonic mean, balancing both. Choose based on which error is costlier.</p>
-        <p class="src">ML_CS 5 · p44</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p40">
-        <h3>Cost of FP vs FN (Choosing a Model)</h3>
-        <p>Different mistakes carry different costs: disease screening wants a low false-negative rate (don't miss sick patients); spam filtering wants a low false-positive rate (don't drop real mail). The same application may need conservative vs aggressive threshold settings.</p>
-        <p class="src">ML_CS 5 · p40</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p41">
-        <h3>ROC Curve</h3>
-        <p>Plots True Positive Rate against False Positive Rate as the decision threshold varies, showing the detection-rate vs false-alarm trade-off. Corners: (0,0) declare all negative, (1,1) declare all positive, (1,0) ideal; the diagonal = random guessing; below diagonal = worse than random.</p>
-        <p class="src">ML_CS 5 · p41-43</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p44">
-        <h3>Constructing an ROC Curve</h3>
-        <p>Use a classifier that outputs a continuous score; sort instances by decreasing score; apply a threshold at each unique score; count TP/FP/TN/FN and plot (FPR, TPR) at each. Higher-scored instances are more likely positive.</p>
-        <p class="src">ML_CS 5 · p44-45</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p42">
-        <h3>AUC (Area Under ROC)</h3>
-        <p>AUC measures a model's ability to separate classes: AUC=1 is a perfect model, AUC=0.5 is random. Higher AUC = better average performance. Used for threshold selection and model comparison; when no model dominates everywhere, one may be better at low FPR and another at high FPR.</p>
-        <p class="src">ML_CS 5 · p42, p46</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p51">
-        <h3>Solutions to Class Imbalance</h3>
-        <p>(1) Generate synthetic minority samples (SMOTE — new points from distances to nearest neighbours). (2) Change the metric to recall/precision/ROC rather than accuracy. (3) Try algorithms that handle imbalance better (SVM, tree-based).</p>
-        <p class="src">ML_CS 5 · p50-51</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p56">
-        <h3>Multiclass Classification — OvA vs OvO</h3>
-        <p><b>One-vs-All (One-vs-Rest)</b>: train N binary classifiers, one per class vs the rest; pick the highest-scoring. <b>One-vs-One</b>: train N(N−1)/2 classifiers for every class pair and vote. Scikit-Learn defaults to OvA (OvO for SVMs).</p>
-        <p class="src">ML_CS 5 · p56-57</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 5 — Exam-Referenced Topics (post-midsem &amp; EC prerequisites) <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="EC3 · Q1">
-        <h3>k-Nearest Neighbors (kNN)</h3>
-        <p>An instance-based (lazy) classifier: to classify a new point, find its k nearest training points (by a distance metric such as Euclidean or Manhattan) and take the majority class vote. Low k (1-2) → sensitive to noise, low bias / high variance; high k (10-20) → smoother, higher bias / lower variance.</p>
-        <p class="src">EC3 · Q1</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q2">
-        <h3>Bayes' Theorem &amp; Naive Bayes</h3>
-        <p>Bayes' theorem updates the probability of a class given evidence: P(class|data) ∝ P(data|class)·P(class). <b>Naive Bayes</b> assumes features are conditionally independent given the class, multiplying per-feature likelihoods — used for medical-test posteriors and the "play cricket?" weather classifier.</p>
-        <p class="src">EC3 · Q2, Q3</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q3">
-        <h3>Maximum Likelihood Estimation (MLE)</h3>
-        <p>Estimates a parameter (e.g. coin-bias p) by maximizing the likelihood of the observed i.i.d. data, usually via the log-likelihood for tractability. For a coin with h heads in n tosses, the MLE is p̂ = h/n.</p>
-        <p class="src">EC3 · Q3</p>
-      </div>
-
-      <div class="card" data-src="EC2 · Q6">
-        <h3>Decision Trees — Entropy, Information Gain, Gini</h3>
-        <p>Trees split on the attribute that best reduces impurity. <b>Entropy</b> measures class disorder; <b>Information gain</b> is the entropy reduction from a split (pick the highest). <b>Gini index</b> = 1−Σpᵢ² is an alternative impurity measure. Continuous attributes are split at a threshold (e.g. the mean).</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q4">
-        <h3>Support Vector Machines (SVM)</h3>
-        <p>Finds the maximum-margin separating hyperplane defined by support vectors, Lagrange multipliers and labels. Non-linearly-separable data is handled via the <b>kernel trick</b> (e.g. polynomial kernel K(u,v)=(u·v+1)²) that maps points into a higher-dimensional space where they become separable.</p>
-        <p class="src">EC3 · Q4</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q5">
-        <h3>K-Means vs Gaussian Mixture Models</h3>
-        <p><b>K-Means</b>: assign each point to the nearest centroid, then recompute centroids as cluster means, iterating (hard assignments). <b>GMM</b>: models data as a mixture of Gaussians with mixing weights and gives soft "responsibilities" (probabilities). GMM handles elliptical/overlapping clusters K-Means cannot.</p>
-        <p class="src">EC3 · Q5</p>
-      </div>
-
-      <div class="card" data-src="EC3 · Q6">
-        <h3>Ensemble Learning — Bagging, Random Forest, Boosting</h3>
-        <p><b>Bagging</b>: train models on bootstrap samples and average/vote; unused rows form the Out-Of-Bag set for validation. <b>Random Forest</b>: bagged trees that also randomly subsample features at each split (extra decorrelation). <b>AdaBoost</b>: sequentially reweights instances — up-weighting misclassified ones — and combines weak learners by weight α; final label = sign(Σ αₜ·predictionₜ).</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>What is a Decision Tree</h3>
-        <p>A hierarchical, tree-based algorithm that classifies or predicts an outcome by applying a sequence of decision <b>rules</b>. It repeatedly splits the data into purer subsets based on feature values, at each node selecting the best feature to split on. The structure starts at a <b>root node</b> (the whole dataset) and branches into possibilities until a decision is reached. It is a supervised, model-based learner that is highly interpretable for small trees.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>How a Decision Tree Works</h3>
-        <p>Each internal node poses a question about one attribute; the answer routes the record down a branch. The <b>root node</b> asks the first question; intermediate <b>branching</b> nodes ask yes/no (or multi-way) questions that split the data; a <b>leaf node</b> gives the final decision (class label). To classify a new record you start at the root and follow the branches dictated by its attribute values until you reach a leaf.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Tree Structure — Root, Internal &amp; Leaf Nodes</h3>
-        <p><b>Root node:</b> no incoming edges, ≥0 outgoing edges. <b>Internal (test) node:</b> exactly one incoming edge and ≥2 outgoing edges; contains a test condition on one attribute. <b>Leaf / terminal node:</b> exactly one incoming edge, no outgoing edges; assigned a class label. The whole tree is equivalent to a set of <b>decision rules</b> (root-to-leaf paths).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Classification Tree vs Regression Tree</h3>
-        <p><b>Classification tree:</b> the leaf outputs a class/category (discrete label). <b>Regression tree:</b> the leaf outputs a numerical/continuous value. Both share the same recursive splitting idea; they differ in the leaf output and the impurity/error criterion used to choose splits.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Hunt's Algorithm (Recursive Construction)</h3>
-        <p>The generic recipe most decision-tree learners follow: grow the tree by recursively partitioning training records into purer subsets. <b>Step 1:</b> if all records at a node belong to the same class, make it a leaf labelled with that class. <b>Step 2:</b> if records span more than one class, choose the best attribute test condition, create a child node for each outcome, distribute the records among the children, and apply Hunt's algorithm recursively to each child.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Play Tennis Example</h3>
-        <p>Classify whether to play tennis by asking weather questions. First ask <b>Outlook?</b> — Overcast → Yes; Sunny → ask <b>Humidity</b> (High → No, Normal → Yes); Rain → ask <b>Wind</b> (Strong → No, Weak → Yes). This sequence of questions classifies any new day. It illustrates how a small tree encodes intuitive rules.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Representation / Expressiveness</h3>
-        <p>A decision tree represents a <b>disjunction of conjunctions</b> of attribute constraints — each root-to-leaf path is a conjunction (AND), and the set of positive paths is joined by disjunction (OR). E.g. the Play-Tennis "Yes" concept = (Outlook=Sunny ∧ Humidity=Normal) ∨ (Outlook=Overcast) ∨ (Outlook=Rain ∧ Wind=Weak).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Design Issues — How to Split &amp; When to Stop</h3>
-        <p><b>How to split:</b> at each step choose an attribute test condition; define appropriate test conditions for categorical (multi-way or binary) and continuous (threshold) attributes. <b>When to stop:</b> stopping criteria prevent unbounded growth — stop when all records share a class, all records have identical attribute values, or a limit (max depth / min records per node) is reached (to avoid overfitting).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Measuring Impurity</h3>
-        <p><b>Impurity</b> quantifies how mixed the class labels are at a node. A <b>pure</b> node (all one class) has impurity 0; a maximally <b>impure</b> node (classes evenly split) has the highest impurity. Three common measures: <b>Entropy</b>, <b>Gini Index</b>, and <b>Classification Error</b>. The best split is the one that most reduces impurity in the children.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Entropy</h3>
-        <p>A measure of impurity / uncertainty / disorder. Entropy = 0 when a node is pure and is maximal when classes are evenly distributed. Binary case: \(\text{Entropy}(S)=-p_+\log_2 p_+ - p_-\log_2 p_-\), with \(0 \le \text{Entropy} \le 1\). For \(k\) classes: \(-\sum_c p(c)\log_2 p(c)\), ranging from 0 to \(\log_2 k\).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Information Gain</h3>
-        <p>The expected reduction in entropy from partitioning on attribute A: \(\text{Gain}(S,A)=\text{Entropy}(S)-\sum_{v}\frac{|S_v|}{|S|}\text{Entropy}(S_v)\). The attribute with the <b>highest</b> gain is chosen — maximizing gain is equivalent to minimizing the weighted-average impurity of the children. ID3 uses information gain as its splitting criterion.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Play Tennis — Root &amp; Subtree Selection (Worked)</h3>
-        <p>Parent entropy \(E(9,5)=0.940\). Gains at the root: Outlook 0.247, Humidity 0.151, Wind 0.048, Temperature 0.029 → <b>Outlook</b> wins. At the Outlook=Sunny node: Humidity 0.971, Temperature 0.571, Wind 0.020 → <b>Humidity</b> wins. Final subtrees: {D1,D2,D8}→No, {D9,D11}→Yes, {D4,D5,D10}→Yes, {D6,D14}→No.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>ID3 Algorithm</h3>
-        <p>ID3(X, T, Attrs): create Root. If all X are + return Root labelled +; if all − return −; if Attrs is empty return Root with the most common value of T. Else A ← best attribute (highest info gain); for each value \(v_i\) of A add a branch with subset \(X_i\); if \(X_i\) is empty add a leaf with the most common T, else add subtree ID3(\(X_i\), T, Attrs−{A}); return Root. <b>Convergence:</b> all samples same class, no remaining attributes (majority vote), or no samples left.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>EnjoySport — Worked Example</h3>
-        <p>4 records, Yes=3, No=1. Decision entropy E(3,1) ≈ 0.94 (deck value). Attribute entropies after splitting: <b>Sky</b>=0 (Sunny→3/0, Rainy→0/1, both pure), <b>AirTemp</b>=0, <b>Humidity</b>=0.68, <b>Wind</b>=0.94, <b>Forecast</b>=0.5. Sky and AirTemp both give entropy 0 → highest information gain, so both are equally correct root splits. Prediction: a new instance with Sky=Rainy follows Sky→Rainy→leaf <b>No</b>.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Gini Index (CART)</h3>
-        <p>An impurity measure used by CART: \(\text{Gini}(node)=1-\sum_c p_c^2\). To score a split, take the weighted Gini of the children; the split with the lowest weighted Gini (largest Gini reduction) is chosen. CART uses <b>binary</b> splits, so nominal attributes are split into two groups. Worked (Home Owner, 10 rows, Yes=3/No=7): parent 0.420, child N1=0, N2=0.490, weighted 0.343, gain = 0.420−0.343 = 0.077.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Classification Error</h3>
-        <p>A third impurity measure: \(\text{Error}=1-\max_c p_c\). It is 0 for a pure node and 0.5 for an even two-class split. In practice <b>Gini or Entropy is preferred</b> over classification error when growing a tree, because classification error is less sensitive to changes in the class proportions and can miss splits that improve node purity.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Gain Ratio (Fixing Information Gain's Bias)</h3>
-        <p>Information gain is <b>biased toward attributes with many values</b> (e.g. CustomerID, Date), which produce many tiny pure subsets. <b>Split information</b> \(=-\sum_v \frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}\) measures how broadly A disperses the data (larger for more uniform, many-valued splits). <b>Gain ratio</b> = Gain / SplitInformation penalizes such attributes. Even though CustomerID has the highest info gain, its gain ratio is lower than a sensible attribute like Car Type.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Splitting on Continuous Attributes</h3>
-        <p>For a continuous attribute A, dynamically create a boolean test \(A_c\) = (A &lt; c). Choosing threshold c: <b>Way 1 (candidate thresholds):</b> sort values and average consecutive values where the class label changes (e.g. Temperature 40,48,60,72,80,90 with changes → (48+60)/2=54 and (80+90)/2=85). <b>Way 2 (binary scan):</b> sort by the attribute (e.g. Annual Income), linearly scan all midpoints of adjacent values (e.g. 55, 65, 72) and pick the split with least impurity.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Overfitting vs Underfitting in Trees</h3>
-        <p><b>Underfitting:</b> model too simple — both training and test errors are large. <b>Overfitting:</b> model too complex — training error is small but test error is large. In trees, a noisy example triggers extra splitting; the tree fits the noise and looks perfect on training data but its accuracy drops on unseen data. Cause: too many branches reflecting noise/outliers.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Tackling Overfitting — Pruning &amp; Constraints</h3>
-        <p>Three levers: <b>pruning</b>, constrain the tree <b>depth</b>, and constrain the <b>minimum records per leaf</b>. Pruning comes in two flavours — <b>pre-pruning</b> (stop growth early) and <b>post-pruning</b> (grow fully, then cut back). All reduce the tree's tendency to memorise training noise and improve generalization.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Pre-Pruning (Early Stopping)</h3>
-        <p>Stop growing before the tree perfectly classifies the training data, using stopping conditions: gain (or Gini gain) below a threshold; node has fewer than a minimum number of samples; depth exceeds a maximum; or no significant accuracy/generalization improvement. The threshold is tricky — too strict → shallow → underfit; too loose → overfit. Worked (threshold Gain ≤ 0.85): Square node Size gain 0.811 &lt; 0.85 → do not split (leaf via majority vote); Oval node Colour gain 0.918 ≥ 0.85 → split on Colour.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Post-Pruning</h3>
-        <p>Grow the tree fully (split until pure or minimal samples), then scan <b>bottom-up</b>. At each decision node: (1) retain the node and estimate its error on a separate <b>prune/validation set</b>; (2) remove the node (make it a leaf) and re-evaluate on the same set. If pruning <b>reduces</b> the error, prune; otherwise keep the node. Repeat across branches. Error rate = percentage of tuples misclassified. The prune set compares "keep vs prune" predictions.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Minimum Description Length (MDL) Principle</h3>
-        <p>From information theory, the optimal code length of an event of probability p is \(-\log_2 p\) bits. Prefer the hypothesis h minimizing \(\text{length}(h)+\text{length}(\text{misclassifications})\), i.e. \(L_{C1}(h)=-\log_2 P(h)\) (encode the tree structure) plus \(L_{C2}(D|h)=-\log_2 P(D|h)\) (encode the errors/exceptions). If examples are classified perfectly, \(L_{C2}(D|h)=0\). MDL trades tree complexity against training errors — a method for handling overfitting, embodying <b>Occam's razor</b> (prefer the shortest hypothesis that fits reasonably well).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Prediction &amp; Evaluation</h3>
-        <p>To predict a new instance, follow the tree from the root by applying each attribute test until a leaf is reached; output the leaf's class. Evaluate with a <b>confusion matrix</b> where \(CM_{i,j}\) = number of class-i tuples labelled class j, yielding TP/FN/FP/TN. By default predictive quality is measured on unseen validation/test instances; training instances are used only when training performance is needed for comparison.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Advantages &amp; Disadvantages</h3>
-        <p><b>Advantages:</b> inexpensive to construct; extremely fast at classifying; easy to interpret for small trees; handles redundant/irrelevant attributes. <b>Disadvantages:</b> the space of possible trees is exponentially large; greedy top-down construction may miss the globally best tree; it does not account for attribute interactions; and each decision boundary tests a single attribute, giving <b>axis-parallel</b> boundaries only.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card" data-src="Session 7-8 · Decision Trees">
-        <h3>Applications</h3>
-        <p>Decision trees suit problems where instances are attribute–value pairs, the target function has discrete output values, disjunctive descriptions may be required, and the training data may contain missing attribute values. Real-world uses include biomedical diagnosis, manufacturing quality control, banking/credit scoring, and make-vs-buy decisions. References: Mitchell Ch. 3; Tan/Steinbach/Kumar, <i>Introduction to Data Mining</i>, Ch. 3.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ML_CS 1 · p11 (image)">
-        <h3>AI vs Data Science vs Machine Learning</h3>
-        <p>A nested relationship: <b>Data Science</b> is the broad umbrella (collection, preparation and analysis of data, leveraging AI/ML, research and statistics for business decisions); <b>Artificial Intelligence</b> sits inside it (technology for machines to understand/interpret, learn and make "intelligent" decisions); and <b>Machine Learning</b> is a subset of AI (algorithms that improve through supervised, unsupervised and reinforcement learning). So ML ⊂ AI ⊂ Data Science.</p>
-        <p class="src">ML_CS 1 · p11 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 1 · p46 (image)">
-        <h3>ML Algorithmic Trade-Off (Interpretability vs Accuracy)</h3>
-        <p>Algorithms trade interpretability against accuracy. High-interpretability / lower-accuracy: Linear/Logistic Regression, Lasso, Decision Trees, Naive Bayes. High-accuracy / lower-interpretability: Random Forests, Boosting, SVMs, Neural Nets / Deep Learning. Choose based on whether an explainable model or raw predictive performance matters more for the problem.</p>
-        <p class="src">ML_CS 1 · p46 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 2 · p36 (image)">
-        <h3>Imputing Missing Values — Methods</h3>
-        <p>Beyond deleting records, a missing cell can be filled by: <b>replace with a constant</b> (e.g. 0), <b>forward-fill</b> with the last known value, <b>replace with the column mean</b>, or <b>interpolate</b> (e.g. spline interpolation) between neighbouring known values. Each strategy trades simplicity against introduced bias.</p>
-        <p class="src">ML_CS 2 · p36 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p27 (image)">
-        <h3>Maxima &amp; Minima Condition (Optimisation)</h3>
-        <p>At a maximum or minimum of a differentiable function the slope is zero: dy/dx = tan(0°) = 0 — the tangent is parallel to the x-axis. This stationary-point condition is exactly what the normal equation (∂J/∂θ = 0) and gradient descent exploit to locate the cost minimum.</p>
-        <p class="src">ML_CS 34 · p27 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p30 (image)">
-        <h3>Non-Invertible XᵀX (Pseudo-Inverse)</h3>
-        <p>The normal equation θ = (XᵀX)⁻¹Xᵀy needs XᵀX to be invertible. If it is singular — redundant / linearly-dependent features, or more features than examples (d &gt; n) — you can: use the <b>pseudo-inverse</b> (Python: <code>numpy.linalg.pinv</code>), remove redundant features, or drop extra features so that d ≤ n.</p>
-        <p class="src">ML_CS 34 · p30 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p64 (image)">
-        <h3>Closed-Form vs Gradient Descent</h3>
-        <p><b>Gradient descent</b>: iterative, must choose learning rate α, works well when n is large, and supports incremental/online learning. <b>Closed-form (normal equation)</b>: non-iterative and needs no α, but slow when features are many because computing (XᵀX)⁻¹ is roughly O(n³). Use GD for large/streaming data, closed-form for small feature sets.</p>
-        <p class="src">ML_CS 34 · p64 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 34 · p89 (image)">
-        <h3>Early Stopping (Handling Overfitting)</h3>
-        <p>Track the validation-set error (e.g. RMSE) while training epoch by epoch and keep the model at the point of <b>minimum validation error</b> ("best model") — before it starts rising again while training error keeps falling. Stopping there prevents the model from over-learning training noise.</p>
-        <p class="src">ML_CS 34 · p89 (image)</p>
-      </div>
-
-      <div class="card" data-src="ML_CS 5 · p55 (image)">
-        <h3>Binary vs Multiclass Classification</h3>
-        <p>Classification is categorised by its output labels. <b>Binary</b>: two classes (e.g. spam vs ham). <b>Multiclass</b>: three or more mutually-exclusive classes (e.g. Enjoy-Sports = Yes/No/Maybe). Multiclass problems are commonly reduced to several binary problems via One-vs-All or One-vs-One.</p>
-        <p class="src">ML_CS 5 · p55 (image)</p>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">The key ideas of every ML (AIMLZG565) module, one card per idea, with the slides' worked-number intuition where the deck stresses it.</p>
+  <nav class="jump"><a href="#m1-introduction-to-machine-learning">M1 · Introduction to Machine Learning</a><a href="#m2-machine-learning-workflow">M2 · Machine Learning Workflow</a><a href="#m3-linear-models-for-regression">M3 · Linear Models for Regression</a><a href="#m4-linear-models-for-classification-logistic-regression">M4 · Linear Models for Classification (Logistic Regression)</a><a href="#m5-decision-tree-classifier">M5 · Decision Tree Classifier</a><a href="#m6-instance-based-learning-k-nearest-neighbour">M6 · Instance-Based Learning (K-Nearest Neighbour)</a><a href="#m7-support-vector-machines">M7 · Support Vector Machines</a><a href="#m8-bayesian-learning">M8 · Bayesian Learning</a><a href="#m9-ensemble-learning">M9 · Ensemble Learning</a><a href="#m10-unsupervised-learning">M10 · Unsupervised Learning</a><a href="#m11-ml-model-evaluation-comparison-facct-ml">M11 · ML Model Evaluation, Comparison &amp; FAccT ML</a></nav>
+<details class="module" open id="m1-introduction-to-machine-learning"><summary>M1 · Introduction to Machine Learning <small>· 14 items</small></summary><div class="cards"><div class="card"><h3>Learning as improving with experience</h3><p>A program learns if its performance \(P\) at task \(T\) improves with experience \(E\); naming all three turns a vague goal into a well-posed problem (spam filtering: \(T\) = label emails, \(P\) = percentage correctly classified, \(E\) = labelled emails). Changing \(P\) changes what "better" means, so two formulations of one problem can favour different models.</p><span class="src">1.1.1 · slides 15–17</span></div><div class="card"><h3>Traditional programming versus the ML paradigm</h3><p>Traditional programming feeds data and a hand-written program to the computer to get output; ML feeds data and the desired output to get the program. The slides' spam example shows why: a hand-coded rule list ("4U", "free") becomes long and hard to maintain, while a learned filter is shorter, easier to update and usually more accurate.</p><span class="src">1.1.1 · slides 15, 18–19</span></div><div class="card"><h3>When to use ML, and when not to</h3><p>Use ML when human expertise does not exist (navigating on Mars), when experts cannot explain it (recognising a handwritten 2 versus 7), or when the model must be personalised. Do not use it when an exact closed-form rule already exists: there is no need to "learn" payroll.</p><span class="src">1.1.2 · slides 22–25</span></div><div class="card"><h3>Application domains</h3><p>ML powers vision (object detection, self-driving cars), language (assistants, chatbots), recommendation (Amazon, Netflix), security and fraud detection. Recognising the task type behind an application (classification, regression, clustering, sequential decision) is the first modelling step.</p><span class="src">1.1.3 · slides 11–13, 20–21</span></div><div class="card"><h3>Supervised learning: classification versus regression</h3><p>Supervised learning learns \(f(x)\) from labelled pairs \((x_i, y_i)\). If \(y\) is discrete (benign/malignant, job offered yes/no) the task is classification; if \(y\) is real-valued (used-car price, sea-ice extent) it is regression. Encoding classes as numbers does not turn classification into regression.</p><span class="src">1.2.1 · slides 27–36</span></div><div class="card"><h3>Unsupervised learning</h3><p>Unsupervised learning gets only \(x_1, \dots, x_n\) and outputs hidden structure, most often clusters. The goal is to minimise intra-cluster distances and maximise inter-cluster distances, as in splitting a retailer's customers into big and low spenders.</p><span class="src">1.2.2 · slides 37–40</span></div><div class="card"><h3>Reinforcement learning</h3><p>An agent acts in an environment and receives delayed reward or penalty instead of a label, learning by trial and error to make a sequence of decisions (a robot dog learning to walk). The feedback signal (labels, none, delayed reward) is what separates supervised, unsupervised and reinforcement learning.</p><span class="src">1.2.3 · slides 41–46</span></div><div class="card"><h3>Semi-supervised learning</h3><p>Combines a small labelled set with a large unlabelled set (Google Photos: you name a few faces, it labels the rest). It only helps if the unlabelled data's structure (clusters, smoothness) agrees with the labels.</p><span class="src">1.2.4 · slide 47</span></div><div class="card"><h3>Batch, mini-batch and online learning</h3><p>Batch learning trains on all data at once, mini-batch on subsets, online (incremental) on one instance at a time. Online learning suits streams and drifting data (fraud patterns), but a large learning rate makes it forget old data quickly.</p><span class="src">1.3.1 · slide 48</span></div><div class="card"><h3>Instance-based versus model-based learning</h3><p>Instance-based (lazy) learners store the training data and compare each new point to it at query time (k-NN); model-based (eager) learners fit parameters once and then discard the data (linear regression). Lazy learners pay little to train and a lot per query; eager learners the reverse.</p><span class="src">1.3.2 · slide 49</span></div><div class="card"><h3>The inductive learning hypothesis</h3><p>Any hypothesis that approximates the target function well over a sufficiently large set of training examples will also approximate it well on unobserved examples. This is the assumption that lets training performance stand in for generalisation, and it fails if the training data are small or unrepresentative.</p><span class="src">1.4.1 · slides 119–122</span></div><div class="card"><h3>Hypothesis space: most general and most specific</h3><p>In the EnjoySport representation \((?, \text{Cold}, \text{High}, ?, ?, ?)\) is one hypothesis; \((?, ?, ?, ?, ?, ?)\) is the most general (every day positive) and \((\varnothing, \dots, \varnothing)\) the most specific (no day positive). Restricting the hypothesis space is an inductive bias, and without some bias a learner cannot generalise beyond the data it memorised.</p><span class="src">1.4.2 · slide 123</span></div><div class="card"><h3>Three inductive tasks</h3><p>Given examples \((X, F(X))\), inductive learning predicts \(F(X)\) for new \(X\): classification when \(F\) is discrete, regression when continuous, and probability estimation when \(F(X)\) is a probability. The output type fixes the loss and the evaluation metric.</p><span class="src">1.4.3 · slides 119, 130</span></div><div class="card"><h3>The ML workflow</h3><p>Decide whether ML fits, gather and organise data, preprocess and explore it, choose a model, loss and regulariser, optimise, tune hyper-parameters, then analyse errors and iterate. The final test-set evaluation measures generalisation and comes last.</p><span class="src">1.1.1, 2.4.1 · slides 53–55</span></div></div></details>
+<details class="module" open id="m2-machine-learning-workflow"><summary>M2 · Machine Learning Workflow <small>· 17 items</small></summary><div class="cards"><div class="card"><h3>Objects and attributes</h3><p>A data set is a collection of objects (records, samples, instances) described by attributes (features, variables, dimensions). Every ML algorithm then has three parts: data representation, parameter optimisation, and model evaluation and selection.</p><span class="src">2.1.1 · slides 62–64</span></div><div class="card"><h3>Measurement levels decide the legal operations</h3><p>Nominal values only support \(=, \ne\); ordinal adds order \(&lt;, &gt;\); interval adds meaningful differences \(+, -\); ratio adds a true zero, so \(\times, \div\) are meaningful. So \(10\,{}^\circ\text{C}\) is not "twice as hot" as \(5\,{}^\circ\text{C}\) (Celsius is interval), but 10 K is twice 5 K (Kelvin is ratio).</p><span class="src">2.1.2 · slides 65–69</span></div><div class="card"><h3>Discrete versus continuous attributes</h3><p>Discrete attributes take finitely or countably many values (zip codes, counts, words), with binary as a special case; continuous attributes take real values (height, temperature) recorded to finite precision. Measurement level and discreteness are separate axes: a zip code is discrete and nominal.</p><span class="src">2.1.3 · slide 70</span></div><div class="card"><h3>Dimensionality, sparsity, resolution and size</h3><p>High dimensionality brings the curse of dimensionality; sparse data (document-term matrices, transactions) are mostly zeros, so only presence counts and only non-zeros are stored; patterns depend on resolution (scale of measurement); and data size limits which analyses are practical.</p><span class="src">2.1.4 · slides 71–78</span></div><div class="card"><h3>Data-quality problems</h3><p>Noise distorts values, outliers differ markedly from the rest, wrong or fake data are errors (Salary = −10), missing values are blanks, and duplicates arise when sources are merged. The slides' tax table asks "a mistake or a millionaire?" about a 10000K income: an outlier is noise in one analysis and the target in another (fraud, intrusion detection).</p><span class="src">2.2.1 · slides 80–85, 91–92</span></div><div class="card"><h3>Handling missing values</h3><p>Eliminate the affected objects or attributes, estimate (impute) the value by mean, median, mode or a class-conditional statistic, or ignore it during analysis. Imputation statistics must come from the training split only, or information leaks from the test set.</p><span class="src">2.2.2 · slides 84, 93</span></div><div class="card"><h3>Data aggregation</h3><p>Combining attributes or objects into one (days into weeks, cities into regions) reduces data, changes scale and gives more stable values, because the mean of \(m\) independent values has variance \(\sigma^2/m\). The price is lost detail.</p><span class="src">2.2.3 · slides 88–90</span></div><div class="card"><h3>IQR outlier rule</h3><p>Flag values outside \([Q_1 - 1.5\,\text{IQR}, \ Q_3 + 1.5\,\text{IQR}]\). For the slide data 10, 11, 11, 11, 12, 12, 13, 14, 14, 15, 17, 22: \(Q_1 = 11\), \(Q_3 = 14.5\) (median of halves), \(\text{IQR} = 3.5\), fences \(5.75\) and \(19.75\), so 22 is the outlier. Quartile conventions differ, so state the one you use.</p><span class="src">2.3.1 · slides 94–96</span></div><div class="card"><h3>The 3σ rule</h3><p>For roughly normal data, values outside \(\mu \pm 3\sigma\) are outliers, since 99.7% of a normal lies inside (\(\mu = 50, \sigma = 5\) gives fences 35 and 65). On skewed data the outliers inflate \(\mu\) and \(\sigma\) themselves, so the IQR rule is safer.</p><span class="src">2.3.2 · slide 97</span></div><div class="card"><h3>Why three data sets</h3><p>The training set fits parameters, the validation set chooses hyper-parameters and models, and the test set estimates generalisation once at the end. A sample works almost as well as the full data only if it is representative; small samples add sampling noise and flawed sampling adds bias even at large sizes.</p><span class="src">2.4.1 · slides 98–100, 116</span></div><div class="card"><h3>Simple random, stratified and cluster sampling</h3><p>Simple random sampling can unbalance classes: splitting 150 Iris flowers 2/3 to 1/3 gave a test set of 12 Setosa, 22 Versicolor and 16 Virginica instead of 50/50/50 proportions. Stratified sampling keeps each class's share in every split; cluster sampling draws whole groups.</p><span class="src">2.4.2 · slides 99–101</span></div><div class="card"><h3>Imbalanced training sets</h3><p>When the rare class matters, change the training distribution: undersample the majority (throws data away) or oversample the minority, by duplication or by SMOTE's synthetic points between minority neighbours (risk of overfitting). Resample only the training split, after splitting.</p><span class="src">2.4.3 · slide 102</span></div><div class="card"><h3>Feature scaling: normalisation versus standardisation</h3><p>Min-max normalisation maps to \([0, 1]\) and suits bounded, roughly uniform features and distribution-free methods (k-NN, neural nets); z-score standardisation suits methods that assume Gaussian data and is less hurt by outliers. With income from 12,000 to 98,000, the value 73,000 maps to \(0.709\); with \(\mu = 54{,}000\), \(\sigma = 16{,}000\) its z-score is \(1.19\). Target values generally are not scaled.</p><span class="src">2.5.1 · slides 103–105</span></div><div class="card"><h3>Feature extraction, selection, construction and transformation</h3><p>Extraction builds fewer new features (PCA), selection keeps a useful subset (drop irrelevant, redundant or mostly-missing columns), construction combines features (polynomial terms, feature crossing, domain logic), and transformation re-expresses them (semester totals into GPAs, or completion flags).</p><span class="src">2.5.2 · slides 106–111</span></div><div class="card"><h3>Discretisation: equal-width versus equal-depth</h3><p>Binning turns a continuous attribute into intervals, which Naïve Bayes and trees often prefer and which tames outliers. Equal-width bins have width \(W = (B - A)/N\) but outliers leave most bins empty; equal-depth bins hold about the same number of records each and handle skew.</p><span class="src">2.5.3 · slides 112–113</span></div><div class="card"><h3>Encoding categorical features</h3><p>One-hot (dummy) encoding maps a category to binary indicator columns; label encoding maps it to integers. Label encoding imposes a fake order and spacing, so use it only for ordinal data or trees.</p><span class="src">2.5.4 · slide 114</span></div><div class="card"><h3>Curse of dimensionality (first look)</h3><p>As dimensions grow, data become sparse in the space they occupy: to capture 10% of uniform data in 10 dimensions a sub-cube needs edge \(0.1^{1/10} \approx 0.79\) of each axis. Dimensionality reduction such as PCA is the remedy.</p><span class="src">2.5.5 · slide 108</span></div></div></details>
+<details class="module" open id="m3-linear-models-for-regression"><summary>M3 · Linear Models for Regression <small>· 18 items</small></summary><div class="cards"><div class="card"><h3>Simple versus multiple linear regression</h3><p>Simple regression predicts \(y\) from one feature (income from education); multiple regression uses several (education, soft skills, experience, age) in \(h_\theta(x) = \theta^\top x\) with \(x_0 = 1\). Each \(\theta_j\) is the change in \(\hat{y}\) per unit of \(x_j\) with the others held fixed.</p><span class="src">3.1.1 · slides 131–133</span></div><div class="card"><h3>Cost function as the fit criterion</h3><p>Residuals are the vertical gaps between actual and predicted values; the cost \(J(\theta)\) sums or averages their squares (SSE, MSE). The slides compare three mileage-price lines by their training error and keep the smallest: learning means choosing \(\theta\) to minimise \(J\).</p><span class="src">3.1.2 · slides 135–146</span></div><div class="card"><h3>Convexity of the squared-error cost</h3><p>A function is convex if the chord between any two points lies on or above its graph. The squared-error \(J(\theta)\) of linear regression is a convex bowl (its Hessian \(X^\top X/n\) is positive semi-definite), so every local minimum is the global one.</p><span class="src">3.1.2, 3.3.5 · slides 147, 172–173</span></div><div class="card"><h3>Closed-form solution versus gradient descent</h3><p>Setting \(\nabla J = 0\) gives the normal equations \(\theta = (X^\top X)^{-1} X^\top y\): one exact step with no learning rate, no scaling and no iterations. It needs \(X^\top X\) invertible (no perfectly collinear features, enough rows) and costs about \(O(d^3)\), so gradient descent, which needs \(\eta\), iterations and scaling, wins with very many features and for models with no closed form (logistic regression).</p><span class="src">3.2.1 · slides 148–154, 188</span></div><div class="card"><h3>Gradient descent update</h3><p>Repeatedly step against the gradient: \(\theta_j \leftarrow \theta_j - \eta\,\partial J/\partial\theta_j\), updating all \(\theta_j\) simultaneously from the same old values. Batch GD sums the error times feature over every example before each update, as in the slides' heart-disease example (\(\eta = 0.02\), three patients).</p><span class="src">3.3.1 · slides 155–171, 178–187</span></div><div class="card"><h3>Choosing the learning rate</h3><p>Too small an \(\eta\) makes descent slow; too large makes it oscillate or diverge, with the cost rising. Diagnose \(\eta\) from the cost-versus-iteration curve: a smooth decrease that flattens is right.</p><span class="src">3.3.2 · slides 174, 177</span></div><div class="card"><h3>Feature scaling and the descent path</h3><p>With unscaled features the cost contours are elongated, so the path zig-zags and converges slowly; with scaled features they are nearly circular and the path heads straight to the minimum. Scaling changes the path and the number of iterations, not the minimiser.</p><span class="src">3.3.3 · slides 175–176</span></div><div class="card"><h3>Batch, mini-batch and stochastic gradient descent</h3><p>Batch GD computes the gradient from all examples per update, mini-batch from small groups, SGD from one example at a time. SGD is cheap and noisy and makes \(n\) updates per epoch; batch GD is smooth but makes one; mini-batch sits between.</p><span class="src">3.3.4 · slides 189–194</span></div><div class="card"><h3>Convergence guarantee</h3><p>On a convex cost, a positive derivative moves \(\theta\) down and a negative one moves it up, so each small enough step lowers \(J\) until the gradient is zero at the global minimum. The guarantee needs a small enough \(\eta\); it does not hold for arbitrary step sizes.</p><span class="src">3.3.5 · slides 172–173</span></div><div class="card"><h3>Linear basis-function models</h3><p>Replacing \(x\) by fixed basis functions \(\phi_j(x)\) (powers \(x^j\) for polynomial regression, Gaussian bumps) lets a model curve in \(x\) while staying linear in the weights, so the same normal equations and gradient descent apply.</p><span class="src">3.4.1 · slides 198–202</span></div><div class="card"><h3>Bias, variance, underfitting and overfitting</h3><p>Bias is error from wrong assumptions (too simple a model); variance is error from sensitivity to the training sample (too flexible a model). Underfitting shows as high training and test error; overfitting as low training but high test error, like a degree-300 polynomial fitted to a quadratic target. Remedies for overfitting: more data, a simpler model, regularisation.</p><span class="src">3.4.2 · slides 203–211</span></div><div class="card"><h3>Regularisation</h3><p>Add a penalty on weight size to the cost so the model cannot fit noise with huge coefficients. The regularisation constant \(\lambda\) trades fit for simplicity: too little leaves overfitting, too much underfits, so tune it on validation data.</p><span class="src">3.5.1, 3.5.2 · slides 212–218</span></div><div class="card"><h3>Ridge (L2) regularisation</h3><p>Ridge adds \(\lambda \sum w_j^2\), which shrinks all weights smoothly but never exactly to zero. In gradient descent each step multiplies the weight by \((1 - \eta\lambda)\) before the usual update (the slide's factor 0.9).</p><span class="src">3.5.1 · slide 219</span></div><div class="card"><h3>Lasso (L1) regularisation</h3><p>Lasso adds \(\lambda \sum \lvert w_j \rvert\), which pushes weights towards zero by a fixed amount each step and can set them exactly to zero, giving a sparse model and built-in feature selection. Its penalty is not differentiable at 0, so only a subgradient is available there.</p><span class="src">3.5.2 · slides 220, 222</span></div><div class="card"><h3>Elastic Net</h3><p>Elastic Net mixes the L1 and L2 penalties with a ratio \(r\), keeping Lasso's sparsity while sharing weight across groups of correlated features. In sklearn's <code>l1_ratio</code>, \(r = 1\) is Lasso and \(r = 0\) is Ridge; the slide's wording swaps these.</p><span class="src">3.5.3 · slides 221–222</span></div><div class="card"><h3>Effect of regularisation on a gradient step</h3><p>All three updates share the same data gradient and differ only in the extra pull towards zero: ridge multiplies each weight by \((1 - \eta\lambda)\) (the slide's 0.9), so its pull is proportional to \(\lvert w_j \rvert\); lasso subtracts \(\eta\lambda\operatorname{sign}(w_j)\), the same pull for every non-zero weight. The intercept is never penalised. <strong>Erratum:</strong> the slide's Lasso answer (0.1477, 0.2793) comes out larger than its unregularised weights (0.0477, 0.1793) and never states the L1 update, so do not use it as a template.</p><span class="src">3.5.4 · slides 223–224</span></div><div class="card"><h3>R² and the sum-of-squares split</h3><p>\(R^2\) is the share of the variation in \(y\) explained by the model, \(1 - \text{SSE}/\text{SST}\), with \(\text{SST} = \text{SSR} + \text{SSE}\) for least squares with an intercept on training data. Training \(R^2\) never falls when a feature is added, even a random one, so it cannot pick models on its own.</p><span class="src">3.6.1 · slides 136, 197</span></div><div class="card"><h3>In-sample versus unseen-data error</h3><p>Training MSE is optimistic; what counts is MSE on unseen data. The slides compare a quadratic and a linear car-price model on held-out mileage values, and raising the polynomial degree in the lab shows training error falling while test error eventually rises.</p><span class="src">3.6.2 · slides 196, 225</span></div></div></details>
+<details class="module" open id="m4-linear-models-for-classification-logistic-regression"><summary>M4 · Linear Models for Classification (Logistic Regression) <small>· 12 items</small></summary><div class="cards"><div class="card"><h3>Why least squares fails as a classifier</h3><p>A straight line fitted to 0/1 labels (job offered against CGPA) outputs values below 0 and above 1, which are not probabilities. It is also highly sensitive to new or extreme points: adding correctly labelled points far to one side drags the line and moves the 0.5 threshold, misclassifying points that were right before.</p><span class="src">4.1.1 · slides 232–237</span></div><div class="card"><h3>The sigmoid and the 0.5 boundary</h3><p>A linear classifier scores \(z = w_0 + w^\top x\) and predicts by its sign; logistic regression squashes \(z\) with the sigmoid \(\sigma(z) = 1/(1 + e^{-z})\) into \((0, 1)\), read as \(P(y = 1 \mid x)\). Since \(\sigma(z) \ge 0.5\) exactly when \(z \ge 0\), the decision boundary \(w_0 + w^\top x = 0\) is still a hyperplane; non-linear boundaries need non-linear features (e.g. squares of CGPA and IQ).</p><span class="src">4.1.2 · slides 231, 233, 236–239</span></div><div class="card"><h3>Cross-entropy (log-loss) cost</h3><p>Each example costs \(-\log h\) if \(y = 1\) and \(-\log(1 - h)\) if \(y = 0\): zero for a confident correct prediction and unbounded for a confident wrong one. Squared error composed with the sigmoid is non-convex, while log-loss is convex, so gradient descent finds the global minimum.</p><span class="src">4.2.1 · slides 241–246</span></div><div class="card"><h3>Gradient descent for logistic regression</h3><p>The update \(w_j \leftarrow w_j - \eta \frac{1}{m}\sum (h(x_i) - y_i)x_{ij}\) looks identical to linear regression, with only \(h\) changed to the sigmoid. There is no closed form, so iterate; unscaled features (raw IQ values) saturate the sigmoid and stall the iterations, as the slide's exercise warns.</p><span class="src">4.2.2 · slides 246, 248, 252</span></div><div class="card"><h3>Odds ratio interpretation</h3><p>The log-odds \(\ln\frac{p}{1 - p}\) is linear in the features, so a one-unit rise in \(x_j\) multiplies the odds by \(e^{w_j}\). With \(z = 0.4 + 0.3\,\text{CGPA} - 0.45\,\text{IQ}\), the candidate \((5, 6)\) gets \(h = \sigma(-0.8) = 0.31\), predicted "No", and each extra CGPA point multiplies the odds of an offer by \(e^{0.3} \approx 1.35\).</p><span class="src">4.2.3 · slides 253, 282</span></div><div class="card"><h3>Regularising logistic regression: the C knob</h3><p>Regularisation works exactly as in Module 3, but sklearn's <code>LogisticRegression</code> uses \(C = 1/\alpha\): the higher \(C\), the weaker the regularisation and the closer the fit to the training data. On perfectly separable data an unregularised model's weights grow without bound.</p><span class="src">4.3 · slides 254–255</span></div><div class="card"><h3>Confusion matrix and its metrics</h3><p>The confusion matrix counts TP, FN, FP, TN for the class of interest. Accuracy is the overall hit rate, precision asks "of those flagged, how many are real?", recall asks "of the real ones, how many were caught?", and F1 is their harmonic mean, dragged towards the smaller of the two.</p><span class="src">4.4.1 · slides 256–260</span></div><div class="card"><h3>Different mistakes, different costs</h3><p>Model 1 (FPR 41%, FNR 3%) suits disease screening, where a missed case is costly; Model 2 (FPR 5%, FNR 25%) suits spam filtering, where a false alarm is costly. The same application may need a conservative and an aggressive setting, which is a choice of threshold.</p><span class="src">4.4.1, 4.4.3 · slides 261–264</span></div><div class="card"><h3>The accuracy paradox</h3><p>On imbalanced data a classifier can reach 99% accuracy by always predicting the majority class while catching none of the rare cases. Compare every model with that majority baseline and report recall, precision, F1 or AUC instead.</p><span class="src">4.4.2 · slides 259, 274</span></div><div class="card"><h3>ROC curve and AUC</h3><p>Sort cases by score, sweep the threshold from high to low and plot \(TPR\) against \(FPR\): each positive steps up, each negative steps right. AUC measures separability, the probability that a random positive outscores a random negative: 1 is perfect, 0.5 is random guessing. Crossing curves (M1 better at low FPR, M2 at high FPR) mean neither model dominates.</p><span class="src">4.4.3 · slides 265–272</span></div><div class="card"><h3>Handling class imbalance</h3><p>Three levers: resample the training data (undersample, oversample, or generate synthetic minority points with SMOTE), change the performance metric (recall, F1, AUC instead of accuracy), and choose an algorithm or threshold that weights the rare class.</p><span class="src">4.4.4 · slide 275</span></div><div class="card"><h3>Multiclass: One-vs-All and One-vs-One</h3><p>OvA trains one binary classifier per class (class \(k\) against the rest) and predicts the highest score; OvO trains \(K(K - 1)/2\) pairwise classifiers and takes a majority vote. sklearn applies one of them automatically when a binary algorithm meets a multiclass target.</p><span class="src">4.5 · slides 278–281</span></div></div></details>
+<details class="module" open id="m5-decision-tree-classifier"><summary>M5 · Decision Tree Classifier <small>· 15 items</small></summary><div class="cards"><div class="card"><h3>Tree anatomy</h3><p>The root node has no incoming edge, each internal node tests one attribute and has one incoming and two or more outgoing edges, and each leaf has one incoming edge and holds a class label. Classifying a record means following tests from the root to a leaf.</p><span class="src">5.1.1 · slides 287–290, 294</span></div><div class="card"><h3>A tree as a disjunction of conjunctions</h3><p>Each root-to-leaf path is a conjunction of attribute tests and the tree is the disjunction of the "Yes" paths: PlayTennis = (Outlook = Sunny ∧ Humidity = Normal) ∨ (Outlook = Overcast) ∨ (Outlook = Rain ∧ Wind = Weak). Any Boolean function can be written this way, though some (XOR, parity) need large trees.</p><span class="src">5.1.1 · slide 296</span></div><div class="card"><h3>Hunt's algorithm and ID3</h3><p>Grow the tree recursively: if a node is pure make it a leaf; otherwise pick the best attribute test, split, and recurse on each child with the remaining attributes. Stop when all records share a class, when no attributes remain (label by majority vote), or when a branch has no records (use the parent's majority).</p><span class="src">5.1.2 · slides 292–293, 297, 315, 322–323</span></div><div class="card"><h3>Impurity and entropy</h3><p>Impurity measures how mixed the class labels in a node are. Entropy is 0 for a pure node and maximal for an even mix (1 bit for two classes); the EnjoySport target with 3 Yes and 1 No has \(E(3, 1) = 0.811\).</p><span class="src">5.2.1 · slides 300–303</span></div><div class="card"><h3>Information gain</h3><p>Gain is the expected reduction in entropy from splitting on an attribute. For PlayTennis (9 Yes, 5 No, entropy 0.940) the root gains are Outlook 0.247, Humidity 0.151, Wind 0.048, Temperature 0.029, so Outlook goes at the root; under Sunny, Humidity gains the full 0.971 and makes both children pure.</p><span class="src">5.2.1 · slides 304–313, 317–321</span></div><div class="card"><h3>Gini index</h3><p>Gini \(= 1 - \sum p_i^2\) is 0 for a pure node and at most 0.5 for two classes; CART picks the split with the lowest weighted child Gini. Splitting on Home Owner gives children with Gini 0 and 0.490, a weighted Gini of \(0.7 \times 0.490 = 0.343\), the best candidate along with one Marital Status grouping.</p><span class="src">5.2.2 · slides 327, 330–332</span></div><div class="card"><h3>Classification error as impurity</h3><p>Error \(= 1 - \max_i p_i\) is the least sensitive impurity: if the majority class stays the same in every child, the error gain is 0 even when entropy and Gini show a real improvement. That is why trees grow with Gini or entropy.</p><span class="src">5.2.3 · slide 338</span></div><div class="card"><h3>Gain ratio and split information</h3><p>Information gain favours attributes with many values: Customer ID makes every child pure and gets the highest gain while being useless for new customers. Split information (the entropy of the partition sizes, \(\log_2 n\) for an ID) penalises such fragmentation, and the gain ratio Gain/SplitInfo ranks Car Type above Customer ID.</p><span class="src">5.2.4 · slides 339–343</span></div><div class="card"><h3>Splitting continuous attributes</h3><p>Sort the values and test candidate thresholds at midpoints between adjacent values (Annual Income: 55, 65, 72, …), creating a Boolean test \(A &lt; c\). Evaluate each binary split's gain or Gini and keep the best; only midpoints where the class changes can win.</p><span class="src">5.2.5 · slides 333–337</span></div><div class="card"><h3>Overfitting in trees</h3><p>As the tree grows, training error keeps falling while test error eventually rises: deep branches memorise noise, as when one noisy PlayTennis example forces a new split under Sunny ∧ Normal. A tree with 100% training accuracy is a warning sign, not a goal.</p><span class="src">5.3.1 · slides 344–352</span></div><div class="card"><h3>Pre-pruning</h3><p>Stop growing early with a stopping condition: a gain threshold (the slide prunes nodes with gain \(\le 0.85\)), a minimum number of samples per node, or a maximum depth. It is cheap but can stop too soon, since a split with no gain now may enable good splits later.</p><span class="src">5.3.2 · slides 353–356</span></div><div class="card"><h3>Post-pruning</h3><p>Grow the tree fully, then scan bottom-up and replace a subtree by a leaf whenever validation error does not get worse. Training accuracy drops slightly and test accuracy usually improves.</p><span class="src">5.3.3 · slides 357–359</span></div><div class="card"><h3>MDL principle and Occam's razor</h3><p>Occam's razor prefers the shortest hypothesis that fits the data reasonably well. MDL makes this precise: minimise the bits to encode the tree plus the bits to encode its misclassified records (an event of probability \(p\) costs \(-\log_2 p\) bits), so a smaller tree with a few errors can beat a large perfect one.</p><span class="src">5.3.4 · slides 360–365</span></div><div class="card"><h3>CART</h3><p>CART (Classification and Regression Trees) always makes binary splits and handles both tasks: classification trees split by Gini and predict the majority class, regression trees split by variance (SSE) reduction and predict the leaf mean. A nominal attribute with \(k\) values has \(2^{k-1} - 1\) binary groupings to try.</p><span class="src">5.4 · slides 291, 327–328</span></div><div class="card"><h3>Strengths, weaknesses and applications of trees</h3><p>Trees are cheap to build, very fast to apply, easy to read when small, need no feature scaling and tolerate irrelevant attributes. They are unstable (one record can change the root), greedy growth may miss the best tree in an exponentially large space, each boundary involves a single attribute (axis-parallel), and unpruned trees overfit. They suit attribute-value data with discrete outputs, disjunctive concepts and noisy or missing values.</p><span class="src">5.5 · slides 316, 366</span></div></div></details>
+<details class="module" open id="m6-instance-based-learning-k-nearest-neighbour"><summary>M6 · Instance-Based Learning (K-Nearest Neighbour) <small>· 15 items</small></summary><div class="cards"><div class="card"><h3>Lazy versus eager learners</h3><p>An instance-based (lazy) learner just stores \(\langle x_i, f(x_i) \rangle\) and defers all work to query time: "if it walks like a duck and quacks like a duck, it's probably a duck". Training is instant, but every prediction scans the stored data, so queries are slow and memory-hungry; eager learners fit a model once and answer queries fast.</p><span class="src">6.1 · slides 373–376</span></div><div class="card"><h3>Minkowski family of distances</h3><p>Distance methods work from the dissimilarity matrix, an \(n \times n\) triangular table of pairwise distances built from the \(n \times p\) data matrix. In the Minkowski family, order \(h = 1\) gives Manhattan (city-block; Hamming for bit vectors), \(h = 2\) Euclidean, \(h \to \infty\) the supremum (largest coordinate gap); for any pair \(d_\infty \le d_2 \le d_1\), and the nearest neighbour can change with \(h\).</p><span class="src">6.2, 6.2.1 · slides 378, 382–384</span></div><div class="card"><h3>Nominal and binary dissimilarity</h3><p>For nominal attributes use simple matching, the fraction of attributes that differ. For binary attributes, symmetric ones (gender) count 0–0 matches; asymmetric ones (test results, where only a positive is informative) ignore 0–0 matches, which gives the Jaccard-based distance.</p><span class="src">6.2.2 · slides 379–381</span></div><div class="card"><h3>Ordinal variables</h3><p>Replace each value by its rank and map ranks to \([0, 1]\) with \((r - 1)/(M - 1)\), then treat the result as numeric. Poor, Average, Good, Excellent become \(0, \tfrac{1}{3}, \tfrac{2}{3}, 1\).</p><span class="src">6.2.3 · slide 386</span></div><div class="card"><h3>Gower distance for mixed types</h3><p>Compute a per-attribute dissimilarity in \([0, 1]\) (range-scaled gap for numeric, 0/1 mismatch for nominal, rank gap for ordinal), then take a weighted average, skipping missing values and 0–0 asymmetric binaries. The slide weights Department, Satisfaction and Age as 0.3, 0.3 and 0.4, with age range \(30 - 20 = 10\).</p><span class="src">6.2.4 · slides 387–391</span></div><div class="card"><h3>Standardise before measuring distance</h3><p>Without scaling, the attribute with the largest numeric range (income in rupees against age in years) decides every distance, and the nearest neighbour can flip once features are z-scored or min-max scaled. Scale query points with the training statistics.</p><span class="src">6.2.5 · slides 385, 391</span></div><div class="card"><h3>The k-NN algorithm</h3><p>Find the \(k\) training points closest to the query; for a discrete target take the majority class, for a real target take the mean of the neighbours' values. There is no training phase, and 1-NN always has zero training error, which says nothing about test error.</p><span class="src">6.3.1 · slides 375–377, 393</span></div><div class="card"><h3>Choosing k</h3><p>A starting rule is \(k \approx \sqrt{N}\); then plot validation error against \(k\) and take the elbow. In the slides' example (\(N = 100\), 60% class A), \(k = 1\)–3 overfits noise (high variance), the elbow at \(k = 7\) is the sweet spot, and as \(k \to N\) the model always predicts A, giving a flat 40% error (high bias).</p><span class="src">6.3.2 · slides 394–396</span></div><div class="card"><h3>Distance-weighted k-NN</h3><p>Weight each neighbour's vote by a kernel of its distance, such as \(1/d^2\), \(1/(d_0 + d)^2\) or \(\exp(-(d/\sigma_0)^2)\), so close neighbours count more and a few very near points can overturn a plain majority. With weighting, all training points can be used without choosing \(k\).</p><span class="src">6.3.3 · slides 397–401</span></div><div class="card"><h3>Curse of dimensionality for nearest neighbours</h3><p>k-NN uses all attributes, so if the target depends on only a few of many attributes, truly similar instances can be far apart in the full space. In high dimensions all pairwise distances become nearly equal and "nearest" loses meaning; select features or reduce dimension first.</p><span class="src">6.3.4 · slide 392</span></div><div class="card"><h3>Locally weighted regression</h3><p>Instead of one global fit, fit a fresh (usually linear) model around each query point, with every training example's error weighted by a kernel of its distance from the query. The local model is used for that one prediction and then discarded.</p><span class="src">6.4.1 · slides 403–408</span></div><div class="card"><h3>Kernel-weighted gradient update</h3><p>The local model is fitted by the usual delta rule with each residual multiplied by its kernel weight, \(w_j \leftarrow w_j + \eta \sum K(d)\,(f(x) - \hat{f}(x))\,a_j(x)\). The slides' 5-NN price example uses a Gaussian kernel with \(b = 1\), so distant neighbours get weights near 0.01 and barely move the fit.</p><span class="src">6.4.2 · slides 407–411</span></div><div class="card"><h3>When to use nearest neighbours</h3><p>k-NN suits low-dimensional data with plenty of examples and complex local structure, trains instantly and loses no information. Its challenges are choosing \(k\) and the distance metric, slow and costly queries, and sensitivity to irrelevant features and scale.</p><span class="src">6.1, 6.3.4 · slides 412–413</span></div><div class="card"><h3>Model selection with a validation set</h3><p>Model selection compares candidates to choose one; model assessment estimates the chosen model's generalisation error. Tuning on the test set and then reporting test error is optimistic, so hold out a validation (dev) set for tuning and touch the test set once.</p><span class="src">6.5.1 · slides 417–421</span></div><div class="card"><h3>Cross-validation</h3><p>k-fold CV trains on \(k - 1\) folds and validates on the remaining one, rotating so every point is validated once; leave-one-out uses \(k = n\); stratified k-fold keeps class proportions in each fold. It uses data better than a single holdout split, at the cost of \(k\) fits per candidate.</p><span class="src">6.5.2 · slides 422–424</span></div></div></details>
+<details class="module" open id="m7-support-vector-machines"><summary>M7 · Support Vector Machines <small>· 12 items</small></summary><div class="cards"><div class="card"><h3>Many separating hyperplanes</h3><p>A linear classifier predicts \(f(x) = \operatorname{sign}(w^\top x + b)\). For linearly separable data infinitely many hyperplanes separate the classes, and a boundary that passes close to points misclassifies them after a small perturbation; the SVM's question is which one is best.</p><span class="src">7.1.1 · slides 431–435</span></div><div class="card"><h3>Margin and support vectors</h3><p>The margin is the width the boundary could grow before hitting a data point; the maximum-margin classifier (linear SVM) picks the hyperplane with the widest one, which equals \(2/\lVert w \rVert\). The hyperplane is fixed entirely by the points on the margin, the support vectors; removing any other point leaves it unchanged.</p><span class="src">7.1.2 · slides 436–438</span></div><div class="card"><h3>Hard-margin primal problem</h3><p>Maximising \(2/\lVert w \rVert\) is the same as minimising \(\tfrac{1}{2}\lVert w \rVert^2\) subject to \(y_i(w^\top x_i + b) \ge 1\) for every point. This is a quadratic objective with linear constraints, a convex QP with a unique optimum when the data are separable, and no solution when they are not.</p><span class="src">7.2.1 · slides 438–443</span></div><div class="card"><h3>Dual problem, Lagrange multipliers and KKT</h3><p>Attaching a multiplier \(\alpha_i \ge 0\) to each constraint and setting the Lagrangian's derivatives to zero gives \(w = \sum \alpha_i y_i x_i\) and \(\sum \alpha_i y_i = 0\). Complementary slackness makes \(\alpha_i &gt; 0\) only for support vectors, and the data appear in the dual only through inner products \(x_i^\top x_j\), which is what opens the door to kernels.</p><span class="src">7.2.2 · slides 443–446, 464</span></div><div class="card"><h3>The three-equation shortcut and its flaw</h3><p><strong>Erratum:</strong> the slide's worked example solves \(w \cdot x_i + b = y_i\) through three guessed support vectors as a plain linear system and gets \(\alpha_1 = -3.5\), \(\alpha_2 = \alpha_3 = 0.75\). This is not a valid dual solution: a multiplier is negative and \(\sum \alpha_i y_i = 5 \ne 0\). Always check \(\alpha_i \ge 0\), \(\sum \alpha_i y_i = 0\) and every margin constraint.</p><span class="src">7.2.2 · slides 447–452</span></div><div class="card"><h3>Soft margin and slack variables</h3><p>Noisy or overlapping data have no separating hyperplane, so slack \(\xi_i \ge 0\) lets point \(i\) violate the margin at a cost \(C\xi_i\). \(\xi_i = 0\) is on or outside the correct margin, \(0 &lt; \xi_i \le 1\) inside it but correctly classified, \(\xi_i &gt; 1\) misclassified.</p><span class="src">7.3.1 · slides 455–459</span></div><div class="card"><h3>The C trade-off</h3><p>Large \(C\) makes violations expensive: a narrow margin, few training errors, low bias and high variance (approaching the hard margin). Small \(C\) tolerates violations for a wide margin: more bias, less variance. \(C\) is a regularisation knob and must be tuned by cross-validation.</p><span class="src">7.3.2 · slides 457, 459–463</span></div><div class="card"><h3>Mapping to a feature space</h3><p>Data that are not linearly separable in the input space can become separable after a mapping \(\Phi(x)\) to a higher-dimensional space: 1-D points with one class inside an interval separate after \(\Phi(x) = (x, x^2)\). The SVM then finds a linear boundary in that space, which is non-linear in the original one.</p><span class="src">7.4.1 · slides 465–470</span></div><div class="card"><h3>The kernel trick</h3><p>Because the dual uses only inner products, replace \(x_i^\top x_j\) by a kernel \(K(x_i, x_j) = \Phi(x_i)^\top \Phi(x_j)\) and never build \(\Phi\) explicitly. A valid kernel must give a symmetric positive semi-definite Gram matrix; the trick saves feature-space cost, not the cost of comparing every pair of training points.</p><span class="src">7.4.1 · slides 467, 476, 479</span></div><div class="card"><h3>Common kernels</h3><p>Linear \(x_i^\top x_j\); polynomial \((1 + x_i^\top x_j)^p\) (degree 1 is linear); Gaussian RBF \(\exp(-\lVert x_i - x_j \rVert^2 / 2\sigma^2)\), which corresponds to an infinite-dimensional space and gives very local, wiggly boundaries when \(\sigma\) is small; sigmoid \(\tanh(\beta_0 x_i^\top x_j + \beta_1)\).</p><span class="src">7.4.2 · slides 468, 477–478</span></div><div class="card"><h3>Multiclass SVM</h3><p>An SVM is binary, so \(C\) classes (movie genres: action, drama, thriller) need one-vs-all (\(C\) classifiers, highest score wins) or one-vs-one (\(C(C - 1)/2\) classifiers, majority vote). For a kernel SVM whose training cost grows faster than linearly, OvO's many small problems are often cheaper.</p><span class="src">7.5 · slide 481</span></div><div class="card"><h3>SVM pros and cons</h3><p>Pros: the kernel framework is flexible, the solution is a sparse set of support vectors (compact at test time), it works well even on small samples, and the convex QP has a global optimum. Cons: choosing the kernel and its parameters is tricky, and training needs kernel values for every pair of examples, so memory and time blow up on large problems.</p><span class="src">7.5 · slide 482</span></div></div></details>
+<details class="module" open id="m8-bayesian-learning"><summary>M8 · Bayesian Learning <small>· 17 items</small></summary><div class="cards"><div class="card"><h3>Where cost functions come from</h3><p>A distribution is a model plus a parameter \(\theta\); training a model means estimating \(\theta\) from data. Asking which \(\theta\) makes the observed data most probable explains both the least-squares cost (Gaussian noise) and the log-loss (Bernoulli labels), so each loss hides a distributional assumption.</p><span class="src">8.1, 8.1.2, 8.1.3 · slides 487–491</span></div><div class="card"><h3>The MLE recipe</h3><p>For i.i.d. data write the likelihood \(L(\theta) = \prod f(x_i \mid \theta)\), take logs so the product becomes a sum, differentiate with respect to each parameter, set to zero and solve. With 3 heads in 10 tosses the MLE of \(p\) is 0.3, the observed proportion.</p><span class="src">8.1.1 · slides 493, 501, 511–513</span></div><div class="card"><h3>Least squares is the Gaussian-noise MLE</h3><p>If \(y = \theta^\top x + \varepsilon\) with \(\varepsilon \sim N(0, \sigma^2)\), maximising the log-likelihood over \(\theta\) is exactly minimising the sum of squared errors. Change the noise model and the loss changes: Laplacian noise makes the MLE minimise mean absolute error, which is more robust to outliers.</p><span class="src">8.1.2 · slides 494–498, 514–515</span></div><div class="card"><h3>Logistic regression by MLE</h3><p>With Bernoulli labels the log-likelihood is \(\sum [y_i \ln \sigma_i + (1 - y_i)\ln(1 - \sigma_i)]\), the negative of the cross-entropy. Its gradient equations are non-linear in \(\theta\) with no closed-form root, so it is maximised by gradient ascent; at \(\theta = 0\) every \(\sigma = 0.5\), and four points give \(LL = 4\ln 0.5 = -2.773\).</p><span class="src">8.1.3 · slides 499–500, 516–517</span></div><div class="card"><h3>MAP estimation</h3><p>MAP picks the \(\theta\) with the highest posterior, likelihood times prior, so prior beliefs pull the estimate. With a uniform prior MAP equals MLE exactly, and as data accumulate the likelihood dominates and MAP tends to MLE. In the slide's example the posterior \(\propto 2x^2(1 - x)^2\) peaks at \(\hat{x}_{\text{MAP}} = 0.5\).</p><span class="src">8.1.4 · slides 502–504, 509</span></div><div class="card"><h3>Bayes' theorem</h3><p>The posterior \(P(h \mid D)\) is the prior \(P(h)\) times the likelihood \(P(D \mid h)\), normalised by the evidence \(P(D)\). \(P(\text{class} \mid \text{evidence})\) is not \(P(\text{evidence} \mid \text{class})\): with a fraud prior of 0.002, detection rate 0.95 and false-alarm rate 0.03, an alert raises the fraud probability only to about 0.06.</p><span class="src">8.2.1 · slides 492, 504</span></div><div class="card"><h3>MLE, MAP and the coin factory</h3><p>With three coin types, \(h_{\text{MLE}} = h_3\) (\(p = 0.8\)) explains the data best, but only 20% of coins are that kind, so \(h_{\text{MAP}} = h_2\) (\(p = 0.4\), posterior 0.568): the prior outweighs the likelihood advantage. Under a uniform prior the two coincide.</p><span class="src">8.1.4, 8.2.2 · slides 518–519</span></div><div class="card"><h3>Bayes optimal classifier</h3><p>Rather than trust \(h_{\text{MAP}}\) alone, the Bayes optimal classifier weights every hypothesis's prediction by its posterior; no method using the same hypotheses and prior does better on average. With posteriors 0.4, 0.3, 0.3 where \(h_1\) says + and \(h_2, h_3\) say −, \(h_{\text{MAP}}\) predicts + but the optimal vote is − (0.6 against 0.4). In the coin example MAP predicts tails, Bayes optimal heads (\(P(H \mid D) \approx 0.536\)).</p><span class="src">8.2.2 · slides 505–507, 519</span></div><div class="card"><h3>Gibbs classifier</h3><p>The Bayes optimal vote is expensive with many hypotheses, so Gibbs draws one hypothesis at random from the posterior and uses it alone. Surprisingly, its expected error is at most twice the Bayes optimal error.</p><span class="src">8.2.3 · slide 508</span></div><div class="card"><h3>Conditional independence and why Naïve Bayes needs it</h3><p>The full class-conditional joint \(P(X_1, \dots, X_n \mid Y)\) over \(n\) binary features needs about \(2^{n+1}\) parameters, far too many to estimate (digit recognition from pixels). Assuming the features are independent given the class makes it a product of \(n\) one-feature terms, so the count grows only linearly.</p><span class="src">8.3.1 · slides 521–527</span></div><div class="card"><h3>Generative versus discriminative models</h3><p>Generative models (Gaussians, Naïve Bayes, mixture models) learn \(P(X \mid Y)\) and \(P(Y)\), so they can sample synthetic data, and get \(P(Y \mid X)\) by Bayes' theorem. Discriminative models such as logistic regression learn \(P(Y \mid X)\) directly.</p><span class="src">8.3.1, 8.4 · slides 521–522, 566</span></div><div class="card"><h3>Discrete Naïve Bayes by counting</h3><p>Estimate the class priors and each \(P(X_i = v \mid Y)\) as relative frequencies from the training table, multiply the prior by the likelihood of each observed attribute value, and predict the class with the largest score. The independence assumption is often violated, yet the \(\arg\max\) is often still right.</p><span class="src">8.3.2 · slides 528–531</span></div><div class="card"><h3>Zero-frequency problem and smoothing</h3><p>One attribute value never seen with a class makes that class's whole product 0. In the churn example both classes score 0 unsmoothed; Laplace smoothing \((N_{vc} + 1)/(N_c + d)\) gives Yes \(0.0343\) against No \(0.0181\), so predict churn with \(P(\text{Yes} \mid x) \approx 0.654\). The m-estimate generalises this with a prior \(p\) worth \(m\) virtual examples.</p><span class="src">8.3.3 · slides 532–539</span></div><div class="card"><h3>Gaussian Naïve Bayes</h3><p>For a continuous feature, fit one Gaussian \(N(\mu_{ik}, \sigma_{ik}^2)\) per (feature, class) pair and use its density as the likelihood. A density is not a probability and can be tiny or above 1: at Humidity = 60 the Yes density \(N(60; 84.33, 1.33)\) is \(1.28 \times 10^{-97}\) against 0.0179 for No, which settles the vote.</p><span class="src">8.3.4 · slides 540–549</span></div><div class="card"><h3>Text classification: bag of words, multinomial and Bernoulli</h3><p>The bag-of-words representation keeps word counts and ignores order. Multinomial NB models counts (repeated words count repeatedly, absent words contribute nothing); Bernoulli NB models presence or absence of every vocabulary word, so absent words count too and repetitions do not. On the Stanford "China" example multinomial NB assigns \(d_5\) to China (0.0003 &gt; 0.0001) while Bernoulli NB does not (0.005 &lt; 0.022).</p><span class="src">8.3.5 · slides 550–565</span></div><div class="card"><h3>Gaussian NB reduces to the logistic form</h3><p>If \(Y \sim \text{Bernoulli}(\pi)\), each \(X_i \mid Y\) is Gaussian with a variance that does not depend on the class, and the \(X_i\) are conditionally independent, then \(P(Y = 1 \mid X)\) is exactly a sigmoid of a linear function. Logistic regression fits that form directly, so it is more robust when the Gaussian assumptions fail, while GNB converges faster on little data.</p><span class="src">8.4 · slides 567, 571–574</span></div><div class="card"><h3>Features and practical issues of Bayesian learning</h3><p>Each training example nudges a hypothesis's probability up or down instead of eliminating it outright, and prior knowledge combines naturally with data. The costs: many initial probabilities must be supplied or estimated, and the Bayes optimal hypothesis is expensive in general (linear in the number of hypotheses).</p><span class="src">8.2.1 · slides 568–569</span></div></div></details>
+<details class="module" open id="m9-ensemble-learning"><summary>M9 · Ensemble Learning <small>· 10 items</small></summary><div class="cards"><div class="card"><h3>Weak learners into a strong learner</h3><p>A weak learner is only slightly better than random guessing; combining many of them can give a strong learner. If 3 independent classifiers are each right with probability 0.7, a majority vote is right with probability 0.784, and 5 give 0.837. The gain depends on diversity: correlated learners make the same mistakes, and learners worse than 0.5 make voting worse. Homogeneous ensembles combine copies of one algorithm trained on different data or weights (bagging, random forests, boosting); heterogeneous ensembles combine different algorithms (stacking).</p><span class="src">9.1.1 · slides 582–587</span></div><div class="card"><h3>Matching the ensemble to the base learner</h3><p>Bagging trains learners in parallel and averages them, which reduces variance, so it suits low-bias, high-variance learners such as deep trees. Boosting trains them sequentially on re-weighted data, which reduces bias, so it suits high-bias, low-variance learners such as stumps. Stacking blends heterogeneous models with a meta-model.</p><span class="src">9.1.2 · slides 582–587, 605</span></div><div class="card"><h3>Bootstrapping</h3><p>A bootstrap sample draws \(n\) records with replacement from \(n\): some records repeat and about \(1 - e^{-1} \approx 63.2\%\) of the distinct records appear. The remaining 36.8% are that sample's out-of-bag records, a free validation set.</p><span class="src">9.2.1 · slides 589–596</span></div><div class="card"><h3>Bagging</h3><p>Bootstrap aggregating trains one model per bootstrap sample, in parallel, and aggregates by averaging (regression) or majority vote (classification). It cannot fix a learner that is biased, because averaging biased models stays biased.</p><span class="src">9.2.1 · slides 597–602</span></div><div class="card"><h3>Random Forest</h3><p>A random forest bags decision trees and, at every split, considers only a random subset of features (typically \(\sqrt{p}\) for classification). This decorrelates the trees, so averaging removes more variance than plain bagging. The slides' examples are majority votes: trees saying Pass, Fail, Pass give Pass.</p><span class="src">9.2.2 · slides 603, 611–614</span></div><div class="card"><h3>Sequential reweighting in boosting</h3><p>Boosting trains learners one after another, each focusing on the previous ones' mistakes by giving misclassified records more weight (AdaBoost) or by fitting the remaining errors (gradient boosting). The final model is a weighted combination of all learners.</p><span class="src">9.3.1 · slides 605, 618–622, 641</span></div><div class="card"><h3>AdaBoost mechanics</h3><p>Start with equal weights (\(1/6\) each for the six churn customers), fit a stump, compute its weighted error \(\varepsilon\) and its say \(\alpha = \tfrac{1}{2}\ln\frac{1 - \varepsilon}{\varepsilon}\), raise the weights of misclassified records and lower the rest, renormalise, and repeat; predict \(\operatorname{sign}(\sum \alpha_t h_t(x))\). A stump with \(\varepsilon = 0.5\) gets \(\alpha = 0\). Keep exact values: with \(\varepsilon = 2/7\), \(\alpha = \tfrac{1}{2}\ln 2.5 \approx 0.458\), while rounding \(\varepsilon\) to 0.28 first gives 0.472.</p><span class="src">9.3.2 · slides 618–629</span></div><div class="card"><h3>Gradient boosting</h3><p>Start from a constant prediction (the mean for regression), fit a small tree to the residuals, add it scaled by a learning rate, recompute the residuals and repeat. For squared loss the residual is the negative gradient, so each tree is one step of gradient descent in function space; a small learning rate needs more trees but generalises better.</p><span class="src">9.3.3 · slides 615–616, 631–637, 641</span></div><div class="card"><h3>What makes XGBoost "extreme"</h3><p>XGBoost is regularised gradient boosting: a complexity penalty on leaves and leaf values in the objective, shrinkage (the slides' example uses \(\eta = 0.3\) from a base of 25 and predicts 19.9 at \(X = 3\), 30.1 at \(X = 7\)), depth-wise growth followed by pruning of splits that do not improve the objective, sparsity-aware default directions for missing values, and cache-aware, parallel computation for speed.</p><span class="src">9.3.4 · slides 630–643</span></div><div class="card"><h3>Stacking</h3><p>Stacking trains heterogeneous base learners (e.g. logistic regression, random forest, k-NN) and a meta-model that learns how to combine their predictions. The meta-model must be trained on out-of-fold predictions, or it learns to trust whichever base model overfits most.</p><span class="src">9.4 · slides 644–648</span></div></div></details>
+<details class="module" open id="m10-unsupervised-learning"><summary>M10 · Unsupervised Learning <small>· 13 items</small></summary><div class="cards"><div class="card"><h3>The clustering goal</h3><p>Group objects so that points in a cluster are close (small intra-cluster distance, cohesion) and clusters are far apart (large inter-cluster distance, separation). Uses include understanding (related documents, genes, stocks) and summarisation; dividing students alphabetically or grouping by a query is not cluster analysis, because the groups come from an external rule.</p><span class="src">10.1.1 · slides 654, 702–703</span></div><div class="card"><h3>Partitional versus hierarchical clustering</h3><p>Partitional clustering divides the data into non-overlapping subsets, each point in exactly one (K-means, K-medoids); hierarchical clustering builds a set of nested clusters organised as a tree (dendrogram) that can be cut at any level.</p><span class="src">10.1.2 · slide 704</span></div><div class="card"><h3>K-means as alternating E- and M-steps</h3><p>Pick \(K\) initial centroids, then alternate: assign each point to its nearest centroid (E-step, fixing \(\mu_k\) to choose \(r_{nk}\)), and recompute each centroid as the mean of its points (M-step, fixing \(r_{nk}\) to choose \(\mu_k\)). For A(1,2), B(1,4), C(1,0), D(10,2), E(10,4), F(10,0) with initial centroids A and D, the clusters {A, B, C} and {D, E, F} already have means (1, 2) and (10, 2), so it stops after one pass.</p><span class="src">10.2.1 · slides 655–662, 705–706</span></div><div class="card"><h3>K-means objective and convergence</h3><p>K-means minimises \(J = \sum_n \sum_k r_{nk}\lVert x_n - \mu_k \rVert^2\), the SSE. Each E-step and each M-step can only lower or keep \(J\), and there are finitely many assignments, so it always converges, but only to a local minimum that depends on the initial centroids; run several initialisations and keep the lowest SSE.</p><span class="src">10.2.2 · slides 655, 660, 663</span></div><div class="card"><h3>Choosing K with the elbow method</h3><p>Compute SSE for \(K = 2, 3, 4, \dots\) and plot it; SSE always falls as \(K\) grows (to 0 at \(K = N\)), so choose the bend where extra clusters stop paying. With no clear elbow, use the silhouette as well.</p><span class="src">10.2.3 · slide 670</span></div><div class="card"><h3>Limitations of K-means</h3><p>K-means struggles when clusters differ in size or density or are non-globular (elongated, nested), because it favours round clusters of similar spread. It is also pulled by outliers, since one extreme value moves a mean a long way. A point's distance to its centroid over the cluster's average distance gives a naive outlier score (higher means more likely an outlier).</p><span class="src">10.2.4 · slides 665–668, 671, 708–709</span></div><div class="card"><h3>K-medoids</h3><p>K-medoids uses a medoid, the actual data point with the smallest total dissimilarity to the rest of its cluster, instead of the mean, so outliers cannot drag the centre off the data. Starting from medoids A(1,1) and D(8,1), the slides' example settles on medoids B(2,3) and E(9,3). For \((1,1), (2,1), (1,2), (2,3), (9,8)\) the centroid is pulled to \((3, 3)\), while the medoid stays among the four close points.</p><span class="src">10.3 · slides 669, 711–715</span></div><div class="card"><h3>Internal, external and relative validity indices</h3><p>An internal index (SSE, cohesion, separation) judges a clustering from the data alone; an external index (entropy, purity) compares cluster labels with known class labels; a relative index compares two clusterings or values of \(K\). Any index needs a framework (how atypical is this value?) to be interpreted.</p><span class="src">10.4.1 · slides 716–721</span></div><div class="card"><h3>Silhouette coefficient</h3><p>For each point, \(a\) is its average distance to its own cluster and \(b\) the smallest average distance to another cluster; \(s = 1 - a/b\) when \(a &lt; b\). Values near 1 mean well placed, near 0 on a border, negative probably misassigned; averaging over points gives a score for a cluster or a whole clustering.</p><span class="src">10.4.2 · slide 722</span></div><div class="card"><h3>Hard versus soft clustering</h3><p>K-means makes hard assignments, each point to exactly one cluster via the 1-of-K indicators \(r_{nk}\), which is awkward for overlapping or non-circular clusters. A Gaussian mixture model gives soft, probabilistic assignments that express uncertainty.</p><span class="src">10.5.1 · slides 672–675</span></div><div class="card"><h3>Gaussian mixture density</h3><p>A single Gaussian is unimodal, so multimodal data are modelled as a weighted sum of \(K\) Gaussians, \(p(x) = \sum_k \pi_k \mathcal{N}(x \mid \mu_k, \Sigma_k)\), with mixing weights \(\pi_k\) that sum to 1 and act as priors on which component generated a point.</p><span class="src">10.5.2 · slides 676–688, 723–726</span></div><div class="card"><h3>EM for GMMs</h3><p>The E-step computes each point's responsibilities \(\gamma(z_{nk})\) by Bayes' theorem with the \(\pi_k\) as priors; the M-step re-estimates \(\pi_k, \mu_k, \Sigma_k\) by responsibility-weighted MLE, with \(N_k = \sum_n \gamma(z_{nk})\) as the effective cluster size. Repeat until the log-likelihood stops increasing. <strong>Erratum:</strong> in the document example the second responsibility, 0.994, belongs to Cluster 2, not Cluster 1 (the two sum to 1 with 0.006).</p><span class="src">10.5.3 · slides 689–699</span></div><div class="card"><h3>Covariance options and practical issues</h3><p>"spherical" clusters are round with their own variance, "diag" are axis-aligned ellipses, "tied" share one covariance, "full" can be any ellipse. EM needs \(K\) chosen in advance, finds only local optima that depend on initialisation (sklearn's <code>n_init</code>), and can hit singularities when a component collapses onto one point.</p><span class="src">10.5.4 · slides 679, 700–701</span></div></div></details>
+<details class="module" open id="m11-ml-model-evaluation-comparison-facct-ml"><summary>M11 · ML Model Evaluation, Comparison &amp; FAccT ML <small>· 8 items</small></summary><div class="cards"><div class="card"><h3>The evaluation workflow</h3><p>Train on the training set, tune hyper-parameters on validation data or by cross-validation (holdout, k-fold, leave-one-out, stratified k-fold, bootstrap), and evaluate the final model once on unseen test data. Using the test set for tuning silently inflates the reported score.</p><span class="src">11.1.1 · slides 730–733</span></div><div class="card"><h3>Classification and regression metrics side by side</h3><p>For classification use accuracy, precision, recall, F1 and ROC-AUC, preferring the rare-class metrics under imbalance. For regression use MSE/RMSE (punish large errors), MAD/MAE (linear in error), MAPE (scale-free, undefined at zero) and \(R^2\) (against predicting the mean). Different metrics can rank the same models differently, so choose the one that matches the real cost.</p><span class="src">11.1.2 · slide 733</span></div><div class="card"><h3>Is one model really better?</h3><p>Comparing models is two steps: put a confidence interval on each model's accuracy, then test whether the observed gap is statistically significant. Test accuracy is a sample proportion with standard error \(\sqrt{p(1 - p)/n}\), so 0.85 on 1000 cases gives a 95% interval of about \([0.828, 0.872]\); a small gap on a small test set is often just noise.</p><span class="src">11.2.1 · slide 734</span></div><div class="card"><h3>FAccT: the emerging requirements</h3><p>Beyond accuracy, deployed models must be fair (no gender or ethnic discrimination), accountable (someone answers for failures), transparent (understandable and compliant with regulation), private and robust. The field draws on statistics, ML, social science, psychology and public policy.</p><span class="src">11.3.1 · slides 735–737</span></div><div class="card"><h3>Algorithmic bias and negative legacy</h3><p>ML models approximate the patterns in their data, so they learn and can amplify its biases. COMPAS, a commercial tool that scored over a million offenders on 137 features for reoffending risk, became the standard example. When historical labels themselves reflect past discrimination (negative legacy), every model and metric trained against them inherits it.</p><span class="src">11.3.1 · slides 738–740</span></div><div class="card"><h3>Why fairness through unawareness fails</h3><p>Dropping the sensitive attribute (race, ethnicity) does not make a model fair, because other features can act as proxies that redundantly encode it: in the slides' hiring example, "often goes to Mexican markets" stands in for ethnicity. Fairness must be measured on outcomes per group, not assumed from the inputs.</p><span class="src">11.3.2 · slides 741–742</span></div><div class="card"><h3>Interpretable models versus black boxes</h3><p>Decision trees (read the rule path), linear and logistic regression (read signed coefficients or odds ratios) and k-NN (read the neighbours) explain their own decisions. Ensembles and deep nets are black boxes that need post-hoc explanation, which matters for end users' trust, for debugging and for regulators.</p><span class="src">11.4.1 · slides 743–747</span></div><div class="card"><h3>The interpretability–performance trade-off</h3><p>High-performing models tend to be less interpretable (on MNIST, deep networks beat the readable models). Whether a black box is acceptable depends on the stakes: a loan or parole decision needs explanations, a movie recommender less so.</p><span class="src">11.4.2 · slides 748–749</span></div></div></details>
+<details class="module" id="instructors-notes"><summary>Instructor's notes: big ideas, dependencies, misconceptions, slide errata <small>· 5 sections</small></summary><div class="cards"><div class="card note-card"><h3>2.1 The spine of the course: the big ideas that keep coming back</h3><p>Students who treat this course as eleven unrelated algorithms struggle. Students who see these threads find that most modules are the same handful of ideas, reapplied.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Big idea</th>
+<th>Where it appears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td><strong>A loss function is a hidden distributional (or geometric) assumption.</strong> Squared error \(\Leftrightarrow\) Gaussian noise (MLE of linear regression); cross-entropy \(\Leftrightarrow\) Bernoulli labels (MLE of logistic regression); counting \(\Leftrightarrow\) MLE of Naïve Bayes's tables. Change the assumption, change the "right" loss.</td>
+<td>3.1, 4.2, 8.1, 8.3.2</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td><strong>Bias–variance trade-off, under one name or another, in every module.</strong> Regularisation strength (3.5, 4.3), tree depth/pruning (5.3), \(k\) in k-NN (6.3.2), \(C\) in SVM (7.3.2), bagging-reduces-variance vs boosting-reduces-bias (9.1.2).</td>
+<td>3.4.2, 3.5, 5.3, 6.3.2, 7.3.2, 9.1.2</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td><strong>Conditioning and reversal via Bayes' theorem.</strong> Bayes' theorem \(\to\) Bayes-optimal classifier \(\to\) Naïve Bayes \(\to\) the GMM E-step responsibility \(\gamma(z_{nk})\), which is <em>the same formula</em> with mixing weights playing the role of priors.</td>
+<td>8.2.1, 8.3, 10.5.3</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td><strong>Distance is the basic primitive of "similar".</strong> The same Minkowski/Gower toolkit drives k-NN's neighbours, k-means's cluster assignment, and (implicitly, through \(\lVert w \rVert\)) the SVM margin.</td>
+<td>6.2, 7.1.2, 10.2</td>
+</tr>
+<tr>
+<td><strong>E</strong></td>
+<td><strong>A linear score \(w^\top x + b\), thresholded or squashed, is the common skeleton of discriminative classifiers.</strong> Logistic regression squashes it with a sigmoid; the linear SVM thresholds it with \(\operatorname{sign}()\); both draw a hyperplane decision boundary.</td>
+<td>4.1.2, 7.1.1</td>
+</tr>
+<tr>
+<td><strong>F</strong></td>
+<td><strong>Weak learners combine into strong ones, three different ways.</strong> Bagging averages independent high-variance learners; boosting re-weights to serially fix a high-bias learner's mistakes; stacking lets a meta-model blend heterogeneous learners.</td>
+<td>9.1–9.4</td>
+</tr>
+<tr>
+<td><strong>G</strong></td>
+<td><strong>The test set is not a tuning knob.</strong> Hyper-parameters (\(\lambda\), \(k\), \(C\), tree depth, number of estimators) must be chosen on a validation split or by cross-validation; touching the test set during tuning silently inflates the reported generalisation error.</td>
+<td>2.4.1, 6.5, 11.1, 11.2</td>
+</tr>
+</tbody>
+</table><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.2 Dependency map (what you must master before what)</h3><pre><code>1.4 Inductive learning hyp. ──► 1.2 Supervised/unsupervised split
+                                      │
+2.1-2.5 Data, scaling, encoding ──────┼──────────────► 6.2 Distance measures ──► 6.3 k-NN ──► 10.2 K-means
+       │                              │                        │                                 │
+       ▼                              ▼                        ▼                                 ▼
+3.1-3.3 Linear regr. + GD ──► 3.5 Regularisation      7.1-7.4 SVM margin &amp; kernels      10.5 GMM &amp; EM ◄── 8.2 Bayes thm
+       │                              │                                                          ▲
+       ▼                              ▼                                                          │
+4.1-4.2 Logistic regr. (same GD, same reg.) ──► 4.4 Confusion matrix/ROC ──► 11.1-11.2 Evaluation │
+       │                                                                                          │
+       ▼                                                                                          │
+8.1 MLE  (logistic reg. MLE has no closed form, 4.2.1 explains why) ──► 8.3 Naïve Bayes ──────────┘
+       │                                                                      │
+       ▼                                                                      ▼
+5.1-5.3 Decision trees (entropy/Gini, pruning) ──► 9.2 Bagging/Random Forest ──► 9.3 Boosting (AdaBoost,
+                                                                                  Gradient Boosting, XGBoost)
+</code></pre>
+<p><strong>Critical bottlenecks</strong> (weak here and the damage spreads downstream):</p>
+<ol>
+<li><strong>Gradient descent mechanics</strong> — the update rule, the role of the learning rate, and why feature scaling changes the shape of the descent path. Needed verbatim in Module 3, reused in Module 4, and reappears conceptually as "functional gradient descent" in Gradient Boosting (Module 9).</li>
+<li><strong>Computing a score from a small table by hand</strong> — entropy/Gini (Module 5), a Gaussian density or a Naïve Bayes product of likelihoods (Module 8), a Minkowski/Gower distance (Module 6). All four are "plug numbers into a formula, then \(\arg\max\)/\(\arg\min\)", and all four show up again inside ensembles (Module 9) and clustering (Module 10).</li>
+<li><strong>Bayes' theorem, in the direction you actually need it.</strong> \(P(\text{class} \mid \text{evidence})\) is not \(P(\text{evidence} \mid \text{class})\); getting this backwards breaks Naïve Bayes (8.3), the Bayes-optimal classifier (8.2), and the GMM E-step (10.5.3) identically.</li>
+<li><strong>Train / validation / test discipline.</strong> Introduced in Module 2, tested again in Module 6 (k-NN's choice of \(k\)), and made explicit in Module 11 as "the test set is not a tuning knob" — the single most common practical mistake in applied ML.</li>
+</ol><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.3 The most common misconceptions (targeted by L1 and L5 problems)</h3><table>
+<thead>
+<tr>
+<th>Misconception</th>
+<th>Reality</th>
+<th>Targeted in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"A classifier with 99% accuracy is obviously good."</td>
+<td>Not under class imbalance — predicting the majority class every time can reach 99% accuracy while missing every rare case (fraud, disease, defect).</td>
+<td>M4</td>
+</tr>
+<tr>
+<td>"Tuning hyper-parameters on the test set is fine, as long as I don't retrain on it."</td>
+<td>It still leaks information: the reported generalisation error becomes optimistic because the model/hyper-parameters were <em>selected</em> to do well on that exact set. The slides state this directly: "the test data can't be used for parameter tuning."</td>
+<td>M2, M6, M11</td>
+</tr>
+<tr>
+<td>"A decision tree that gets 100% training accuracy is the best tree."</td>
+<td>It is very likely overfit: a perfectly pure tree has memorised noise. Pre-/post-pruning trade a little training accuracy for better test accuracy.</td>
+<td>M5</td>
+</tr>
+<tr>
+<td>"Larger \(k\) in k-NN is always safer."</td>
+<td>\(k\) trades bias and variance: \(k = 1\) overfits to noise (high variance); \(k \to N\) underfits to the global majority class (high bias). The elbow method exists precisely to find the middle.</td>
+<td>M6</td>
+</tr>
+<tr>
+<td>"More regularisation can only help."</td>
+<td>Too much regularisation underfits (high bias); the strength must be tuned, typically via validation/cross-validation, like every other hyper-parameter.</td>
+<td>M3, M4</td>
+</tr>
+<tr>
+<td>"Bagging and boosting do the same thing, just with different names."</td>
+<td>Bagging trains independent learners in parallel to reduce <em>variance</em> (good with high-variance, low-bias base learners such as deep trees). Boosting trains learners sequentially, re-weighting mistakes, to reduce <em>bias</em> (good with high-bias, low-variance base learners such as shallow stumps).</td>
+<td>M9</td>
+</tr>
+<tr>
+<td>"Naïve Bayes's conditional-independence assumption is harmless in practice."</td>
+<td>It is frequently violated (e.g. <code>Plan</code> and <code>Usage</code> are correlated given churn in the slides' own telecom example) yet the classifier often still ranks the classes correctly, because only the <em>\(\arg\max\)</em> over classes needs to be right, not the exact probabilities.</td>
+<td>M8</td>
+</tr>
+<tr>
+<td>"A Gaussian Mixture Model assigns every point to one cluster, like k-means."</td>
+<td>GMM gives soft responsibilities \(\gamma(z_{nk})\) that sum to 1 across clusters for each point; a hard assignment (if needed) is a separate, later decision.</td>
+<td>M10</td>
+</tr>
+<tr>
+<td>"\(P(\text{class} \mid \text{evidence}) = P(\text{evidence} \mid \text{class})\)."</td>
+<td>They differ unless the prior and evidence probabilities happen to coincide; conflating them is the same base-rate error that breaks medical-test and spam-filter reasoning if not corrected by Bayes' theorem.</td>
+<td>M8</td>
+</tr>
+<tr>
+<td>"A Lagrange multiplier \(\alpha_i\) in an SVM can be negative, or the set of multipliers found by any system of equations through the support vectors is automatically a valid solution."</td>
+<td>A genuine dual solution requires every \(\alpha_i \ge 0\) and \(\sum \alpha_i y_i = 0\); a system of equations that merely forces the margin to pass exactly through the chosen support vectors can produce a negative \(\alpha_i\), which is not a valid Lagrange multiplier (see errata item 1 below).</td>
+<td>M7</td>
+</tr>
+<tr>
+<td>"Feature scaling is a formality; gradient descent converges to the same place either way."</td>
+<td>It converges to the same minimiser, but the <em>path</em> and the <em>number of iterations</em> differ enormously: unscaled features give elongated, skewed cost contours and a zig-zagging, slow descent.</td>
+<td>M3</td>
+</tr>
+</tbody>
+</table><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.4 Errata and ambiguities spotted in the slides (do not copy these into exams)</h3><ol>
+<li><strong>Module 7 (SVM), Session 10, "Numerical Example" (the three-support-vector hyperplane problem):</strong> solving the three linear equations through the support vectors \(S_1 = (1, 0, y = -1)\), \(S_2 = (3, 1, y = +1)\), \(S_3 = (3, -1, y = +1)\) gives \(\alpha_1 = -3.5\), \(\alpha_2 = 0.75\), \(\alpha_3 = 0.75\). This is <strong>not a valid dual solution</strong>: every Lagrange multiplier must satisfy \(\alpha_i \ge 0\), and the KKT stationarity condition requires \(\sum \alpha_i y_i = 0\), but here \(\sum \alpha_i y_i = (-3.5)(-1) + 0.75(1) + 0.75(1) =\) <strong>\(5.0 \ne 0\)</strong>. The slide's shortcut (solve "\(w \cdot x_i + b = y_i\)" through the three support vectors as a plain \(3 \times 3\) linear system) skips the dual's own constraints and should not be used as a template for solving a general SVM dual by hand.</li>
+<li><strong>Module 3, Session 3&amp;4, "Numerical Exercise" + its "Answer" slide (regularisation with gradient descent):</strong> after one ridge-regression update the weights shrink slightly (as expected — ridge's multiplicative shrink factor \((1 - \eta \cdot \lambda)\) is applied), but the slide's own Lasso answer (\(w_1 = 0.1477\), \(w_2 = 0.2793\)) comes out <strong>larger</strong> than both the unregularised weights (0.0477, 0.1793) and the ridge weights (0.0507, 0.1823), directly contradicting the slide's own interpretation line "Lasso Adds fixed penalty → can push weights toward zero faster." The slide never actually states the correct L1 subgradient update (\(w \leftarrow w(1 \text{ at non-zero}) - \eta \cdot \nabla \text{MSE} - \eta \cdot \lambda \cdot \operatorname{sign}(w)\)); treat the given Lasso numbers as unreliable.</li>
+<li><strong>Module 10, Session 14, GMM worked example ("VI Maximization Step" page, the document-membership calculation):</strong> the responsibility of document 1 to the <em>second</em> cluster is printed with the same label as the first — "\(P(Z_{\text{Doc1‑Cluster1}}) = 0.006\)" followed immediately by "\(P(Z_{\text{Doc1‑Cluster1}}) = 0.994\)" — the second line should read <strong>\(P(Z_{\text{Doc1‑Cluster2}}) = 0.994\)</strong> (the two responsibilities for a point must sum to 1, which \(0.006 + 0.994\) does, confirming the value is right and only the cluster label is wrong).</li>
+<li><strong>Module 2, Session 2, IQR outlier worked example (page 96, data 10,11,11,11,12,12,13,14,14,15,17,22):</strong> \(Q_1 = 11\) and \(Q_3 = 14.5\) are obtained by the <strong>median-of-halves</strong> method (median of the lower six values, median of the upper six values), not by the position formula \(k(n+1)/4\) used elsewhere in the slides (which would give \(Q_1 = 11\), \(Q_3 = 14.75\) — close but not identical). Both conventions are legitimate; state which one you are using in an answer, exactly as for the ISM course's quartile ambiguity.</li>
+<li><strong>Module 9, AdaBoost worked numeric example:</strong> the total error is \(\varepsilon = 2/7\), which is often rounded to <strong>0.28</strong> on the way. With the exact value the ratio \((1 - \varepsilon)/\varepsilon\) is exactly <strong>2.5</strong> and the stump performance is \(\alpha = \tfrac{1}{2}\ln 2.5 \approx \mathbf{0.458}\). Rounding \(\varepsilon\) to 0.28 <em>first</em> turns the ratio into \(0.72/0.28 \approx 2.571\) and \(\alpha\) into \(\approx 0.472\), which is a visible change in the third digit. The lesson is general: carry exact fractions (or at least four significant figures) through intermediate steps and round only the final answer.</li>
+</ol><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.5 How the problem bank is designed</h3><ul>
+<li>Every leaf of the tree is hit by at least one problem. Bottleneck nodes (gradient descent mechanics, hand-computed scores, Bayes' direction, train/validation/test discipline) are hit several times at increasing levels across different modules.</li>
+<li><strong>L1</strong> problems check vocabulary and catch misconceptions before computation starts.</li>
+<li><strong>L2</strong> problems use small, clean numbers, so mechanics are separated from reading comprehension.</li>
+<li><strong>L3</strong> problems mirror the style of the worked "Problem Type" exercises embedded in the slides themselves.</li>
+<li><strong>L4</strong> problems make you <em>derive</em> results: why least squares is the MLE under Gaussian noise, why a Lagrange multiplier must be non-negative, why Lasso's gradient does not exist at 0, why Random Forest's feature subsampling decorrelates trees. Once you can derive a result, you no longer need to memorise it.</li>
+<li><strong>L5</strong> problems connect a topic to real model-building judgement (choosing a metric under imbalance, diagnosing why a model overfits, picking an ensemble strategy for a given base learner) or set a deliberate misconception trap.</li>
+<li>Each module ends with a <strong>module capstone</strong> that uses the whole module. Part 14 holds cross-module capstones that combine three or more modules, the way an actual ML project does.</li>
+</ul>
+<p><strong>Suggested study loop per topic:</strong> do all L1 \(\to\) all L2 \(\to\) L3 \(\to\) L4, checking each answer as you go, then attempt L5 without hints. Re-attempt anything you got wrong after 48 hours.</p><span class="src">instructor&#x27;s analysis</span></div></div></details>
+<details class="module" id="syllabus-tree"><summary>Full syllabus tree (topic → subtopic → concept) <small>· 1 tree</small></summary><div class="cards"><div class="card tree"><pre>ML — Machine Learning (AIMLZG565/DSEZG565)
+│
+├── M1  INTRODUCTION TO MACHINE LEARNING  ................................... [CS-1, slides 1-58]
+│   ├── 1.1  What &amp; why of ML
+│   │   ├── 1.1.1  Definition via &lt;T, P, E&gt;; traditional programming vs the ML paradigm
+│   │   ├── 1.1.2  When to use ML (no human expertise / can&#x27;t explain expertise / needs
+│   │   │          personalisation) vs when not to (a closed-form rule already exists)
+│   │   └── 1.1.3  Application domains: vision, NLP, recommendation, security, fraud
+│   ├── 1.2  Types of ML by feedback signal
+│   │   ├── 1.2.1  Supervised learning: classification (discrete f(x)) vs regression (real f(x))
+│   │   ├── 1.2.2  Unsupervised learning: clustering; minimise intra-, maximise inter-cluster distance
+│   │   ├── 1.2.3  Reinforcement learning: agent, environment, reward/penalty, sequential decisions
+│   │   └── 1.2.4  Semi-supervised learning: small labelled + large unlabelled set
+│   ├── 1.3  Types of ML by how training data is used
+│   │   ├── 1.3.1  Batch vs mini-batch vs online (incremental) learning
+│   │   └── 1.3.2  Instance-based (lazy, store &amp; compare) vs model-based (eager, fit then discard data)
+│   └── 1.4  Inductive learning
+│       ├── 1.4.1  Inductive learning hypothesis (a hypothesis that fits enough training data
+│       │          well will also fit unseen data well)
+│       ├── 1.4.2  Hypothesis space: most general hypothesis vs most specific hypothesis
+│       └── 1.4.3  Classification / regression / probability estimation as three inductive tasks
+│
+├── M2  MACHINE LEARNING WORKFLOW  ............................................ [CS-2, slides 59-125]
+│   ├── 2.1  Data fundamentals
+│   │   ├── 2.1.1  Objects/records and attributes/features
+│   │   ├── 2.1.2  Attribute types (Stevens): nominal &lt; ordinal &lt; interval &lt; ratio;
+│   │   │          operations each level allows (=, &lt;&gt;, +-, */)
+│   │   ├── 2.1.3  Discrete vs continuous attributes
+│   │   └── 2.1.4  Important data characteristics: dimensionality, sparsity, resolution, size
+│   ├── 2.2  Data quality &amp; cleaning
+│   │   ├── 2.2.1  Noise, outliers, wrong/fake data, missing values, duplicate data
+│   │   ├── 2.2.2  Handling missing values: eliminate, estimate/impute, or ignore
+│   │   └── 2.2.3  Data aggregation (change of scale, variance reduction)
+│   ├── 2.3  Outlier detection
+│   │   ├── 2.3.1  IQR rule: [Q1 − 1.5·IQR, Q3 + 1.5·IQR]
+│   │   └── 2.3.2  3σ rule for approximately normal data
+│   ├── 2.4  Instance selection, partitioning &amp; sampling
+│   │   ├── 2.4.1  Train / validation / test split; why each set exists
+│   │   ├── 2.4.2  Sampling types: simple random, stratified, cluster
+│   │   └── 2.4.3  Imbalanced data: undersample majority, oversample minority (SMOTE)
+│   └── 2.5  Feature engineering
+│       ├── 2.5.1  Feature scaling: min-max normalisation vs z-score standardisation;
+│       │          which algorithms need which, and why target values are not scaled
+│       ├── 2.5.2  Feature extraction / selection / construction / transformation
+│       ├── 2.5.3  Discretization (binning): equal-width vs equal-depth
+│       ├── 2.5.4  Encoding categorical features: one-hot vs label encoding
+│       └── 2.5.5  Curse of dimensionality (first mention; developed further in 6.3.4)
+│
+├── M3  LINEAR MODELS FOR REGRESSION  .......................................... [CS-3&amp;4, slides 126-227]
+│   ├── 3.1  Model &amp; cost function
+│   │   ├── 3.1.1  Simple vs multiple linear regression; hypothesis h(x) = θᵀx
+│   │   └── 3.1.2  Cost function J(θ): sum/mean squared error; convexity of J
+│   ├── 3.2  Closed-form solution
+│   │   └── 3.2.1  Normal equations / vectorised solution θ = (XᵀX)⁻¹Xᵀy
+│   ├── 3.3  Gradient descent
+│   │   ├── 3.3.1  Update rule θⱼ ← θⱼ − η·∂J/∂θⱼ; batch update across all examples
+│   │   ├── 3.3.2  Choosing the learning rate η (too small: slow; too large: diverges/oscillates)
+│   │   ├── 3.3.3  Effect of feature scaling on the cost contours and convergence path
+│   │   ├── 3.3.4  Batch vs mini-batch vs stochastic gradient descent
+│   │   └── 3.3.5  Convergence guarantee for a convex cost function
+│   ├── 3.4  Beyond straight lines
+│   │   ├── 3.4.1  Linear basis function models Φⱼ(x); polynomial regression as a special case
+│   │   └── 3.4.2  Bias–variance notions; underfitting vs overfitting symptoms (train vs test error)
+│   ├── 3.5  Regularization  (*shared with Module 4*)
+│   │   ├── 3.5.1  Ridge (L2): shrinks weights smoothly, never exactly to 0
+│   │   ├── 3.5.2  Lasso (L1): can zero out weights ⇒ feature selection; not differentiable at 0
+│   │   ├── 3.5.3  Elastic Net: mixes L1 and L2 via ratio r
+│   │   └── 3.5.4  Regularised gradient-descent update; effect of the regularisation constant
+│   └── 3.6  Evaluating a regression model
+│       ├── 3.6.1  R²; SST = SSR + SSE
+│       └── 3.6.2  Train/test evaluation; MSE on unseen data vs in-sample MSE
+│
+├── M4  LINEAR MODELS FOR CLASSIFICATION (LOGISTIC REGRESSION)  ............... [CS-5&amp;6, slides 228-284]
+│   ├── 4.1  From linear to logistic regression
+│   │   ├── 4.1.1  Why least-squares regression fails as a classifier (unbounded output,
+│   │   │          high sensitivity to outliers/new points)
+│   │   └── 4.1.2  Sigmoid/logistic function; decision boundary at h(x) = 0.5
+│   ├── 4.2  Training a logistic regression model
+│   │   ├── 4.2.1  Cross-entropy (log-loss) cost function; why squared error is non-convex here
+│   │   ├── 4.2.2  Gradient descent update for logistic regression
+│   │   └── 4.2.3  Interpreting coefficients via the odds ratio e^w
+│   ├── 4.3  Regularising logistic regression (hyper-parameter C = 1/α; larger C ⇒ less regularisation)
+│   ├── 4.4  Evaluating a classifier
+│   │   ├── 4.4.1  Confusion matrix; accuracy, precision, recall, F1
+│   │   ├── 4.4.2  Accuracy paradox on imbalanced classes
+│   │   ├── 4.4.3  ROC curve construction (sort by score, sweep threshold); AUC and its meaning
+│   │   └── 4.4.4  Handling class imbalance: resampling (SMOTE), metric choice, algorithm choice
+│   └── 4.5  Multiclass extensions: One-vs-All (OvA) and One-vs-One (OvO)
+│
+├── M5  DECISION TREE CLASSIFIER  ............................................... [CS-7&amp;8, slides 285-370]
+│   ├── 5.1  Tree structure &amp; construction
+│   │   ├── 5.1.1  Root / internal / leaf nodes; a tree as a disjunction of conjunctions
+│   │   └── 5.1.2  Hunt&#x27;s algorithm (recursive partitioning); ID3 pseudocode
+│   ├── 5.2  Choosing the best split
+│   │   ├── 5.2.1  Entropy and information gain
+│   │   ├── 5.2.2  Gini index (CART, binary splits)
+│   │   ├── 5.2.3  Classification error as impurity (least sensitive of the three)
+│   │   ├── 5.2.4  Gain ratio &amp; split information (fixes information gain&#x27;s bias toward
+│   │   │          high-cardinality attributes such as Customer ID)
+│   │   └── 5.2.5  Splitting continuous attributes: candidate thresholds at midpoints
+│   ├── 5.3  Overfitting &amp; pruning
+│   │   ├── 5.3.1  Overfitting symptoms: training error ↓, test error ↑, as tree grows
+│   │   ├── 5.3.2  Pre-pruning (stopping conditions: gain threshold, min samples, max depth)
+│   │   ├── 5.3.3  Post-pruning (grow fully, prune bottom-up against a validation set)
+│   │   └── 5.3.4  Minimum Description Length (MDL) principle; Occam&#x27;s razor
+│   ├── 5.4  CART: classification and regression trees (binary splits, numeric targets)
+│   └── 5.5  Decision trees: advantages, disadvantages, and typical applications
+│
+├── M6  INSTANCE-BASED LEARNING (K-NEAREST NEIGHBOUR)  ......................... [CS-9, slides 371-426]
+│   ├── 6.1  Instance-based vs model-based learning (revisited); lazy vs eager learners
+│   ├── 6.2  Distance / dissimilarity measures
+│   │   ├── 6.2.1  Minkowski family: Manhattan (h=1), Euclidean (h=2), Supremum (h→∞)
+│   │   ├── 6.2.2  Nominal attributes: simple matching; binary attributes: symmetric vs asymmetric
+│   │   ├── 6.2.3  Ordinal variables: rank normalisation to [0,1]
+│   │   ├── 6.2.4  Mixed-type data: weighted Gower distance
+│   │   └── 6.2.5  Standardising numeric data (z-score, min-max) before computing distance
+│   ├── 6.3  The k-NN algorithm
+│   │   ├── 6.3.1  Classification (majority vote) and regression (mean of neighbours) k-NN
+│   │   ├── 6.3.2  Choosing k: rule of thumb √N; the elbow method; bias (large k) vs variance (small k)
+│   │   ├── 6.3.3  Distance-weighted k-NN (kernel functions, e.g. 1/d², Gaussian kernel)
+│   │   └── 6.3.4  Curse of dimensionality for nearest-neighbour methods
+│   ├── 6.4  Locally weighted regression
+│   │   ├── 6.4.1  A new local model fit per query point, weighted by distance
+│   │   └── 6.4.2  Kernel-weighted gradient-descent update rule
+│   └── 6.5  Model selection &amp; validation
+│       ├── 6.5.1  Train / validation / test split; the test set must never drive tuning
+│       └── 6.5.2  Cross-validation: k-fold, leave-one-out, stratified k-fold
+│
+├── M7  SUPPORT VECTOR MACHINES  ................................................ [CS-10, slides 427-485]
+│   ├── 7.1  Linear classifiers &amp; the margin
+│   │   ├── 7.1.1  f(x) = sign(wᵀx + b); many separating hyperplanes exist
+│   │   └── 7.1.2  Margin as the width before the boundary hits a point; support vectors
+│   ├── 7.2  Hard-margin SVM optimisation
+│   │   ├── 7.2.1  Primal: minimise ½‖w‖² subject to yᵢ(wᵀxᵢ+b) ≥ 1
+│   │   └── 7.2.2  Dual via Lagrange multipliers αᵢ; w = Σαᵢyᵢxᵢ; KKT conditions
+│   │       (αᵢ ≥ 0 for every i, and Σαᵢyᵢ = 0 at the true optimum)
+│   ├── 7.3  Soft-margin SVM
+│   │   ├── 7.3.1  Slack variables ξᵢ; minimise ½‖w‖² + C·Σξᵢ
+│   │   └── 7.3.2  Effect of C: large C (narrow margin, few errors) vs small C (wide margin, tolerant)
+│   ├── 7.4  Non-linear SVM &amp; kernels
+│   │   ├── 7.4.1  Mapping to a higher-dimensional feature space Φ(x); the kernel trick
+│   │   └── 7.4.2  Common kernels: linear, polynomial, Gaussian/RBF, sigmoid
+│   └── 7.5  Multiclass SVM (OvA/OvO); pros (flexible, sparse, robust in small samples) and
+│       cons (kernel/parameter choice, training cost) of SVMs
+│
+├── M8  BAYESIAN LEARNING  ........................................................ [slides 486-577]
+│   ├── 8.1  Parameter estimation
+│   │   ├── 8.1.1  MLE recipe: write L(θ), take log, differentiate, solve
+│   │   ├── 8.1.2  MLE for linear regression under Gaussian noise ⇔ least squares
+│   │   ├── 8.1.3  MLE for logistic regression: no closed form ⇒ gradient ascent on log-likelihood
+│   │   └── 8.1.4  MAP estimation; MAP = MLE exactly when the prior is uniform
+│   ├── 8.2  Bayes-optimal classification
+│   │   ├── 8.2.1  Bayes&#x27; theorem: prior × likelihood → posterior, normalised by the evidence
+│   │   ├── 8.2.2  Bayes optimal classifier (vote over all hypotheses weighted by posterior)
+│   │   │          vs h_MAP alone — they can disagree
+│   │   └── 8.2.3  Gibbs classifier; its expected error ≤ 2× the Bayes-optimal error
+│   ├── 8.3  Naïve Bayes classifier
+│   │   ├── 8.3.1  Conditional independence assumption P(X₁..Xₙ|Y) = Π P(Xᵢ|Y); why it is needed
+│   │   │          (the full joint needs an infeasible number of parameters)
+│   │   ├── 8.3.2  Discrete Naïve Bayes: frequency tables → likelihoods → argmax posterior
+│   │   ├── 8.3.3  Zero-frequency problem &amp; Laplace / m-estimate smoothing
+│   │   ├── 8.3.4  Gaussian Naïve Bayes for continuous features: one N(μᵢₖ,σᵢₖ²) per (feature, class)
+│   │   └── 8.3.5  Text classification: Multinomial NB (word counts) vs Bernoulli NB
+│   │       (presence/absence); bag-of-words representation
+│   └── 8.4  Naïve Bayes vs Logistic Regression: generative vs discriminative modelling;
+│       Gaussian NB&#x27;s assumptions reduce exactly to the logistic sigmoid form
+│
+├── M9  ENSEMBLE LEARNING  ........................................................ [CS-12&amp;13, slides 578-650]
+│   ├── 9.1  Ensemble foundations
+│   │   ├── 9.1.1  Weak learner → strong learner; homogeneous vs heterogeneous ensembles
+│   │   └── 9.1.2  Bagging (reduces variance) vs Boosting (reduces bias) vs Stacking (combines
+│   │       heterogeneous models) — matching ensemble strategy to the base learner&#x27;s bias/variance
+│   ├── 9.2  Bagging &amp; Random Forest
+│   │   ├── 9.2.1  Bootstrapping (sampling with replacement); bagging = train in parallel, aggregate
+│   │   │          by averaging (regression) or majority vote (classification)
+│   │   └── 9.2.2  Random Forest: bagging of trees + random feature subset at every split
+│   ├── 9.3  Boosting
+│   │   ├── 9.3.1  Sequential reweighting: each learner focuses on the previous one&#x27;s mistakes
+│   │   ├── 9.3.2  AdaBoost: initial equal weights, weighted error ε, stump performance
+│   │   │          α = ½ln((1−ε)/ε), multiplicative weight update, renormalisation, sign(Σαₜhₜ(x))
+│   │   ├── 9.3.3  Gradient Boosting: fit residuals with a new tree, shrink contribution by
+│   │   │          a learning rate, repeat
+│   │   └── 9.3.4  XGBoost: regularised objective, level-wise tree growth with pruning,
+│   │       shrinkage, sparsity-aware missing-value handling, cache-aware computation
+│   └── 9.4  Stacking: heterogeneous base learners combined by a meta-model
+│
+├── M10  UNSUPERVISED LEARNING  ................................................... [CS-14, slides 652-728]
+│   ├── 10.1  Clustering foundations
+│   │   ├── 10.1.1  Goal: minimise intra-cluster, maximise inter-cluster distance
+│   │   └── 10.1.2  Partitional vs hierarchical clustering
+│   ├── 10.2  K-means
+│   │   ├── 10.2.1  Algorithm as alternating E-step (assign) / M-step (recompute centroids)
+│   │   ├── 10.2.2  Objective J minimised; guaranteed to converge (monotone non-increasing J)
+│   │   ├── 10.2.3  Choosing K: the elbow method on SSE vs K
+│   │   └── 10.2.4  Limitations: unequal cluster sizes/densities, non-globular shapes, outliers
+│   ├── 10.3  K-medoids: medoid (an actual data point) instead of centroid; robust to outliers
+│   ├── 10.4  Cluster validity
+│   │   ├── 10.4.1  Internal index (SSE), external index (entropy vs known labels), relative index
+│   │   └── 10.4.2  Silhouette coefficient: s = 1 − a/b (a = cohesion, b = separation)
+│   └── 10.5  Gaussian Mixture Models &amp; the EM algorithm
+│       ├── 10.5.1  Hard clustering (k-means) vs soft/probabilistic clustering (GMM);
+│       │          1-of-K indicator variables rₙₖ
+│       ├── 10.5.2  GMM density p(x) = Σₖ πₖ·N(x|μₖ,Σₖ), Σπₖ = 1
+│       ├── 10.5.3  EM algorithm: E-step computes responsibilities γ(zₙₖ) by Bayes&#x27; theorem
+│       │          (mixing weights as priors); M-step re-estimates πₖ, μₖ, Σₖ by weighted MLE
+│       └── 10.5.4  Covariance options (spherical/diagonal/tied/full); practical issues:
+│           singularities, choosing K, local optima, sensitivity to initialisation
+│
+└── M11  ML MODEL EVALUATION, COMPARISON &amp; FACCT ML  ............................. [CS-15, slides 729-750]
+    ├── 11.1  Model evaluation workflow (recap &amp; consolidation)
+    │   ├── 11.1.1  Train / validation / test; k-fold, leave-one-out, stratified k-fold (recap)
+    │   └── 11.1.2  Classification metrics (accuracy/precision/recall/F1/ROC-AUC) and
+    │       regression metrics (MSE/MAPE/MAD/R²) — recap and side-by-side comparison
+    ├── 11.2  Statistically comparing two models
+    │   └── 11.2.1  Confidence interval on accuracy; testing whether an observed gap is significant
+    ├── 11.3  Fairness, Accountability, Transparency (FAccT) in ML
+    │   ├── 11.3.1  Algorithmic bias; bias inherited from historical/negative-legacy data (COMPAS)
+    │   └── 11.3.2  &quot;Fairness through unawareness&quot; and why it fails (proxies / redundant encoding)
+    └── 11.4  Interpretability
+        ├── 11.4.1  Inherently interpretable models (decision tree, linear/logistic regression, k-NN)
+        │          vs black-box models
+        └── 11.4.2  The interpretability–performance trade-off</pre></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>

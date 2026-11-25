@@ -4,893 +4,165 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ML — Definitions</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>ML</span> · Definitions<span class="count" id="count"></span></h1>
+    <h1><span>ML</span> · Definitions<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab" href="ML-concepts.html">Concepts</a>
-    <a class="tab" href="ML-formulas.html">Formulas</a>
-    <a class="tab active" href="ML-definitions.html">Definitions</a>
-    <a class="tab" href="ML-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab" href="ML-concepts.html">Concepts</a><a class="tab" href="ML-formulas.html">Formulas</a><a class="tab active" href="ML-definitions.html">Definitions</a><a class="tab" href="ML-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">Precise term glossary for ML (AIMLZG565), grouped by session deck — CS1 (Introduction), CS2 (Workflow &amp; Data), CS3-4 (Linear Regression), CS5-6 (Logistic Regression &amp; Evaluation), CS7-8 (Decision Tree Classifier) — plus exam-referenced terms from the EC2/EC3 sheets.</p>
-
-  <details class="module" open>
-    <summary>Module 1 — Introduction <small>· source: ML_CS 1_26th July 2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="ML_CS 1 · p16">
-        <h3>Machine Learning</h3>
-        <p>The field of study that gives computers the ability to learn from data without being explicitly programmed; formally, a program that improves its performance P at a task T with experience E.</p>
-        <p class="src">ML_CS 1 · p16</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p16">
-        <h3>Task, Performance, Experience (T, P, E)</h3>
-        <p>The three elements of a well-defined learning problem &lt;P, T, E&gt;: T is what the system does, P is the metric measuring success, and E is the data/experience it learns from.</p>
-        <p class="src">ML_CS 1 · p17-18</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p33">
-        <h3>Supervised Learning</h3>
-        <p>Learning a function f(x) from labelled examples (xᵢ, yᵢ) to predict the output y of unseen inputs.</p>
-        <p class="src">ML_CS 1 · p33</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p33">
-        <h3>Classification</h3>
-        <p>Supervised learning where the target y is categorical; the model assigns each input to a discrete class.</p>
-        <p class="src">ML_CS 1 · p33</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p39">
-        <h3>Regression</h3>
-        <p>Supervised learning where the target y is real-valued; the model predicts a continuous quantity.</p>
-        <p class="src">ML_CS 1 · p39</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p40">
-        <h3>Unsupervised Learning</h3>
-        <p>Learning hidden structure from unlabelled data x₁…xₙ, e.g. clustering to minimise intra-cluster and maximise inter-cluster distances.</p>
-        <p class="src">ML_CS 1 · p40</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p44">
-        <h3>Reinforcement Learning</h3>
-        <p>A feedback-based paradigm in which an agent learns a sequence of actions in an environment through rewards and penalties, without labelled data.</p>
-        <p class="src">ML_CS 1 · p44</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p50">
-        <h3>Semi-Supervised Learning</h3>
-        <p>Learning that combines a small amount of labelled data with a large amount of unlabelled data.</p>
-        <p class="src">ML_CS 1 · p50</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p51">
-        <h3>Batch / Mini-Batch / Online Learning</h3>
-        <p>Training regimes distinguished by data usage: batch uses all data per update, mini-batch uses a subset, and online (incremental) uses one instance at a time.</p>
-        <p class="src">ML_CS 1 · p51</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p52">
-        <h3>Instance-Based Learning</h3>
-        <p>A "lazy" approach that stores training examples and classifies new points by comparing them to stored instances (e.g. KNN) rather than building an explicit model.</p>
-        <p class="src">ML_CS 1 · p52</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p52">
-        <h3>Model-Based Learning</h3>
-        <p>An approach that detects patterns in training data and fits an explicit predictive model whose parameters generalise to new data.</p>
-        <p class="src">ML_CS 1 · p52</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 1 · p30">
-        <h3>Feature (Attribute / Predictor)</h3>
-        <p>An input variable describing an object, used by a model to predict the target.</p>
-        <p class="src">ML_CS 1 · p30</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 2 — ML Workflow &amp; Data <small>· source: ML_CS 2_1Aug2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="ML_CS 2 · p7">
-        <h3>Data Object</h3>
-        <p>A single record/point/sample/instance/entity described by a collection of attributes.</p>
-        <p class="src">ML_CS 2 · p7</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p7">
-        <h3>Attribute</h3>
-        <p>A property or characteristic of an object (aka variable, field, feature, dimension), e.g. a person's eye colour or temperature.</p>
-        <p class="src">ML_CS 2 · p7</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p8">
-        <h3>Nominal Attribute</h3>
-        <p>A categorical attribute whose values only distinguish objects (=, ≠) with no order, e.g. zip codes, eye colour, sex.</p>
-        <p class="src">ML_CS 2 · p8-11</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p8">
-        <h3>Ordinal Attribute</h3>
-        <p>A categorical attribute whose values can be ordered (&lt;, &gt;) but whose differences are not meaningful, e.g. grades, mineral hardness, {good, better, best}.</p>
-        <p class="src">ML_CS 2 · p8-11</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p8">
-        <h3>Interval Attribute</h3>
-        <p>A numeric attribute with meaningful differences (+, −) but no true zero, e.g. calendar dates, temperature in Celsius/Fahrenheit.</p>
-        <p class="src">ML_CS 2 · p8-11</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p8">
-        <h3>Ratio Attribute</h3>
-        <p>A numeric attribute with a true zero so both differences and ratios are meaningful, e.g. temperature in Kelvin, length, counts, age.</p>
-        <p class="src">ML_CS 2 · p8-11</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p13">
-        <h3>Discrete vs Continuous Attribute</h3>
-        <p>Discrete attributes take a finite/countable set of values (counts, zip codes; binary is a special case); continuous attributes take real-number values (temperature, weight).</p>
-        <p class="src">ML_CS 2 · p13</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p14">
-        <h3>Dimensionality</h3>
-        <p>The number of attributes describing each object; high dimensionality introduces sparsity and analysis challenges.</p>
-        <p class="src">ML_CS 2 · p14</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p25">
-        <h3>Noise</h3>
-        <p>An extraneous object or the modification/distortion of original attribute values (e.g. voice distortion, TV "snow").</p>
-        <p class="src">ML_CS 2 · p25</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p26">
-        <h3>Outlier</h3>
-        <p>A data object with characteristics considerably different from most other objects; may be nuisance noise or the actual analysis target (e.g. fraud).</p>
-        <p class="src">ML_CS 2 · p26</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p29">
-        <h3>Data Engineering</h3>
-        <p>The process of converting raw data into prepared (clean, integrated) data.</p>
-        <p class="src">ML_CS 2 · p29</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p29">
-        <h3>Feature Engineering</h3>
-        <p>Tuning prepared data to create the features expected by the model — extraction, selection, construction and transformation.</p>
-        <p class="src">ML_CS 2 · p29, p49</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p32">
-        <h3>Aggregation</h3>
-        <p>Combining two or more attributes/objects into a single one for data reduction, change of scale, or more stable (lower-variance) data.</p>
-        <p class="src">ML_CS 2 · p32</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p34">
-        <h3>Data Cleansing</h3>
-        <p>Removing or correcting noisy, inconsistent, intentional-error, missing, or duplicate records from raw data.</p>
-        <p class="src">ML_CS 2 · p34</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p38">
-        <h3>Interquartile Range (IQR)</h3>
-        <p>The spread between the 75th and 25th percentiles, IQR = Q3 − Q1, used to detect outliers via the 1.5·IQR rule.</p>
-        <p class="src">ML_CS 2 · p38</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p41">
-        <h3>Sampling</h3>
-        <p>Selecting a representative subset of data for analysis; a representative sample has approximately the same properties of interest as the full dataset.</p>
-        <p class="src">ML_CS 2 · p41-42</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p41">
-        <h3>Sampling Bias vs Sampling Noise</h3>
-        <p>Sampling noise is random error from a small sample; sampling bias is systematic error from a flawed sampling process (persists even at large sample size).</p>
-        <p class="src">ML_CS 2 · p41</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p44">
-        <h3>Stratified Sampling</h3>
-        <p>Sampling that preserves the proportions of subgroups (strata/classes) present in the full population.</p>
-        <p class="src">ML_CS 2 · p44</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p46">
-        <h3>Feature Scaling</h3>
-        <p>Mapping continuous values from one range to a target range so features are comparable and fit distributional assumptions.</p>
-        <p class="src">ML_CS 2 · p46</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p47">
-        <h3>Normalization (Min-Max)</h3>
-        <p>Rescaling a feature into a fixed range such as [0,1] or [−1,1]; used when bounds are known and the algorithm makes no distribution assumption.</p>
-        <p class="src">ML_CS 2 · p47-48</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p47">
-        <h3>Standardization (Z-Score)</h3>
-        <p>Rescaling a feature to zero mean and unit variance; used when the algorithm assumes Gaussian data, not range-bounded and less outlier-sensitive.</p>
-        <p class="src">ML_CS 2 · p47-48</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p51">
-        <h3>Curse of Dimensionality</h3>
-        <p>The phenomenon where increasing feature count makes data increasingly sparse, degrading learning; addressed by dimensionality reduction (e.g. PCA).</p>
-        <p class="src">ML_CS 2 · p51</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p52">
-        <h3>Feature Selection</h3>
-        <p>Choosing a useful subset of existing input features — removing redundant, irrelevant or mostly-missing ones — to train the model.</p>
-        <p class="src">ML_CS 2 · p52</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p53">
-        <h3>Feature Construction</h3>
-        <p>Creating new features by polynomial expansion, feature crossing (interactions), or domain business logic.</p>
-        <p class="src">ML_CS 2 · p53</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p55">
-        <h3>Discretization (Binning)</h3>
-        <p>Converting a continuous attribute into a discrete one via interval or conceptual labels ("binning"/"bucketing").</p>
-        <p class="src">ML_CS 2 · p55-56</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p57">
-        <h3>One-Hot / Dummy Encoding</h3>
-        <p>Mapping a categorical attribute to one or more binary indicator variables.</p>
-        <p class="src">ML_CS 2 · p57</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p57">
-        <h3>Label Encoding</h3>
-        <p>Mapping categorical values to integer codes for a numeric representation.</p>
-        <p class="src">ML_CS 2 · p57</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p62">
-        <h3>Inductive Learning Hypothesis</h3>
-        <p>The assumption that a hypothesis approximating the target function well over a large training set will also approximate it well over unseen examples.</p>
-        <p class="src">ML_CS 2 · p62</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 2 · p66">
-        <h3>Hypothesis</h3>
-        <p>A candidate function/rule constraining attribute values; the most general labels every instance positive, the most specific labels none positive.</p>
-        <p class="src">ML_CS 2 · p66</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 3 — Linear Models for Regression <small>· source: ML_CS 34_916 Aug 2026.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="ML_CS 34 · p9">
-        <h3>Linear Regression</h3>
-        <p>A model predicting a continuous target as a linear combination of input features and parameters; simple (one predictor) or multiple (several predictors).</p>
-        <p class="src">ML_CS 34 · p9</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p8">
-        <h3>Hypothesis / Model h(·)</h3>
-        <p>The function mapping inputs to predicted outputs, parameterised by the θ's learned from data.</p>
-        <p class="src">ML_CS 34 · p8</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p11">
-        <h3>Cost Function</h3>
-        <p>A function measuring the discrepancy between predictions and actual targets (e.g. mean squared error) that is minimized during training.</p>
-        <p class="src">ML_CS 34 · p11-16</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p23">
-        <h3>Convex Function</h3>
-        <p>A function whose line segment between any two graph points lies on or above the graph, guaranteeing a single global minimum.</p>
-        <p class="src">ML_CS 34 · p23</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p24">
-        <h3>Closed-Form (Normal Equation) Solution</h3>
-        <p>An analytic solution θ = (XᵀX)⁻¹Xᵀy that computes optimal linear-regression parameters directly, without iteration.</p>
-        <p class="src">ML_CS 34 · p24</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p25">
-        <h3>Vectorization</h3>
-        <p>Expressing model computations as matrix/vector operations over the whole dataset instead of explicit loops.</p>
-        <p class="src">ML_CS 34 · p25</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p31">
-        <h3>Gradient Descent</h3>
-        <p>An iterative optimization algorithm that repeatedly updates parameters in the direction of the negative gradient of the cost until convergence.</p>
-        <p class="src">ML_CS 34 · p31</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p50">
-        <h3>Learning Rate (α)</h3>
-        <p>The step-size hyperparameter in gradient descent; too small converges slowly, too large may overshoot or diverge.</p>
-        <p class="src">ML_CS 34 · p50</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p66">
-        <h3>Batch Gradient Descent</h3>
-        <p>Gradient descent that computes the gradient from all training data before each parameter update.</p>
-        <p class="src">ML_CS 34 · p66</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p66">
-        <h3>Stochastic Gradient Descent (SGD)</h3>
-        <p>Gradient descent that updates parameters from a single training instance at a time — fast but noisy.</p>
-        <p class="src">ML_CS 34 · p66</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p66">
-        <h3>Mini-Batch Gradient Descent</h3>
-        <p>Gradient descent that computes the gradient from small batches of data — the default for deep learning, balancing speed and stability.</p>
-        <p class="src">ML_CS 34 · p66</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p74">
-        <h3>R-squared</h3>
-        <p>The proportion of variance in the target explained by the regression model; a goodness-of-fit measure (1 = perfect).</p>
-        <p class="src">ML_CS 34 · p74</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p78">
-        <h3>Basis Function</h3>
-        <p>A transformation Φⱼ(x) of the input (e.g. a power of x) that lets a model linear in its weights fit non-linear relationships.</p>
-        <p class="src">ML_CS 34 · p78</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p76">
-        <h3>Polynomial Regression</h3>
-        <p>Regression using polynomial basis functions of the input; still a linear model because it is linear in the weights.</p>
-        <p class="src">ML_CS 34 · p76</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p81">
-        <h3>Bias</h3>
-        <p>Error from wrong/too-simple modelling assumptions; high bias underfits the data.</p>
-        <p class="src">ML_CS 34 · p81</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p81">
-        <h3>Variance</h3>
-        <p>Error from sensitivity to the particular training set; high variance overfits, changing greatly with different data.</p>
-        <p class="src">ML_CS 34 · p81</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p82">
-        <h3>Underfitting</h3>
-        <p>When a model is too simple to capture the data pattern — high bias, with both training and test error high.</p>
-        <p class="src">ML_CS 34 · p82</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p82">
-        <h3>Overfitting</h3>
-        <p>When a model is too complex and learns training noise — low training error but high test error (poor generalization), i.e. high variance.</p>
-        <p class="src">ML_CS 34 · p82</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p89">
-        <h3>Regularization</h3>
-        <p>Adding a penalty on weight magnitude to the cost to control model complexity and overfitting.</p>
-        <p class="src">ML_CS 34 · p89</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p96">
-        <h3>Ridge Regression (L2 / Tikhonov)</h3>
-        <p>Regularized regression penalizing the sum of squared weights, shrinking them toward but not exactly zero.</p>
-        <p class="src">ML_CS 34 · p96</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p97">
-        <h3>Lasso Regression (L1)</h3>
-        <p>Regularized regression penalizing the sum of absolute weights, able to set some weights exactly to zero (sparse model, feature selection).</p>
-        <p class="src">ML_CS 34 · p97</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p98">
-        <h3>Elastic Net</h3>
-        <p>Regularization mixing L1 and L2 penalties via a ratio r (r=0 ⇒ Ridge, r=1 ⇒ Lasso); preferred with highly correlated features.</p>
-        <p class="src">ML_CS 34 · p98</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 4 — Logistic Regression &amp; Evaluation <small>· source: ML_CS 5 6.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="ML_CS 5 · p4">
-        <h3>Generative Classifier</h3>
-        <p>A probabilistic classifier that models the joint distribution P(X, Y) (e.g. Naive Bayes).</p>
-        <p class="src">ML_CS 5 · p4</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p4">
-        <h3>Discriminative Classifier</h3>
-        <p>A probabilistic classifier that directly learns the decision boundary separating classes (e.g. logistic regression).</p>
-        <p class="src">ML_CS 5 · p4</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p7">
-        <h3>Logistic Regression</h3>
-        <p>A statistical model for binary classification that predicts the probability an input belongs to a class using the logistic (sigmoid) function on a linear score.</p>
-        <p class="src">ML_CS 5 · p7</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p12">
-        <h3>Sigmoid (Logistic) Function</h3>
-        <p>The function σ(z)=1/(1+e⁻ᶻ) that maps any real input to a value in (0,1), interpreted as a probability.</p>
-        <p class="src">ML_CS 5 · p12</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p9">
-        <h3>Discriminant Function</h3>
-        <p>A function that takes an input vector x and assigns it to one of K classes Cₖ; a linear discriminant produces a hyperplane boundary.</p>
-        <p class="src">ML_CS 5 · p9</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p14">
-        <h3>Decision Boundary</h3>
-        <p>The surface where a classifier's output switches class (for logistic regression, where output = 0.5); it may be linear or non-linear.</p>
-        <p class="src">ML_CS 5 · p14</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p20">
-        <h3>Cross-Entropy / Log Loss</h3>
-        <p>The convex cost function for logistic regression that heavily penalizes confident wrong predictions and is zero when predictions match the labels.</p>
-        <p class="src">ML_CS 5 · p20</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p58">
-        <h3>Logit (Log-Odds)</h3>
-        <p>logit(p)=log(p/(1−p)), the inverse of the logistic function; the linear score equals the log of the odds.</p>
-        <p class="src">ML_CS 5 · p58</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p29">
-        <h3>Odds Ratio</h3>
-        <p>The exponential of a regression coefficient, e^w — the multiplicative change in odds for a one-unit increase in that predictor.</p>
-        <p class="src">ML_CS 5 · p29</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p33">
-        <h3>Confusion Matrix</h3>
-        <p>A table of predicted vs actual classes (TP, FP, FN, TN) that is the basis of all classification metrics.</p>
-        <p class="src">ML_CS 5 · p33</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p34">
-        <h3>Accuracy</h3>
-        <p>The fraction of all predictions that are correct; misleading under class imbalance.</p>
-        <p class="src">ML_CS 5 · p34</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p44">
-        <h3>Precision</h3>
-        <p>Of instances predicted positive, the fraction that are actually positive: TP/(TP+FP).</p>
-        <p class="src">ML_CS 5 · p44</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p44">
-        <h3>Recall (True Positive Rate)</h3>
-        <p>Of actual positive instances, the fraction correctly detected: TP/(TP+FN).</p>
-        <p class="src">ML_CS 5 · p44</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p44">
-        <h3>F1-Score</h3>
-        <p>The harmonic mean of precision and recall, balancing the two into a single metric.</p>
-        <p class="src">ML_CS 5 · p44 / EC2 · Q3</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p44">
-        <h3>False Positive Rate (FPR)</h3>
-        <p>Of actual negatives, the fraction wrongly predicted positive: FP/(FP+TN); the x-axis of the ROC curve.</p>
-        <p class="src">ML_CS 5 · p44</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p41">
-        <h3>ROC Curve</h3>
-        <p>A plot of true positive rate against false positive rate across decision thresholds, showing the detection vs false-alarm trade-off.</p>
-        <p class="src">ML_CS 5 · p41</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p42">
-        <h3>AUC (Area Under ROC Curve)</h3>
-        <p>A scalar measure of class separability: 1 for a perfect model, 0.5 for random guessing; higher is better.</p>
-        <p class="src">ML_CS 5 · p42</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p50">
-        <h3>Class Imbalance</h3>
-        <p>A dataset where the class of interest is rare relative to the majority class (e.g. fraud, cancer), making accuracy a poor metric.</p>
-        <p class="src">ML_CS 5 · p50</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p51">
-        <h3>SMOTE</h3>
-        <p>Synthetic Minority Oversampling Technique: generates new minority-class samples based on distances to nearest neighbours to balance training data.</p>
-        <p class="src">ML_CS 5 · p51</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p56">
-        <h3>One-vs-All (One-vs-Rest)</h3>
-        <p>A multiclass strategy training N binary classifiers (each class vs the rest) and choosing the highest-scoring class.</p>
-        <p class="src">ML_CS 5 · p56</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p57">
-        <h3>One-vs-One</h3>
-        <p>A multiclass strategy training N(N−1)/2 binary classifiers for every class pair and combining them by voting.</p>
-        <p class="src">ML_CS 5 · p57</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 5 — Exam-Referenced Terms <small>· source: EC2 &amp; EC3 instruction sheets</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="EC3 · Q1">
-        <h3>k-Nearest Neighbors (kNN)</h3>
-        <p>An instance-based classifier that labels a new point by majority vote of its k closest training points under a distance metric.</p>
-        <p class="src">EC3 · Q1</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q1">
-        <h3>Manhattan Distance</h3>
-        <p>The sum of absolute coordinate differences between two points (L1 distance).</p>
-        <p class="src">EC3 · Q1</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q2">
-        <h3>Bayes' Theorem</h3>
-        <p>The rule P(A|B)=P(B|A)P(A)/P(B) for updating the probability of a hypothesis given evidence.</p>
-        <p class="src">EC3 · Q2</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q3">
-        <h3>Naive Bayes Classifier</h3>
-        <p>A generative classifier applying Bayes' theorem under the assumption that features are conditionally independent given the class.</p>
-        <p class="src">EC3 · Q3</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q3">
-        <h3>Maximum Likelihood Estimation (MLE)</h3>
-        <p>Estimating a parameter by choosing the value that maximizes the likelihood (usually log-likelihood) of the observed i.i.d. data.</p>
-        <p class="src">EC3 · Q3</p>
-      </div>
-
-      <div class="card def" data-src="EC2 · Q6">
-        <h3>Entropy</h3>
-        <p>A measure of impurity/disorder of class labels at a node, −Σ pᵢ log₂ pᵢ; zero when the node is pure.</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC2 · Q6">
-        <h3>Information Gain</h3>
-        <p>The reduction in entropy achieved by splitting on an attribute; the attribute with the highest gain is chosen.</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC2 · Q6">
-        <h3>Gini Index</h3>
-        <p>A node-impurity measure, 1 − Σ pᵢ², used as an alternative to entropy for decision-tree splits.</p>
-        <p class="src">EC2 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q4">
-        <h3>Support Vector Machine (SVM)</h3>
-        <p>A classifier that finds the maximum-margin separating hyperplane defined by support vectors and Lagrange multipliers.</p>
-        <p class="src">EC3 · Q4</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q4">
-        <h3>Kernel Trick</h3>
-        <p>Using a kernel function (e.g. polynomial K(u,v)=(u·v+1)²) to implicitly map data into a higher-dimensional space where it becomes linearly separable.</p>
-        <p class="src">EC3 · Q4</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q5">
-        <h3>K-Means Clustering</h3>
-        <p>A centroid-based algorithm that hard-assigns points to the nearest of K centroids and iteratively recomputes centroids as cluster means.</p>
-        <p class="src">EC3 · Q5</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q5">
-        <h3>Gaussian Mixture Model (GMM)</h3>
-        <p>A probabilistic clustering model representing data as a mixture of Gaussian components with mixing weights, giving soft responsibilities per point.</p>
-        <p class="src">EC3 · Q5</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q6">
-        <h3>Bagging</h3>
-        <p>An ensemble method training models on bootstrap samples and aggregating their predictions by voting/averaging.</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q6">
-        <h3>Random Forest</h3>
-        <p>An ensemble of bagged decision trees that additionally randomly subsamples features at each split for extra decorrelation.</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q6">
-        <h3>Out-of-Bag (OOB) Samples</h3>
-        <p>Training instances not selected in a given bootstrap sample, used to estimate a bagged model's error.</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-      <div class="card def" data-src="EC3 · Q6">
-        <h3>AdaBoost</h3>
-        <p>A boosting ensemble that sequentially reweights training instances (up-weighting misclassified ones) and combines weak learners by weight α.</p>
-        <p class="src">EC3 · Q6</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Module 6 — Decision Tree Classifier (Sessions 7 &amp; 8) <small>· source: ML_CS78_DecisionTrees.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Decision Tree</h3>
-        <p>A hierarchical, tree-based supervised algorithm that classifies or predicts an outcome by applying a sequence of decision rules, splitting the data into purer subsets based on feature values.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Root Node</h3>
-        <p>The topmost node of a tree, representing the entire dataset. It has no incoming edges and one or more outgoing edges, and holds the first attribute test condition.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Internal (Test) Node</h3>
-        <p>A non-leaf node with exactly one incoming edge and two or more outgoing edges. It contains a test condition on a single attribute that routes records to child nodes.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Leaf (Terminal) Node</h3>
-        <p>A node with exactly one incoming edge and no outgoing edges. Each leaf is assigned a class label, which is the tree's final decision for records that reach it.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Decision Rule</h3>
-        <p>A single root-to-leaf path through the tree, read as a conjunction of attribute constraints leading to a class label. The whole tree is equivalent to a set of such rules.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Classification Tree</h3>
-        <p>A decision tree whose leaves output discrete classes/categories.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Regression Tree</h3>
-        <p>A decision tree whose leaves output numerical/continuous values rather than class labels.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Hunt's Algorithm</h3>
-        <p>The generic recursive procedure for growing a decision tree: if all records at a node share a class, make it a leaf; otherwise pick the best attribute test, split the records into children, and recurse on each child.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Impurity</h3>
-        <p>A measure of how mixed the class labels are at a node. A pure node (all one class) has impurity 0; impurity is maximal when the classes are evenly split.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Entropy</h3>
-        <p>An information-theoretic measure of impurity/uncertainty: \(-\sum_c p(c)\log_2 p(c)\). It is 0 for a pure node and maximal (\(\log_2 k\) for k classes) when classes are evenly distributed.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Information Gain</h3>
-        <p>The expected reduction in entropy achieved by partitioning on an attribute: parent entropy minus the weighted average entropy of the children. The tree splits on the attribute with the highest information gain.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Gini Index</h3>
-        <p>An impurity measure \(1-\sum_c p_c^2\) used by CART. Lower weighted Gini after a split means a better split; it is 0 for a pure node.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Classification Error</h3>
-        <p>An impurity measure \(1-\max_c p_c\). Less sensitive to class-proportion changes than Gini/entropy, so it is generally not preferred for growing a tree.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Split Information</h3>
-        <p>The entropy of the dataset with respect to the values of an attribute A: \(-\sum_v \frac{|S_v|}{|S|}\log_2\frac{|S_v|}{|S|}\). It is large when A disperses the data into many uniform subsets.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Gain Ratio</h3>
-        <p>Information gain divided by split information. It corrects information gain's bias toward many-valued attributes (like CustomerID) by penalizing splits that produce many branches.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>ID3</h3>
-        <p>A top-down, greedy decision-tree induction algorithm that recursively selects the attribute with the highest information gain, branching on its values until nodes are pure, attributes are exhausted (majority vote), or no samples remain.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Pruning</h3>
-        <p>Reducing the size of a decision tree to combat overfitting, either by stopping growth early (pre-pruning) or by removing branches from a fully grown tree (post-pruning).</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Pre-Pruning</h3>
-        <p>Halting tree growth early using stopping conditions — e.g. gain below a threshold, too few samples at a node, or maximum depth reached — before the tree perfectly fits the training data.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Post-Pruning</h3>
-        <p>Growing the tree fully, then scanning bottom-up and removing a decision node whenever doing so reduces the error measured on a separate prune/validation set.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Overfitting (Trees)</h3>
-        <p>A tree that is too complex — it grows extra branches to fit noise/outliers, giving very low training error but poor accuracy on unseen data.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Prune Set</h3>
-        <p>A held-out validation set used during post-pruning to compare the "keep node" versus "prune node" predictions and decide whether removing a node lowers the error rate.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Minimum Description Length (MDL)</h3>
-        <p>A principle preferring the hypothesis that minimizes length(h) + length(misclassifications) — the bits to encode the tree plus the bits to encode its errors. It trades model complexity against training errors.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Occam's Razor</h3>
-        <p>The preference for the shortest hypothesis that explains the data reasonably well — in trees, shorter (simpler) trees are preferred over larger ones with equal accuracy.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Axis-Parallel Decision Boundary</h3>
-        <p>The kind of boundary a decision tree produces: because each test uses a single attribute, the boundary is a set of splits perpendicular to the feature axes, unable to capture oblique attribute interactions.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-      <div class="card def" data-src="Session 7-8 · Decision Trees">
-        <h3>Confusion Matrix</h3>
-        <p>A table whose entry \(CM_{i,j}\) is the number of class-i tuples labelled as class j, summarizing TP/FN/FP/TN and used to compute the tree's error rate on validation/test data.</p>
-        <p class="src">Session 7-8 · Decision Trees</p>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Recovered from image-only slides <small>· source: ML image slides</small></summary>
-    <div class="cards">
-
-      <div class="card def" data-src="ML_CS 5 · p55 (image)">
-        <h3>Binary Classification</h3>
-        <p>A classification task with exactly two output classes (e.g. spam vs ham, positive vs negative).</p>
-        <p class="src">ML_CS 5 · p55 (image)</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 5 · p55 (image)">
-        <h3>Multiclass Classification</h3>
-        <p>A classification task with three or more mutually-exclusive output classes (e.g. Yes/No/Maybe), commonly solved by reducing it to several binary problems via One-vs-All or One-vs-One.</p>
-        <p class="src">ML_CS 5 · p55 (image)</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p89 (image)">
-        <h3>Early Stopping</h3>
-        <p>A regularization technique that halts training at the epoch of minimum validation-set error, before the model begins to overfit the training data.</p>
-        <p class="src">ML_CS 34 · p89 (image)</p>
-      </div>
-
-      <div class="card def" data-src="ML_CS 34 · p30 (image)">
-        <h3>Pseudo-Inverse</h3>
-        <p>A generalized matrix inverse (Python: numpy.linalg.pinv) used to solve the normal equation when XᵀX is singular / not invertible.</p>
-        <p class="src">ML_CS 34 · p30 (image)</p>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">Precise definitions of every term, method, metric and theorem in the ML (AIMLZG565) syllabus, module by module, in the slides' notation.</p>
+  <nav class="jump"><a href="#m1-introduction-to-machine-learning">M1 · Introduction to Machine Learning</a><a href="#m2-machine-learning-workflow">M2 · Machine Learning Workflow</a><a href="#m3-linear-models-for-regression">M3 · Linear Models for Regression</a><a href="#m4-linear-models-for-classification-logistic-regression">M4 · Linear Models for Classification (Logistic Regression)</a><a href="#m5-decision-tree-classifier">M5 · Decision Tree Classifier</a><a href="#m6-instance-based-learning-k-nearest-neighbour">M6 · Instance-Based Learning (K-Nearest Neighbour)</a><a href="#m7-support-vector-machines">M7 · Support Vector Machines</a><a href="#m8-bayesian-learning">M8 · Bayesian Learning</a><a href="#m9-ensemble-learning">M9 · Ensemble Learning</a><a href="#m10-unsupervised-learning">M10 · Unsupervised Learning</a><a href="#m11-ml-model-evaluation-comparison-facct-ml">M11 · ML Model Evaluation, Comparison &amp; FAccT ML</a></nav>
+<details class="module" open id="m1-introduction-to-machine-learning"><summary>M1 · Introduction to Machine Learning <small>· 12 items</small></summary><div class="cards"><div class="card def"><h3>Machine learning</h3><p>The field of study that gives computers the ability to learn from data without being explicitly programmed; operationally (Mitchell), a program learns if its performance \(P\) at task \(T\) improves with experience \(E\).</p><span class="src">1.1.1 · slide 15</span></div><div class="card def"><h3>Well-posed learning task</h3><p>A learning problem fully specified by the triple \(\langle T, P, E \rangle\): the task \(T\), the performance measure \(P\) used to score it, and the experience \(E\) (training data or interaction) from which the program learns.</p><span class="src">1.1.1 · slides 15–17</span></div><div class="card def"><h3>Supervised learning</h3><p>Learning a function \(f\) from labelled examples \((x_1, y_1), \dots, (x_n, y_n)\) so as to predict \(y\) for previously unseen \(x\).</p><span class="src">1.2.1 · slides 27, 31, 36</span></div><div class="card def"><h3>Classification</h3><p>A supervised task whose target \(y = f(x)\) is discrete (a class label such as benign/malignant); binary classification has two classes.</p><span class="src">1.2.1, 1.4.3 · slides 31–33, 119</span></div><div class="card def"><h3>Regression</h3><p>A supervised task whose target \(y = f(x)\) is real-valued (for example, a used-car price).</p><span class="src">1.2.1, 1.4.3 · slides 36, 119</span></div><div class="card def"><h3>Unsupervised learning</h3><p>Learning from unlabelled inputs \(x_1, \dots, x_n\) to output hidden structure, such as clusters with small intra-cluster and large inter-cluster distances, or a lower-dimensional representation.</p><span class="src">1.2.2 · slides 37–39</span></div><div class="card def"><h3>Reinforcement learning</h3><p>A feedback-based paradigm in which an agent takes actions in an environment and learns, by trial and error from rewards and penalties rather than labels, a policy for a sequence of decisions.</p><span class="src">1.2.3 · slides 41–44</span></div><div class="card def"><h3>Semi-supervised learning</h3><p>Learning from partially labelled data, a small labelled set plus a large unlabelled set, by combining supervised and unsupervised techniques.</p><span class="src">1.2.4 · slide 47</span></div><div class="card def"><h3>Batch, mini-batch and online learning</h3><p>Batch learning trains on all available data at a time, mini-batch learning on a subset at a time, and online (incremental) learning on a single instance at a time, updating the model as each new example arrives.</p><span class="src">1.3.1 · slide 48</span></div><div class="card def"><h3>Instance-based and model-based learning</h3><p>Instance-based (lazy) learning stores the training examples and predicts by comparing a new point with the stored ones (k-NN); model-based (eager) learning detects patterns in the training data and builds a predictive model whose parameters are then used without the data.</p><span class="src">1.3.2, 6.1 · slides 49, 373</span></div><div class="card def"><h3>Inductive learning hypothesis</h3><p>The assumption that any hypothesis found to approximate the target function well over a sufficiently large set of training examples will also approximate it well over other, unobserved examples.</p><span class="src">1.4.1 · slide 119</span></div><div class="card def"><h3>Hypothesis space</h3><p>The set \(H\) of all candidate functions \(h\) a learner may output. In attribute-constraint notation each attribute is a value, "?" (any value) or \(\varnothing\) (no value): the most general hypothesis \((?, ?, \dots, ?)\) classifies every instance as positive, the most specific \((\varnothing, \dots, \varnothing)\) classifies none as positive.</p><span class="src">1.4.2 · slide 123</span></div></div></details>
+<details class="module" open id="m2-machine-learning-workflow"><summary>M2 · Machine Learning Workflow <small>· 23 items</small></summary><div class="cards"><div class="card def"><h3>Data object and attribute</h3><p>A data object (record, point, case, sample, entity, instance) is a single entity described by a collection of attributes; an attribute (variable, field, characteristic, dimension, feature) is a property or characteristic of an object, such as eye colour or temperature.</p><span class="src">2.1.1 · slide 64</span></div><div class="card def"><h3>Nominal attribute</h3><p>An attribute whose values only distinguish objects (distinctness, \(=\) and \(\ne\)), with no order: zip codes, ID numbers, eye colour.</p><span class="src">2.1.2 · slides 65–66</span></div><div class="card def"><h3>Ordinal attribute</h3><p>An attribute whose values have distinctness and a meaningful order (\(&lt;, &gt;\)) but no meaningful differences: grades, rankings, {good, better, best}.</p><span class="src">2.1.2 · slides 65–66</span></div><div class="card def"><h3>Interval attribute</h3><p>A numeric attribute with distinctness, order and meaningful differences (\(+, -\)) but no true zero, so ratios are meaningless: calendar dates, temperature in Celsius or Fahrenheit.</p><span class="src">2.1.2 · slides 65–67</span></div><div class="card def"><h3>Ratio attribute</h3><p>A numeric attribute with a true zero, so all four operations (\(=, &lt;, +, \times\)) are meaningful: temperature in Kelvin, length, counts, elapsed time.</p><span class="src">2.1.2 · slides 65–67</span></div><div class="card def"><h3>Discrete and continuous attributes</h3><p>A discrete attribute has a finite or countably infinite set of values (zip codes, counts, words), with binary attributes as a special case; a continuous attribute takes real-number values (temperature, height), in practice recorded with finite precision.</p><span class="src">2.1.3 · slide 70</span></div><div class="card def"><h3>Sparsity</h3><p>The property of a data set in which most attribute values are zero, so only the presence of non-zero values counts; the fraction of zero entries in the data matrix.</p><span class="src">2.1.4 · slide 71</span></div><div class="card def"><h3>Noise</h3><p>An extraneous object or a modification of an attribute's original values (a distorted voice on a poor phone line) that obscures the true signal.</p><span class="src">2.2.1 · slide 82</span></div><div class="card def"><h3>Outlier</h3><p>A data object whose characteristics differ considerably from most other objects in the data set; it may be noise to remove or the very target of the analysis (fraud, intrusion).</p><span class="src">2.2.1 · slide 83</span></div><div class="card def"><h3>Missing values and duplicate data</h3><p>A missing value is an attribute value that was not collected or does not apply, handled by eliminating objects or attributes, estimating (imputing) it, or ignoring it during analysis. Duplicate data are exact or near copies of objects, typically created when heterogeneous sources are merged.</p><span class="src">2.2.1, 2.2.2 · slides 84–85</span></div><div class="card def"><h3>Data aggregation</h3><p>Combining two or more attributes or objects into a single one (days into months, cities into regions) to reduce data, change scale and obtain more stable, less variable values.</p><span class="src">2.2.3 · slide 89</span></div><div class="card def"><h3>Interquartile range (IQR)</h3><p>The spread of the middle half of the data, \(\text{IQR} = Q_3 - Q_1\); values below \(Q_1 - 1.5\,\text{IQR}\) or above \(Q_3 + 1.5\,\text{IQR}\) are flagged as outliers.</p><span class="src">2.3.1 · slide 95</span></div><div class="card def"><h3>Three-sigma rule</h3><p>For approximately normal data, values outside \([\mu - 3\sigma, \ \mu + 3\sigma]\) are treated as outliers, since about 99.7% of a normal distribution lies within three standard deviations of the mean.</p><span class="src">2.3.2 · slide 97</span></div><div class="card def"><h3>Training, validation and test sets</h3><p>Disjoint partitions of the data: the training set fits the model's parameters, the validation set compares models and tunes hyper-parameters, and the test set estimates generalisation error once, at the end.</p><span class="src">2.4.1, 6.5.1 · slides 99, 419</span></div><div class="card def"><h3>Stratified and cluster sampling</h3><p>Stratified sampling splits the data into groups (strata, usually classes) and samples each in proportion to its size, so every subset keeps the original class distribution; cluster sampling selects whole groups (clusters) at random instead of individual records.</p><span class="src">2.4.2 · slide 101</span></div><div class="card def"><h3>Undersampling and oversampling</h3><p>Ways to rebalance an imbalanced training set: undersampling discards majority-class records, oversampling adds (duplicated or synthetic) minority-class records.</p><span class="src">2.4.3 · slide 102</span></div><div class="card def"><h3>SMOTE</h3><p>Synthetic Minority Oversampling Technique: creates a new minority point \(x_i + \lambda(x_{\text{nn}} - x_i)\), \(\lambda \sim U(0, 1)\), on the segment between a minority example and one of its nearest minority-class neighbours.</p><span class="src">2.4.3, 4.4.4 · slides 102, 275</span></div><div class="card def"><h3>Min-max normalisation</h3><p>Linear rescaling of a feature to a target range, usually \([0, 1]\): \(x' = \frac{x - \min}{\max - \min}(\text{new\_max} - \text{new\_min}) + \text{new\_min}\).</p><span class="src">2.5.1 · slides 104–105</span></div><div class="card def"><h3>Z-score standardisation</h3><p>Rescaling a feature to mean 0 and standard deviation 1, \(z = (x - \mu)/\sigma\), i.e. the distance from the mean in units of standard deviation.</p><span class="src">2.5.1, 6.2.5 · slides 104–105, 385</span></div><div class="card def"><h3>Feature extraction, selection and construction</h3><p>Feature extraction creates a smaller set of new features from the originals (dimensionality reduction such as PCA); feature selection keeps a subset of the existing features, removing irrelevant, redundant or mostly-missing ones; feature construction builds new features by polynomial expansion, feature crossing or domain logic.</p><span class="src">2.5.2 · slides 106–111</span></div><div class="card def"><h3>Discretisation (binning)</h3><p>Converting a continuous attribute into a discrete one by mapping its values to intervals: equal-width binning uses \(N\) intervals of width \(W = (B - A)/N\), equal-depth (equal-frequency) binning puts about the same number of records in each interval.</p><span class="src">2.5.3 · slides 112–113</span></div><div class="card def"><h3>One-hot and label encoding</h3><p>One-hot (dummy) encoding maps a categorical attribute with \(m\) values to \(m\) binary indicator variables, exactly one of which is 1; label encoding maps each category to an integer \(0, \dots, m - 1\), implying an order and spacing that only ordinal data really have.</p><span class="src">2.5.4 · slide 114</span></div><div class="card def"><h3>Curse of dimensionality</h3><p>The collection of problems that arise as the number of features grows: data become increasingly sparse in the space they occupy, distances between points become nearly equal, and far more data are needed to cover the space.</p><span class="src">2.5.5, 6.3.4 · slides 108, 392</span></div></div></details>
+<details class="module" open id="m3-linear-models-for-regression"><summary>M3 · Linear Models for Regression <small>· 16 items</small></summary><div class="cards"><div class="card def"><h3>Linear regression</h3><p>A supervised model that predicts a real-valued target as a linear function of the features, \(h_\theta(x) = \theta^\top x = \theta_0 + \theta_1 x_1 + \dots + \theta_d x_d\); simple linear regression has one feature, multiple linear regression several.</p><span class="src">3.1.1 · slides 132–133</span></div><div class="card def"><h3>Residual</h3><p>The error of one prediction, the vertical distance between the actual value and the fitted value, \(y_i - h_\theta(x_i)\).</p><span class="src">3.1.2 · slide 136</span></div><div class="card def"><h3>Cost function</h3><p>A function \(J(\theta)\) that scores how badly a parameter setting fits the training data; for linear regression the squared-error cost \(J(\theta) = \frac{1}{2n}\sum_i (h_\theta(x_i) - y_i)^2\), i.e. the sum of squared errors (SSE) or the mean squared error (MSE = SSE/\(n\)) up to a constant factor.</p><span class="src">3.1.2 · slides 135–144</span></div><div class="card def"><h3>Convex function</h3><p>A real-valued function for which the line segment between any two points on its graph lies on or above the graph; every local minimum of a convex function is a global minimum.</p><span class="src">3.1.2, 3.3.5 · slide 147</span></div><div class="card def"><h3>Normal equations</h3><p>The linear system \(X^\top X \theta = X^\top y\) obtained by setting \(\nabla J(\theta) = 0\), where the design matrix \(X\) holds one training example per row with a leading 1 for the intercept; when \(X^\top X\) is invertible, \(\theta = (X^\top X)^{-1} X^\top y\) is the closed-form least-squares fit.</p><span class="src">3.2.1 · slides 148–153</span></div><div class="card def"><h3>Gradient descent</h3><p>An iterative optimiser that repeatedly moves the parameters a small step against the gradient of the cost, \(\theta_j \leftarrow \theta_j - \eta \, \partial J / \partial \theta_j\), updating all \(\theta_j\) simultaneously; the learning rate \(\eta\) (or \(\alpha\)) sets the step size: too small converges slowly, too large oscillates or diverges.</p><span class="src">3.3.1, 3.3.2 · slides 155–174</span></div><div class="card def"><h3>Batch, mini-batch and stochastic gradient descent</h3><p>Batch gradient descent computes the derivative from all training examples before each update, mini-batch from a small group, and stochastic gradient descent (SGD) from one example at a time; an epoch is one full pass over all \(n\) examples (1 update for batch, \(n\) for SGD).</p><span class="src">3.3.4 · slides 189–194</span></div><div class="card def"><h3>Basis function and polynomial regression</h3><p>A basis function is a fixed function \(\phi_j(x)\) used as a feature, giving \(y(x, w) = \sum_{j=0}^{M} w_j \phi_j(x)\) with \(\phi_0(x) = 1\), a model still linear in \(w\). Polynomial regression is the case \(\phi_j(x) = x^j\), an \(M\)-th order polynomial in \(x\).</p><span class="src">3.4.1 · slides 199–202</span></div><div class="card def"><h3>Bias and variance</h3><p>Bias is error from wrong assumptions in the model, how far its average prediction is from the true relationship (high when the model is too simple); variance is error from sensitivity to the training data, how much predictions change with a different training sample (high when the model is too flexible).</p><span class="src">3.4.2 · slide 204</span></div><div class="card def"><h3>Underfitting and overfitting</h3><p>Underfitting: the model is too simple to capture the pattern (high bias), so training and test error are both high. Overfitting: the model fits the training data too well, noise included (high variance), so training error is low but test error is much higher.</p><span class="src">3.4.2 · slides 205, 213</span></div><div class="card def"><h3>Regularisation</h3><p>Adding a penalty on the size of the weights to the cost function, scaled by a regularisation constant \(\lambda \ge 0\), to discourage overly complex models and reduce overfitting.</p><span class="src">3.5 · slides 212–218</span></div><div class="card def"><h3>Ridge regression (L2)</h3><p>Least squares with the penalty \(\lambda \sum_j w_j^2\) (Tikhonov regularisation); it shrinks weights smoothly towards zero but never exactly to zero.</p><span class="src">3.5.1 · slide 219</span></div><div class="card def"><h3>Lasso regression (L1)</h3><p>Least Absolute Shrinkage and Selection Operator: least squares with the penalty \(\lambda \sum_j \lvert w_j \rvert\), which can set weights exactly to zero and so performs feature selection; the penalty is not differentiable at zero.</p><span class="src">3.5.2 · slides 220, 222</span></div><div class="card def"><h3>Elastic Net</h3><p>Least squares with a mix of the L1 and L2 penalties controlled by a ratio \(r\); in sklearn (<code>l1_ratio</code>) \(r = 1\) gives Lasso and \(r = 0\) gives Ridge.</p><span class="src">3.5.3 · slide 221</span></div><div class="card def"><h3>Coefficient of determination (R²)</h3><p>The fraction of the variation in \(y\) explained by the model, \(R^2 = 1 - \text{SSE}/\text{SST}\), where \(\text{SST} = \sum (y_i - \bar{y})^2\) is the total, \(\text{SSR} = \sum (\hat{y}_i - \bar{y})^2\) the explained and \(\text{SSE} = \sum (y_i - \hat{y}_i)^2\) the unexplained variation; with an intercept on training data \(\text{SST} = \text{SSR} + \text{SSE}\) and \(R^2 \in [0, 1]\).</p><span class="src">3.6.1 · slides 136, 197</span></div><div class="card def"><h3>Generalisation error</h3><p>The expected error of a model on new, unseen data from the same distribution, estimated by its error on a held-out test set rather than on the training data.</p><span class="src">3.6.2, 6.5.1 · slides 196, 417</span></div></div></details>
+<details class="module" open id="m4-linear-models-for-classification-logistic-regression"><summary>M4 · Linear Models for Classification (Logistic Regression) <small>· 17 items</small></summary><div class="cards"><div class="card def"><h3>Logistic regression</h3><p>A statistical model for binary classification that predicts the probability that an input belongs to the positive class by applying the logistic (sigmoid) function to a linear score, \(h_w(x) = \sigma(w^\top x)\).</p><span class="src">4.1.2 · slide 231</span></div><div class="card def"><h3>Sigmoid (logistic) function</h3><p>The function \(\sigma(z) = \frac{1}{1 + e^{-z}}\), which maps any real number into \((0, 1)\), with \(\sigma(0) = 0.5\).</p><span class="src">4.1.2 · slide 236</span></div><div class="card def"><h3>Decision boundary</h3><p>The set of inputs where the classifier is indifferent between classes; for logistic regression it is where \(h(x) = 0.5\), i.e. the hyperplane \(w_0 + w^\top x = 0\).</p><span class="src">4.1.2 · slides 233, 238</span></div><div class="card def"><h3>Cross-entropy (log-loss)</h3><p>The cost \(J(w) = -\frac{1}{m}\sum_i [y_i \log h(x_i) + (1 - y_i)\log(1 - h(x_i))]\), which is near zero for confident correct predictions, unbounded for confident wrong ones, and convex in \(w\).</p><span class="src">4.2.1 · slides 244–246</span></div><div class="card def"><h3>Odds and logit</h3><p>The odds of an event are \(\frac{p}{1 - p}\); the logit is the log-odds \(\operatorname{logit}(p) = \log\frac{p}{1 - p}\), the inverse of the logistic function, which logistic regression models as linear in the features.</p><span class="src">4.2.3 · slides 253, 282</span></div><div class="card def"><h3>Odds ratio</h3><p>The factor \(e^{w_j}\) by which the odds of the positive class are multiplied for a one-unit increase in feature \(x_j\), other features held fixed.</p><span class="src">4.2.3 · slide 253</span></div><div class="card def"><h3>Regularisation parameter C</h3><p>The inverse regularisation strength \(C = 1/\alpha\) used by sklearn's <code>LogisticRegression</code>; the higher \(C\), the less the model is regularised.</p><span class="src">4.3 · slide 255</span></div><div class="card def"><h3>Confusion matrix</h3><p>A table cross-tabulating actual against predicted classes; for two classes its cells are true positives (TP), false negatives (FN), false positives (FP) and true negatives (TN).</p><span class="src">4.4.1 · slides 258–260</span></div><div class="card def"><h3>Accuracy</h3><p>The fraction of all predictions that are correct, \(\frac{TP + TN}{TP + TN + FP + FN}\).</p><span class="src">4.4.1, 11.1.2 · slides 259, 733</span></div><div class="card def"><h3>Precision</h3><p>The fraction of predicted positives that are actually positive, \(\frac{TP}{TP + FP}\); also called positive predictive value.</p><span class="src">4.4.1, 11.1.2 · slides 260, 733</span></div><div class="card def"><h3>Recall</h3><p>The fraction of actual positives that are predicted positive, \(\frac{TP}{TP + FN}\); also called sensitivity, true positive rate (TPR) or detection rate.</p><span class="src">4.4.1, 11.1.2 · slides 260, 733</span></div><div class="card def"><h3>False positive rate</h3><p>The fraction of actual negatives wrongly predicted positive, \(FPR = \frac{FP}{FP + TN} = 1 - \text{specificity}\), where specificity (TNR) is \(\frac{TN}{TN + FP}\); also called the false alarm rate.</p><span class="src">4.4.1, 4.4.3 · slides 264–265</span></div><div class="card def"><h3>F1 score</h3><p>The harmonic mean of precision and recall, \(F_1 = \frac{2PR}{P + R}\).</p><span class="src">4.4.1, 11.1.2 · slide 733</span></div><div class="card def"><h3>Accuracy paradox</h3><p>Under class imbalance (one class much rarer than the other), a model can have high accuracy yet be useless: always predicting the majority class can score 99% while detecting none of the rare class.</p><span class="src">4.4.2, 4.4.4 · slides 259, 274–275</span></div><div class="card def"><h3>ROC curve</h3><p>Receiver Operating Characteristic: the plot of true positive rate against false positive rate as the decision threshold is swept over a classifier's continuous scores.</p><span class="src">4.4.3 · slides 265–269</span></div><div class="card def"><h3>AUC</h3><p>The area under the ROC curve, a threshold-free measure of separability: 1 for a perfect model, 0.5 for random guessing; it equals the probability that a random positive is scored above a random negative.</p><span class="src">4.4.3 · slides 266, 270</span></div><div class="card def"><h3>One-vs-All and One-vs-One</h3><p>Multiclass strategies built from binary classifiers: One-vs-All (one-vs-rest) trains one classifier per class against all others and predicts the highest score; One-vs-One trains one classifier per pair of classes, \(N(N - 1)/2\) in total, and predicts by majority vote.</p><span class="src">4.5, 7.5 · slides 280–281, 481</span></div></div></details>
+<details class="module" open id="m5-decision-tree-classifier"><summary>M5 · Decision Tree Classifier <small>· 14 items</small></summary><div class="cards"><div class="card def"><h3>Decision tree</h3><p>A hierarchical model that classifies or predicts by applying attribute tests from the root to a leaf. The root node has no incoming edge; each internal node has one incoming edge, two or more outgoing edges and an attribute test; each leaf has one incoming edge, no outgoing edges and a class label. The tree represents a disjunction of conjunctions of attribute-value constraints.</p><span class="src">5.1.1 · slides 287, 289, 294</span></div><div class="card def"><h3>Hunt's algorithm</h3><p>The recursive partitioning scheme for growing a tree: if all records at a node share a class make it a leaf with that label; otherwise choose an attribute test, split the records into purer subsets and recurse on each.</p><span class="src">5.1.2 · slide 292</span></div><div class="card def"><h3>ID3</h3><p>Iterative Dichotomiser 3: a greedy top-down tree learner that at each node selects the attribute with the highest information gain, creates a branch per value, and recurses on the remaining attributes until nodes are pure or attributes run out (majority vote).</p><span class="src">5.1.2 · slide 315</span></div><div class="card def"><h3>Impurity</h3><p>A measure of how mixed the class labels in a node are; it is zero for a pure node (all records one class) and largest for an evenly mixed node. Entropy, the Gini index and classification error are impurity measures.</p><span class="src">5.2 · slides 300–301</span></div><div class="card def"><h3>Entropy</h3><p>The impurity measure \(\text{Entropy}(S) = -\sum_i p_i \log_2 p_i\), where \(p_i\) is the fraction of records in \(S\) of class \(i\); 0 for a pure node, \(\log_2 k\) (1 bit for two classes) for a uniform one.</p><span class="src">5.2.1 · slides 302–303</span></div><div class="card def"><h3>Information gain</h3><p>The expected reduction in entropy from partitioning \(S\) on attribute \(A\): \(\text{Gain}(S, A) = \text{Entropy}(S) - \sum_v \frac{\lvert S_v \rvert}{\lvert S \rvert}\text{Entropy}(S_v)\).</p><span class="src">5.2.1 · slide 304</span></div><div class="card def"><h3>Gini index</h3><p>The impurity measure \(\text{Gini}(S) = 1 - \sum_i p_i^2\), the probability that two records drawn at random from the node belong to different classes; used by CART.</p><span class="src">5.2.2 · slide 327</span></div><div class="card def"><h3>Classification error (impurity)</h3><p>The impurity measure \(\text{Error}(S) = 1 - \max_i p_i\), the fraction of records not in the node's majority class.</p><span class="src">5.2.3 · slide 338</span></div><div class="card def"><h3>Split information and gain ratio</h3><p>Split information is the entropy of \(S\) with respect to the values of \(A\), \(\text{SplitInfo}(S, A) = -\sum_v \frac{\lvert S_v \rvert}{\lvert S \rvert}\log_2 \frac{\lvert S_v \rvert}{\lvert S \rvert}\), large when a split fragments the data into many subsets. The gain ratio \(\text{Gain}(S, A)/\text{SplitInfo}(S, A)\) uses it to penalise many-valued attributes such as a customer ID.</p><span class="src">5.2.4 · slides 339–343</span></div><div class="card def"><h3>Binary split</h3><p>An attribute test with exactly two outcomes, either a grouping of a nominal attribute's values into two subsets or a threshold test \(A &lt; c\) on a continuous attribute, with candidate thresholds at midpoints of adjacent sorted values.</p><span class="src">5.2.2, 5.2.5 · slides 330, 335–336</span></div><div class="card def"><h3>Pre-pruning</h3><p>Stopping tree growth early, before the training data are perfectly classified, using a stopping condition such as a gain threshold, a minimum number of records per node or a maximum depth.</p><span class="src">5.3.2 · slide 353</span></div><div class="card def"><h3>Post-pruning</h3><p>Growing the tree fully, then scanning it bottom-up and replacing a subtree by a leaf whenever doing so does not worsen accuracy on a validation set.</p><span class="src">5.3.3 · slide 357</span></div><div class="card def"><h3>Minimum Description Length (MDL) principle</h3><p>Choose the hypothesis \(h\) minimising \(L_{C_1}(h) + L_{C_2}(D \mid h)\), the bits to encode the hypothesis plus the bits to encode the data given it (its exceptions), where an event of probability \(p\) costs \(-\log_2 p\) bits. It formalises Occam's razor, the preference for the shortest hypothesis that still fits the data reasonably well.</p><span class="src">5.3.4 · slides 360–362</span></div><div class="card def"><h3>CART</h3><p>Classification and Regression Trees: an algorithm that builds binary trees for both tasks, splitting by the Gini index for classification and by variance (squared-error) reduction for regression, with leaves predicting the majority class or the mean target.</p><span class="src">5.4 · slide 328</span></div></div></details>
+<details class="module" open id="m6-instance-based-learning-k-nearest-neighbour"><summary>M6 · Instance-Based Learning (K-Nearest Neighbour) <small>· 11 items</small></summary><div class="cards"><div class="card def"><h3>Dissimilarity matrix</h3><p>An \(n \times n\) triangular matrix holding the distance \(d(i, j)\) between every pair of the \(n\) data objects, with zeros on the diagonal.</p><span class="src">6.2 · slide 378</span></div><div class="card def"><h3>Minkowski distance</h3><p>The distance of order \(h\) between two \(p\)-dimensional objects, \(d(i, j) = \left(\sum_f \lvert x_{if} - x_{jf} \rvert^h\right)^{1/h}\), a metric for \(h \ge 1\). \(h = 1\) is the Manhattan (city-block, \(L_1\)) distance, Hamming distance for bit vectors; \(h = 2\) the Euclidean (\(L_2\)) distance; \(h \to \infty\) the supremum (Chebyshev, \(L_\infty\)) distance \(\max_f \lvert x_{if} - x_{jf} \rvert\).</p><span class="src">6.2.1 · slides 382–384</span></div><div class="card def"><h3>Simple matching distance</h3><p>For nominal attributes, \(d(i, j) = \frac{p - m}{p}\), the fraction of the \(p\) attributes on which objects \(i\) and \(j\) do not match.</p><span class="src">6.2.2 · slide 379</span></div><div class="card def"><h3>Symmetric and asymmetric binary attributes</h3><p>With \(q\) attributes equal to 1 for both objects, \(r\) and \(s\) equal to 1 for only one, and \(t\) equal to 0 for both: a symmetric binary attribute has equally important states (gender), so \(d(i, j) = \frac{r + s}{q + r + s + t}\); an asymmetric one is informative only when 1 (a positive test), so 0–0 matches are ignored and \(d(i, j) = \frac{r + s}{q + r + s}\), one minus the Jaccard coefficient \(\frac{q}{q + r + s}\).</p><span class="src">6.2.2 · slides 380–381</span></div><div class="card def"><h3>Gower distance</h3><p>A dissimilarity for mixed attribute types: the (optionally weighted) average of per-attribute dissimilarities in \([0, 1]\), using range-scaled differences for numeric, mismatch for nominal and binary, and rank-normalised differences for ordinal attributes.</p><span class="src">6.2.4 · slides 387–388</span></div><div class="card def"><h3>k-nearest neighbour (k-NN)</h3><p>An instance-based method that predicts for a query \(x_q\) from its \(k\) closest training points: the majority class for classification, the mean target value for regression.</p><span class="src">6.3.1 · slides 375, 393</span></div><div class="card def"><h3>Distance-weighted k-NN</h3><p>A k-NN variant in which each neighbour's vote or value is weighted by a kernel of its distance, \(w_i = K(d(x_q, x_i))\), such as \(1/d^2\) or \(\exp(-(d/\sigma_0)^2)\).</p><span class="src">6.3.3 · slide 397</span></div><div class="card def"><h3>Locally weighted regression</h3><p>A lazy method that approximates the target near each query point \(x_q\) by fitting a local (usually linear) model whose training errors are weighted by a kernel of their distance from \(x_q\).</p><span class="src">6.4.1 · slides 403–407</span></div><div class="card def"><h3>Model selection and model assessment</h3><p>Model selection estimates the performance of different models (or hyper-parameter settings) to choose the best one; model assessment estimates the chosen model's generalisation error on new data. The holdout method does either by evaluating on a single held-out portion of the data not used for training.</p><span class="src">6.5.1, 11.1.1 · slides 417–419, 733</span></div><div class="card def"><h3>k-fold cross-validation</h3><p>Splitting the data into \(k\) folds, training on \(k - 1\) folds and validating on the remaining one, rotating so each fold is validated once, and averaging the \(k\) scores.</p><span class="src">6.5.2 · slides 422–423</span></div><div class="card def"><h3>Leave-one-out and stratified cross-validation</h3><p>Leave-one-out cross-validation is k-fold CV with \(k = n\): each model trains on all examples but one and is tested on the one left out. Stratified k-fold CV makes every fold preserve the class proportions of the whole data set.</p><span class="src">6.5.2 · slide 422</span></div></div></details>
+<details class="module" open id="m7-support-vector-machines"><summary>M7 · Support Vector Machines <small>· 15 items</small></summary><div class="cards"><div class="card def"><h3>Support vector machine (SVM)</h3><p>A classifier that separates two classes with the hyperplane of maximum margin, optionally after an implicit kernel mapping to a higher-dimensional feature space; the simplest form, for linearly separable data, is the linear SVM.</p><span class="src">7.1.2, 7.4.1 · slides 437, 464, 479</span></div><div class="card def"><h3>Separating hyperplane</h3><p>The set \(\{x : w^\top x + b = 0\}\) that divides the input space into the regions classified \(+1\) and \(-1\) by \(f(x) = \operatorname{sign}(w^\top x + b)\); \(w\) is its normal vector and \(b\) its offset.</p><span class="src">7.1.1 · slides 431–434</span></div><div class="card def"><h3>Margin</h3><p>The width by which the decision boundary could be increased before hitting a data point; in canonical form it equals \(2/\lVert w \rVert\).</p><span class="src">7.1.2 · slide 436</span></div><div class="card def"><h3>Support vectors</h3><p>The training points lying on the margin, \(y_i(w^\top x_i + b) = 1\) in the hard-margin case, which alone determine the maximum-margin hyperplane; they are the points with \(\alpha_i &gt; 0\).</p><span class="src">7.1.2 · slides 437–438</span></div><div class="card def"><h3>Hard-margin SVM (primal problem)</h3><p>The convex quadratic program \(\min_{w, b} \tfrac{1}{2}\lVert w \rVert^2\) subject to \(y_i(w^\top x_i + b) \ge 1\) for all \(i\), which requires every training point to be correctly classified outside the margin.</p><span class="src">7.2.1 · slides 438–443</span></div><div class="card def"><h3>Lagrange multiplier</h3><p>A variable \(\alpha_i \ge 0\) attached to the \(i\)-th constraint of the primal problem in the Lagrangian \(L = \tfrac{1}{2}\lVert w \rVert^2 - \sum_i \alpha_i[y_i(w^\top x_i + b) - 1]\); a valid solution never has a negative multiplier.</p><span class="src">7.2.2 · slide 444</span></div><div class="card def"><h3>Dual problem</h3><p>The equivalent optimisation over the multipliers, \(\max_\alpha \sum_i \alpha_i - \tfrac{1}{2}\sum_{i, j}\alpha_i\alpha_j y_i y_j x_i^\top x_j\) subject to \(\alpha_i \ge 0\) and \(\sum_i \alpha_i y_i = 0\), from which \(w = \sum_i \alpha_i y_i x_i\).</p><span class="src">7.2.2 · slides 443–444</span></div><div class="card def"><h3>KKT conditions</h3><p>The Karush–Kuhn–Tucker optimality conditions for the SVM: stationarity (\(w = \sum \alpha_i y_i x_i\), \(\sum \alpha_i y_i = 0\)), primal feasibility, dual feasibility (\(\alpha_i \ge 0\)) and complementary slackness \(\alpha_i[y_i(w^\top x_i + b) - 1] = 0\), so only points on the margin can have \(\alpha_i &gt; 0\).</p><span class="src">7.2.2 · slides 444, 464</span></div><div class="card def"><h3>Soft-margin SVM</h3><p>The SVM for noisy or non-separable data: \(\min \tfrac{1}{2}\lVert w \rVert^2 + C\sum_i \xi_i\) subject to \(y_i(w^\top x_i + b) \ge 1 - \xi_i\), \(\xi_i \ge 0\), which allows some points inside the margin or misclassified.</p><span class="src">7.3.1 · slides 456, 459</span></div><div class="card def"><h3>Slack variable</h3><p>The amount \(\xi_i \ge 0\) by which point \(i\) violates the margin: 0 on or outside the correct margin, between 0 and 1 inside the margin but correctly classified, above 1 misclassified.</p><span class="src">7.3.1 · slides 456–457</span></div><div class="card def"><h3>Cost parameter C</h3><p>The soft-margin hyper-parameter that weights the total slack against the margin: large \(C\) penalises violations heavily (narrow margin, risk of overfitting), small \(C\) tolerates them (wide margin).</p><span class="src">7.3.2 · slides 457, 459</span></div><div class="card def"><h3>Hinge loss</h3><p>The loss \(\max(0, 1 - y f(x))\) on a prediction \(f(x) = w^\top x + b\); it equals the optimal slack, so the soft-margin SVM minimises \(\tfrac{1}{2}\lVert w \rVert^2 + C\sum_i \max(0, 1 - y_i f(x_i))\).</p><span class="src">7.3.1 · slides 456–459</span></div><div class="card def"><h3>Kernel function</h3><p>A function \(K(x_i, x_j) = \phi(x_i)^\top \phi(x_j)\) that returns the inner product of two points in a feature space without computing \(\phi\); a valid (Mercer) kernel gives a symmetric positive semi-definite Gram matrix.</p><span class="src">7.4.1, 7.4.2 · slides 467–468</span></div><div class="card def"><h3>Kernel trick</h3><p>Replacing every inner product \(x_i^\top x_j\) in the SVM dual and decision function by a kernel \(K(x_i, x_j) = \phi(x_i)^\top \phi(x_j)\), so the SVM learns a linear boundary in the feature space of the mapping \(\Phi: x \to \phi(x)\), where the data may be separable, without ever computing \(\phi\) explicitly.</p><span class="src">7.4.1 · slides 466–469, 476</span></div><div class="card def"><h3>Polynomial, Gaussian (RBF) and sigmoid kernels</h3><p>The polynomial kernel \((1 + x_i^\top x_j)^p\) is the inner product over all monomials of degree up to \(p\) (degree 1, or the homogeneous \(x_i^\top x_j\), is the linear kernel). The Gaussian RBF kernel \(\exp\left(-\frac{\lVert x_i - x_j \rVert^2}{2\sigma^2}\right)\) is a similarity in \((0, 1]\) with an infinite-dimensional feature space. The sigmoid kernel \(\tanh(\beta_0 x_i^\top x_j + \beta_1)\) is not positive semi-definite for every parameter choice.</p><span class="src">7.4.2 · slides 477–478</span></div></div></details>
+<details class="module" open id="m8-bayesian-learning"><summary>M8 · Bayesian Learning <small>· 17 items</small></summary><div class="cards"><div class="card def"><h3>Likelihood and log-likelihood</h3><p>The likelihood is the probability (or density) of the observed data viewed as a function of the parameter, \(L(\theta) = \prod_{i=1}^{n} f(x_i \mid \theta)\) for i.i.d. samples; the log-likelihood \(LL(\theta) = \sum_i \log f(x_i \mid \theta)\) has the same maximiser and turns products into sums.</p><span class="src">8.1.1 · slides 493, 501</span></div><div class="card def"><h3>Maximum likelihood estimation (MLE)</h3><p>Choosing the parameters that make the observed data most likely, \(\hat{\theta}_{\text{MLE}} = \arg\max_\theta LL(\theta)\), found by differentiating \(LL\) and solving.</p><span class="src">8.1.1 · slides 493, 501, 509</span></div><div class="card def"><h3>Maximum a posteriori (MAP) estimation</h3><p>Choosing the parameters (or hypothesis) with the highest posterior probability, \(\hat{\theta}_{\text{MAP}} = \arg\max_\theta P(D \mid \theta)P(\theta)\); it equals the MLE when the prior is uniform.</p><span class="src">8.1.4 · slides 502, 509</span></div><div class="card def"><h3>Prior, posterior and evidence</h3><p>The prior \(P(h)\) is the probability of hypothesis \(h\) before seeing the data; the posterior \(P(h \mid D)\) is its probability after observing the training data \(D\); the evidence \(P(D) = \sum_h P(D \mid h)P(h)\) is the probability of the data averaged over all hypotheses, which normalises the posterior.</p><span class="src">8.2.1 · slide 492</span></div><div class="card def"><h3>Bayes' theorem</h3><p>\(P(h \mid D) = \frac{P(D \mid h)\,P(h)}{P(D)}\): posterior equals likelihood times prior, divided by the evidence.</p><span class="src">8.2.1 · slide 492</span></div><div class="card def"><h3>Bayes optimal classifier</h3><p>The classifier that predicts \(\arg\max_{v} \sum_{h \in H} P(v \mid h)P(h \mid D)\), combining the predictions of all hypotheses weighted by their posteriors; no other classifier using the same hypothesis space and prior performs better on average.</p><span class="src">8.2.2 · slides 505–506</span></div><div class="card def"><h3>Gibbs classifier</h3><p>A classifier that draws one hypothesis at random according to the posterior \(P(h \mid D)\) and uses it to classify; its expected error is at most twice that of the Bayes optimal classifier.</p><span class="src">8.2.3 · slide 508</span></div><div class="card def"><h3>Conditional independence</h3><p>\(X\) is conditionally independent of \(Z\) given \(Y\) if \(P(X \mid Y, Z) = P(X \mid Y)\); Naïve Bayes assumes every pair of features is conditionally independent given the class, so \(P(X_1, \dots, X_n \mid Y) = \prod_i P(X_i \mid Y)\).</p><span class="src">8.3.1 · slide 526</span></div><div class="card def"><h3>Naïve Bayes classifier</h3><p>A generative classifier that predicts \(\hat{y} = \arg\max_y P(Y = y)\prod_i P(X_i = x_i \mid Y = y)\) under the conditional independence assumption, with probabilities estimated from training frequencies.</p><span class="src">8.3.1, 8.3.2 · slides 527, 531</span></div><div class="card def"><h3>Zero-frequency problem and Laplace smoothing</h3><p>The zero-frequency problem: an attribute value never seen with a class gives \(P(X_i = v \mid c) = 0\) and zeroes that class's whole Naïve Bayes product. Laplace smoothing fixes it by adding 1 to every count, \(P(A_i = v \mid c) = \frac{N_{vc} + 1}{N_c + d}\), with \(d\) the number of distinct values of \(A_i\).</p><span class="src">8.3.3 · slides 532–535</span></div><div class="card def"><h3>m-estimate</h3><p>The smoothed estimate \(P(A_i \mid c) = \frac{N_{ic} + m\,p}{N_c + m}\), where \(p\) is a prior estimate of the probability and \(m\) the equivalent sample size; Laplace smoothing is the case \(p = 1/d\), \(m = d\).</p><span class="src">8.3.3 · slide 535</span></div><div class="card def"><h3>Gaussian Naïve Bayes</h3><p>Naïve Bayes for continuous features that models each \(P(X_i \mid Y = y_k)\) as a normal density \(N(\mu_{ik}, \sigma_{ik}^2)\) with mean and variance estimated per (feature, class) pair.</p><span class="src">8.3.4 · slides 540–542</span></div><div class="card def"><h3>Bag of words</h3><p>A representation of a document by the counts (or presence) of each vocabulary word, ignoring word order and grammar.</p><span class="src">8.3.5 · slide 551</span></div><div class="card def"><h3>Multinomial Naïve Bayes</h3><p>Naïve Bayes for text that models word counts: \(P(w \mid c)\) is the smoothed share of class-\(c\) tokens that are \(w\), and each occurrence of a word in the document multiplies in its probability.</p><span class="src">8.3.5 · slides 552–558</span></div><div class="card def"><h3>Bernoulli Naïve Bayes</h3><p>Naïve Bayes for text with one binary feature per vocabulary word (present or absent in the document); \(P(w \mid c)\) is the smoothed share of class-\(c\) documents containing \(w\), and absent words contribute \(1 - P(w \mid c)\).</p><span class="src">8.3.5 · slides 559–562</span></div><div class="card def"><h3>Generative model</h3><p>A model of the class-conditional distribution \(P(X \mid Y)\) and the prior \(P(Y)\), from which \(P(Y \mid X)\) follows by Bayes' theorem and synthetic data can be sampled (Naïve Bayes, Gaussian mixtures).</p><span class="src">8.3.1, 8.4 · slides 521–522</span></div><div class="card def"><h3>Discriminative model</h3><p>A model of \(P(Y \mid X)\) (or the decision boundary) directly, without modelling how the inputs are generated (logistic regression, SVM).</p><span class="src">8.4 · slides 521, 566</span></div></div></details>
+<details class="module" open id="m9-ensemble-learning"><summary>M9 · Ensemble Learning <small>· 13 items</small></summary><div class="cards"><div class="card def"><h3>Ensemble learning</h3><p>Combining the predictions of several base models (by averaging, voting or a learned combiner) so the ensemble is more accurate or stable than any single member. A homogeneous ensemble uses one model type trained on different data or weights (bagging, random forest, boosting); a heterogeneous ensemble combines different model types (stacking).</p><span class="src">9.1.1 · slides 582–587</span></div><div class="card def"><h3>Weak learner</h3><p>A model that performs only slightly better than random guessing, such as a decision stump; a strong learner is one with high accuracy, which ensembles build from many weak learners.</p><span class="src">9.1.1 · slides 582–587, 631</span></div><div class="card def"><h3>Bootstrap sample</h3><p>A sample of \(n\) records drawn with replacement from a training set of \(n\) records; it contains about 63.2% of the distinct records, some more than once.</p><span class="src">9.2.1 · slides 589–596</span></div><div class="card def"><h3>Bagging</h3><p>Bootstrap aggregating: training base models in parallel on independent bootstrap samples and aggregating them by averaging (regression) or majority vote (classification, the class chosen by most members; soft voting averages class probabilities instead); it mainly reduces variance.</p><span class="src">9.2.1 · slides 597–602, 612</span></div><div class="card def"><h3>Out-of-bag (OOB) error</h3><p>The error of a bagged ensemble estimated by predicting each record using only the models whose bootstrap samples did not contain it, giving a validation estimate without a separate hold-out set.</p><span class="src">9.2.1, 9.2.2 · slides 596, 603</span></div><div class="card def"><h3>Random forest</h3><p>A bagging ensemble of decision trees in which each tree is grown on a bootstrap sample and only a random subset of features is considered at each split; predictions are averaged or voted.</p><span class="src">9.2.2 · slide 603</span></div><div class="card def"><h3>Boosting</h3><p>Training base learners sequentially, each concentrating on the records the previous ones got wrong, and combining them in a weighted sum; it mainly reduces bias.</p><span class="src">9.3.1 · slides 605, 641</span></div><div class="card def"><h3>AdaBoost</h3><p>Adaptive Boosting: starting from equal record weights, each round fits a weak learner \(h_t\), computes its weighted error \(\varepsilon_t = \sum_{i: h_t(x_i) \ne y_i} w_i\) (the total weight of misclassified records) and its performance \(\alpha_t = \tfrac{1}{2}\ln\frac{1 - \varepsilon_t}{\varepsilon_t}\), increases the weights of misclassified records, renormalises, and finally predicts \(\operatorname{sign}(\sum_t \alpha_t h_t(x))\).</p><span class="src">9.3.2 · slides 618–629</span></div><div class="card def"><h3>Decision stump</h3><p>A one-level decision tree that splits on a single attribute test (e.g. Monthly Spend \(&gt; 50\)); the usual weak learner in AdaBoost.</p><span class="src">9.3.2 · slides 618, 626</span></div><div class="card def"><h3>Gradient boosting</h3><p>Boosting that starts from a constant prediction and repeatedly fits a new tree to the current residuals (the negative gradient of the loss), adding it scaled by a learning rate.</p><span class="src">9.3.3 · slides 615–616, 641</span></div><div class="card def"><h3>Shrinkage</h3><p>Scaling each new tree's contribution by a learning rate \(\eta &lt; 1\) (eta) before adding it to the ensemble, which makes boosting more conservative and reduces overfitting.</p><span class="src">9.3.3, 9.3.4 · slides 635, 642</span></div><div class="card def"><h3>XGBoost</h3><p>eXtreme Gradient Boosting: a gradient-boosted tree library that adds a regularised objective (penalties on the number of leaves and leaf values), shrinkage, depth-wise growth with pruning, sparsity-aware handling of missing values and cache-aware parallel computation.</p><span class="src">9.3.4 · slides 630–643</span></div><div class="card def"><h3>Stacking</h3><p>A heterogeneous ensemble in which several different base learners are trained and a second-level meta-model (often logistic regression) takes their predictions, ideally out-of-fold ones, as inputs and learns how to combine them into the final prediction.</p><span class="src">9.4 · slides 644–648</span></div></div></details>
+<details class="module" open id="m10-unsupervised-learning"><summary>M10 · Unsupervised Learning <small>· 14 items</small></summary><div class="cards"><div class="card def"><h3>Cluster analysis</h3><p>Finding groups of objects such that objects in a group are similar to one another and different from objects in other groups, without class labels.</p><span class="src">10.1.1 · slides 654, 702–703</span></div><div class="card def"><h3>Partitional clustering</h3><p>A division of the data objects into non-overlapping subsets (clusters) such that each object is in exactly one subset.</p><span class="src">10.1.2 · slide 704</span></div><div class="card def"><h3>Hierarchical clustering</h3><p>A set of nested clusters organised as a hierarchical tree (a dendrogram), built by repeatedly merging (agglomerative) or splitting (divisive) clusters.</p><span class="src">10.1.2 · slide 704</span></div><div class="card def"><h3>Centroid</h3><p>The mean of the points assigned to a cluster, \(\mu_k = \frac{\sum_n r_{nk} x_n}{\sum_n r_{nk}}\); usually not itself a data point.</p><span class="src">10.2.1 · slide 659</span></div><div class="card def"><h3>K-means</h3><p>A partitional algorithm that minimises \(J = \sum_n \sum_k r_{nk}\lVert x_n - \mu_k \rVert^2\), where the 1-of-K indicators \(r_{nk} \in \{0, 1\}\), \(\sum_k r_{nk} = 1\), record each point's cluster, by alternating an assignment step (each point to its nearest centroid) and an update step (recompute centroids) until assignments stop changing.</p><span class="src">10.2.1, 10.2.2 · slides 655–660, 674</span></div><div class="card def"><h3>Elbow method</h3><p>Choosing the number of clusters (or \(k\) in k-NN) by plotting an error measure such as SSE against \(K\) and taking the value at the bend, beyond which the curve flattens.</p><span class="src">10.2.3, 6.3.2 · slides 670, 394</span></div><div class="card def"><h3>K-medoids</h3><p>A partitional clustering algorithm whose cluster representatives are medoids, the actual data points with the smallest average dissimilarity to the other points of their cluster; it swaps a medoid with a non-medoid whenever that lowers the total dissimilarity, and is robust to outliers.</p><span class="src">10.3 · slides 669, 711–715</span></div><div class="card def"><h3>Cluster validity indices</h3><p>Numerical measures of clustering quality: an external index compares cluster labels with known class labels (entropy), an internal index uses only the data, typically cohesion (how close points within a cluster are, the within-cluster SSE) and separation (how distinct clusters are from one another), and a relative index compares two clusterings or clusters.</p><span class="src">10.4.1, 10.1.1 · slides 718–722</span></div><div class="card def"><h3>Silhouette coefficient</h3><p>For a point \(i\) with average distance \(a\) to its own cluster and smallest average distance \(b\) to another cluster, \(s = 1 - a/b\) if \(a &lt; b\) (or \(b/a - 1\) otherwise); it lies in \([-1, 1]\), closer to 1 is better, and can be averaged over a cluster or a clustering.</p><span class="src">10.4.2 · slide 722</span></div><div class="card def"><h3>Hard and soft clustering</h3><p>Hard clustering assigns each point to exactly one cluster (K-means); soft (probabilistic) clustering gives each point a probability of belonging to every cluster (GMM).</p><span class="src">10.5.1 · slides 673–675</span></div><div class="card def"><h3>Gaussian mixture model (GMM)</h3><p>A density that is a weighted sum of \(K\) Gaussian components, \(p(x) = \sum_k \pi_k \mathcal{N}(x \mid \mu_k, \Sigma_k)\), where the mixing coefficient \(\pi_k = p(z_k = 1) \ge 0\) is the prior probability that a point comes from component \(k\) and \(\sum_k \pi_k = 1\).</p><span class="src">10.5.2 · slides 680–688, 725</span></div><div class="card def"><h3>Responsibility</h3><p>The posterior probability \(\gamma(z_{nk}) = \frac{\pi_k \mathcal{N}(x_n \mid \mu_k, \Sigma_k)}{\sum_j \pi_j \mathcal{N}(x_n \mid \mu_j, \Sigma_j)}\) that component \(k\) generated point \(x_n\); a point's responsibilities sum to 1.</p><span class="src">10.5.3 · slide 690</span></div><div class="card def"><h3>Expectation-Maximisation (EM) algorithm</h3><p>An iterative method for maximum likelihood with latent variables that alternates an E-step (compute responsibilities from the current parameters) and an M-step (re-estimate \(\pi_k, \mu_k, \Sigma_k\) by responsibility-weighted MLE) until the log-likelihood converges.</p><span class="src">10.5.3 · slides 689–692</span></div><div class="card def"><h3>Covariance type</h3><p>The constraint on GMM covariance matrices: spherical (round clusters, one variance each), diagonal (axis-aligned ellipses), tied (one shared covariance for all components) or full (any ellipse per component).</p><span class="src">10.5.4 · slide 700</span></div></div></details>
+<details class="module" open id="m11-ml-model-evaluation-comparison-facct-ml"><summary>M11 · ML Model Evaluation, Comparison &amp; FAccT ML <small>· 11 items</small></summary><div class="cards"><div class="card def"><h3>MAD, MAPE and RMSE</h3><p>Regression error metrics: the mean absolute deviation \(\text{MAD} = \frac{1}{n}\sum_i \lvert y_i - \hat{y}_i \rvert\) (also MAE); the mean absolute percentage error \(\text{MAPE} = \frac{100\%}{n}\sum_i \frac{\lvert y_i - \hat{y}_i \rvert}{\lvert y_i \rvert}\), scale-free but undefined when some \(y_i = 0\); and the root mean squared error \(\text{RMSE} = \sqrt{\frac{1}{n}\sum_i (y_i - \hat{y}_i)^2}\), in the target's units.</p><span class="src">11.1.2 · slides 730, 733</span></div><div class="card def"><h3>Confidence interval for accuracy</h3><p>An interval \(\hat{p} \pm z_{\alpha/2}\sqrt{\hat{p}(1 - \hat{p})/n}\) that contains a model's true accuracy with the stated confidence, given test accuracy \(\hat{p}\) on \(n\) independent test cases.</p><span class="src">11.2.1 · slide 734</span></div><div class="card def"><h3>Statistical significance of a model difference</h3><p>The conclusion that an observed accuracy gap between two models is unlikely to be due to the random choice of test data alone, judged by a hypothesis test (for example a two-proportion z test, or McNemar's test on a shared test set) at a chosen level such as 5%.</p><span class="src">11.2.1 · slide 734</span></div><div class="card def"><h3>FAccT</h3><p>Fairness, Accountability and Transparency in ML: fairness is the absence of bias towards an individual or group in a model's decisions, accountability assigns responsibility for failures, and transparency makes models understandable and compliant with regulation (privacy and robustness are related concerns).</p><span class="src">11.3.1 · slides 735–736, 740</span></div><div class="card def"><h3>Algorithmic bias</h3><p>Systematic, unfair differences in a model's outcomes across individuals or groups, arising because the model learns and amplifies patterns, including biases, present in its training data (the COMPAS risk-assessment case).</p><span class="src">11.3.1 · slides 738, 740</span></div><div class="card def"><h3>Negative legacy</h3><p>Bias inherited from historical data whose labels or records reflect past discrimination, so a model trained to reproduce them perpetuates it.</p><span class="src">11.3.1 · slide 739</span></div><div class="card def"><h3>Fairness through unawareness</h3><p>The insufficient criterion that a model is fair if no sensitive feature (race, gender) is used directly as an input; it fails because proxies, non-protected features correlated with the protected attribute (shopping location standing in for ethnicity), let the model infer it anyway (redundant encoding).</p><span class="src">11.3.2 · slides 741–742</span></div><div class="card def"><h3>Demographic parity</h3><p>The group-fairness criterion that the positive-prediction (selection) rate \(P(\hat{Y} = 1 \mid G = g)\) is equal across groups \(g\).</p><span class="src">11.3.1, 11.3.2 · slides 740–742</span></div><div class="card def"><h3>Equal opportunity and equalized odds</h3><p>Equal opportunity requires equal true positive rates across groups; equalized odds requires both equal true positive rates and equal false positive rates.</p><span class="src">11.3.1 · slides 740–742</span></div><div class="card def"><h3>Interpretability</h3><p>The degree to which a human can examine and understand the basis of a model's decisions; trees, linear and logistic regression and k-NN are inherently interpretable.</p><span class="src">11.4.1 · slides 743–744</span></div><div class="card def"><h3>Black-box model</h3><p>A model whose internal decision logic is too complex to inspect directly (random forests, boosted ensembles, deep networks), typically trading interpretability for predictive performance.</p><span class="src">11.4.1, 11.4.2 · slides 748–749</span></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>

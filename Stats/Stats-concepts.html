@@ -4,607 +4,513 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stats — Concepts</title>
-<script>
-MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
-            svg: { fontCache: 'global' } };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option']});"></script>
 <style>
-:root{--bg:#0f172a;--panel:#1e293b;--card:#243049;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;--border:#334155;}
+:root{--bg:#0f172a;--panel:#1e293b;--card:#1b263b;--ink:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#f472b6;
+--qc:#a78bfa;--fc:#34d399;--border:#334155;--field:#0b1220;--mark:#fde68a;
+--l1:#6ee7b7;--l2:#5eead4;--l3:#93c5fd;--l4:#c4b5fd;--l5:#fdba74;}
+[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--card:#ffffff;--ink:#172033;--muted:#55607a;--accent:#0b6aa8;
+--accent2:#b8326f;--qc:#5b3cc4;--fc:#0d7a55;--border:#d8dee9;--field:#eef2f8;--mark:#fde68a;
+--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#b53d0a;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.75rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;max-width:1100px;margin:0 auto}
-.bar h1{font-size:1.05rem;margin:0;margin-right:auto;color:#fff}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border);padding:.5rem .9rem;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;max-width:1100px;margin:0 auto}
+.bar h1{font-size:1rem;margin:0 auto 0 0;color:var(--ink)}
 .bar h1 span{color:var(--accent)}
-.tab{font-size:.85rem;text-decoration:none;color:var(--muted);padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border)}
-.tab:hover{color:var(--ink)}
-.tab.active{background:var(--accent);color:#04263a;border-color:var(--accent);font-weight:600}
+.tab,.btn{font-size:.8rem;text-decoration:none;color:var(--muted);padding:.25rem .6rem;border-radius:999px;border:1px solid var(--border);background:none;cursor:pointer;font-family:inherit}
+.tab:hover,.btn:hover{color:var(--ink);border-color:var(--accent)}
+.tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
 .tab.home{border-style:dashed}
-#q{flex:1 1 100%;margin-top:.5rem;padding:.55rem .8rem;border-radius:8px;border:1px solid var(--border);background:#0b1220;color:var(--ink);font-size:.95rem}
-main{max-width:1100px;margin:1.5rem auto;padding:0 1rem 4rem}
-.intro{color:var(--muted);font-size:.9rem;margin-bottom:1.25rem}
-.module{background:transparent;border:1px solid var(--border);border-radius:10px;margin:0 0 1rem}
-.module>summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;color:#fff;list-style:none}
+.tools{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;flex:1 1 100%;margin-top:.35rem}
+#q{flex:1 1 260px;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border);background:var(--field);color:var(--ink);font-size:.9rem}
+.lv{font-size:.75rem;padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none;cursor:pointer;font-family:inherit;font-weight:600}
+.lv.off{opacity:.35}
+.lv.l1,.badge.l1{color:var(--l1)}.lv.l2,.badge.l2{color:var(--l2)}.lv.l3,.badge.l3{color:var(--l3)}.lv.l4,.badge.l4{color:var(--l4)}.lv.l5,.badge.l5{color:var(--l5)}
+main{max-width:1100px;margin:1rem auto;padding:0 .9rem 3rem}
+.intro{color:var(--muted);font-size:.85rem;margin:0 0 .8rem}
+.jump{display:flex;flex-wrap:wrap;gap:.3rem;margin:0 0 .9rem}
+.jump a{font-size:.75rem;text-decoration:none;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:.1rem .45rem}
+.jump a:hover{color:var(--accent);border-color:var(--accent)}
+.module{border:1px solid var(--border);border-radius:10px;margin:0 0 .7rem}
+.module>summary{cursor:pointer;padding:.5rem .8rem;font-weight:600;list-style:none}
 .module>summary::-webkit-details-marker{display:none}
 .module>summary::before{content:"▸ ";color:var(--accent)}
 .module[open]>summary::before{content:"▾ "}
 .module>summary small{color:var(--muted);font-weight:400}
-.cards{padding:.5rem 1rem 1rem}
-.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.75rem .9rem;margin:.6rem 0}
-.card h3{margin:.1rem 0 .35rem;font-size:1rem;color:var(--accent)}
-.card.def{border-left-color:var(--accent2)}
-.card.def h3{color:var(--accent2)}
-.card p{margin:.3rem 0}
-.card .src{display:inline-block;margin-top:.4rem;font-size:.72rem;color:var(--muted);background:#0b1220;padding:.1rem .45rem;border-radius:4px}
-.card ul{margin:.3rem 0 .3rem 1.1rem;padding:0}
+.cards{padding:.1rem .7rem .6rem}
+.card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:.5rem .75rem;margin:.45rem 0;overflow-wrap:anywhere}
+.card h3{margin:0 0 .2rem;font-size:.95rem;color:var(--accent)}
+.card.def{border-left-color:var(--accent2)}.card.def h3{color:var(--accent2)}
+.card.f{border-left-color:var(--fc)}.card.f h3{color:var(--fc)}
+.card.q{border-left-color:var(--qc)}.card.q h3{color:var(--ink);display:inline;font-size:.95rem}
+.card.note-card{border-left-color:var(--muted)}.card.note-card h3{color:var(--ink)}
+.card p{margin:.25rem 0}
+.card ul,.card ol{margin:.25rem 0 .25rem 1.1rem;padding:0}
+.card li{margin:.1rem 0}
+.card .src{display:inline-block;margin-top:.3rem;font-size:.7rem;color:var(--muted);background:var(--field);padding:.05rem .4rem;border-radius:4px}
+.card table{border-collapse:collapse;margin:.4rem 0;font-size:.85rem;display:block;overflow-x:auto}
+.card th,.card td{border:1px solid var(--border);padding:.2rem .5rem;text-align:left;vertical-align:top}
+.card th{background:var(--field)}
+.card pre{background:var(--field);padding:.5rem .7rem;border-radius:6px;overflow-x:auto;font-size:.78rem;line-height:1.35}
+.card code{background:var(--field);padding:0 .3rem;border-radius:4px;font-size:.85em}
+.card pre code{padding:0;background:none}
+.tree pre{font-size:.72rem}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.4rem 0;padding:.1rem 0}
+.note{color:var(--muted);font-size:.85rem;margin:.4rem 0}
+h4.sub{margin:.9rem 0 .2rem;font-size:.85rem;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.qh{display:flex;flex-wrap:wrap;gap:.45rem;align-items:baseline;margin-bottom:.2rem}
+.pid{font-size:.75rem;font-weight:700;color:var(--muted);text-decoration:none}
+.badge{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor}
+details.ans{margin-top:.35rem;border-top:1px dashed var(--border);padding-top:.25rem}
+details.ans>summary{cursor:pointer;color:var(--accent);font-size:.8rem;font-weight:600;list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans.hint>summary{color:var(--l5)}
+details.ans.hint>summary::before{content:"▸ hint"}
+details.ans.hint[open]>summary::before{content:"▾ hint"}
+details.ans.sol>summary::before{content:"▸ show answer"}
+details.ans.sol[open]>summary::before{content:"▾ answer"}
+details.ans .sol{margin-top:.25rem}
 .hidden{display:none!important}
-.count{color:var(--muted);font-size:.8rem;margin-left:.4rem}
-mark{background:#fde68a;color:#111;border-radius:3px}
-a.tab:focus-visible,#q:focus{outline:2px solid var(--accent)}
+.count{color:var(--muted);font-size:.75rem;margin-left:.35rem;font-weight:400}
+mark{background:var(--mark);color:#111;border-radius:3px}
+#q:focus,.tab:focus-visible,.btn:focus-visible{outline:2px solid var(--accent)}
 @media(max-width:640px){.bar h1{flex:1 1 100%}}
+@media print{
+  :root,[data-theme="light"]{--bg:#fff;--panel:#fff;--card:#fff;--ink:#13161c;--muted:#4a5165;--accent:#1f4db8;--accent2:#a3245c;
+  --qc:#5b3bc4;--fc:#0d6e4c;--border:#c7cdda;--field:#f1f3f8;--l1:#1f7a34;--l2:#0a6676;--l3:#15599e;--l4:#5b3bc4;--l5:#bb3e0a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;opacity:1!important;text-shadow:none!important}
+  body{background:#fff!important;color:var(--ink)!important;font-size:10.5pt}
+  header{position:static;box-shadow:none;border:0}
+  .tools,.tab,.jump{display:none!important}
+  .module{border:0}.module>summary::before{content:""}
+  .card{break-inside:avoid-page;box-shadow:none}.card.q{break-inside:auto}
+  .katex,.katex *{color:var(--ink)!important}.katex-display{overflow:visible}
+  .lv.off{opacity:1!important}
+  /* Print every hint and answer even when collapsed on screen (no JS needed, so the
+     page count is right from the start). Labels drop the on-screen arrows. */
+  details::details-content{content-visibility:visible!important;display:block!important}
+  details.ans.hint>summary::before,details.ans.hint[open]>summary::before{content:"Hint"}
+  details.ans.sol>summary::before,details.ans.sol[open]>summary::before{content:"Answer"}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <h1><span>Stats</span> · Concepts<span class="count" id="count"></span></h1>
+    <h1><span>Stats</span> · Concepts<span class="count" id="count" data-unit="items"></span></h1>
     <a class="tab home" href="../index.html">All Guides</a>
-    <a class="tab active" href="Stats-concepts.html">Concepts</a>
-    <a class="tab" href="Stats-formulas.html">Formulas</a>
-    <a class="tab" href="Stats-definitions.html">Definitions</a>
-    <a class="tab" href="Stats-questions.html">Question Bank</a>
-    <input id="q" type="search" placeholder="Filter… (type to search this page)">
+    <a class="tab active" href="Stats-concepts.html">Concepts</a><a class="tab" href="Stats-formulas.html">Formulas</a><a class="tab" href="Stats-definitions.html">Definitions</a><a class="tab" href="Stats-questions.html">Question Bank</a>
+    <button class="btn" id="theme" title="Light / dark">◐</button>
+    <div class="tools"><input id="q" type="search" placeholder="Filter… (type to search this page, or a concept ID like 4.3.2)  [ / ]"></div>
   </div>
 </header>
 <main>
-  <p class="intro">Concepts for Introduction to Statistical Methods (AIMLZC418) — descriptive statistics, probability, conditional & total probability, Bayes/Naïve Bayes, random variables & distributions, probability distributions (Bernoulli, binomial, Poisson, normal, t, F, chi-square), and inference/forecasting. Sources: ISM CS-1…CS-6 decks, Webinar 1, and EC-2/EC-3 exam sheets.</p>
-
-  <details class="module" open>
-    <summary>CS-1 — Descriptive Statistics <small>· source: S1-26_ISM_CS-1_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>What Statistics is</h3>
-        <p>A branch of applied mathematics for collecting, organising, analysing, and inferring from data, then taking data-driven decisions. It is the backbone of Data Science, AI/ML and information technologies.</p>
-        <span class="src">ISM CS-1 · p7–8</span>
-      </div>
-
-      <div class="card">
-        <h3>Types of data</h3>
-        <p>Data is numerical (quantitative) or categorical (qualitative). Quantitative splits into discrete (countable, e.g. number of children) and continuous (measured, e.g. weight, voltage). Categorical examples: marital status, eye colour.</p>
-        <span class="src">ISM CS-1 · p9,11</span>
-      </div>
-
-      <div class="card">
-        <h3>Levels of measurement</h3>
-        <p>Nominal (categories, no order) → Ordinal (ordered categories) → Interval (meaningful differences, no true zero, e.g. °C) → Ratio (true zero, ratios meaningful, e.g. weight, age). Choosing the right level dictates which statistics are valid.</p>
-        <span class="src">ISM CS-1 · p10–12</span>
-      </div>
-
-      <div class="card">
-        <h3>Measures of central tendency</h3>
-        <p>A single value summarising the "centre" of a data set: mean (arithmetic average), median (middle value), mode (most frequent). They reduce a whole distribution to one representative number.</p>
-        <span class="src">ISM CS-1 · p13</span>
-      </div>
-
-      <div class="card">
-        <h3>Mean — when to use</h3>
-        <p>Most stable measure since every score contributes, but easily distorted by outliers. Best for quantitative interval/ratio data without extreme values, and when SD/CV/skewness are to be computed. The sum of deviations from the mean is always zero.</p>
-        <span class="src">ISM CS-1 · p14,17</span>
-      </div>
-
-      <div class="card">
-        <h3>Median — when to use</h3>
-        <p>The 50th percentile; 50% of values fall below it. Never affected by outliers, so it is the preferred centre for heavily skewed data and ordinal scales.</p>
-        <span class="src">ISM CS-1 · p20–22</span>
-      </div>
-
-      <div class="card">
-        <h3>Mode — when to use</h3>
-        <p>The value with the largest frequency. Works for qualitative and quantitative data, is not affected by extremes, but may not be unique. Best on nominal scales or when the most-frequent outcome drives a decision.</p>
-        <span class="src">ISM CS-1 · p18–19</span>
-      </div>
-
-      <div class="card">
-        <h3>Skewness &amp; symmetry</h3>
-        <p>Symmetric: mean = median = mode. Right (positive) skew: mean &gt; median &gt; mode, long right tail. Left (negative) skew: mean &lt; median &lt; mode, long left tail. Distributions may be bimodal or multimodal.</p>
-        <span class="src">ISM CS-1 · p23</span>
-      </div>
-
-      <div class="card">
-        <h3>Why the mean alone is not enough</h3>
-        <p>Two very different data sets can share the same mean, median and mode; only a measure of spread distinguishes them. This motivates measures of variability.</p>
-        <span class="src">ISM CS-1 · p24–27</span>
-      </div>
-
-      <div class="card">
-        <h3>Measures of variability</h3>
-        <p>Describe how scattered scores are and how well the centre represents the data: range, variance, standard deviation, and quartile deviation. Range uses only two values so is imprecise; SD/variance use all data.</p>
-        <span class="src">ISM CS-1 · p27–30</span>
-      </div>
-
-      <div class="card">
-        <h3>Variance &amp; standard deviation</h3>
-        <p>Because raw deviations from the mean sum to zero, we square them, sum (SS), and average → variance; its square root is the SD, the average distance from the mean. SD describes whether scores cluster near or scatter from the mean.</p>
-        <span class="src">ISM CS-1 · p31–35</span>
-      </div>
-
-      <div class="card">
-        <h3>Population vs sample (the n−1 correction)</h3>
-        <p>A sample has less variability than its population, so dividing SS by \(n\) underestimates the true variance. Dividing by \(n-1\) (Bessel's correction) removes this bias; notation switches from \(\sigma\) to \(s\).</p>
-        <span class="src">ISM CS-1 · p38–39</span>
-      </div>
-
-      <div class="card">
-        <h3>Five-number summary</h3>
-        <p>Minimum, Q1 (25%), median (Q2), Q3 (75%), maximum — a compact description of location and spread used to build box plots.</p>
-        <span class="src">ISM CS-1 · p43</span>
-      </div>
-
-      <div class="card">
-        <h3>Interquartile range &amp; quartile deviation</h3>
-        <p>IQR = Q3 − Q1 measures the spread of the middle 50% and is not affected by extremes; QD = IQR/2. Robust alternatives to range and SD for skewed data.</p>
-        <span class="src">ISM CS-1 · p44</span>
-      </div>
-
-      <div class="card">
-        <h3>Box-and-whisker plot</h3>
-        <p>Visualises the five-number summary; whiskers reach to Q1−1.5·IQR and Q3+1.5·IQR. Points beyond are outliers; points beyond Q1−3·IQR or Q3+3·IQR are major (extreme) outliers.</p>
-        <span class="src">ISM CS-1 · p45–46</span>
-      </div>
-
-      <div class="card">
-        <h3>Outlier detection (1.5·IQR rule)</h3>
-        <p>Lower limit = Q1 − 1.5·IQR, upper limit = Q3 + 1.5·IQR. Values outside these fences are potential outliers; data entirely inside is free of outliers.</p>
-        <span class="src">ISM CS-1 · p47–48</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>CS-2 — Probability Basics: Axioms, Events, Independence <small>· source: S1-26_ISM_CS-2_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Random experiment</h3>
-        <p>Any action whose outcome is not known in advance (coin flip, drawing a card, waiting time for a bus). Probability studies such uncertain experiments.</p>
-        <span class="src">ISM CS-2 · p4–5</span>
-      </div>
-
-      <div class="card">
-        <h3>Sample space and events</h3>
-        <p>The sample space \(S\) is the set of all possible outcomes; an event is any subset of \(S\). An event "occurs" if the realised outcome belongs to it. The empty set and the whole \(S\) are both events.</p>
-        <span class="src">ISM CS-2 · p6–7</span>
-      </div>
-
-      <div class="card">
-        <h3>Operations on events</h3>
-        <p>Complement \(A^c\): all outcomes not in \(A\). Union \(A\cup B\): outcomes in \(A\) or \(B\) or both. Intersection \(A\cap B\): outcomes in both. Basis for combining probabilities.</p>
-        <span class="src">ISM CS-2 · p8–9</span>
-      </div>
-
-      <div class="card">
-        <h3>Mutually exclusive events</h3>
-        <p>Two events with no common outcomes — if one occurs the other cannot (e.g. a single coin toss landing heads vs tails). Then \(P(A\cap B)=0\).</p>
-        <span class="src">ISM CS-2 · p10</span>
-      </div>
-
-      <div class="card">
-        <h3>Independent vs dependent events</h3>
-        <p>Independent: one event's occurrence gives no information about the other. Dependent: it does. Independent events can occur simultaneously, so independence is <em>not</em> the same as mutual exclusivity — in fact two events with non-zero probability that are mutually exclusive must be dependent.</p>
-        <span class="src">ISM CS-2 · p17–18; Webinar 1 · s23</span>
-      </div>
-
-      <div class="card">
-        <h3>Three approaches to probability</h3>
-        <p>Classical (equally likely outcomes: favourable / total), empirical (long-run relative frequency from data), and axiomatic (defined by Kolmogorov's axioms). Probability is a number in [0,1] measuring likelihood, with 0.5 meaning equally likely as unlikely.</p>
-        <span class="src">ISM CS-2 · p11–14</span>
-      </div>
-
-      <div class="card">
-        <h3>Addition rule</h3>
-        <p>\(P(A\cup B)=P(A)+P(B)-P(A\cap B)\); for mutually exclusive events the last term is zero. Used for "A or B" questions and to recover intersection probabilities.</p>
-        <span class="src">ISM CS-2 · p15</span>
-      </div>
-
-      <div class="card">
-        <h3>Permissible probability assignments</h3>
-        <p>An assignment is valid only if every probability lies in [0,1] and (for a full set of mutually exclusive, exhaustive outcomes) they sum to 1. Negative values or totals ≠ 1 are impermissible.</p>
-        <span class="src">ISM CS-2 · p19–20</span>
-      </div>
-
-      <div class="card">
-        <h3>Counting: permutations &amp; combinations</h3>
-        <p>Combinations \(\binom{n}{r}\) count unordered selections and appear when computing classical probabilities (e.g. choosing a committee, selecting motors). Order matters → permutations; order does not → combinations.</p>
-        <span class="src">ISM CS-2 · p33,36</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>CS-3 — Conditional &amp; Total Probability <small>· source: S1-26_ISM_CS-3_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Conditional probability</h3>
-        <p>The probability of \(B\) given that \(A\) has occurred, \(P(B\mid A)=P(A\cap B)/P(A)\). New (partial) information about the experiment revises earlier probability assignments — e.g. a disease probability changes after a test result.</p>
-        <span class="src">ISM CS-3 · p4–6</span>
-      </div>
-
-      <div class="card">
-        <h3>Multiplication rule</h3>
-        <p>\(P(A\cap B)=P(A)P(B\mid A)\); for three events \(P(A\cap B\cap C)=P(A)P(B\mid A)P(C\mid A\cap B)\). Used to chain sequential dependent events (e.g. drawing cards without replacement).</p>
-        <span class="src">ISM CS-3 · p8</span>
-      </div>
-
-      <div class="card">
-        <h3>Independence test</h3>
-        <p>Events are independent iff \(P(A\cap B)=P(A)P(B)\), equivalently \(P(B\mid A)=P(B)\). Comparing the observed joint probability against the product of marginals decides independence.</p>
-        <span class="src">ISM CS-3 · p16; ISM CS-2 · p32</span>
-      </div>
-
-      <div class="card">
-        <h3>With vs without replacement</h3>
-        <p>With replacement the trials are independent (constant probabilities); without replacement each draw changes the remaining pool, so conditional probabilities and the multiplication rule apply.</p>
-        <span class="src">ISM CS-3 · p19–20,23</span>
-      </div>
-
-      <div class="card">
-        <h3>Total probability theorem</h3>
-        <p>If \(A_1,\dots,A_k\) partition \(S\) (mutually exclusive and exhaustive), then \(P(B)=\sum_i P(A_i)P(B\mid A_i)\). It combines branch probabilities in a tree diagram to get an overall (unconditional) probability.</p>
-        <span class="src">ISM CS-3 · p25–28,40</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>CS-4 — Bayes' Theorem &amp; Naïve Bayes <small>· source: S1-26_ISM_CS-4_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Bayes' theorem</h3>
-        <p>Inverts conditional probabilities: given a partition \(E_1,\dots,E_n\), \(P(E_i\mid A)=\dfrac{P(E_i)P(A\mid E_i)}{\sum_j P(E_j)P(A\mid E_j)}\). Lets us update a hypothesis's probability after observing evidence.</p>
-        <span class="src">ISM CS-4 · p5–8</span>
-      </div>
-
-      <div class="card">
-        <h3>Prior, likelihood, posterior, evidence</h3>
-        <p>\(P(H\mid E)=P(E\mid H)P(H)/P(E)\): prior \(P(H)\) is belief before evidence, likelihood \(P(E\mid H)\), posterior \(P(H\mid E)\) after evidence, and \(P(E)\) is the normalising evidence. Posteriors over exhaustive hypotheses sum to 1.</p>
-        <span class="src">ISM CS-4 · p15</span>
-      </div>
-
-      <div class="card">
-        <h3>Bayesian learning &amp; MAP</h3>
-        <p>Prior knowledge is combined with observed data to get the final probability of each hypothesis; a new instance is classified by the most probable (MAP) hypothesis, \(\hat Y=\arg\max_{y_k}P(y_k)\prod_i P(x_i\mid y_k)\).</p>
-        <span class="src">ISM CS-4 · p19,29</span>
-      </div>
-
-      <div class="card">
-        <h3>Naïve Bayes classifier</h3>
-        <p>A generative classifier applying Bayes' rule under the "naïve" assumption that features are conditionally independent given the class, so \(P(X_1,\dots,X_n\mid Y)=\prod_j P(X_j\mid Y)\). Effective for spam filtering, sentiment analysis, document and medical-diagnosis classification.</p>
-        <span class="src">ISM CS-4 · p24–29</span>
-      </div>
-
-      <div class="card">
-        <h3>Conditional independence assumption</h3>
-        <p>\(X\) is conditionally independent of \(Y\) given \(Z\) if \(P(X\mid Y,Z)=P(X\mid Z)\). Naïve Bayes makes this hold across all features, drastically simplifying the joint likelihood (real features rarely are, hence "naïve").</p>
-        <span class="src">ISM CS-4 · p27–28</span>
-      </div>
-
-      <div class="card">
-        <h3>Laplace smoothing</h3>
-        <p>If a feature value never appears with a class, its conditional probability is 0 and zeros out the whole product. Adding a count of 1 to every cell (Laplace/add-one smoothing) prevents this and restores usable estimates.</p>
-        <span class="src">ISM CS-4 · p34–35,44</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>CS-5 — Random Variables &amp; Probability Distributions <small>· source: S1-26_ISM_CS-5_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Random variable</h3>
-        <p>A function mapping each sample point to a real number. Discrete RVs take countable values (heads in two tosses); continuous RVs take any value in an interval (height, waiting time).</p>
-        <span class="src">ISM CS-5 · p3–5</span>
-      </div>
-
-      <div class="card">
-        <h3>Discrete probability distribution</h3>
-        <p>Assigns \(P(X=x)\) to each value with \(P(x)\ge 0\) and \(\sum P(x)=1\). Fully describes a discrete RV (e.g. daily health status categories).</p>
-        <span class="src">ISM CS-5 · p6–7</span>
-      </div>
-
-      <div class="card">
-        <h3>Discrete uniform distribution</h3>
-        <p>The simplest discrete distribution: all \(n\) values equally likely with \(f(x)=1/n\) (e.g. a fair die, \(f(x)=1/6\)).</p>
-        <span class="src">ISM CS-5 · p8</span>
-      </div>
-
-      <div class="card">
-        <h3>Mathematical expectation</h3>
-        <p>\(E[X]=\sum x\,f(x)\) is the long-run average value. A game is "fair" when the expected gain is zero — the criterion used to judge betting games.</p>
-        <span class="src">ISM CS-5 · p10–11</span>
-      </div>
-
-      <div class="card">
-        <h3>Variance of a random variable</h3>
-        <p>\(\operatorname{Var}(X)=E[(X-\mu)^2]=E[X^2]-\mu^2\); its root is the SD. Measures the spread of a RV around its expected value.</p>
-        <span class="src">ISM CS-5 · p12–14</span>
-      </div>
-
-      <div class="card">
-        <h3>Cumulative distribution function</h3>
-        <p>\(F(x)=P(X\le x)\) accumulates probabilities; for a discrete RV it is a step function of running sums that reaches 1 at the largest value.</p>
-        <span class="src">ISM CS-5 · p15–16</span>
-      </div>
-
-      <div class="card">
-        <h3>Continuous RV &amp; probability density function</h3>
-        <p>For a continuous RV, a single point has probability 0; probabilities are areas under the pdf. \(P(x_1&lt;X&lt;x_2)=\int_{x_1}^{x_2}f(x)\,dx\), with \(f(x)\ge 0\) and total area 1.</p>
-        <span class="src">ISM CS-5 · p23,27</span>
-      </div>
-
-      <div class="card">
-        <h3>Joint probability distribution</h3>
-        <p>Describes two RVs together: discrete joint pmf \(f(x,y)=P(X=x,Y=y)\) (bivariate distribution) or a joint density for continuous RVs.</p>
-        <span class="src">ISM CS-5 · p34–37</span>
-      </div>
-
-      <div class="card">
-        <h3>Marginal distribution</h3>
-        <p>The distribution of one variable obtained by summing (or integrating) the joint over the other; reported in the table margins, e.g. \(p(x)=\sum_y p(x,y)\).</p>
-        <span class="src">ISM CS-5 · p38</span>
-      </div>
-
-      <div class="card">
-        <h3>Conditional distribution</h3>
-        <p>The distribution of one RV given a value of the other, \(f(y\mid x)=f(x,y)/f_X(x)\) — e.g. \(P(\text{Flu}\mid \text{Fever})\) from a joint table.</p>
-        <span class="src">ISM CS-5 · p41–44</span>
-      </div>
-
-      <div class="card">
-        <h3>Independent random variables</h3>
-        <p>\(X\) and \(Y\) are independent iff the joint factorises: \(f(x,y)=f_X(x)f_Y(y)\) for all \(x,y\). Then \(E[XY]=E[X]E[Y]\).</p>
-        <span class="src">ISM CS-5 · p40,50</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>CS-6 — Probability Distributions (Bernoulli, Binomial, Poisson, Normal, t, F, Chi-Square) <small>· source: ISM_CS-6_PPT.pdf</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Bernoulli distribution</h3>
-        <p>Models a single trial with exactly two outcomes — success (\(X=1\), probability \(p\)) or failure (\(X=0\), probability \(q=1-p\)). It is the simplest discrete distribution and the building block of the binomial (which is \(n\) independent Bernoulli trials). Example: a basketball player who scores with \(p=0.6\) misses with \(q=1-0.6=0.4\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Binomial distribution</h3>
-        <p>Counts the number of successes \(X\) in \(n\) independent Bernoulli trials, \(P(X=x)=\binom{n}{x}p^x q^{\,n-x}\). Used whenever the same success/failure trial is repeated a fixed number of times — e.g. heads in 10 coin tosses, correct answers on a multiple-choice test, defectives in a sample.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Conditions for a binomial experiment</h3>
-        <p>Four requirements: (1) a fixed, finite number of trials \(n\); (2) trials are independent; (3) the probability of success \(p\) is constant across trials; (4) each trial has only two mutually exclusive outcomes (success/failure). If any fails, the count is not binomial.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>When a count is NOT binomial</h3>
-        <p>Independence and constant \(p\) are the usual failures. E.g. the number of people catching Corona among 30 is not binomial (infections are not independent). Selecting 3 projectors from 20 where 2 are defective is not binomial either — once the two defectives are found the third outcome is determined, so draws are dependent (sampling without replacement).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Mean &amp; variance of Bernoulli / Binomial</h3>
-        <p>For a Bernoulli variable \(E[X]=p\) and \(\operatorname{Var}(X)=pq\) (since \(E[X^2]=p\), \(\operatorname{Var}=p-p^2=pq\)). A binomial is a sum of \(n\) independent Bernoullis, so by linearity \(E[X]=np\) and \(\operatorname{Var}(X)=npq\). These let you recover \(n\) and \(p\) from a stated mean and variance.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Poisson distribution</h3>
-        <p>Models the number of rare events in a fixed interval of time, space or volume, \(P(X=x)=\dfrac{e^{-\lambda}\lambda^x}{x!}\). Suitable when \(p\) is very small and \(n\) very large. Classic uses: arrivals at a queue (bank, airport, file server), calls at a switchboard, defects per length of wire, blemishes per square foot, typing errors per page.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Binomial → Poisson approximation</h3>
-        <p>When \(n\) is large and \(p\) small, the binomial is well approximated by a Poisson with \(\lambda=np\), saving computation. A common rule of thumb is that the approximation is accurate when \(n\ge 100\) and \(np\le 10\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Poisson: mean equals variance</h3>
-        <p>A distinguishing property of the Poisson is that its mean and variance are both equal to the rate parameter: \(E[X]=\operatorname{Var}(X)=\lambda\), so \(\text{SD}=\sqrt\lambda\). Over an interval of length \(t\) with rate \(\lambda\) per unit, the parameter becomes \(\lambda t\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Normal distribution</h3>
-        <p>The continuous "bell curve" that describes many natural measurements (heights, weights, errors) especially with large samples. Its pdf \(f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/2\sigma^2}\) has two parameters: the mean \(\mu\) (location) and variance \(\sigma^2\) (spread). Changing \(\mu\) shifts the curve left/right; changing \(\sigma\) makes it wider or narrower.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Properties of the normal curve</h3>
-        <p>Bell-shaped and symmetric about \(\mu\); mean = median = mode; total area under the curve is 1; it extends over \((-\infty,\infty)\), approaching but never touching the \(x\)-axis. Symmetry means the area to the left of \(\mu\) equals the area to the right (each 0.5).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Standard normal &amp; z-score</h3>
-        <p>Standardising \(Z=\dfrac{X-\mu}{\sigma}\) converts any \(N(\mu,\sigma^2)\) value to the standard normal \(N(0,1)\), with \(E[Z]=0\) and \(\operatorname{Var}(Z)=1\). Probabilities are then read from the standard-normal table via the cdf \(F(z)=P(Z\le z)\); by symmetry \(F(-z)=1-F(z)\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Empirical (68–95–99.7) rule</h3>
-        <p>For a normal distribution about 68% of values lie within \(\pm1\sigma\) of the mean, about 95% within \(\pm2\sigma\), and about 99.7% within \(\pm3\sigma\). A quick sanity check for normal probabilities without a table.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Linear transforms of a normal RV</h3>
-        <p>Any linear function of a normal variable is again normal: if \(X\sim N(\mu,\sigma^2)\) then \(Y=aX+b\sim N(a\mu+b,\;a^2\sigma^2)\). The z-transform is the special case \(a=1/\sigma,\ b=-\mu/\sigma\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Normal approximation to the binomial</h3>
-        <p>When \(np\ge 15\) and \(nq\ge 15\), a binomial can be approximated by a normal with \(\mu=np\) and \(\sigma=\sqrt{npq}\). Because the binomial is discrete but the normal continuous, apply a <em>continuity correction</em> of \(\pm0.5\): e.g. \(P(X\le k)\to P(X\le k+0.5)\), \(P(X\ge k)\to P(X\ge k-0.5)\).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Chi-square distribution</h3>
-        <p>If \(z_1,\dots,z_k\) are independent \(N(0,1)\), then \(Y=z_1^2+\cdots+z_k^2\) follows a chi-square distribution with \(k\) degrees of freedom. It is not symmetric, lies entirely in the first quadrant (\(x>0\)), and its shape depends only on \(k\). Used for the sampling distribution of a sample variance, ANOVA, and goodness-of-fit testing.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Student's t-distribution</h3>
-        <p>If \(z\sim N(0,1)\) and \(\chi^2_k\) are independent, then \(t_k=\dfrac{z}{\sqrt{\chi^2_k/k}}\) follows a t-distribution with \(k\) degrees of freedom. It is bell-shaped like the normal but has heavier tails; it is used to estimate a population mean from small samples when the population SD \(\sigma\) is unknown (using the sample SD \(s\)).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>F-distribution</h3>
-        <p>The ratio of two independent (scaled) chi-square variables, developed by Fisher to compare two population variances. If \(S_1^2,S_2^2\) are variances of independent samples of sizes \(n_1,n_2\) from normal populations, \(F=\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\) follows an F-distribution with \(\vartheta_1=n_1-1\) and \(\vartheta_2=n_2-1\) degrees of freedom. The curve lies in the first quadrant and depends on both parameters and the order in which they are stated.</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-      <div class="card" data-src="CS-6 · Distributions">
-        <h3>Choosing the right distribution</h3>
-        <p>Discrete counts of successes in fixed trials → binomial (Bernoulli if one trial); rare-event counts over an interval → Poisson; continuous bell-shaped measurements → normal. The t, chi-square and F are sampling distributions used in inference: t for means with unknown \(\sigma\), chi-square for variances / goodness of fit, F for comparing two variances (and ANOVA).</p>
-        <span class="src">CS-6 · Distributions</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Webinar 1 — Applied Review: Descriptive Stats &amp; Probability <small>· source: Webinar-1, Slides.pptx</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Coefficient of variation for comparison</h3>
-        <p>CV = SD/mean expresses spread relative to the mean, letting you compare variability across variables on different scales (e.g. protein shows the least variation among milk-quality metrics).</p>
-        <span class="src">Webinar 1 · s15–16</span>
-      </div>
-
-      <div class="card">
-        <h3>Modality of data</h3>
-        <p>A data set can be unimodal, bimodal, trimodal or multimodal depending on how many values tie for the highest frequency; it may also have no mode if no value repeats.</p>
-        <span class="src">Webinar 1 · s6</span>
-      </div>
-
-      <div class="card">
-        <h3>Redundant-backup reliability</h3>
-        <p>For independent components, the system survives unless all fail; \(P(\text{saved})=1-\prod P(\text{each crashes})\). Independence lets failure probabilities multiply.</p>
-        <span class="src">Webinar 1 · s19</span>
-      </div>
-
-      <div class="card">
-        <h3>"Exactly one" event probability</h3>
-        <p>\(P(\text{exactly one of }A,B)=P(A)+P(B)-2P(A\cap B)\); combining the addition rule with the "at least one" information recovers the intersection first.</p>
-        <span class="src">Webinar 1 · s20–21</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>EC Exams — Distributions, Inference, Correlation &amp; Forecasting <small>· source: EC-2 &amp; EC-3 instruction sheets</small></summary>
-    <div class="cards">
-
-      <div class="card">
-        <h3>Binomial &amp; Poisson approximation</h3>
-        <p>Counts of successes in \(n\) independent Bernoulli trials follow a binomial distribution; when \(n\) is large and \(p\) small, the Poisson with \(\lambda=np\) closely approximates it (fewer computations, similar answer).</p>
-        <span class="src">EC-2 · Q6</span>
-      </div>
-
-      <div class="card">
-        <h3>Normal distribution &amp; z-score</h3>
-        <p>The bell-shaped continuous distribution central to inference; standardising \(z=(x-\mu)/\sigma\) converts any normal value to the standard normal so probabilities can be read from a z-table.</p>
-        <span class="src">EC-3 · Q5,Q8</span>
-      </div>
-
-      <div class="card">
-        <h3>Hypothesis testing of means (z-test)</h3>
-        <p>State \(H_0\) (no difference) and \(H_1\), compute a test statistic from the sample, and compare with the critical value at a significance level (e.g. 5%). Used to test whether two population means differ when population SDs are known.</p>
-        <span class="src">EC-3 · Q5</span>
-      </div>
-
-      <div class="card">
-        <h3>ANOVA (F-test)</h3>
-        <p>Compares three or more population means simultaneously by contrasting between-group variance with within-group variance; a large F rejects the hypothesis of equal means.</p>
-        <span class="src">EC-3 · Q6</span>
-      </div>
-
-      <div class="card">
-        <h3>Spearman's rank correlation</h3>
-        <p>Measures monotonic association between two ranked variables (e.g. two judges' rankings); \(r_s\) near +1/−1 indicates strong agreement/disagreement, near 0 none.</p>
-        <span class="src">EC-3 · Q4</span>
-      </div>
-
-      <div class="card">
-        <h3>Exponential smoothing (forecasting)</h3>
-        <p>A weighted forecast where each new forecast blends the latest actual and the previous forecast via a smoothing constant \(\alpha\); larger \(\alpha\) reacts faster to recent data.</p>
-        <span class="src">EC-3 · Q7</span>
-      </div>
-
-      <div class="card">
-        <h3>Gaussian Mixture Model</h3>
-        <p>Models a density as a weighted sum of Gaussian components, \(p(x)=\sum_k \pi_k\,\mathcal N(x\mid\mu_k,\sigma_k^2)\) with mixing weights summing to 1; underlies clustering and the EM algorithm.</p>
-        <span class="src">EC-3 · Q8</span>
-      </div>
-
-      <div class="card">
-        <h3>Data preprocessing from summary statistics</h3>
-        <p>A descriptive summary (count/mean/SD/quartiles/min/max) reveals outliers (via IQR), low-variation features (via SD or CV), and scaling needs — guiding preprocessing before ML.</p>
-        <span class="src">EC-3 · Q1; Webinar 1 · s15–16</span>
-      </div>
-
-    </div>
-  </details>
-
-  <details class="module" open>
-    <summary>Recovered from image-only slides <small>· source: ISM CS image slides</small></summary>
-    <div class="cards">
-
-      <div class="card" data-src="ISM CS-2 · p12 (image)">
-        <h3>Law of large numbers</h3>
-        <p>The empirical (relative-frequency) approach rests on this law: over a large number of trials the empirical probability of an event approaches its true probability. The more observations you collect, the more accurate the probability estimate becomes — which is why frequencies from big data sets are trusted as probabilities.</p>
-        <span class="src">ISM CS-2 · p12 (image)</span>
-      </div>
-
-      <div class="card" data-src="ISM CS-5 · p10,12 (image)">
-        <h3>Expectation &amp; variance under linear transforms</h3>
-        <p>Expectation is linear: scaling and shifting pass through, so \(E(aX+b)=aE(X)+b\). Variance ignores shifts but scales by the square, \(\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)\); adding a constant never changes spread. \(E(XY)=E(X)E(Y)\) and \(\operatorname{Var}(aX+bY)=a^2\operatorname{Var}(X)+b^2\operatorname{Var}(Y)\) hold only when \(X,Y\) are independent. Note \(E(X/Y)\neq E(X)/E(Y)\) in general.</p>
-        <span class="src">ISM CS-5 · p10,12 (image)</span>
-      </div>
-
-    </div>
-  </details>
-
+  <p class="intro">The ideas behind every ISM (AIMLZC418) module, from descriptive statistics and probability (M1) to time-series models and GMM/EM (M6), with the deck's worked numbers where it stresses them.</p>
+  <nav class="jump"><a href="#m1-basic-probability-statistics">M1 · Basic Probability &amp; Statistics</a><a href="#m2-conditional-probability-bayes-theorem">M2 · Conditional Probability &amp; Bayes' Theorem</a><a href="#m3a-random-variables-joint-distributions">M3a · Random Variables &amp; Joint Distributions</a><a href="#m3b-standard-distributions-sampling-clt-estimation">M3b · Standard Distributions, Sampling, CLT &amp; Estimation</a><a href="#m4-hypothesis-testing-mle-anova">M4 · Hypothesis Testing, MLE &amp; ANOVA</a><a href="#m5-prediction-forecasting-i-correlation-regression">M5 · Prediction &amp; Forecasting I — Correlation &amp; Regression</a><a href="#m6-prediction-forecasting-ii-time-series-gmm-em">M6 · Prediction &amp; Forecasting II — Time Series; GMM &amp; EM</a></nav>
+<details class="module" open id="m1-basic-probability-statistics"><summary>M1 · Basic Probability &amp; Statistics <small>· 21 items</small></summary><div class="cards"><div class="card"><h3>Types of data</h3><p>Data are either categorical (qualitative: eye colour, party) or numerical (quantitative). Numerical data are discrete when counted (number of children, defects per hour) and continuous when measured (weight, voltage). The type decides which summaries, plots and tests are legitimate.</p><span class="src">1.1.1 · slides 9, 11–12</span></div><div class="card"><h3>Levels of measurement</h3><p>Nominal &lt; ordinal &lt; interval &lt; ratio: each level adds a property (order, meaningful differences, a true zero). Only a ratio scale has a true zero, so "twice as heavy" makes sense for kilograms but "twice as hot" does not for °C or °F, which are interval scales.</p><span class="src">1.1.1 · slides 10–12</span></div><div class="card"><h3>The mean as a balance point</h3><p>The mean \(\bar{x} = \sum x / n\) (or \(\sum fx / \sum f\) for grouped data) uses every value, which makes it stable across samples but sensitive to outliers. Deviations from it always sum to zero, \(\sum (x - \bar{x}) = 0\), which is why it is called the balance point and why "mean deviation" is useless as a spread measure.</p><span class="src">1.1.2 · slides 14–17, 31–32</span></div><div class="card"><h3>Median and mode</h3><p>The median is the middle value (odd \(n\)) or the average of the two middle values (even \(n\)); for 29, 31, 35, 39, 39, 40, 43, 44, 44, 52 it is \((39 + 40)/2 = 39.5\). It is the 50th percentile and ignores outliers. The mode is the most frequent value, the only centre valid for nominal data; a set can be unimodal, bimodal, multimodal or have no mode.</p><span class="src">1.1.2 · slides 18–22, 822–824</span></div><div class="card"><h3>Choosing a measure of centre</h3><p>Use the mean for interval/ratio data without extreme values, the median for ordinal data or heavily skewed data, and the mode for nominal data. Reporting income or house prices by the mean is the classic mistake, because a few large values drag it up.</p><span class="src">1.1.2, 1.1.3 · slides 17, 19, 21, 23</span></div><div class="card"><h3>Shape: symmetry and skewness</h3><p>In a symmetric distribution mean = median = mode. A long right tail (positive skew) pulls the mean above the median (mean &gt; median &gt; mode) and a long left tail gives mean &lt; median &lt; mode, so comparing mean and median is a quick skewness check. For moderate skew the empirical relation \(\text{Mode} \approx 3\,\text{Median} - 2\,\text{Mean}\) holds.</p><span class="src">1.1.3 · slide 23</span></div><div class="card"><h3>Why spread matters; the range</h3><p>The deck's two groups both have mean, median and mode 5, yet one contains a 15, so a centre alone cannot say how typical it is. The simplest spread measure, range = largest − smallest (real limits for continuous data), uses only two points, so one outlier can change it completely.</p><span class="src">1.1.4 · slides 24–29</span></div><div class="card"><h3>Sum of squares, variance and standard deviation</h3><p>Raw deviations cancel, so square them: \(SS = \sum (x - \bar{x})^2\). Variance is the average squared deviation and the SD its square root, back in the data's units; the deck's group 1 has \(s = 2.345\) and group 2 (with the 15) \(s = 4.093\). Together \(\bar{x}\) and \(s\) summarise a distribution in two numbers, the basis of the \(z\)-score.</p><span class="src">1.1.4 · slides 30–37, 42</span></div><div class="card"><h3>Why divide by \(n - 1\)</h3><p>Sample deviations are measured from \(\bar{x}\), which sits closer to the data than \(\mu\) does, so \(SS\) is too small and \(SS/n\) underestimates \(\sigma^2\). Dividing by \(n - 1\) (the degrees of freedom) makes \(s^2\) unbiased: a sample of four scores with \(SS = 24\) has \(s^2 = 24/3 = 8\), not 6.</p><span class="src">1.1.4 · slides 38–41</span></div><div class="card"><h3>IQR and quartile deviation</h3><p>\(\text{IQR} = Q_3 - Q_1\) is the spread of the middle 50% and is not affected by extreme values; \(QD = \text{IQR}/2\). For 11, 12, 13, 16, 16, 17, 17, 18, 21: \(Q_1 = 12.5\), \(Q_3 = 17.5\), IQR = 5, QD = 2.5.</p><span class="src">1.1.4 · slide 44</span></div><div class="card"><h3>Five-number summary and quartile methods</h3><p>Min, \(Q_1\), median, \(Q_3\), max. The CS-1 slides find \(Q_k\) at position \(k(n+1)/4\); the webinar takes the median of each half. The two methods can give slightly different quartiles, so state the method in an exam.</p><span class="src">1.1.5 · slides 43–44, 829, 834–835</span></div><div class="card"><h3>Fences, outliers and the box plot</h3><p>Values below \(Q_1 - 1.5\,\text{IQR}\) or above \(Q_3 + 1.5\,\text{IQR}\) are potential outliers (beyond \(\pm 3\,\text{IQR}\), extreme); for 5, 7, 8, 9, 10, 12, 13, 15, 18, 30 the upper fence is 25.5, so 30 is an outlier. The box plot draws \(Q_1\), median and \(Q_3\) as a box, with whiskers to the most extreme values inside the fences; an off-centre median or one long whisker shows skew, and side-by-side boxes compare groups.</p><span class="src">1.1.5 · slides 45–48, 831–832, 835</span></div><div class="card"><h3>Reading a describe() table</h3><p>A summary table (count, mean, std, min, quartiles, max) is a data-quality check: a min of 0 study hours, 12 hours of screen time or 35% attendance should be verified as possible entry errors before modelling. Compare mean with median and std with the range to spot skew and outliers.</p><span class="src">1.1.5 · slides 836–839</span></div><div class="card"><h3>Random experiment, sample space and events</h3><p>A random experiment is any action whose outcome is not known in advance. The sample space \(S\) is the set of all outcomes (a die gives \(S = \{1, \dots, 6\}\)), and an event is any subset of \(S\), including \(\varnothing\) and \(S\) itself. An event "occurs" when the outcome lies in it.</p><span class="src">1.2.1 · slides 59–62</span></div><div class="card"><h3>Event algebra and De Morgan</h3><p>Complement \(A^c\) (not \(A\)), union \(A \cup B\) (either or both) and intersection \(A \cap B\) (both) are read off a Venn diagram. De Morgan's laws, \((A \cup B)^c = A^c \cap B^c\) and \((A \cap B)^c = A^c \cup B^c\), turn "neither" into "not either".</p><span class="src">1.2.2 · slides 63–65, 71</span></div><div class="card"><h3>Three definitions of probability</h3><p>Classical: \(P(A) = n(A)/n(S)\) for equally likely outcomes. Empirical: the long-run relative frequency of \(A\). Axiomatic (Kolmogorov): any assignment with \(P(A) \ge 0\), \(P(S) = 1\) and additivity over disjoint events, so values over exhaustive outcomes must be non-negative and sum to exactly 1 (0.38, 0.16, 0.11, 0.35 is legal; a set with −0.06 is not).</p><span class="src">1.2.3 · slides 66–69, 74–75</span></div><div class="card"><h3>Addition and complement rules</h3><p>\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\): the overlap is counted twice and must be removed once. The rule also runs backwards: 75% in annuities, 45% in stocks and 85% in at least one give 35% in both. The complement rule \(P(A^c) = 1 - P(A)\) handles "not" questions.</p><span class="src">1.2.4 · slides 70, 80–81</span></div><div class="card"><h3>"At least one", "exactly one" and "neither"</h3><p>"At least one" is \(1 - P(\text{none})\), usually far easier than adding cases. "Exactly one" is \(P(A) + P(B) - 2P(A \cap B)\), and "neither" is \(1 - P(A \cup B)\) by De Morgan. Two witnesses who tell the truth 80% and 60% of the time contradict each other with probability \(0.32 + 0.12 = 0.44\).</p><span class="src">1.2.4 · slides 78–79, 88, 841–843</span></div><div class="card"><h3>Counting with combinations</h3><p>When a group is drawn without regard to order, count with \(\binom{n}{r}\) and divide favourable selections by total selections. A committee of 5 from 8 men and 4 women has a female majority with probability \(\frac{\binom{8}{1}\binom{4}{4} + \binom{8}{2}\binom{4}{3}}{\binom{12}{5}} = \frac{120}{792} = \frac{5}{33}\).</p><span class="src">1.2.5 · slides 86, 89</span></div><div class="card"><h3>Mutually exclusive vs independent</h3><p>Mutually exclusive means \(P(A \cap B) = 0\) (cannot occur together); independent means \(P(A \cap B) = P(A)P(B)\) (no information about each other), checked numerically. If \(P(A), P(B) &gt; 0\), disjoint events are necessarily dependent, since learning \(A\) happened tells you \(B\) did not; so "mutually exclusive implies independent" is false.</p><span class="src">1.2.6 · slides 65, 72–73, 84–85, 844–845</span></div><div class="card"><h3>Joint probability (contingency) tables</h3><p>A two-way table of counts or proportions gives joint probabilities in its cells and marginal probabilities in its row and column totals. Dividing a cell by the grand total gives \(P(A \cap B)\); dividing by a row or column total gives a conditional probability (M2).</p><span class="src">1.2.7 · slides 91, 102–103</span></div></div></details>
+<details class="module" open id="m2-conditional-probability-bayes-theorem"><summary>M2 · Conditional Probability &amp; Bayes' Theorem <small>· 18 items</small></summary><div class="cards"><div class="card"><h3>Conditional probability as a reduced sample space</h3><p>\(P(B \mid A) = P(A \cap B)/P(A)\): once \(A\) is known to have happened, \(A\) becomes the new sample space and probabilities are rescaled inside it. Partial information (a negative blood test, a symptom) should revise a probability, usually without driving it to 0 or 1.</p><span class="src">2.1.1 · slides 97–100</span></div><div class="card"><h3>Conditional probability from a two-way table</h3><p>To condition on a row or column, divide the cell by that row's or column's total, not the grand total. So \(P(A \mid B)\) and \(P(B \mid A)\) share a numerator but not a denominator: in the loan table \(P(\text{no default} \mid \text{middle-aged}) = 27368/32219 = 0.849\) while \(P(\text{middle-aged} \mid \text{no default}) = 27368/38130 = 0.718\). Swapping them is the base-rate fallacy.</p><span class="src">2.1.1, 2.1.3 · slides 102–103, 141, 846–847</span></div><div class="card"><h3>Multiplication and chain rules</h3><p>Rearranging the definition gives \(P(A \cap B) = P(A)\,P(B \mid A)\), and in general \(P(A \cap B \cap C) = P(A)\,P(B \mid A)\,P(C \mid A \cap B)\). This is how sequential draws and tree-diagram branches are multiplied.</p><span class="src">2.1.2 · slide 101</span></div><div class="card"><h3>Independence through conditioning</h3><p>\(A\) and \(B\) are independent when \(P(B \mid A) = P(B)\): knowing \(A\) does not change the chance of \(B\). For flights, \(P(\text{arrive on time} \mid \text{departed on time}) = 0.75/0.90 = 0.833 \ne 0.80\), so the two events are dependent.</p><span class="src">2.1.4 · slides 109, 846–847</span></div><div class="card"><h3>With vs without replacement</h3><p>Drawing with replacement keeps the draws independent, so probabilities multiply unchanged: all 3 of 3 adults right-handed is \((272/300)^3 = 0.745\). Without replacement each draw changes the pool, so the chain rule with shrinking counts is needed; for a large pool and a small sample the two answers are close.</p><span class="src">2.1.4 · slides 112–113, 116–117, 142</span></div><div class="card"><h3>Law of total probability and tree diagrams</h3><p>If \(A_1, \dots, A_k\) partition \(S\), \(P(B) = \sum_i P(A_i)\,P(B \mid A_i)\): forests covering 50%, 30%, 20% of a park with 20%, 40%, 70% poisonous plants give \(0.10 + 0.12 + 0.14 = 0.36\). On a tree, multiply along a path for a joint probability and add the paths that end in \(B\) for its total probability.</p><span class="src">2.1.5 · slides 118–121, 130–134, 853–855</span></div><div class="card"><h3>Simpson's paradox</h3><p>A comparison that holds in every subgroup can reverse when the subgroups are pooled, because total probability weights each subgroup by its size. Always ask whether a lurking grouping variable has different mixes in the groups being compared.</p><span class="src">2.1.5, 2.1.3 · slides 118–121</span></div><div class="card"><h3>Bayes' theorem reverses a conditional</h3><p>\(P(E_i \mid A) = \frac{P(E_i)\,P(A \mid E_i)}{\sum_j P(E_j)\,P(A \mid E_j)}\): the numerator is one tree path and the denominator is the total probability of \(A\). It turns the easy-to-know "probability of the effect given the cause" into the wanted "probability of the cause given the effect".</p><span class="src">2.2.1 · slides 148–151, 865</span></div><div class="card"><h3>Prior, likelihood, evidence, posterior</h3><p>The prior \(P(H)\) is the belief before data, the likelihood \(P(E \mid H)\) says how well \(H\) explains the evidence, the evidence \(P(E)\) normalises, and the posterior \(P(H \mid E)\) is the updated belief. Over mutually exclusive, exhaustive hypotheses the posteriors always sum to 1.</p><span class="src">2.2.2 · slides 158, 866</span></div><div class="card"><h3>Base rates in diagnostic tests and spam filters</h3><p>A rare condition stays fairly unlikely even after a positive result, because false positives from the large healthy group swamp the true positives. With \(P(\text{spam}) = 0.3\), \(P(\text{offer} \mid \text{spam}) = 0.8\) and \(P(\text{offer} \mid \text{not spam}) = 0.1\), an email containing "offer" is spam with probability \(0.24/0.31 = 0.774\).</p><span class="src">2.2.3 · slides 154–157, 159–160</span></div><div class="card"><h3>Binary channel and "which machine?"</h3><p>The same Bayes pattern answers "given a 1 was received, was a 1 sent?" and "given the item is defective, which machine made it?". In the channel with \(P(1) = 0.4\) and correct-reception rates 0.90 and 0.95, \(P(1 \text{ received}) = 0.38 + 0.06 = 0.44\) and \(P(1 \text{ sent} \mid 1 \text{ received}) = 0.38/0.44 = 0.864\).</p><span class="src">2.2.3 · slides 124–126, 138–139, 870–876</span></div><div class="card"><h3>Odds form and sequential updating</h3><p>Posterior odds = prior odds \(\times\) likelihood ratio \(P(E \mid H_1)/P(E \mid H_2)\), which shows how strong evidence must be to overcome a small prior. Updating on evidence one piece at a time (yesterday's posterior becomes today's prior) gives the same answer as updating on all of it at once.</p><span class="src">2.2.2, 2.2.3 · slides 158, 162</span></div><div class="card"><h3>Bayesian learning: MAP vs ML hypothesis</h3><p>The MAP hypothesis maximises \(P(D \mid h)\,P(h)\); the ML hypothesis maximises \(P(D \mid h)\) alone. They coincide when all hypotheses have equal priors, and a strong prior can make MAP choose a hypothesis that fits the data less well.</p><span class="src">2.2.4 · slides 162–163</span></div><div class="card"><h3>Conditional independence</h3><p>\(X\) and \(Y\) are conditionally independent given \(Z\) when \(P(X \mid Y, Z) = P(X \mid Z)\): once lightning is known, rain tells you nothing more about thunder. Conditional independence neither implies nor is implied by ordinary independence.</p><span class="src">2.2.5 · slides 170–171, 881</span></div><div class="card"><h3>The naive assumption</h3><p>Naive Bayes assumes the features are conditionally independent given the class, \(P(X_1, \dots, X_n \mid Y) = \prod_i P(X_i \mid Y)\). This is rarely true, but it cuts the number of probabilities to estimate from exponential to linear in the number of features, which is what makes learning from limited data possible.</p><span class="src">2.2.5 · slides 167, 171–172, 881–882</span></div><div class="card"><h3>Naive Bayes classifier workflow</h3><p>Build a frequency table per feature and class, turn it into a likelihood table, then score each class by \(P(y)\prod_i P(x_i \mid y)\) and pick the argmax; \(P(X)\) is the same for every class and can be dropped. In the weather data \(P(\text{Yes} \mid \text{Sunny}) = 0.6 &gt; P(\text{No} \mid \text{Sunny}) = 0.4\), so the player plays. Training is just counting, which is MLE.</p><span class="src">2.2.6 · slides 164–166, 172–181, 886</span></div><div class="card"><h3>Zero-frequency problem and Laplace smoothing</h3><p>If a feature value never occurs with a class, its estimate is 0 and wipes out the whole product: in the deck every message containing "Lunch" would be called normal however many times "Money" appears. Laplace smoothing adds 1 to every count (and the number of possible values to the denominator), after which "Lunch Money Money Money Money" is classified as spam.</p><span class="src">2.2.7 · slides 177–178, 187–190, 885</span></div><div class="card"><h3>Naive Bayes variants, strengths and weaknesses</h3><p>Gaussian NB models each continuous feature per class by a normal density; multinomial NB uses word counts (text); Bernoulli NB uses word presence or absence. NB is fast, needs little data and copes with many features, but its independence assumption is unrealistic, unseen values get zero probability, and its probabilities are poorly calibrated; products of many small numbers are computed as sums of logs to avoid underflow.</p><span class="src">2.2.8 · slides 185, 197–199, 883–885</span></div></div></details>
+<details class="module" open id="m3a-random-variables-joint-distributions"><summary>M3a · Random Variables &amp; Joint Distributions <small>· 12 items</small></summary><div class="cards"><div class="card"><h3>A random variable is a function</h3><p>A random variable assigns exactly one real number to each outcome, \(X: S \to \mathbb{R}\) (for two coin tosses, \(X\) = number of heads maps HT to 1). It is discrete if its values can be counted and continuous if it can take any value in an interval; this decides whether you sum a pmf or integrate a pdf.</p><span class="src">3.1.1 · slides 220–222, 893–895</span></div><div class="card"><h3>Probability mass function</h3><p>A pmf lists \(P(X = x)\) for each value; it is valid only if every \(p(x) \ge 0\) and \(\sum p(x) = 1\), which is how an unknown \(k\) in a table is found. The discrete uniform pmf gives each of \(n\) values probability \(1/n\), as for a fair die.</p><span class="src">3.1.2 · slides 223–226, 897–899</span></div><div class="card"><h3>Expectation, linearity and fair games</h3><p>\(E[X] = \sum x\,p(x)\) is the long-run average (1.75 cars for the deck's drive-thru queue) and need not be a possible value; \(E[g(X)] = \sum g(x)\,p(x)\) and \(E[aX + b] = aE[X] + b\). A game is fair when the expected gain is 0: winning 3 on a dice sum of 7 and losing 2 on an 8 or 4 on a 3 gives \((18 - 10 - 8)/36 = 0\).</p><span class="src">3.1.3 · slides 227–228, 230–231</span></div><div class="card"><h3>Variance of a random variable</h3><p>\(\operatorname{Var}(X) = E[(X - \mu)^2] = E[X^2] - (E[X])^2\), the second form being easier by hand. Adding a constant does not change spread, while scaling by \(a\) scales the variance by \(a^2\): \(\operatorname{Var}(aX + b) = a^2\operatorname{Var}(X)\). The drive-thru queue has \(\operatorname{Var}(X) = 4.05 - 1.75^2 = 0.99\).</p><span class="src">3.1.4 · slides 229–231</span></div><div class="card"><h3>Cumulative distribution function</h3><p>\(F(x) = P(X \le x)\) accumulates probability from the left and rises from 0 to 1. For a discrete variable it is a step function whose jumps are the pmf values; for a continuous one it is smooth with \(F'(x) = f(x)\), and \(P(a &lt; X \le b) = F(b) - F(a)\).</p><span class="src">3.1.5 · slides 232–237</span></div><div class="card"><h3>Probability density function</h3><p>For a continuous variable probability is area: \(f(x) \ge 0\), \(\int f = 1\), and \(P(a \le X \le b) = \int_a^b f(x)\,dx\). Hence \(P(X = a) = 0\) for every single point, and \(f(a)\) is a density that can exceed 1 (a uniform on \([0, 0.5]\) has \(f = 2\)).</p><span class="src">3.1.6 · slides 240–243, 902</span></div><div class="card"><h3>Moments of a continuous variable and piecewise densities</h3><p>Means and variances are found by integration, \(E[X] = \int x f(x)\,dx\). A piecewise density must be integrated piece by piece: for the triangle \(f(x) = x\) on \((0, 1)\) and \(2 - x\) on \((1, 2)\), \(E[X] = 1\), \(\operatorname{Var}(X) = 1/6\) and \(P(0.2 &lt; X &lt; 0.8) = 0.30\).</p><span class="src">3.1.6 · slides 244–247, 903–906</span></div><div class="card"><h3>Exponential lifetimes and memorylessness</h3><p>The exponential density \(f(x) = \lambda e^{-\lambda x}\) (\(x \ge 0\)) has \(F(x) = 1 - e^{-\lambda x}\) and mean \(1/\lambda\). It is memoryless, \(P(X &gt; s + t \mid X &gt; s) = P(X &gt; t)\): a component that has survived so far is as good as new, which suits waiting times between Poisson events.</p><span class="src">3.1.5, 3.1.6 · slides 240–243</span></div><div class="card"><h3>Joint distributions and marginals</h3><p>A joint pmf \(p(x, y)\) or joint pdf \(f(x, y)\) must be non-negative and sum or integrate to 1 over the whole plane. Marginals come from summing or integrating out the other variable, which is why they appear in the margins of a joint table (in the census example \(P(X = 1) = 0.03 + 0.06 + 0.10 = 0.19\)).</p><span class="src">3.1.7 · slides 251–256, 907–910</span></div><div class="card"><h3>Conditional distributions</h3><p>\(f(y \mid x) = f(x, y)/f_X(x)\) is the joint distribution sliced at \(X = x\) and renormalised. The conditional mean \(E[Y \mid X = x]\) is the best predictor of \(Y\) from \(X\) under squared error, which is the idea regression later approximates with a line.</p><span class="src">3.1.7 · slides 258–261, 912–913</span></div><div class="card"><h3>Independence of random variables</h3><p>\(X\) and \(Y\) are independent exactly when \(f(x, y) = f_X(x)\,f_Y(y)\) for all \((x, y)\); one failing cell is enough to prove dependence. A joint density on a non-rectangular region (such as a triangle) can never factor, so its variables are always dependent.</p><span class="src">3.1.7 · slides 257, 911</span></div><div class="card"><h3>From joint distributions to covariance</h3><p>\(E[XY] = \sum\sum xy\,p(x, y)\) together with \(E[X]\) and \(E[Y]\) gives \(\operatorname{Cov}(X, Y) = E[XY] - E[X]E[Y]\). Independence forces covariance 0, but zero covariance does not imply independence (\(Y = X^2\) with \(X\) symmetric about 0).</p><span class="src">3.1.7 · slides 267–271, 547</span></div></div></details>
+<details class="module" open id="m3b-standard-distributions-sampling-clt-estimation"><summary>M3b · Standard Distributions, Sampling, CLT &amp; Estimation <small>· 24 items</small></summary><div class="cards"><div class="card"><h3>Bernoulli trial</h3><p>A single trial with outcome 1 (success, probability \(p\)) or 0 (failure, \(q = 1 - p\)), such as pass/fail or click/no click. Its mean is \(p\) and its variance \(pq\), which is largest at \(p = 0.5\); every count model in the course is built from Bernoulli trials.</p><span class="src">3.2.1 · slides 278–282</span></div><div class="card"><h3>When a count is binomial</h3><p>\(X \sim \text{Bin}(n, p)\) needs a fixed number of trials, two outcomes per trial, a constant \(p\) and independent trials. Infections in a room fail independence, and picking 3 of 20 projectors without replacement fails constant \(p\), so neither is binomial.</p><span class="src">3.2.2 · slides 283, 285, 292</span></div><div class="card"><h3>Binomial probabilities, moments and complements</h3><p>\(P(X = x) = \binom{n}{x} p^x q^{n-x}\) with mean \(np\) and variance \(npq\); if 3 in 5 customers ask for water, exactly 6 of 10 do with probability 0.251. "At least \(k\)" is \(1 - P(X \le k - 1)\) and "less than 9" is \(1 - P(9) - P(10)\): use the side with fewer terms, and read "fewer than" (excludes) and "no more than" (includes) carefully.</p><span class="src">3.2.2 · slides 284, 286–291</span></div><div class="card"><h3>Inverse binomial problems</h3><p>Given the moments, solve \(np = \mu\) and \(npq = \sigma^2\): mean 6 and variance 4 give \(q = 2/3\), \(p = 1/3\), \(n = 18\). Given a target, solve for \(n\): to hit a target at least once with probability over \(2/3\) when \(p = 0.2\) needs \(0.8^n &lt; 1/3\), so \(n = 5\) shots.</p><span class="src">3.2.2 · slides 337–339</span></div><div class="card"><h3>Poisson distribution and rate scaling</h3><p>The Poisson counts events in a fixed interval when they occur independently at a constant average rate, with \(P(X = x) = e^{-\lambda}\lambda^x/x!\) and mean = variance = \(\lambda\). Scale \(\lambda\) to the interval asked about: 2 calls per 3 minutes gives \(\lambda = 6\) for 9 minutes, and 5 defects per 10 square feet gives \(\lambda = 7.5\) for 15.</p><span class="src">3.2.3 · slides 293–296, 299–301, 331–332</span></div><div class="card"><h3>Poisson approximation to the binomial</h3><p>When \(n\) is large and \(p\) small, \(\text{Bin}(n, p) \approx \text{Poisson}(\lambda = np)\); the deck asks for \(n \ge 100\) and \(np \le 10\). With 5% defective bindings, \(P(2 \text{ of } 100)\) is 0.081 exactly and 0.084 by Poisson with \(\lambda = 5\).</p><span class="src">3.2.3 · slides 295, 297–298, 329–330</span></div><div class="card"><h3>Normal distribution and the 68–95–99.7 rule</h3><p>\(N(\mu, \sigma^2)\) is bell-shaped and symmetric with mean = median = mode; \(\mu\) shifts it and \(\sigma\) widens it. About 68%, 95% and 99.7% of values lie within 1, 2 and 3 SDs of the mean whatever \(\mu\) and \(\sigma\) are, so a value more than 3 SDs out is suspicious.</p><span class="src">3.2.4 · slides 303–307</span></div><div class="card"><h3>Standardisation and the Z-table</h3><p>\(Z = (X - \mu)/\sigma\) converts any normal to \(N(0, 1)\), so one table serves all problems; symmetry gives \(\Phi(-z) = 1 - \Phi(z)\). Test scores with \(\mu = 30\), \(\sigma = 4\) give \(P(X &lt; 40) = P(Z &lt; 2.5) = 0.9938\). Since \(aX + b\) of a normal is normal, sums and differences of independent normals are normal too.</p><span class="src">3.2.4 · slides 308–316, 333–335</span></div><div class="card"><h3>Normal approximation and continuity correction</h3><p>If \(np \ge 15\) and \(nq \ge 15\) (the course rule; texts also use 10 or 5), \(X \approx N(np, npq)\): 25 people with \(p = 0.36\) give \(np = 9\), so not allowed; 50 students with \(p = 0.31\) give 15.5 and 34.5, so allowed. Because a count is replaced by a curve, widen each boundary by 0.5: \(P(X &lt; 14) = P(X \le 13)\) becomes \(P(Y &lt; 13.5)\).</p><span class="src">3.2.5 · slides 317–321, 343</span></div><div class="card"><h3>Chi-square distribution</h3><p>\(\chi^2_k = Z_1^2 + \dots + Z_k^2\) for independent standard normals, so it lives on \([0, \infty)\), is right-skewed and depends only on its degrees of freedom \(k\). It is the sampling distribution of \((n-1)s^2/\sigma^2\) and of the chi-square test statistics in M4.</p><span class="src">3.2.6 · slides 322–323</span></div><div class="card"><h3>Student's t distribution</h3><p>\(t_k = Z/\sqrt{\chi^2_k/k}\) is bell-shaped and symmetric but has heavier tails than \(N(0, 1)\), because \(s\) is itself estimated; it tends to \(N(0, 1)\) as \(k \to \infty\). Replacing \(\sigma\) by \(s\) in \((\bar{x} - \mu)/(\sigma/\sqrt{n})\) turns \(z\) into \(t\) with \(n - 1\) degrees of freedom.</p><span class="src">3.2.6 · slides 324–326</span></div><div class="card"><h3>F distribution</h3><p>\(F(\nu_1, \nu_2) = (\chi^2_{\nu_1}/\nu_1)/(\chi^2_{\nu_2}/\nu_2)\) is the ratio of two scaled chi-squares, right-skewed on \([0, \infty)\), and is used to compare variances and in ANOVA. The order of the degrees of freedom matters: \(F_{1-\alpha}(\nu_1, \nu_2) = 1/F_{\alpha}(\nu_2, \nu_1)\).</p><span class="src">3.2.6 · slides 327–328</span></div><div class="card"><h3>Population vs sample, parameter vs statistic</h3><p>A population is every unit of interest (enumerating it is a census) and a sample is the observed subset, used because populations are often infinite or too costly to study. Parameters (\(\mu\), \(\sigma^2\), \(P\), \(\rho\)) are fixed unknown constants; statistics (\(\bar{x}\), \(s^2\), \(\hat{p}\), \(r\)) are computed from the sample and vary from sample to sample.</p><span class="src">3.3.1 · slides 349–355, 390</span></div><div class="card"><h3>Probability and non-probability sampling</h3><p>In probability sampling each unit has a known chance of selection: simple random (homogeneous population), systematic (every \(k\)-th unit, \(k = N/n\)), stratified (homogeneous strata sampled in proportion to size) and multistage. Judgement, convenience, quota and snowball samples have no known probability structure, so they cannot support valid inference about the population.</p><span class="src">3.3.2 · slides 357–359</span></div><div class="card"><h3>Bias, random error and sampling variation</h3><p>Observed data = truth + bias + random error: bias comes from poor design and does not shrink with \(n\), random error does. Sampling error is the gap between a statistic and its parameter; sampling variation is the statistic changing from sample to sample (the deck's ten samples have means from 1338 to 3035 around 2162). Random selection removes bias and larger samples reduce the variation.</p><span class="src">3.3.2, 3.3.3 · slides 356, 360–365</span></div><div class="card"><h3>Sampling distribution of the sample mean</h3><p>The sampling distribution of \(\bar{x}\) is the distribution of all possible sample means. Its centre is always \(\mu\) (\(E[\bar{x}] = \mu\) for every \(n\)) and its spread is the standard error \(\sigma/\sqrt{n}\), so quadrupling \(n\) halves the SE. Probabilities about \(\bar{x}\) use \(z = (\bar{x} - \mu)/(\sigma/\sqrt{n})\).</p><span class="src">3.3.4 · slides 366–373, 375</span></div><div class="card"><h3>Finite population correction</h3><p>When sampling without replacement from a finite population with \(n/N \ge 0.05\), multiply the SE by \(\sqrt{(N - n)/(N - 1)}\). Sampling 45 of 350 employees (\(n/N = 0.13\)) needs it; as \(N\) grows relative to \(n\) the factor tends to 1 and can be ignored.</p><span class="src">3.3.4 · slides 380–382, 437</span></div><div class="card"><h3>Central Limit Theorem</h3><p>For large \(n\) (about 30 or more), \(\bar{x}\) is approximately \(N(\mu, \sigma^2/n)\) whatever the population's shape; only a normal population makes this exact for small \(n\). Vehicle ages with \(\mu = 96\), \(\sigma = 16\) and \(n = 36\) give \(\text{SE} = 2.67\) and \(P(90 &lt; \bar{x} &lt; 100) = 0.921\). The CLT changes the shape and SE with \(n\), never the mean.</p><span class="src">3.3.5 · slides 371–379</span></div><div class="card"><h3>Sampling distribution of a proportion</h3><p>The sample proportion \(\hat{p} = x/n\) (30 union members in 100 workers gives 0.30) has mean \(P\) and standard error \(\sqrt{PQ/n}\). By the CLT it is approximately normal when \(nP &gt; 15\) and \(nQ &gt; 15\) in the deck's rule.</p><span class="src">3.3.6 · slides 383–387</span></div><div class="card"><h3>Point estimation and good estimators</h3><p>A point estimate is a single statistic used as a guess for a parameter, and it is only as good as the sample is representative. A good estimator is unbiased (centred on the parameter), consistent (converges to it as \(n\) grows), efficient (smallest variance among unbiased rivals) and sufficient (uses all the information in the data about the parameter); \(\bar{x}\) is all four for \(\mu\).</p><span class="src">3.3.7 · slides 388–390, 485</span></div><div class="card"><h3>Confidence intervals for a mean: z or t</h3><p>A \(100(1-\alpha)\%\) CI is estimate \(\pm\) critical value \(\times\) SE, with 1.96 for 95% and 2.576 for 99%: 85 bills with \(\bar{x} = 510\), \(\sigma = 46\) give \(510 \pm 9.78\). Use \(z\) when \(\sigma\) is known or \(n\) is large, and \(t\) with \(n - 1\) df when \(\sigma\) is unknown in a small sample; the \(t\) interval is wider because it pays for estimating \(\sigma\).</p><span class="src">3.3.8 · slides 391–399, 930–932, 935–937</span></div><div class="card"><h3>Intervals for a proportion and a difference of means</h3><p>For a proportion use \(\hat{p} \pm z\sqrt{\hat{p}\hat{q}/n}\). For \(\mu_1 - \mu_2\) use \((\bar{x}_1 - \bar{x}_2) \pm z\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}\); if the interval contains 0, the data do not show a difference at that confidence level.</p><span class="src">3.3.8 · slides 395, 402–403, 933</span></div><div class="card"><h3>Margin of error and sample size</h3><p>The margin of error is \(E = z\,\sigma/\sqrt{n}\), so the required size is \(n = (z\sigma/E)^2\), always rounded up. To estimate a mean within 0.5 with \(\sigma = 4\) at 95%, \(n = (1.96 \times 4/0.5)^2 = 245.9\), so 246. Halving \(E\) quadruples \(n\).</p><span class="src">3.3.8 · slides 400, 405, 938–939</span></div><div class="card"><h3>What "95% confidence" means</h3><p>The parameter is fixed; the interval is random. "95% confidence" means that the procedure captures \(\mu\) in 95% of repeated samples, not that this particular interval contains \(\mu\) with probability 0.95. Higher confidence gives a wider interval for the same data.</p><span class="src">3.3.8 · slides 391–393</span></div></div></details>
+<details class="module" open id="m4-hypothesis-testing-mle-anova"><summary>M4 · Hypothesis Testing, MLE &amp; ANOVA <small>· 27 items</small></summary><div class="cards"><div class="card"><h3>Null and alternative hypotheses</h3><p>\(H_0\) is the hypothesis of no difference (equality, or "any gap is sampling variation"); \(H_1\) is the claim to be established. The equality always sits in \(H_0\), so "the mean is no more than 920" becomes \(H_0: \mu \le 920\) vs \(H_1: \mu &gt; 920\), and the test can only reject or fail to reject \(H_0\).</p><span class="src">4.1 · slides 413–417, 940–941</span></div><div class="card"><h3>Left, right and two-tailed tests</h3><p>The direction of \(H_1\) fixes where the rejection region lies: \(&lt;\) puts all of \(\alpha\) in the left tail, \(&gt;\) in the right tail, and \(\ne\) splits it, \(\alpha/2\) in each tail. Words such as "at least", "exceeds" and "differs" decide this, so read them before computing anything.</p><span class="src">4.1 · slides 415–416, 421–423, 943</span></div><div class="card"><h3>Type I and Type II errors</h3><p>A Type I error rejects a true \(H_0\) (probability \(\alpha\), the level of significance); a Type II error fails to reject a false \(H_0\) (probability \(\beta\)). For a fixed sample size, lowering \(\alpha\) raises \(\beta\); only more data reduces both. Power \(= 1 - \beta\) is the chance of detecting a real effect.</p><span class="src">4.1 · slides 420, 426</span></div><div class="card"><h3>Test statistic and critical region</h3><p>Most test statistics have the form (estimate − hypothesised value)/standard error, measuring the gap in standard errors. Reject \(H_0\) when the statistic falls in the critical region set by \(\alpha\): \(\lvert z \rvert &gt; 1.96\) for a two-tailed 5% test, \(z &gt; 1.645\) right-tailed, and \(\lvert z \rvert &gt; 2.58\) at 1% (not 1.96, as one CS-9 slide misprints).</p><span class="src">4.1 · slides 425, 942–943</span></div><div class="card"><h3>The p-value and its decision rule</h3><p>The p-value is the probability, assuming \(H_0\) is true, of a statistic at least as extreme as the one observed; for a two-tailed test it is twice the tail area. Reject \(H_0\) if \(p \le \alpha\). It is not the probability that \(H_0\) is true, and a large p-value does not prove \(H_0\).</p><span class="src">4.1 · slides 420, 424, 944–946</span></div><div class="card"><h3>Failing to reject is not accepting</h3><p>The tyre data give \(z = 2.37\) (printed as 2.30 on the slide): reject at 5% (\(z &gt; 1.96\)) but not at 1% (\(z &lt; 2.58\)). The evidence did not change, only the standard of proof, so "do not reject" means "insufficient evidence", never "\(H_0\) is proved".</p><span class="src">4.1 · slides 413, 435, 446</span></div><div class="card"><h3>Parametric vs non-parametric; z vs t</h3><p>Parametric tests assume a distribution with parameters (z, t, F, ANOVA); non-parametric tests do not. Use \(z\) when \(\sigma\) is known or \(n \ge 30\), and \(t\) when \(\sigma\) is unknown and the sample is small from a roughly normal population.</p><span class="src">4.1 · slides 418–419, 442, 947–949</span></div><div class="card"><h3>Practical significance and multiple testing</h3><p>With a huge sample a trivial difference becomes "significant", since the SE shrinks like \(1/\sqrt{n}\), so report an effect size or CI too. Twenty tests of true nulls at \(\alpha = 0.05\) give at least one false positive with probability \(1 - 0.95^{20} \approx 0.64\); reporting only the winners is p-hacking, and a correction such as Bonferroni (\(\alpha/m\)) is needed.</p><span class="src">4.1 · slides 412, 420, 426</span></div><div class="card"><h3>z-test for one mean</h3><p>\(z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})\), with \(s\) in place of \(\sigma\) for large samples. For 44 sandwiches with \(\bar{x} = 925\) and \(s = 18\) against a claim of at most 920, \(z = 5/2.71 = 1.84 &gt; 1.645\), so the claim is rejected at 5%.</p><span class="src">4.2 · slides 425, 427–429, 952–959</span></div><div class="card"><h3>z-test for two means</h3><p>\(z = (\bar{x}_1 - \bar{x}_2)/\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}\) for independent large samples; a non-zero hypothesised difference \(\mu_1 - \mu_2 = \Delta_0\) is subtracted in the numerator. The tyre example (30 and 40 tyres, SDs 5000 and 6100 km) gives \(z = 3150/1328 = 2.37\), which the slide rounds to 2.30.</p><span class="src">4.2 · slides 430–436, 962–965</span></div><div class="card"><h3>z-test for one proportion</h3><p>\(z = (\hat{p} - P_0)/\sqrt{P_0 Q_0/n}\), with the SE built from the hypothesised \(P_0\), not \(\hat{p}\). For 82 type-A donations in 150 against 40%, \(z = (0.547 - 0.40)/0.040 = 3.67\), so the proportion differs.</p><span class="src">4.2 · slides 437–438, 968–969</span></div><div class="card"><h3>z-test for two proportions (pooled)</h3><p>Under \(H_0: P_1 = P_2\) both samples estimate one common \(P\), so pool them: \(\hat{p} = (x_1 + x_2)/(n_1 + n_2)\) and \(z = (\hat{p}_1 - \hat{p}_2)/\sqrt{\hat{p}\hat{q}(1/n_1 + 1/n_2)}\). The judges example gives \(z = 2.55 &gt; 1.645\); when testing a non-zero difference, use the unpooled SE instead.</p><span class="src">4.2 · slides 439–441, 972–973</span></div><div class="card"><h3>One-sample t-test</h3><p>\(t = (\bar{x} - \mu_0)/(s/\sqrt{n})\) with \(n - 1\) degrees of freedom, assuming independent observations from a roughly normal population. Ten sports cars give \(t = 1.929\): reject at 5% (\(t_{0.05, 9} = 1.833\)) but not at 1% (2.821).</p><span class="src">4.3 · slides 442–447, 956–961</span></div><div class="card"><h3>Unpaired (pooled) t-test</h3><p>For two independent small samples with equal population variances, pool \(s_p^2 = [(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2]/(n_1 + n_2 - 2)\) and use \(t = (\bar{x}_1 - \bar{x}_2)/(s_p\sqrt{1/n_1 + 1/n_2})\) with \(n_1 + n_2 - 2\) df. The courier packets give \(t = 2.233 &gt; 2.069\) (df 23).</p><span class="src">4.3 · slides 448–449, 966–967, 476</span></div><div class="card"><h3>Paired t-test</h3><p>When each subject is measured twice (before/after), analyse the differences \(d\) as one sample: \(t = \bar{d}/(s_d/\sqrt{n})\) with \(n - 1\) df. Pairing removes subject-to-subject variation, so it detects effects an unpaired test would miss; the training example gives \(t = 1.629 &lt; 1.833\), not significant.</p><span class="src">4.3 · slides 450–452, 474–475, 477</span></div><div class="card"><h3>Duality of intervals and tests</h3><p>A two-tailed test at level \(\alpha\) rejects \(H_0: \mu = \mu_0\) exactly when \(\mu_0\) lies outside the \(100(1-\alpha)\%\) CI. The courier 95% CI for \(\mu_1 - \mu_2\) is (0.073, 1.907), which excludes 0, matching the rejection.</p><span class="src">4.3 · slides 449, 473</span></div><div class="card"><h3>Chi-square test of independence</h3><p>Compare observed counts with the counts expected if the two categorical variables were unrelated, \(E_{ij} = (\text{row total})(\text{column total})/n\), using \(\chi^2 = \sum (O - E)^2/E\) with \((r-1)(c-1)\) df. The accident timings table gives \(\chi^2 = 7.32 &gt; 3.84\) (df 1), so timing and outcome are associated.</p><span class="src">4.4 · slides 453–466, 479</span></div><div class="card"><h3>Chi-square goodness of fit</h3><p>Tests whether counts follow a hypothesised distribution, with df \(= k - 1 - m\) for \(k\) categories and \(m\) parameters estimated from the data. Telephone digits give \(\chi^2 = 58.54 &gt; 16.92\) (df 9), so they are not uniform; a Poisson fit with \(\lambda\) estimated from 6 categories has df \(= 6 - 1 - 1 = 4\).</p><span class="src">4.4 · slides 467–471</span></div><div class="card"><h3>Conditions for chi-square tests</h3><p>Use raw frequencies only, never percentages or means, and require every expected count to be at least 5; otherwise pool adjacent categories. In the deck's \(2 \times 2\) hospital-stay table one expected count is \(25 \times 10/70 = 3.6\), so the test should not be applied as it stands. For a \(2 \times 2\) table, \(\chi^2\) equals the square of the two-proportion \(z\).</p><span class="src">4.4 · slides 454, 478</span></div><div class="card"><h3>Likelihood and maximum likelihood</h3><p>A likelihood fixes the observed data and treats \(L(\theta) = \prod f(x_i \mid \theta)\) as a function of the parameter; the MLE is the value that makes the data most probable. For 3 flawed helmets out of 10, \(L(0.25) = 0.0021\) beats \(L(0.5) = 0.00098\) and the peak is at \(p = 0.3\). Maximise \(\ln L\) instead (same maximiser, a sum not a product) by setting its derivative to 0.</p><span class="src">4.5 · slides 484–495</span></div><div class="card"><h3>Standard MLEs and MLE as a loss</h3><p>Bernoulli/binomial \(\hat{p} = k/n\), Poisson \(\hat{\lambda} = \bar{x}\), normal \(\hat{\mu} = \bar{x}\) and \(\hat{\sigma}^2 = SS/n\), which is biased (too small) yet still the MLE. Maximising a normal likelihood of residuals is least squares, and maximising a Bernoulli likelihood is minimising cross-entropy, so most loss functions are MLE in disguise.</p><span class="src">4.5 · slides 487–492, 496–500</span></div><div class="card"><h3>Invariance of the MLE</h3><p>The MLE of any function \(g(\theta)\) is \(g(\hat{\theta})\). Defective-drive counts 7, 3, 1, 2, 4, 1, 2, 3, 1, 2 give \(\hat{\lambda} = 2.6\), so the MLE of \(P(0 \text{ or } 1 \text{ defectives})\) is \(e^{-2.6}(1 + 2.6) = 0.267\).</p><span class="src">4.5 · slide 529</span></div><div class="card"><h3>F-test for two variances</h3><p>To test \(H_0: \sigma_1^2 = \sigma_2^2\) for two independent normal samples, use \(F = s_1^2/s_2^2\) with the larger sample variance on top, so only the upper tail is needed, and df \((n_1 - 1, n_2 - 1)\) in that order. It checks the equal-variance assumption behind the pooled t-test and ANOVA.</p><span class="src">4.6 · slides 501–503, 328</span></div><div class="card"><h3>ANOVA: comparing several means through variances</h3><p>ANOVA tests \(H_0: \mu_1 = \dots = \mu_k\) against "not all means are equal" (not "\(\mu_1 \ne \mu_2 \ne \mu_3\)"). It needs normal responses, equal variances across groups and independent observations; running many pairwise t-tests instead would inflate the Type I error.</p><span class="src">4.7 · slides 504–505</span></div><div class="card"><h3>One-way ANOVA and the correction factor</h3><p>\(SST = SSTR + SSE\) (between plus within groups) with df \(n - 1 = (k - 1) + (n - k)\), and \(F = MSTR/MSE\) is large when group means differ more than noise explains; the deck's groups with means 10, 8, 12 give \(F = 20/5 = 4 &gt; 3.89\). By hand use \(CF = G^2/n\), \(SST = \sum x^2 - CF\), \(SSTR = \sum C_j^2/n_j - CF\); the glue data give \(F = 3.08 &lt; 3.89\) (p = 0.084).</p><span class="src">4.7 · slides 506–516, 533–534</span></div><div class="card"><h3>Two-way ANOVA without replication</h3><p>Controlling a second factor (blocks) removes its variation from the error: \(SST = SSTR + SSBL + SSE\), error df \((k-1)(m-1)\), with separate F-ratios for treatments and blocks (the fertiliser data give 3.6 and 2.4, both below 4.76 and 5.14). With several observations per cell, use two-way ANOVA with replication to test interaction; analysing cell means, as the teaching-method slide does, discards the replicates.</p><span class="src">4.7 · slides 517–528</span></div><div class="card"><h3>Post-hoc comparisons</h3><p>Rejecting \(H_0\) in ANOVA says only that at least one pair of means differs. A post-hoc test such as Fisher's LSD, \(t_{\alpha/2,\,n-k}\sqrt{MSE(1/n_i + 1/n_j)}\), then compares each pair; a pair differs if its mean gap exceeds the LSD. With two groups, ANOVA's \(F\) equals the pooled \(t^2\).</p><span class="src">4.7 · slides 504, 518</span></div></div></details>
+<details class="module" open id="m5-prediction-forecasting-i-correlation-regression"><summary>M5 · Prediction &amp; Forecasting I — Correlation &amp; Regression <small>· 19 items</small></summary><div class="cards"><div class="card"><h3>Covariance gives direction only</h3><p>Sample covariance \(\sum (x - \bar{x})(y - \bar{y})/(n - 1)\) is positive when the variables rise together and negative when one falls as the other rises. Its size depends on the units, \(\operatorname{Cov}(aX + b, cY + d) = ac\,\operatorname{Cov}(X, Y)\) (age and weight give 10.6 "years·kg"), so it cannot measure strength.</p><span class="src">5.1 · slides 541–543, 545–546</span></div><div class="card"><h3>Covariance from a distribution</h3><p>For random variables, \(\operatorname{Cov}(X, Y) = E[(X - \mu_X)(Y - \mu_Y)] = E[XY] - E[X]E[Y]\), computed from a joint pmf or pdf. It links the joint distributions of M3 to correlation, and \(\operatorname{Var}(X + Y) = \operatorname{Var}(X) + \operatorname{Var}(Y) + 2\operatorname{Cov}(X, Y)\).</p><span class="src">5.1 · slide 547</span></div><div class="card"><h3>Variance–covariance matrix</h3><p>For \(n\) variables, \(\Sigma\) holds variances on the diagonal and covariances off it, and is symmetric (\(\sigma_{ij} = \sigma_{ji}\)). It summarises all pairwise linear relations and is the input to multivariate regression, PCA and multivariate Gaussians (GMM).</p><span class="src">5.1 · slides 544, 548</span></div><div class="card"><h3>PCA as diagonalising the covariance matrix</h3><p>PCA finds the eigenvectors of \(\Sigma\): new variables (principal components) that are uncorrelated linear combinations of the originals. Each eigenvalue is the variance along its component, so large eigenvalues mark important directions and near-zero ones can be dropped, reducing dimension.</p><span class="src">5.1 · slides 550–551</span></div><div class="card"><h3>Autocovariance</h3><p>Applying covariance to a series and its own lagged copy gives the autocovariance at lag \(h\), and dividing by the variance gives the autocorrelation. This is the bridge from M5 to the stationarity and ARMA ideas of M6.</p><span class="src">5.1 · slides 548–549</span></div><div class="card"><h3>Pearson's r: standardised covariance</h3><p>\(r = \operatorname{Cov}(X, Y)/(s_X s_Y)\) is unit-free and lies in \([-1, 1]\); its sign is the direction and its size the strength of the linear relationship (children's ages and weights give \(r = 0.759\), anxiety and test score \(r = -0.94\)). It is unchanged by shifting or positively rescaling either variable, so it can be computed from coded values.</p><span class="src">5.2 · slides 552–562, 982–988</span></div><div class="card"><h3>Strength bands and scatter diagrams</h3><p>The deck grades \(\lvert r \rvert\) as weak up to 0.25, moderate from 0.26 to 0.75 and strong from 0.76 to 0.99, with \(\pm 1\) perfect. Always draw the scatter diagram first: it shows curvature, clusters and outliers that a single number hides.</p><span class="src">5.2 · slides 557, 563–573, 980–981</span></div><div class="card"><h3>Reading r with care</h3><p>\(r\) measures only linear association: \(y = x^2\) on a symmetric range has \(r = 0\) despite perfect dependence, and one extreme point can manufacture a large \(r\). A strong \(r\) can also come from a lurking variable driving both (hot weather drives ice-cream sales and drownings), so correlation is not causation.</p><span class="src">5.2 · slides 553–555, 567–569</span></div><div class="card"><h3>Spearman's rank correlation</h3><p>Rank each variable and compute \(R = 1 - 6\sum d^2/(n(n^2 - 1))\) from the rank differences \(d\). It is Pearson's \(r\) applied to ranks, so it measures monotone rather than linear association, suits ordinal data or non-normal populations, and resists outliers; the deck's first example gives \(R = 0.14\).</p><span class="src">5.3 · slides 989–992</span></div><div class="card"><h3>Tied ranks</h3><p>Tied values share the average of the ranks they occupy (two values tied for 3rd and 4th both get 3.5). Ties reduce rank variance, so add \(m(m^2 - 1)/12\) to \(\sum d^2\) for every tie group of size \(m\), in both variables, before applying the formula.</p><span class="src">5.3 · slides 990, 993–994</span></div><div class="card"><h3>Simple linear regression model</h3><p>\(Y = a + bX + \varepsilon\): \(Y\) is the response, \(X\) the predictor, \(b\) the change in mean \(Y\) per unit of \(X\), and \(\varepsilon\) the random error. The errors are assumed to have mean 0, constant variance \(\sigma^2\), independence and a normal distribution.</p><span class="src">5.4 · slides 574–577</span></div><div class="card"><h3>Least squares and the normal equations</h3><p>Choose \(a\) and \(b\) to minimise \(\sum (Y - a - bX)^2\); setting both partial derivatives to zero gives the normal equations \(\sum Y = na + b\sum X\) and \(\sum XY = a\sum X + b\sum X^2\). Their solution is \(b = S_{xy}/S_{xx}\), \(a = \bar{y} - b\bar{x}\), so the line passes through \((\bar{x}, \bar{y})\) and the residuals sum to 0.</p><span class="src">5.4 · slides 578–581, 1007–1010</span></div><div class="card"><h3>Prediction and extrapolation</h3><p>For the cinema data \(\hat{Y} = 92.45 + 0.407X\), so 4.5 thousand of TV advertising predicts revenue of 94.28 thousand. Predictions are trustworthy only inside the range of observed \(X\); extrapolating assumes the straight line continues where no data support it.</p><span class="src">5.4 · slides 582–584, 1001</span></div><div class="card"><h3>Two regression lines</h3><p>The line of \(Y\) on \(X\) (minimising vertical errors) and the line of \(X\) on \(Y\) (horizontal errors) differ unless \(\lvert r \rvert = 1\), and both pass through \((\bar{x}, \bar{y})\), so solving the two equations gives the means (\(\bar{x} = 13\), \(\bar{y} = 17\) in the deck). Use \(Y\) on \(X\) to predict \(Y\) and \(X\) on \(Y\) to predict \(X\).</p><span class="src">5.4 · slides 995–1006</span></div><div class="card"><h3>Properties of the regression coefficients</h3><p>\(b_{yx} = r\,\sigma_y/\sigma_x\) and \(b_{xy} = r\,\sigma_x/\sigma_y\), so \(r^2 = b_{yx}b_{xy}\): \(r\) is the geometric mean of the two coefficients and shares their sign. Both coefficients cannot exceed 1 in absolute value, since their product is at most 1.</p><span class="src">5.4 · slides 984, 996, 1000</span></div><div class="card"><h3>Decomposing variation: SST = SSR + SSE</h3><p>Total variation about \(\bar{y}\) splits into the part explained by the line (\(SSR = \sum (\hat{y} - \bar{y})^2\)) and the unexplained residual part (\(SSE = \sum (y - \hat{y})^2\)). The cross-term vanishes because least-squares residuals are uncorrelated with the fitted values.</p><span class="src">5.5 · slides 585–589</span></div><div class="card"><h3>Coefficient of determination</h3><p>\(r^2 = SSR/SST\) is the share of the variation in \(Y\) explained by the line, equal to the square of Pearson's \(r\) in simple regression: TV adverts explain 87.7% of the variation in cars sold. A high \(r^2\) does not prove the form is right (Anscombe's data share one \(r^2\)); a curved residual plot calls for curve fitting.</p><span class="src">5.5 · slides 590–594</span></div><div class="card"><h3>Fitting a parabola</h3><p>\(y = a + bx + cx^2\) is still linear in \(a\), \(b\), \(c\), so least squares gives three normal equations built from \(\sum x, \sum x^2, \sum x^3, \sum x^4, \sum y, \sum xy, \sum x^2 y\). Coding \(x\) to centre it at 0 kills the odd sums and makes the system easy by hand.</p><span class="src">5.6 · slides 1011–1014</span></div><div class="card"><h3>Linearising power and exponential curves</h3><p>Take logs to turn a curve into a straight line: \(y = ax^b\) gives \(\log y = \log a + b \log x\), and \(y = ae^{bx}\) or \(y = ab^x\) gives \(\log y\) linear in \(x\). Fit the line by least squares, then back-transform the intercept (\(a = 10^{A}\)); the fit then minimises errors in \(\log y\), not in \(y\).</p><span class="src">5.6 · slides 1014–1020</span></div></div></details>
+<details class="module" open id="m6-prediction-forecasting-ii-time-series-gmm-em"><summary>M6 · Prediction &amp; Forecasting II — Time Series; GMM &amp; EM <small>· 34 items</small></summary><div class="cards"><div class="card"><h3>Time series vs cross-sectional data</h3><p>A time series is a sequence \(Y_1, \dots, Y_n\) of one variable at equally spaced times, and its order is the information. Marks against study hours for many students at one time is cross-sectional (explain \(Y\) by \(X\), as in M5); admissions per year is a time series (explain and forecast \(Y_t\) from its own past).</p><span class="src">6.1 · slides 599–605, 1022–1023</span></div><div class="card"><h3>Trend, seasonal, cyclical and irregular components</h3><p>Trend \(T\) is the long-run direction; seasonality \(S\) repeats with a fixed, known period of a year or less (months, quarters, weekdays); cycles \(C\) are recurring but non-periodic swings longer than a year (business cycles); the irregular part \(I\) is unpredictable noise left after removing the others. Fixed period separates seasonal from cyclical.</p><span class="src">6.1 · slides 606–618</span></div><div class="card"><h3>Additive vs multiplicative decomposition</h3><p>Additive \(Y = T + S + C + I\) suits seasonal swings of constant size; multiplicative \(Y = T \times S \times C \times I\) suits swings that grow in proportion to the level (seasonal indices such as 1.2 mean "20% above trend"). Taking logs turns a multiplicative model into an additive one.</p><span class="src">6.1 · slides 619–621, 715</span></div><div class="card"><h3>Forecasting vs planning; horizons</h3><p>Forecasting estimates future values from past patterns with a stated method, prediction is broader and may rest on judgement; a forecast says what is likely, a goal what is wanted, and planning closes the gap. Short-term forecasts drive scheduling, medium-term ones budgets and resources, long-term ones strategy, where the trend dominates.</p><span class="src">6.1 · slides 622–628</span></div><div class="card"><h3>Qualitative vs quantitative methods</h3><p>Qualitative methods (personal judgement, panel consensus, Delphi, market research) are used when data are scarce or the future breaks from the past. Quantitative methods are either time-series methods (smoothing, exponential smoothing, trend projection) or causal methods (regression on explanatory variables).</p><span class="src">6.1 · slides 629, 1024</span></div><div class="card"><h3>Simple moving average</h3><p>A \(k\)-period MA averages \(k\) neighbouring values to smooth out irregular and seasonal ups and downs (production 21, 22, 23, 25, 24 gives 22.00, 23.33, 24.00); a trailing MA of the last \(k\) values is the next forecast. It is a low-pass filter that lags a trend by about \((k - 1)/2\) periods, so longer windows are smoother but slower and \(k\) is chosen by forecast error.</p><span class="src">6.2 · slides 630, 635–638, 709–711, 1025–1028</span></div><div class="card"><h3>Centred moving average for even \(k\)</h3><p>An even-length MA falls between two time points, so a second 2-period average of the MAs (a \(2 \times k\) MA) recentres it. A \(2 \times 4\) MA on quarterly data, or \(2 \times 12\) on monthly data, removes the seasonal pattern exactly.</p><span class="src">6.2 · slides 631, 639</span></div><div class="card"><h3>Weighted moving average</h3><p>Weights that sum to 1, such as 0.5, 0.3, 0.2 from newest to oldest, let recent data count more, so the forecast reacts faster to change than a simple MA of the same length.</p><span class="src">6.2 · slides 640, 643</span></div><div class="card"><h3>Least-squares trend with coded time</h3><p>Fit \(Y = a + bX\) by least squares with \(X\) coded so that \(\sum X = 0\) (for 7 years, \(X = t - \text{middle year}\)); then \(a = \sum Y/n\) and \(b = \sum XY/\sum X^2\) directly. To forecast a future year, convert it to the same code before substituting.</p><span class="src">6.2 · slides 1034–1038</span></div><div class="card"><h3>Forecast errors and accuracy measures</h3><p>With \(e_t = Y_t - F_t\), raw errors cancel and only show bias. MSE punishes large misses most, MAD treats errors linearly in the data's units, MAPE is scale-free but breaks when actuals are near 0, and LAD reports the worst miss; errors of size 2, 3, 3, 4, 4 give MSE 10.8, MAD 3.2 and LAD 4. Choose the measure that matches the cost of being wrong.</p><span class="src">6.3 · slides 632–634, 701–702, 709–713</span></div><div class="card"><h3>Simple exponential smoothing</h3><p>\(F_{t+1} = \alpha Y_t + (1 - \alpha)F_t\), started with \(F_2 = Y_1\), unrolls to \(\alpha Y_t + \alpha(1 - \alpha)Y_{t-1} + \alpha(1 - \alpha)^2 Y_{t-2} + \dots\): all past values with geometrically shrinking weights. Monthly sales 50, 55, 52, 58, 60 with \(\alpha = 0.3\) give a June forecast of 55.49; SES suits series with no trend or seasonality.</p><span class="src">6.4 · slides 696–697, 703, 716, 744–749</span></div><div class="card"><h3>The smoothing constant \(\alpha\)</h3><p>\(\alpha = 1\) gives the naive forecast \(F_{t+1} = Y_t\); \(\alpha = 0\) freezes the forecast at its starting value. Small \(\alpha\) is smooth but slow, large \(\alpha\) is responsive but noisy, so \(\alpha\) is a bias–variance trade-off chosen by comparing MSE for candidates such as 0.2, 0.4 and 0.7, ideally out of sample.</p><span class="src">6.4 · slides 696, 703–708</span></div><div class="card"><h3>Holt's double exponential smoothing</h3><p>On a trend SES lags by \(b(1 - \alpha)/\alpha\), so Holt also smooths a slope: \(L_t = \alpha Y_t + (1 - \alpha)(L_{t-1} + T_{t-1})\), \(T_t = \beta(L_t - L_{t-1}) + (1 - \beta)T_{t-1}\) and \(F_{t+k} = L_t + kT_t\). On perfectly linear sales 100, 110, …, 140 it tracks \(L_t = Y_t\), \(T_t = 10\) and forecasts 150.</p><span class="src">6.4 · slides 716–729, 741–743</span></div><div class="card"><h3>Holt–Winters triple smoothing</h3><p>Adds a seasonal index \(S_t\) with period \(M\) (4 for quarters, 12 for months): the level uses the deseasonalised value \(Y_t/S_{t-M}\), the trend update is \(T_t = \beta(L_t - L_{t-1}) + (1 - \beta)T_{t-1}\) (correcting the slide's misprint), and the forecast is \((L_t + T_t)S_{t-M+1}\). Initial indices are each season's value divided by the first year's average.</p><span class="src">6.4 · slides 730–740</span></div><div class="card"><h3>Taxonomy of exponential smoothing</h3><p>Methods are classified by trend (none, linear/additive, ratio/multiplicative) crossed with seasonality (none, linear, ratio), giving nine cases. SES is no trend and no seasonality, Holt is linear trend and no seasonality, and multiplicative Holt–Winters is linear trend with ratio seasonality.</p><span class="src">6.4 · slides 750–759</span></div><div class="card"><h3>Strict vs weak stationarity</h3><p>A strictly stationary series has a joint distribution unchanged by shifts in time; a weakly stationary one only needs a constant mean, constant variance and an autocovariance \(\gamma(h)\) that depends on the lag \(h\) alone. Trends, seasonality and random walks all violate it.</p><span class="src">6.5 · slides 649–653</span></div><div class="card"><h3>Autocovariance and the ACF</h3><p>\(\gamma(h) = \operatorname{Cov}(Y_t, Y_{t+h})\) and \(r_k = \gamma(k)/\gamma(0)\) measure how strongly a series is related to its own past at lag \(k\). A slowly decaying ACF signals a trend or unit root; spikes at lags 4 or 12 signal seasonality.</p><span class="src">6.5 · slides 651–660</span></div><div class="card"><h3>White noise</h3><p>White noise is a sequence of uncorrelated values with mean 0 and constant variance, so its true ACF is 0 at every non-zero lag (Gaussian white noise is also normal). Sample autocorrelations within about \(\pm 2/\sqrt{n}\) are consistent with it, and a good model's residuals should look like white noise.</p><span class="src">6.5 · slides 662–665</span></div><div class="card"><h3>Partial autocorrelation (PACF)</h3><p>The PACF at lag \(k\) is the correlation between \(Y_t\) and \(Y_{t-k}\) after removing the effect of the lags in between. If \(\rho_1 = 0.8\) and \(\rho_2 = 0.64 = \rho_1^2\), the lag-2 PACF is 0: the day before yesterday matters only through yesterday.</p><span class="src">6.5 · slides 668–669</span></div><div class="card"><h3>Dickey–Fuller unit-root test</h3><p>Rewrite \(Y_t = \phi Y_{t-1} + \varepsilon_t\) as \(\Delta Y_t = \delta Y_{t-1} + \varepsilon_t\) with \(\delta = \phi - 1\), and test \(H_0: \phi = 1\) (\(\delta = 0\), unit root, non-stationary) against \(H_1: \phi &lt; 1\) (stationary). The statistic \(\hat{\delta}/\text{SE}(\hat{\delta})\) is compared with Dickey–Fuller critical values (about \(-2.89\) at 5% with a constant), which are more negative than Student-t ones.</p><span class="src">6.5 · slides 677–682</span></div><div class="card"><h3>Differencing</h3><p>The first difference \(\Delta Y_t = Y_t - Y_{t-1}\) removes a linear trend and turns a random walk into white noise; a seasonal difference \(Y_t - Y_{t-12}\) removes yearly seasonality. Difference only as many times as needed, since over-differencing adds spurious correlation.</p><span class="src">6.5 · slides 688, 765–766</span></div><div class="card"><h3>Autoregressive models AR(p)</h3><p>\(y_t = c + \phi_1 y_{t-1} + \dots + \phi_p y_{t-p} + \varepsilon_t\) regresses a stationary series on its own past, and its coefficients can be fitted by regressing \(y_t\) on lagged copies of itself. Its ACF decays gradually while its PACF cuts off after lag \(p\), which identifies \(p\).</p><span class="src">6.6 · slides 670–676, 761</span></div><div class="card"><h3>Moving-average models MA(q) and ARMA(p, q)</h3><p>MA(q) writes \(y_t\) as a mean plus the current shock and \(q\) past shocks \(\theta_j \varepsilon_{t-j}\); its ACF cuts off after lag \(q\) (MA(1) has \(\rho_1 = \theta/(1 + \theta^2)\)). ARMA(p, q) combines both to capture richer autocorrelation with few parameters; both its ACF and PACF tail off.</p><span class="src">6.6 · slides 683–687, 763</span></div><div class="card"><h3>Recursive forecasting and the long-run mean</h3><p>Forecast step by step, replacing unknown future shocks by their mean 0. For \(y_t = 2 + 0.7y_{t-1}\) with \(y_{100} = 50\): 37, then 27.9, then 21.53, decaying toward \(c/(1 - \phi) = 6.67\). In ARMA(1,1) the MA term affects only the next forecast (8.8, then 7.4).</p><span class="src">6.6 · slides 762, 764</span></div><div class="card"><h3>ARIMA(p, d, q)</h3><p>Difference the series \(d\) times until it is stationary, fit ARMA(p, q) to the differences, then integrate back by cumulative summing. In the deck, \(w_t = 0.4w_{t-1} + \varepsilon_t + 0.3\varepsilon_{t-1}\) with \(y_{100} = 120\) and \(w_{100} = 5\) gives \(\hat{w}_{101} = 2.3\), so \(\hat{y}_{101} = 122.3\) and \(\hat{y}_{102} = 123.22\).</p><span class="src">6.6 · slides 688–692, 765–766</span></div><div class="card"><h3>SARIMA, SARIMAX, VAR and VARMAX</h3><p>SARIMA \((p, d, q)(P, D, Q)_m\) adds seasonal AR, MA and differencing at lag \(m\) (\(y_t = 5 + 0.8y_{t-12}\) forecasts 165 from last January's 200). SARIMAX adds exogenous regressors (a promotion flag with \(\beta = 8\) lifts 34 to 42). VAR models several series on each other's lags, and VARMAX adds MA terms and exogenous inputs.</p><span class="src">6.6 · slides 767–775</span></div><div class="card"><h3>Validating time-series models</h3><p>Never shuffle a time series into random train/test splits: future values would leak into training and errors would look too good. Hold out the most recent periods, or use a rolling origin, and check that residuals are white noise.</p><span class="src">6.3, 6.6 · slides 701, 709</span></div><div class="card"><h3>Gaussian mixture model</h3><p>A GMM models a density as a weighted sum of \(K\) Gaussians, \(p(x) = \sum_k \pi_k \mathcal{N}(x \mid \mu_k, \Sigma_k)\), with mixing weights \(\pi_k \ge 0\) summing to 1. Mixing 1000 share prices around Rs. 90 with 800 around Rs. 100 gives a two-peaked density that no single Gaussian fits.</p><span class="src">6.7 · slides 779–785, 793–794, 798</span></div><div class="card"><h3>Soft vs hard clustering</h3><p>GMM gives every point a probability of belonging to each component (soft clustering, clusters may overlap), whereas k-means assigns each point to exactly one cluster (hard). Assigning a point to its most probable component is a separate decision taken after fitting.</p><span class="src">6.7 · slides 780, 791</span></div><div class="card"><h3>Latent variables and mixing coefficients as priors</h3><p>Each point has a hidden 1-of-K indicator \(z\) saying which component generated it, with \(p(z_k = 1) = \pi_k\). So \(\pi_k\) is the prior probability of component \(k\), and \(p(x)\) is obtained by summing \(p(z)p(x \mid z)\) over the hidden states.</p><span class="src">6.7 · slides 796–799</span></div><div class="card"><h3>Responsibilities are Bayes' theorem</h3><p>The responsibility \(\gamma(z_{nk}) = \pi_k \mathcal{N}(x_n \mid k)/\sum_j \pi_j \mathcal{N}(x_n \mid j)\) is the posterior probability that component \(k\) produced \(x_n\). With \(\pi = (0.6, 0.4)\), means 90 and 100 and equal \(\sigma = 5\), the point \(x = 95\) is equidistant, the densities cancel and its responsibility is just the prior, 0.6.</p><span class="src">6.7 · slides 800, 811–813</span></div><div class="card"><h3>Why GMM needs EM</h3><p>The log-likelihood \(\sum_n \ln \sum_k \pi_k \mathcal{N}(x_n \mid \mu_k, \Sigma_k)\) has a sum inside the log, so setting derivatives to zero gives coupled equations with no closed form. If the labels were known each component could be fitted separately, and EM exploits exactly that.</p><span class="src">6.7 · slides 797, 801–805</span></div><div class="card"><h3>The EM algorithm</h3><p>Initialise; E-step: compute responsibilities; M-step: \(N_k = \sum_n \gamma_{nk}\), \(\mu_k = \sum_n \gamma_{nk} x_n/N_k\), \(\pi_k = N_k/N\); repeat until the log-likelihood stops changing. For \(x = \{92, 95, 98\}\), responsibilities 0.83, 0.60, 0.31 give \(\pi_1 = 0.58\) and \(\mu_1 = 94.1\). Each cycle never lowers the likelihood, but it reaches only a local maximum, so several starts are used.</p><span class="src">6.7 · slides 787–789, 804–809, 814–817</span></div><div class="card"><h3>GMM issues and uses</h3><p>A component that collapses onto one point (\(\sigma \to 0\)) sends the likelihood to infinity (a singularity), \(K\) must be chosen (for example by BIC, \(-2\ln L + p\ln n\)), and the Gaussian assumption may not fit. GMMs are used for soft clustering, density estimation and anomaly detection, where a point with very low \(p(x)\) is flagged; with equal shared variances shrinking to 0 the responsibilities become hard and EM becomes k-means.</p><span class="src">6.7 · slides 790–791, 802</span></div></div></details>
+<details class="module" id="instructors-notes"><summary>Instructor's notes: big ideas, dependencies, misconceptions, slide errata <small>· 5 sections</small></summary><div class="cards"><div class="card note-card"><h3>2.1 The spine of the course: six ideas that keep coming back</h3><p>Students who treat ISM as 60 separate formulas struggle. Students who see these six threads find that most of the course follows from them.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Big idea</th>
+<th>Where it appears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td><strong>A distribution has a centre and a spread.</strong> Every inference statistic has the form \(\frac{\text{estimate} - \text{hypothesised value}}{\text{standard error}}\).</td>
+<td>1.1, 3.1.3–3.1.4, 3.3.4, 3.3.8, every test in 4.2–4.3</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td><strong>Sums of squared deviations.</strong> Variance, SS, \(\chi^2\), ANOVA's \(\text{SST} = \text{SSTR} + \text{SSE}\), regression's \(\text{SST} = \text{SSR} + \text{SSE}\), MSE in forecasting, and least squares are all the same object.</td>
+<td>1.1.4, 3.2.6, 4.4, 4.7, 5.4–5.5, 6.3</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td><strong>Conditioning and reversal.</strong> Conditional probability leads to total probability, then Bayes, then Naive Bayes, then the GMM responsibilities. The E-step of EM is Bayes' theorem.</td>
+<td>2.1 \(\to\) 2.2 \(\to\) 6.7</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td><strong>Likelihood.</strong> "Which parameter makes the observed data most probable?" This connects MLE, Naive Bayes training (counting is MLE), the M-step of EM, and the fitting of AR models.</td>
+<td>4.5, 2.2.6, 6.7, 6.6</td>
+</tr>
+<tr>
+<td><strong>E</strong></td>
+<td><strong>Approximations and their conditions.</strong> \(\text{Poisson} \approx \text{Binomial}\), \(\text{Normal} \approx \text{Binomial}\), CLT, \(t \to z\), finite-population correction, \(\chi^2\) expected-count \(\ge 5\). Each one comes with a validity condition, and exams test those conditions.</td>
+<td>3.2.3, 3.2.5, 3.3.5, 4.3, 4.4</td>
+</tr>
+<tr>
+<td><strong>F</strong></td>
+<td><strong>Dependence structure.</strong> Independence of events, then independence of RVs, then covariance and correlation, then autocorrelation (dependence of a series on its own past), then AR/MA models.</td>
+<td>1.2.6, 3.1.7, 5.1–5.2, 6.5–6.6</td>
+</tr>
+</tbody>
+</table><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.2 Dependency map (what you must master before what)</h3><pre><code>1.1 Descriptive ──────────────┬──────────────────────────────► 5.1 Covariance ─► 5.2 r ─► 5.4 Regression ─► 6.2/6.6 Time series
+                              │                                     ▲
+1.2 Probability ─► 2.1 Cond. ─► 2.2 Bayes ─► 2.2.6 Naive Bayes      │
+        │                          │                                │
+        └─► 3.1 Random Var. ─► 3.1.7 Joint ─────────────────────────┘
+                 │
+                 └─► 3.2 Distributions ─► 3.2.4 Normal ─► 3.3 CLT/SE ─► 3.3.8 CI ─► 4.1–4.3 Tests
+                          │                                                   │
+                          └─► 3.2.6 χ², t, F ───────────────────────────► 4.4 χ²-tests, 4.6 F-test, 4.7 ANOVA
+                 4.5 MLE  ◄── 3.2 (needs pmf/pdf forms) ──► 6.7 GMM/EM ◄── 2.2 Bayes
+</code></pre>
+<p><strong>Critical bottlenecks</strong> (weakness here spreads into everything downstream):</p>
+<ol>
+<li><strong>Standardisation, \(Z = \frac{X - \mu}{\sigma}\), together with the standard error \(\sigma/\sqrt{n}\).</strong> Sessions 6, 7 and 9 depend on these.</li>
+<li><strong>Writing a conditional probability correctly.</strong> For example, \(P(\text{defective} \mid \text{machine A})\) and \(P(\text{machine A} \mid \text{defective})\) are different quantities. Sessions 3, 4 and 15 depend on this.</li>
+<li><strong>Reading the question for the tail and the claim.</strong> Words like "at least", "no more than", "exceeds", "differs" decide the direction of the test. Sessions 6 and 9 depend on this.</li>
+</ol><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.3 The most common misconceptions (targeted by L1 and L5 problems)</h3><table>
+<thead>
+<tr>
+<th>Misconception</th>
+<th>Reality</th>
+<th>Targeted in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Mutually exclusive means independent."</td>
+<td>If \(P(A), P(B) &gt; 0\), mutually exclusive events are always dependent.</td>
+<td>M1</td>
+</tr>
+<tr>
+<td>"\(P(A \mid B) = P(B \mid A)\)."</td>
+<td>They differ unless \(P(A) = P(B)\). This is the base-rate fallacy.</td>
+<td>M2</td>
+</tr>
+<tr>
+<td>"A 95% CI contains \(\mu\) with probability 0.95."</td>
+<td>\(\mu\) is fixed. The <em>procedure</em> captures \(\mu\) in 95% of repeated samples.</td>
+<td>M3</td>
+</tr>
+<tr>
+<td>"Not rejecting \(H_0\) proves \(H_0\)."</td>
+<td>It only means the evidence is insufficient.</td>
+<td>M4</td>
+</tr>
+<tr>
+<td>"\(p\text{-value} = P(H_0 \text{ true})\)."</td>
+<td>\(p\text{-value} = P(\text{data at least this extreme} \mid H_0)\).</td>
+<td>M4</td>
+</tr>
+<tr>
+<td>"\(r = 0\) means no relationship."</td>
+<td>It means no <em>linear</em> relationship. \(y = x^2\) on a symmetric range gives \(r = 0\).</td>
+<td>M5</td>
+</tr>
+<tr>
+<td>"Correlation implies causation."</td>
+<td>Lurking variables can produce correlation without causation.</td>
+<td>M5</td>
+</tr>
+<tr>
+<td>"Sample variance should divide by \(n\)."</td>
+<td>Dividing by \(n\) gives a biased estimate. \(n - 1\) is unbiased. The MLE divides by \(n\), and that is fine for an MLE.</td>
+<td>M1, M4</td>
+</tr>
+<tr>
+<td>"Larger \(\alpha\) in SES is always better."</td>
+<td>\(\alpha\) is a bias–variance trade-off. It should be tuned by out-of-sample error.</td>
+<td>M6</td>
+</tr>
+<tr>
+<td>"GMM gives each point one cluster."</td>
+<td>GMM gives soft responsibilities. Assigning points to clusters is a separate decision step.</td>
+<td>M6</td>
+</tr>
+<tr>
+<td>"\(P(X = a)\) for a continuous RV is \(f(a)\)."</td>
+<td>\(P(X = a) = 0\). \(f(a)\) is a density and can exceed 1.</td>
+<td>M3</td>
+</tr>
+<tr>
+<td>"Mean of the CLT sampling distribution changes with \(n\)."</td>
+<td>\(E[\bar{x}] = \mu\) for every \(n\). Only the SE (and the shape) change.</td>
+<td>M3</td>
+</tr>
+</tbody>
+</table><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.4 Errata and ambiguities spotted in the slides (do not copy these into exams)</h3><ol>
+<li><strong>CS-9, tyre example (\(\alpha = 0.01\)):</strong> the slide says "critical value for \(\alpha = 0.05\) is 1.96" on the 1% slide. The correct value is <strong>2.58</strong>, which the slide's own figure shows.</li>
+<li><strong>CS-9 / W-3, \(H_1\) for ANOVA:</strong> \(H_1\) is written as "\(\mu_1 \ne \mu_2 \ne \mu_3\)". The correct statement is "<strong>not all \(\mu_j\) are equal</strong>", meaning at least one pair differs.</li>
+<li><strong>W-3 Problem 8 (delivery time):</strong> this is a <strong>right</strong>-tailed test, \(H_1: \mu &gt; 10\). The slide says "as it is left tailed".</li>
+<li><strong>W-3 Problem 7:</strong> the slide says "level of significance is 0.05" and then uses the critical value 2.33 (\(\alpha = 0.01\)). The question states \(\alpha = 0.01\).</li>
+<li><strong>CS-14 Holt–Winters trend formula:</strong> printed as "\(T_t = \beta L_t + L_{t-1} + (1-\beta)T_{t-1}\)". The correct form is <strong>\(T_t = \beta(L_t - L_{t-1}) + (1-\beta)T_{t-1}\)</strong>.</li>
+<li><strong>CS-15 GMM Problem 2, M-step mean:</strong> the slide writes \(0.83(0.92)\) and so on. The correct expression is \(0.83(92) + 0.60(95) + 0.31(98)\), divided by 1.74, which gives about <strong>94.1</strong>. The final number on the slide is right; the expression contains a typo. The slide also omits the \(/N\) in \(\pi_1 = \frac{0.83 + 0.60 + 0.31}{3} = 0.58\).</li>
+<li><strong>CS-10 two-way ANOVA "Teaching Method × Study Time":</strong> the slide runs a no-replication two-way ANOVA on <strong>cell means</strong>. That discards the 3 replicates per cell. With replication, a two-way ANOVA <em>with interaction</em> should be used.</li>
+<li><strong>Quartiles:</strong> CS-1 uses position \(k(n+1)/4\), while W-1 uses the median of each half. Both are legitimate and can give slightly different \(Q_1\) and \(Q_3\). State your method in an exam.</li>
+<li><strong>Normal approximation rule:</strong> the slides require \(np, nq \ge 15\). Devore (T2) uses \(\ge 10\), and many texts use \(\ge 5\). Use the course rule in exams and know that others exist.</li>
+<li><strong>W-3 Problem 16:</strong> the denominator in the pooled two-proportion \(z\) is printed as \(\hat{p}_1 - \hat{p}\). The correct expression is \(\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}\).</li>
+</ol><span class="src">instructor&#x27;s analysis</span></div><div class="card note-card"><h3>2.5 How the problem bank is designed</h3><ul>
+<li>Every leaf of the tree is hit by at least one problem. Bottleneck nodes (\(Z\) and SE, conditioning, tails) are hit 4–8 times at increasing levels.</li>
+<li><strong>L1</strong> problems check vocabulary and catch misconceptions before computation starts.</li>
+<li><strong>L2</strong> problems use small, clean numbers, so mechanics are separated from reading comprehension.</li>
+<li><strong>L3</strong> problems mirror the style of the BITS EC-2 and EC-3 exams that appear in the webinars.</li>
+<li><strong>L4</strong> problems make you <em>derive</em> the formulas: why \(n - 1\), where the normal equations come from, why Poisson's mean equals its variance, why SST splits. Once you can derive a formula, you no longer need to memorise it.</li>
+<li><strong>L5</strong> problems link the topic to ML practice (Naive Bayes, PCA, model diagnostics, forecasting, clustering) or set deliberate traps.</li>
+<li>Each module ends with a <strong>capstone</strong> that uses the whole module. Part 10 holds cross-module capstones.</li>
+</ul>
+<p><strong>Suggested study loop per topic:</strong> do all L1 \(\to\) all L2 \(\to\) L3 \(\to\) L4, and check each answer as you go. Then do L5 without hints. Re-attempt any problem you got wrong 48 hours later.</p><span class="src">instructor&#x27;s analysis</span></div></div></details>
+<details class="module" id="syllabus-tree"><summary>Full syllabus tree (topic → subtopic → concept) <small>· 1 tree</small></summary><div class="cards"><div class="card tree"><pre>ISM — Introduction to Statistical Methods (AIMLZC418)
+│
+├── M1  BASIC PROBABILITY &amp; STATISTICS
+│   │
+│   ├── 1.1  Descriptive Statistics  ........................................ [CS-1, W-1]
+│   │   ├── 1.1.1  Nature of data
+│   │   │   ├── Qualitative (categorical) vs Quantitative (numerical)
+│   │   │   ├── Discrete (counted) vs Continuous (measured)
+│   │   │   └── Levels of measurement: Nominal &lt; Ordinal &lt; Interval &lt; Ratio
+│   │   │       └── true zero ⇒ meaningful ratios (ratio scale); °C/°F are interval
+│   │   ├── 1.1.2  Measures of central tendency
+│   │   │   ├── Mean: ungrouped Σx/n, grouped Σfx/Σf
+│   │   │   │   └── properties: Σ(x−x̄)=0 (balance point), uses all data, outlier-sensitive
+│   │   │   ├── Median: odd/even rule, 50th percentile, robust to outliers
+│   │   │   ├── Mode: only measure valid for nominal data; uni/bi/tri/multi-modal; no mode
+│   │   │   └── Choosing a measure by scale of measurement and skewness
+│   │   ├── 1.1.3  Shape of distribution
+│   │   │   ├── Symmetric: mean = median = mode
+│   │   │   ├── Positive/right skew: mean &gt; median &gt; mode (long right tail)
+│   │   │   ├── Negative/left skew: mean &lt; median &lt; mode
+│   │   │   └── Empirical relation: Mode ≈ 3·Median − 2·Mean (moderate skew)
+│   │   ├── 1.1.4  Measures of variability
+│   │   │   ├── Range (real limits for continuous data); weakness: uses 2 points
+│   │   │   ├── Deviations sum to 0 ⇒ square them ⇒ Sum of Squares (SS)
+│   │   │   ├── Population variance σ² = SS/N ; sample variance s² = SS/(n−1)
+│   │   │   │   └── why n−1: sample deviations are measured from x̄, not μ ⇒ bias
+│   │   │   ├── Standard deviation (same units as data); (mean, SD) as a 2-number summary
+│   │   │   └── IQR = Q3 − Q1 ; Quartile Deviation QD = IQR/2
+│   │   └── 1.1.5  Five-number summary, box plot &amp; outliers
+│   │       ├── Quartile positions k(n+1)/4 (slides) vs median-of-halves (webinar)
+│   │       ├── Fences: Q1 − 1.5·IQR, Q3 + 1.5·IQR (potential); ±3·IQR (extreme)
+│   │       ├── Box-and-whisker plot: reading skew, spread, comparing groups
+│   │       └── Data-preprocessing reading of a describe() table (suspicious values)
+│   │
+│   └── 1.2  Probability Foundations  ....................................... [CS-2, W-1]
+│       ├── 1.2.1  Random experiment, sample space S, outcomes, events
+│       ├── 1.2.2  Event algebra: complement, union, intersection, Venn, De Morgan
+│       ├── 1.2.3  Definitions of probability
+│       │   ├── Classical (equally likely): n(A)/n(S)
+│       │   ├── Empirical / relative frequency
+│       │   └── Axiomatic (Kolmogorov): P(A) ≥ 0, P(S) = 1, countable additivity
+│       ├── 1.2.4  Rules: complement, addition rule (general &amp; mutually exclusive),
+│       │          &quot;at least one&quot;, &quot;exactly one&quot;, &quot;neither&quot;
+│       ├── 1.2.5  Counting in probability: combinations (committees, defective picks)
+│       ├── 1.2.6  Mutually exclusive vs independent events
+│       │   ├── ME: P(A∩B) = 0 ; Independent: P(A∩B) = P(A)P(B)
+│       │   └── ME with P(A),P(B) &gt; 0 ⇒ necessarily DEPENDENT
+│       └── 1.2.7  Joint probability (contingency) tables
+│
+├── M2  CONDITIONAL PROBABILITY &amp; BAYES&#x27; THEOREM
+│   │
+│   ├── 2.1  Conditional &amp; Total Probability  ............................... [CS-3, W-1]
+│   │   ├── 2.1.1  Definition P(B|A) = P(A∩B)/P(A); reduced sample space
+│   │   ├── 2.1.2  Multiplication rule; chain rule P(A∩B∩C) = P(A)P(B|A)P(C|A∩B)
+│   │   ├── 2.1.3  Conditional probability from two-way tables
+│   │   ├── 2.1.4  Independence via conditioning P(B|A) = P(B);
+│   │   │          sampling with vs without replacement
+│   │   └── 2.1.5  Law of Total Probability; partitions; tree diagrams
+│   │
+│   └── 2.2  Bayes&#x27; Theorem &amp; Naive Bayes  .................................. [CS-4, W-2]
+│       ├── 2.2.1  Bayes&#x27; theorem: statement and proof (from total probability)
+│       ├── 2.2.2  Prior, likelihood, evidence (normaliser), posterior; Σ posteriors = 1
+│       ├── 2.2.3  Base-rate reasoning: diagnostic tests, spam filters, binary channel,
+│       │          &quot;which machine produced the defective?&quot;
+│       ├── 2.2.4  Bayesian learning: MAP vs ML hypothesis
+│       ├── 2.2.5  Conditional independence; naive assumption P(X1..Xn|Y) = Π P(Xi|Y)
+│       ├── 2.2.6  Naive Bayes classifier: frequency table → likelihood table → argmax
+│       ├── 2.2.7  Zero-frequency problem &amp; Laplace (add-1) smoothing
+│       └── 2.2.8  Gaussian / Multinomial / Bernoulli NB; text classification; pros/cons
+│
+├── M3  PROBABILITY DISTRIBUTIONS, SAMPLING &amp; ESTIMATION
+│   │
+│   ├── 3.1  Random Variables  ............................................... [CS-5, W-2]
+│   │   ├── 3.1.1  RV as a function S → ℝ; discrete vs continuous
+│   │   ├── 3.1.2  PMF: validity (p ≥ 0, Σp = 1); discrete uniform 1/n
+│   │   ├── 3.1.3  Expectation E[X] = Σx p(x); E[g(X)]; linearity; fair games
+│   │   ├── 3.1.4  Variance = E[X²] − (E[X])²; Var(aX+b) = a²Var(X)
+│   │   ├── 3.1.5  CDF F(x) = P(X ≤ x): step function (discrete), F′ = f (continuous)
+│   │   ├── 3.1.6  PDF: f ≥ 0, ∫f = 1, P(X = a) = 0, probability = area;
+│   │   │          mean/variance by integration; piecewise densities
+│   │   └── 3.1.7  Joint distributions (two variables)
+│   │       ├── Joint PMF / joint PDF; validity
+│   │       ├── Marginals (sum/integrate out the other variable)
+│   │       ├── Conditional distributions f(y|x) = f(x,y)/f_X(x)
+│   │       ├── Independence ⇔ f(x,y) = f_X(x)·f_Y(y) for ALL (x,y)
+│   │       └── E[XY], E[X], E[Y] → covariance (bridge to 5.1)
+│   │
+│   ├── 3.2  Standard Distributions  ......................................... [CS-6]
+│   │   ├── 3.2.1  Bernoulli(p): mean p, variance pq
+│   │   ├── 3.2.2  Binomial(n,p): 4 conditions; nCx pˣ qⁿ⁻ˣ; mean np; var npq;
+│   │   │          &quot;at least / at most&quot; via complement; inverse problems (find n or p)
+│   │   ├── 3.2.3  Poisson(λ): e^{−λ}λˣ/x!; mean = var = λ; rate scaling λ = rate × time;
+│   │   │          Poisson approximation to Binomial (n large, p small, λ = np)
+│   │   ├── 3.2.4  Normal(μ,σ²): bell shape, symmetric, mean = median = mode;
+│   │   │          68-95-99.7 rule; Z = (X−μ)/σ; aX+b is normal; Z-table use
+│   │   ├── 3.2.5  Normal approximation to Binomial (np, nq ≥ 15 in slides; textbooks often
+│   │   │          use ≥ 5 or 10) + continuity correction (±0.5)
+│   │   └── 3.2.6  Sampling-distribution family
+│   │       ├── χ²(k) = Z1² + … + Zk²; right-skewed, support [0,∞)
+│   │       ├── t(k) = Z / √(χ²k / k); heavier tails, → N(0,1) as k → ∞
+│   │       └── F(ν1,ν2) = (χ²ν1/ν1)/(χ²ν2/ν2); ratio of variances; order of dof matters
+│   │
+│   └── 3.3  Sampling, CLT &amp; Estimation  ..................................... [CS-7, W-3]
+│       ├── 3.3.1  Population vs sample; parameter (μ, σ², P, ρ) vs statistic (x̄, s², p̂, r)
+│       ├── 3.3.2  Sampling methods
+│       │   ├── Probability: SRS, systematic (k = N/n), stratified (proportional allocation),
+│       │   │                multistage
+│       │   ├── Non-probability: judgement, convenience, quota, snowball
+│       │   └── Observed data = Truth + Bias + Random error
+│       ├── 3.3.3  Sampling error vs sampling variation
+│       ├── 3.3.4  Sampling distribution of x̄: E[x̄] = μ, SE = σ/√n;
+│       │          finite-population correction √((N−n)/(N−1)) when n/N ≥ 0.05
+│       ├── 3.3.5  Central Limit Theorem (shape → normal as n grows, any population)
+│       ├── 3.3.6  Sampling distribution of p̂: mean P, SE = √(PQ/n)
+│       ├── 3.3.7  Point estimation; good estimator: unbiased, consistent, efficient, sufficient
+│       └── 3.3.8  Interval estimation
+│           ├── CI for μ: x̄ ± z·σ/√n (σ known) ; x̄ ± t·s/√n (σ unknown)
+│           ├── CI for P: p̂ ± z√(p̂q̂/n) ; CI for μ1 − μ2
+│           ├── Margin of error; required n = (z·σ/E)², rounded UP
+│           └── Correct interpretation of &quot;95% confidence&quot;
+│
+├── M4  HYPOTHESIS TESTING, MLE &amp; ANOVA
+│   │
+│   ├── 4.1  Testing framework  .............................................. [CS-9, W-3]
+│   │   ├── H0 (no difference / equality) vs H1 (the claim to be established)
+│   │   ├── Left / right / two-tailed; where the claim goes
+│   │   ├── Type I (α) and Type II (β) errors; level of significance
+│   │   ├── Test statistic, critical region, p-value; decision rules (P ≤ α ⇒ reject)
+│   │   └── Parametric vs non-parametric; z vs t (σ known? n ≥ 30?)
+│   ├── 4.2  Z-tests: one mean; difference of two means; one proportion;
+│   │        difference of two proportions (pooled p̂ under H0)
+│   ├── 4.3  t-tests: one-sample (df n−1); unpaired pooled (df n1+n2−2);
+│   │        paired (differences, df n−1); assumptions; CI ↔ test duality
+│   ├── 4.4  Chi-square tests
+│   │   ├── Independence/association: Eij = (row total × col total)/n, df (r−1)(c−1)
+│   │   ├── Goodness of fit: df = k − 1 − (#parameters estimated)
+│   │   └── Conditions: raw frequencies only, expected counts ≥ 5 (pool cells otherwise)
+│   ├── 4.5  Maximum Likelihood Estimation  .................................. [CS-10]
+│   │   ├── Likelihood L(θ) = Π f(xi|θ); log-likelihood; set derivative = 0
+│   │   ├── Bernoulli/Binomial p̂ = k/n ; Poisson λ̂ = x̄ ; Normal μ̂ = x̄, σ̂² = SS/n (biased)
+│   │   └── Invariance: MLE of g(θ) is g(θ̂)
+│   ├── 4.6  F-test for equality of two variances (larger s² in the numerator)
+│   └── 4.7  Analysis of Variance (ANOVA)
+│       ├── Assumptions: normality, equal variances, independence
+│       ├── One-way: SST = SSTR + SSE; df (k−1, n−k); MSTR, MSE; F = MSTR/MSE
+│       ├── Correction-factor shortcut CF = G²/n
+│       ├── Two-way (no replication): treatments + blocks; df error (k−1)(m−1)
+│       └── Post-hoc: LSD; &quot;reject H0&quot; means at least one pair differs
+│
+├── M5  PREDICTION &amp; FORECASTING I — CORRELATION &amp; REGRESSION  ............. [CS-11, W-4]
+│   ├── 5.1  Covariance: sample formula; E[XY] − E[X]E[Y]; sign = direction only;
+│   │        unit dependence; variance–covariance matrix; PCA (eigen-decomposition);
+│   │        autocovariance (bridge to 6.5)
+│   ├── 5.2  Pearson r: standardised covariance; −1 ≤ r ≤ 1; strength bands;
+│   │        scatter diagrams; r = 0 ≠ &quot;no relationship&quot;; invariance to linear rescaling
+│   ├── 5.3  Spearman rank correlation R = 1 − 6Σd²/(n(n²−1)); tie correction
+│   ├── 5.4  Simple linear regression
+│   │   ├── Model Y = a + bX + ε; assumptions on ε (mean 0, constant σ², independent, normal)
+│   │   ├── Least squares → normal equations; b = Sxy/Sxx, a = ȳ − b·x̄; prediction
+│   │   └── Two regression lines (Y on X, X on Y): byx = r·σy/σx, bxy = r·σx/σy,
+│   │       r² = byx·bxy, lines intersect at (x̄, ȳ)
+│   ├── 5.5  Goodness of fit: SST = SSR + SSE; r² = SSR/SST
+│   └── 5.6  Curve fitting: parabola (3 normal equations), power y = axᵇ,
+│            exponential y = ae^{bx} or abˣ (linearise by logs)
+│
+└── M6  PREDICTION &amp; FORECASTING II — TIME SERIES; GMM &amp; EM
+    ├── 6.1  Time-series foundations  ......................................... [CS-12, W-4]
+    │   ├── Definition; time series vs cross-sectional (correlation) data
+    │   ├── Components: Trend T, Seasonal S, Cyclical C, Irregular I
+    │   ├── Additive Y = T+S+C+I vs Multiplicative Y = T×S×C×I (log → additive)
+    │   ├── Forecasting vs prediction; forecasting vs planning vs goals
+    │   ├── Horizons: short / medium / long term
+    │   └── Methods: qualitative (Delphi, panel, market research) vs quantitative
+    │       (time-series smoothing/trend, causal regression)
+    ├── 6.2  Smoothing &amp; trend
+    │   ├── Simple MA(k); centred MA (even k ⇒ 2×k MA); weighted MA
+    │   └── Trend by moving averages and by least squares with coded time
+    ├── 6.3  Forecast accuracy: e_t = Y_t − F_t; MSE, MAD, MAPE, LAD; which to choose
+    ├── 6.4  Exponential smoothing  ........................................... [CS-14]
+    │   ├── SES: F_{t+1} = αY_t + (1−α)F_t; α → 1 naive, α → 0 frozen;
+    │   │        weights decay geometrically
+    │   ├── Holt (double): level L_t, trend T_t, F_{t+k} = L_t + kT_t
+    │   ├── Holt–Winters (triple, multiplicative seasonality): L, T, S; period M
+    │   └── Taxonomy: {no, linear, ratio} trend × {no, linear, ratio} seasonality
+    ├── 6.5  Stationarity &amp; serial dependence  ............................... [CS-13]
+    │   ├── Strict vs weak stationarity; autocovariance γ(h); ACF r_k
+    │   ├── White noise; Gaussian white noise
+    │   ├── PACF (correlation after removing intermediate lags)
+    │   ├── Dickey–Fuller unit-root test: H0 φ = 1 (δ = 0) vs H1 φ &lt; 1
+    │   └── Differencing to induce stationarity
+    ├── 6.6  Linear time-series models
+    │   ├── AR(p) (identify by PACF cut-off), MA(q) (ACF cut-off), ARMA(p,q)
+    │   ├── ARIMA(p,d,q): difference d times → ARMA → integrate back
+    │   ├── SARIMA (P,D,Q)m, SARIMAX (+ exogenous X), VAR(p), VARMAX
+    │   └── Recursive forecasting; long-run mean c/(1−φ); E[future ε] = 0
+    └── 6.7  Gaussian Mixture Models &amp; EM  ................................... [CS-15]
+        ├── p(x) = Σ πk N(x | μk, Σk); Σπk = 1; soft vs hard clustering
+        ├── Latent 1-of-K variable z; p(zk = 1) = πk; mixing coefficients as priors
+        ├── Responsibilities γ(znk) = πk N(xn|k) / Σj πj N(xn|j) (Bayes&#x27; theorem!)
+        ├── Log-likelihood Σn ln Σk πk N(·): sum inside log ⇒ no closed form
+        ├── EM: E-step (responsibilities) ↔ M-step (Nk, μk, Σk, πk updates); monotone
+        │   likelihood; convergence criteria
+        └── Issues: singularities, choosing K, local optima; uses: clustering,
+            density estimation, anomaly detection</pre></div></div></details>
 </main>
 <script>
-const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')],cnt=document.getElementById('count');
-function upd(){const t=q.value.trim().toLowerCase();let n=0;
-  cards.forEach(c=>{const hit=!t||c.textContent.toLowerCase().includes(t);c.classList.toggle('hidden',!hit);if(hit)n++;});
-  mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));m.classList.toggle('hidden',!any);if(t&&any)m.open=true;});
-  cnt.textContent=t?` — ${n} match`+(n===1?'':'es'):` — ${cards.length} items`;}
-q.addEventListener('input',upd);upd();
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('sm-theme');
+  if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const t=root.dataset.theme==='light'?'dark':'light'; root.dataset.theme=t; localStorage.setItem('sm-theme',t);};
+  const q=document.getElementById('q'),cnt=document.getElementById('count');
+  const cards=[...document.querySelectorAll('.card')],mods=[...document.querySelectorAll('.module')];
+  const lv=[...document.querySelectorAll('.lv')];
+  let txt=null;
+  function upd(){
+    const t=q.value.trim().toLowerCase(); let n=0;
+    if(t&&!txt) txt=cards.map(c=>c.textContent.toLowerCase());
+    const on=new Set(lv.filter(b=>!b.classList.contains('off')).map(b=>b.dataset.level));
+    cards.forEach((c,i)=>{
+      const lvl=c.dataset.level, okL=!lv.length||!lvl||on.has(lvl);
+      const hit=okL&&(!t||txt[i].includes(t)); c.classList.toggle('hidden',!hit); if(hit) n++;});
+    mods.forEach(m=>{const any=[...m.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
+      m.classList.toggle('hidden',!any); if(t&&any) m.open=true;});
+    cnt.textContent=(t||on.size<lv.length)?` — ${n} of ${cards.length} shown`:` — ${cards.length} ${cnt.dataset.unit}`;
+  }
+  q.addEventListener('input',upd);
+  lv.forEach(b=>b.onclick=()=>{b.classList.toggle('off');upd();});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();}});
+  const open=(sel,v)=>document.querySelectorAll(sel).forEach(d=>d.open=v);
+  const ex=document.getElementById('expand'),co=document.getElementById('collapse');
+  if(ex) ex.onclick=()=>{open('.module',true);open('details.ans',true);};
+  if(co) co.onclick=()=>open('details.ans,.module',false);
+  const p=new URLSearchParams(location.search).get('q'); if(p){q.value=p;}
+  upd();
+  // Printing: open everything, and shrink display equations wider than the page.
+  let snap=[];
+  function before(){snap=[...document.querySelectorAll('details')].map(d=>[d,d.open]);open('details',true);
+    document.querySelectorAll('.katex-display').forEach(el=>{el.style.zoom='';const k=el.querySelector('.katex');
+      if(!k)return;const need=k.scrollWidth,have=el.clientWidth;if(need>have&&have>0)el.style.zoom=Math.max(.5,(have-2)/need).toFixed(3);});}
+  function after(){snap.forEach(([d,o])=>d.open=o);document.querySelectorAll('.katex-display').forEach(el=>el.style.zoom='');}
+  addEventListener('beforeprint',before);addEventListener('afterprint',after);
+})();
 </script>
 </body>
 </html>
